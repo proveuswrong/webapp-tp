@@ -6,7 +6,7 @@ body {
 
 body::after {
   content: "";
-  background: url("../assets/background_paper.jpg");
+  background: url("../assets/background_paper.jpg") repeat-y;
   opacity: 0.4;
   top: 0;
   left: 0;

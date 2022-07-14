@@ -1,0 +1,58 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colors";
+
+.containerKeyMetrics{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.containerMetadata{
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+
+  display:flex;
+  flex-direction: column;
+}
+
+.containerTag{
+
+  margin-top: 0.75rem;
+  margin-bottom: 4rem;
+  span + span{
+    margin-left: 0.25rem;
+  }
+}
+
+.containerButtons{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4.5rem;
+
+  button + button {
+    margin-left: 1rem;
+  }
+}
+
+.trustScore{
+  font-size: typo.$xl;
+}
+
+.bountyAmount{
+  font-size: typo.$xl;
+}
+
+.title{
+  display:inline;
+  margin-bottom: 0.75rem;
+}
+
+
+
+.image{
+  border-color: map-get(colors.$palette, "grey", "beta");
+  border-style: solid;
+  border-width: 1px;
+  width: 100%;
+  height: 100px;
+}

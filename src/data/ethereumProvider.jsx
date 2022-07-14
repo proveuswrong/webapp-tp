@@ -135,7 +135,7 @@ export const chains = { "0x4": { name: "Ethereum Testnet Rinkeby", shortname: "R
 export const contractInstances = {
   "0x4": {
     "0x5678057C9a36697986A1003d49B73EBE6A0E9c03": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/pmw/0.3.0",
+      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/pmw/0.5",
     },
   },
 };
@@ -167,6 +167,8 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     bounty
     status
     lastBalanceUpdate
+    createdAtBlock
+    createdAtTimestamp
     disputeID
     withdrawalPermittedAt
     lastCalculatedScore
@@ -202,6 +204,8 @@ export const getAllClaims = (chainID) => {
     bounty
     status
     lastBalanceUpdate
+    createdAtBlock
+    createdAtTimestamp
     disputeID
     withdrawalPermittedAt
     lastCalculatedScore

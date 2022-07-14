@@ -15,7 +15,6 @@ export default function ListClaims() {
 
   let [searchParams, setSearchParams] = useSearchParams();
 
-  console.log(claims)
 
   useEffect(() => {
     console.log('Fetching claims...')
@@ -34,6 +33,9 @@ export default function ListClaims() {
     return () => {
       didCancel = true
     }
+
+    console.log(claims && claims)
+
 
   }, [ethereumContext.chainId, ethereumContext.blockNumber])
 

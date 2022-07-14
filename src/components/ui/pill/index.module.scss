@@ -1,0 +1,38 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colors";
+
+
+.pill {
+  border-radius: 4px;
+  font-size: typo.$xs;
+  padding: 0.25rem 0.5rem;
+  vertical-align: super;
+
+
+  &:global(.live) {
+    color: map-get(colors.$palette, 'primary');
+    background-color:  map-get(colors.$palette, 'helper', 'green');
+    border-color: map-get(colors.$palette, 'green');
+  }
+
+  &:global(.debunked) {
+    color: map-get(colors.$colorButton, 'secondary', 'text');
+    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
+    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+  }
+
+  &:global(.withdrawn) {
+    color: map-get(colors.$colorButton, 'secondary', 'text');
+    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
+    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+  }
+
+  &:global(.challenged) {
+    color: map-get(colors.$colorButton, 'secondary', 'text');
+    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
+    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+  }
+
+
+
+}

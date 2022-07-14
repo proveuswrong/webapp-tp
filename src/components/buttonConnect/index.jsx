@@ -8,7 +8,6 @@ export default function ButtonConnect() {
   return (
     <EthereumContext.Consumer>
       {(ethereum) => {
-        console.log(ethereum);
         return (
           <CustomButton
             modifiers="small secondary"
@@ -35,7 +34,7 @@ export default function ButtonConnect() {
                 ? "Awaiting User Permission"
                 : !ethereum?.accounts[0]
                 ? "Connect Account"
-                : ethereum?.accounts[0]}
+                : `${ethereum?.accounts[0].substring(0,6)}...${ethereum?.accounts[0].slice(-4)}`  }
             </a>
           </CustomButton>
         );
