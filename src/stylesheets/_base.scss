@@ -2,7 +2,7 @@
 @use "src/stylesheets/variables/typo";
 
 @font-face {
-  font-family: "EdwardianScriptITC", 'serif';
+  font-family: "EdwardianScriptITC", serif;
   src: url("../assets/fonts/EdwardianScriptITC.woff2") format("woff2");
 }
 
@@ -36,7 +36,7 @@ footer svg {
 }
 
 * {
-  font-family: "Times New Roman", "serif";
+  font-family: "Times New Roman", serif;
   font-weight: normal;
   line-height: 1.15;
 }
