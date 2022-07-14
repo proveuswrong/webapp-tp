@@ -2,7 +2,7 @@
 @use "src/stylesheets/variables/typo";
 
 @font-face {
-  font-family: "EdwardianScriptITC";
+  font-family: "EdwardianScriptITC", 'serif';
   src: url("../assets/fonts/EdwardianScriptITC.woff2") format("woff2");
 }
 
