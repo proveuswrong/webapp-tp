@@ -64,6 +64,7 @@ export default class EthereumProvider extends Component {
         console.log("User rejected connecting to Ethereum.");
         this.setState({ awaitingUserPermission: false });
       } else if (error.code === -32002) {
+        // Handle it
       } else {
         this.setState({ awaitingUserPermission: true });
       }
@@ -88,7 +89,7 @@ export default class EthereumProvider extends Component {
 
     this.setState({
       chainId: chainId,
-      isDeployedOnThisChain: !(contractInstances[chainId] == null),
+      isDeployedOnThisChain: contractInstances[chainId] != null,
       contractInstance: contractInstances[chainId]
         ? new ethers.Contract(Object.keys(contractInstances[chainId])[0], ABI, ethersProvider.getSigner())
         : null,
@@ -185,7 +186,7 @@ export const getClaimByID = (chainID, contractAddress, id) => {
       }
       return data.claims[0];
     })
-    .catch((err) => console.error);
+    .catch(console.error);
 };
 
 export const getAllClaims = (chainID) => {
@@ -210,7 +211,8 @@ export const getAllClaims = (chainID) => {
       ).then((data) => {
         if (data && data.claims && data.claims.length > 0) {
           data.claims.map((claim) => {
-            return (claim.contractAddress = key);
+            claim.contractAddress = key;
+            return claim;
           });
           return data.claims;
         }
@@ -223,7 +225,7 @@ export const getAllClaims = (chainID) => {
 
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
-    Object.entries(contractInstances[chainID] || {}).map(([key, value]) => {
+    Object.entries(contractInstances[chainID] || {}).map(([, value]) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{

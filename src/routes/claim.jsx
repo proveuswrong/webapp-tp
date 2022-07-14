@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getAllClaims, getClaimByID } from "../data/ethereumProvider";
+import { EthereumContext, getClaimByID } from "../data/ethereumProvider";
 import { ipfsGateway } from "../utils/addToIPFS";
 import { useEffect, useState, useContext } from "react";
 

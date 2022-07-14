@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 
 import * as styles from "./index.module.scss";
 

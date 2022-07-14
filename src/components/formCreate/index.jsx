@@ -10,7 +10,7 @@ export default function FormCreate({handleSave, controlsState, updateControlsSta
       ...prevState,
       [e.target.id]: e.target.value,
     }));
-  };
+  }
 
 
   return (

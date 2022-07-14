@@ -16,10 +16,9 @@ const handleMenuClick = (e) => {
   });
 };
 
-// TODO Custom menu item
 const menu = (
   <Menu onClick={handleMenuClick}>
-    {Object.entries(chains).map(([key, value], index) => {
+    {Object.entries(chains).map(([key, value], _index) => {
       return <MenuItem key={key}>{value?.name}</MenuItem>;
     })}
   </Menu>
