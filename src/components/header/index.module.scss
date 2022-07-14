@@ -1,0 +1,59 @@
+@use 'src/stylesheets/variables/colors';
+@use 'src/stylesheets/variables/typo';
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: typo.$s;
+  height: 3.5rem;
+
+  a {
+    color: map-get(colors.$palette, secondary)
+  }
+
+  > a + a {
+    margin-left: 1.25rem;
+  }
+
+
+}
+
+.navEthereum {
+  margin-left: auto;
+
+
+  > button + button {
+    margin-left: 1.25rem;
+  }
+}
+
+.logo {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 30rem;
+}
+
+.hrBelowLogo {
+  width: 21rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+}
+
+
+.hrBelowSubtitle {
+  margin-top: 1.5rem;
+
+}
+
+
+.subtitle {
+  text-align: center;
+  font-family: EdwardianScriptITC;
+  font-size: typo.$xxl*1.2;
+}
+
+
+

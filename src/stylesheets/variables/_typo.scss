@@ -1,0 +1,53 @@
+@use "sass:math";
+
+$ratio: 2;
+
+@function strip-unit($value) {
+  @return math.div($value, ($value * 0 + 1));
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(
+                #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+                ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+        );
+      }
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}
+
+$min_width: 320px;
+$max_width: 1200px;
+$min_font: 15px;
+$max_font: 18px;
+
+$slope: math.div(($max_font - $min_font), ($max_width - $min_width));
+$yAxisIntersection: -$min_width * $slope + $min_font;
+
+
+html, body {
+  @include fluid-type($min_width, $max_width, $min_font, $max_font);
+}
+
+$xxl: 1rem * math.pow($ratio, math.div(4, 4));
+$xl: 1rem * math.pow($ratio, math.div(3, 4));
+$l: 1rem * math.pow($ratio, math.div(2, 4));
+$m: 1rem * math.pow($ratio, math.div(1, 4));
+$s: 1rem * math.pow($ratio, math.div(0, 4));
+$xs: 1rem * math.pow($ratio, math.div(-1, 4));
+$xxs: 1rem * math.pow($ratio, math.div(-2, 4));
+$xxxs: 1rem * math.pow($ratio, math.div(-3, 4));
+
+

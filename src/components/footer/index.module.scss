@@ -1,0 +1,21 @@
+.footer {
+  min-height: 4rem;
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.containerText {
+  display: flex;
+  align-self: center;
+  margin-right: auto;
+}
+
+.containerSocial {
+  align-self: center;
+
+  a + a {
+    margin-left: 2rem;
+  }
+}

@@ -1,0 +1,51 @@
+@use 'src/stylesheets/variables/typo';
+@use 'src/stylesheets/variables/colors';
+
+
+.button {
+  height: auto !important;
+  border-radius: 4px;
+  min-width: 10.5rem;
+  border-width: 1px;
+  padding: 0.75rem 1.5rem;
+  font-size: typo.$s;
+  outline: none;
+  color: map-get(colors.$colorButton, 'primary', 'text');
+  background-color: map-get(colors.$colorButton, 'primary', 'fill');
+  border-color: map-get(colors.$colorButton, 'primary', 'stroke');
+
+  &:global(.secondary) {
+    color: map-get(colors.$colorButton, 'secondary', 'text');
+    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
+    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+  }
+
+  &:global(.small) {
+    padding: 0.5rem 0.75rem;
+    font-size: typo.$xs;
+    min-width: unset;
+  }
+
+
+  &:hover {
+    color: map-get(colors.$colorButton, 'hover', 'text');
+    background-color: map-get(colors.$colorButton, 'hover', 'fill');
+    border-color: map-get(colors.$colorButton, 'hover', 'stroke');
+  }
+
+
+  &:active {
+    color: map-get(colors.$colorButton, 'pressed', 'text');
+    background-color: map-get(colors.$colorButton, 'pressed', 'fill');
+    border-color: map-get(colors.$colorButton, 'pressed', 'stroke');
+  }
+
+  &[disabled], &[disabled]:hover {
+    color: map-get(colors.$colorButton, 'disabled', 'text');
+    background-color: map-get(colors.$colorButton, 'disabled', 'fill');
+    border-color: map-get(colors.$colorButton, 'disabled', 'stroke');
+  }
+
+
+}
+

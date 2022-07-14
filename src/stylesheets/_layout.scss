@@ -1,0 +1,42 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+nav > *[hide] {
+  display: none;
+}
+
+header {
+  padding-top: 2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+
+  > nav {
+    padding: 0 1.75rem;
+  }
+}
+
+main {
+  padding: 0 2.5rem;
+
+  > section {
+    padding: 2rem 1.75rem 3rem;
+  }
+}
+
+footer {
+  margin-top: auto;
+  padding: 0 2.5rem;
+}

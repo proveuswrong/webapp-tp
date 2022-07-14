@@ -1,0 +1,34 @@
+{
+  "name": "ProveMeWrong",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "dependencies": {
+    "@metamask/detect-provider": "^1.2.0",
+    "antd": "^4.21.4",
+    "ethers": "^5.6.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-interval-rerender": "^1.1.0",
+    "react-router-dom": "^6.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7",
+    "@babel/plugin-transform-flow-strip-types": "7",
+    "@parcel/transformer-sass": "2",
+    "@parcel/transformer-svg-react": "^2.6.2",
+    "buffer": "^6.0.3",
+    "flow-bin": "0",
+    "parcel": "2",
+    "postcss": "8",
+    "postcss-modules": "4",
+    "prettier": "2",
+    "process": "^0.11.10"
+  },
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}

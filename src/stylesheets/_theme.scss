@@ -1,0 +1,30 @@
+@use "src/stylesheets/variables/colors";
+
+body {
+  background-color: map-get(colors.$palette, primary);
+}
+
+body::after {
+  content: "";
+  background: url("../assets/background_paper.jpg");
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+footer {
+  color: map-get(colors.$palette, primary);
+  background-color: map-get(colors.$palette, secondary);
+
+  svg {
+    path, circle, rect {
+      fill: map-get(colors.$palette, primary);
+
+    }
+  }
+}
+

@@ -1,0 +1,66 @@
+@use "src/stylesheets/variables/colors";
+@use "src/stylesheets/variables/typo";
+
+@font-face {
+  font-family: "EdwardianScriptITC";
+  src: url("../assets/fonts/EdwardianScriptITC.woff2") format("woff2");
+}
+
+.displayBlock {
+  display: block;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 100%;
+  }
+}
+
+.blink {
+  animation: blinker 2s running forwards;
+}
+
+hr {
+  border: none;
+  height: 0.025rem;
+  background: map-get(colors.$palette, "grey", "beta");
+  margin-block: 0;
+}
+
+footer svg {
+  height: 1rem;
+}
+
+* {
+  font-family: "Times New Roman", "serif";
+  font-weight: normal;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: typo.$xxl;
+}
+
+h2 {
+  font-size: typo.$xl;
+}
+
+h3 {
+  font-size: typo.$l;
+}
+
+h4 {
+  font-size: typo.$m;
+}
+
+p {
+  font-size: typo.$s;
+}
+
+small {
+  font-size: typo.$xs;
+}
