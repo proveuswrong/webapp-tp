@@ -232,7 +232,7 @@ export default function Index() {
           {claim?.status == "Withdrawn" && <button onClick={handleRevamp}>Revamp</button>}
         </div>
       <small key={ethereumContext.blockNumber} style={{ marginTop: "auto" }}>
-        Component rendered at block no: <span className="blink">{ethereumContext.blockNumber}</span>
+        Last updated at block no: <span className="blink">{ethereumContext.blockNumber}</span>
       </small>
     </section>
   );

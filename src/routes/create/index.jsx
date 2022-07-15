@@ -52,8 +52,7 @@ export default function Index() {
         <ConfirmCreate title={controlsState.title} description={controlsState.description} bounty={controlsState.bounty}
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
-      <small style={{marginTop: '32px', display: 'block'}}>Component rendered at block
-        no: <span key={ethereumContext.blockNumber} className='blink'>{ethereumContext.blockNumber}</span></small>
+      <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span key={ethereumContext.blockNumber} className='blink'>{ethereumContext.blockNumber}</span></small>
     </section>
 
   );

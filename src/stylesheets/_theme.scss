@@ -19,7 +19,9 @@ body::after {
 }
 
 footer {
-  color: map-get(colors.$palette, primary);
+  h1, h2, h3, h4, h5, h6, p, a, span {
+    color: map-get(colors.$palette, primary);
+  }
   background-color: map-get(colors.$palette, secondary);
 
   svg {
@@ -28,5 +30,13 @@ footer {
 
     }
   }
+
+  a:hover{
+    color: map-get(colors.$palette, 'helper', 'red');
+  }
+}
+
+h1, h2, h3, h4, h5, h6, p, a, span {
+  color: map-get(colors.$palette, secondary);
 }
 

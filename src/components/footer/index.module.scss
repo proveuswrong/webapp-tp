@@ -1,21 +1,30 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colors";
+
 .footer {
   min-height: 4rem;
-  height: 4rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  max-height: 10rem;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+
+  &>span, &>a {
+    align-self: center;
+  }
+}
+
+.containerCopyright {
+  font-size: typo.$xxs;
+  justify-self: center;
 }
 
 .containerText {
-  display: flex;
-  align-self: center;
-  margin-right: auto;
+  justify-self: left;
 }
 
 .containerSocial {
-  align-self: center;
-
+justify-self: right;
   a + a {
-    margin-left: 2rem;
+    margin-left: calc(1vw + 0.5rem);
   }
 }
