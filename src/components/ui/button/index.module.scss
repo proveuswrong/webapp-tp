@@ -28,7 +28,7 @@
 
 
   &:hover {
-    color: map-get(colors.$colorButton, 'hover', 'text');
+    color: map-get(colors.$colorButton, 'hover', 'text') !important;
     background-color: map-get(colors.$colorButton, 'hover', 'fill');
     border-color: map-get(colors.$colorButton, 'hover', 'stroke');
   }
@@ -45,7 +45,6 @@
     background-color: map-get(colors.$colorButton, 'disabled', 'fill');
     border-color: map-get(colors.$colorButton, 'disabled', 'stroke');
   }
-
 
 }
 

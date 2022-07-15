@@ -30,7 +30,7 @@ export default function ButtonSelectNetwork() {
       {(ethereum) => (
         <CustomDropdown modifiers="small secondary" overlay={menu}>
           <Button id="buttonSelectNetwork">
-            <span key={ethereum?.chainId} className="blink">
+            <span style={{color: 'inherit'}} key={ethereum?.chainId} className="blink">
               {chains[ethereum?.chainId]?.shortname || "Unsupported Network"}
             </span>
             <DownOutlined />

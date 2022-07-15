@@ -108,6 +108,7 @@ export default class EthereumProvider extends Component {
   }
 
   handleMessage(message) {
+    console.log(this.state)
     console.log(`Block number: ${message.data.result.number}`);
     this.setState({ blockNumber: message.data.result.number });
   }

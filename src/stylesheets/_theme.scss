@@ -32,11 +32,19 @@ footer {
   }
 
   a:hover{
-    color: map-get(colors.$palette, 'helper', 'red');
+    color: map-get(colors.$palette, 'helper', 'blueLight');
   }
 }
 
-h1, h2, h3, h4, h5, h6, p, a, span {
-  color: map-get(colors.$palette, secondary);
-}
+
+//  h1, h2, h3, h4, h5, h6, p {
+//    color: map-get(colors.$palette, secondary);
+//  }
+//
+//
+//.darkBg {
+//  h1, h2, h3, h4, h5, h6, p {
+//    color: map-get(colors.$palette, primary);
+//  }
+//}
 
