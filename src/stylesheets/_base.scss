@@ -1,9 +1,18 @@
 @use "src/stylesheets/variables/colors";
 @use "src/stylesheets/variables/typo";
 
+$minVW: 320px;
+$maxVW: 1200px;
+$minFS: 15px;
+$maxFS: 18px;
+
 @font-face {
   font-family: "EdwardianScriptITC";
   src: url("../assets/fonts/EdwardianScriptITC.woff2") format("woff2");
+}
+
+html, body {
+  @include typo.fluid-type($minVW, $maxVW, $minFS, $maxFS);
 }
 
 .displayBlock {

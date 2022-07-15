@@ -2,12 +2,14 @@
 
 body {
   background-color: map-get(colors.$palette, primary);
+  position: relative;
 }
 
 body::after {
+  height: inherit;
   content: "";
-  background: url("../assets/background_paper.jpg") repeat-y;
-  opacity: 0.4;
+  background: url("../assets/background_paper.jpg") repeat;
+  opacity: 0.8;
   top: 0;
   left: 0;
   bottom: 0;
