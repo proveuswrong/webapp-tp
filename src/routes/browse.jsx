@@ -9,7 +9,6 @@ export default function Browse() {
 
   return (
     <section>
-      <h1>Browse</h1>
       <ListClaims/>
       <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span
         key={ethereumContext.blockNumber} className="blink">{ethereumContext.blockNumber}</span></small>

@@ -31,24 +31,17 @@ footer {
     }
   }
 
-  a:hover {
-    color: map-get(colors.$palette, 'helper', 'blueLight');
-  }
 
-  a:hover svg circle, a:hover svg path, a:hover svg rect{
-    fill: map-get(colors.$palette, 'helper', 'blueLight');;
-  }
+}
+
+a:hover, a > *:hover {
+  color: map-get(colors.$palette, 'helper', 'blueLight');
+}
+
+a:hover svg circle, a:hover svg path, a:hover svg rect{
+  fill: map-get(colors.$palette, 'helper', 'blueLight');;
 }
 
 
-//  h1, h2, h3, h4, h5, h6, p {
-//    color: map-get(colors.$palette, secondary);
-//  }
-//
-//
-//.darkBg {
-//  h1, h2, h3, h4, h5, h6, p {
-//    color: map-get(colors.$palette, primary);
-//  }
-//}
+
 

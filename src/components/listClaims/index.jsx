@@ -2,6 +2,10 @@ import {useSearchParams, Link} from "react-router-dom";
 import {EthereumContext, getAllClaims} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
 import React, {useState, useEffect, useContext} from "react";
+import ListClaimsItem from "/src/components/ui/listClaimsItem";
+import Pill from "../ui/pill";
+import * as styles from "./index.module.scss";
+
 
 
 export default function ListClaims() {
@@ -35,7 +39,6 @@ export default function ListClaims() {
     }
 
     console.log(claims && claims)
-
 
   }, [ethereumContext.chainId, ethereumContext.blockNumber])
 
@@ -71,11 +74,17 @@ export default function ListClaims() {
   return (
     <>
 
-      <ul>
-        {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) => <li key={key}><Link
-          to={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}>{claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}</Link>
-        </li>)}
-      </ul>
+      <div className={styles.containerItems}>
+        {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) =>
+            <ListClaimsItem
+              title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
+              linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
+              score={1234}
+              createdAt='2th May 2022  01:54 PM'>
+                <Pill>{value?.status}</Pill>
+            </ListClaimsItem>
+        )}
+      </div>
       {!claims && fetchingClaims && 'Fetching claims'}
       {!fetchingClaims && (claims == null || (claims && claims.filter(c => c != null).length == 0)) && 'No claims.'}
       {claims && loadingFetchingContents && 'Fetching claim details.'}

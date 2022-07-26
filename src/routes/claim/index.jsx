@@ -179,19 +179,8 @@ export default function Index() {
           {claimContent?.title || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim title.")}{" "}
           {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
         </h1>
-      <Pill>Live</Pill>
+      <Pill>{claim?.status}</Pill>
 
-
-
-        {/*We need to get arbitrator address somehow. Last thing I tried is to add this field to Index Entity on Subgraph. See 0.0.19*/}
-        {/*<p>Arbitrator Short Name: {claim.category.arbitrator.shortName}</p>*/}
-        {/*<p>Arbitrator Long Name: {claim.category.arbitrator.fullName}</p>*/}
-        {/*<p>Arbitrator Fee: {claim.category.arbitrator.shortName}</p>*/}
-        {/*<p>*/}
-        {/*  Arbitration Fee: {(claim.category.arbitrator.feePerVote * claim.category.jurySize).toFixed(3)}{" "}*/}
-        {/*  {claim.category.arbitrator.currency}*/}
-        {/*</p>*/}
-        {/*<p>Jury Size: {claim.category.jurySize} votes</p>*/}
         <p>
           {" "}
           {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
