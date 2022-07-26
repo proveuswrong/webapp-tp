@@ -84,7 +84,7 @@ export default function ListClaims() {
               linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
               score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
               createdAt={value?.createdAtTimestamp}>
-                <Pill modifiers='small'>{value?.status}</Pill>
+                <Pill modifiers=''>{value?.status}</Pill>
             </ListClaimsItem>
         )}
       </div>
