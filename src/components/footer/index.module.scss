@@ -13,7 +13,7 @@
   }
 }
 
-.containerCopyright {
+.copyright {
   font-size: typo.$xxs;
   justify-self: center;
 }
@@ -22,8 +22,16 @@
   justify-self: left;
 }
 
-.containerSocial {
-justify-self: right;
+.containerSocialAndCopyright {
+  display: flex;
+  flex-direction: column;
+  justify-self: right;
+  align-self: center;
+
+}
+
+.social {
+  align-self: self-end;
   a + a {
     margin-left: calc(1vw + 0.5rem);
   }

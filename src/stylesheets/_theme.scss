@@ -31,8 +31,12 @@ footer {
     }
   }
 
-  a:hover{
+  a:hover {
     color: map-get(colors.$palette, 'helper', 'blueLight');
+  }
+
+  a:hover svg circle, a:hover svg path, a:hover svg rect{
+    fill: map-get(colors.$palette, 'helper', 'blueLight');;
   }
 }
 

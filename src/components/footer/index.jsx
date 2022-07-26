@@ -7,8 +7,8 @@ export default function Index() {
   return (
     <footer className={styles.footer}>
       <span className={styles.containerText}>Work-in-progress. Expect broken functionality and many bugs.</span>
-      <a href='https://proveuswrong.io' target='_blank' rel='noopener noreferrer' className={styles.containerCopyright}>Copyright {new Date().getFullYear()}  Prove Us Wrong</a>
-      <span className={styles.containerSocial}>
+      <div className={styles.containerSocialAndCopyright}>
+      <span className={styles.social}>
         <a href="https://github.com/proveuswrong" target="_blank" rel="noopener noreferrer" title="GitHub Organization">
           <span style={{ display: "none" }}>Link to GitHub profile</span>
           <Github aria-hidden="true" id="github" />
@@ -27,6 +27,9 @@ export default function Index() {
           <Twitter aria-hidden="true" id="twitter" />
         </a>
       </span>
+        <a href='https://proveuswrong.io' target='_blank' rel='noopener noreferrer' className={styles.copyright}>Copyright {new Date().getFullYear()}  Prove Us Wrong</a>
+
+      </div>
     </footer>
   );
 }
