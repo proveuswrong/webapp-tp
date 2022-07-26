@@ -80,6 +80,7 @@ export default function ListClaims() {
       <div className={styles.containerItems}>
         {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) =>
             <ListClaimsItem
+              key={value?.id}
               title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
               linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
               score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
