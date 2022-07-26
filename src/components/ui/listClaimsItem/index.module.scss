@@ -3,6 +3,11 @@
 @use 'src/stylesheets/variables/spacings';
 
 
+.listClaimsItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 
 .trustScore{
   font-size: typo.$m;
@@ -11,7 +16,7 @@
 
 .containerTitle{
   margin-top: spacings.$s-4;
-
+  margin-bottom: spacings.$s-4;
 }
 
 .title{
@@ -22,7 +27,7 @@
 }
 
 .createdAt{
-  margin-top: spacings.$s-4;
+  margin-top: auto;
   font-size: typo.$s;
   color: map-get(colors.$palette, 'grey', 'alpha')
 }
