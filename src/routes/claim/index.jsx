@@ -11,6 +11,8 @@ import { ipfsGateway } from "../../utils/addToIPFS";
 import { useEffect, useState, useContext } from "react";
 
 import { utils, constants, BigNumber } from "ethers";
+import getTrustScore from "../../businessLogic/getTrustScore";
+import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
 
 export default function Index() {
   const params = useParams();
@@ -125,13 +127,10 @@ export default function Index() {
               ) : (
                 <Interval delay={reRenderInMs}>
                   {() =>
-                    getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim, ethereumContext.blockNumber))
+                    getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.blockNumber))
                   }
                 </Interval>
               )}
-
-
-
         </span>
       )}
         <Tooltip placement="topLeft" title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext.blockNumber)} blocks ago.`}>
@@ -157,17 +156,15 @@ export default function Index() {
         </Tooltip>
 
         <span>
-          <Tooltip placement="bottomLeft" title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp)*1000).toDateString()}</Tooltip> by <Tooltip placement="bottomRight" title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0,6)}...{ claim?.owner.slice(-4)}</Tooltip>
+          <Tooltip placement="bottomLeft" title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp)*1000).toUTCString()}</Tooltip> by <Tooltip placement="bottomRight" title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0,6)}...{ claim?.owner.slice(-4)}</Tooltip>
         </span>
 
 
         {claim?.disputeID && (
           <span>
             Dispute ID:{" "}
-            <a href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank" rel="noopener noreferrer">
-              <span key={claim?.disputeID} className="blink">
+            <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank" rel="noopener noreferrer">
                 {claim?.disputeID}
-              </span>
             </a>
           </span>
         )}
@@ -227,17 +224,8 @@ export default function Index() {
   );
 }
 
-export const getTimePastSinceLastBountyUpdate = (claim, currentBlockNumber) =>
-  parseInt(currentBlockNumber) - parseInt(claim?.lastBalanceUpdate);
+
 
 export const getWithdrawalCountdown = (claim) =>
   Math.max(parseInt(claim.withdrawalPermittedAt) - parseInt(Date.now() / 1000), 0);
 
-export const getTrustScore = (claim, timePastSinceLastBountyUpdate) => {
-  const timeDelta = BigNumber.from(timePastSinceLastBountyUpdate);
-  const previouslyAccumulatedScore = BigNumber.from(claim?.lastCalculatedScore);
-  const bounty = BigNumber.from(claim?.bounty);
-  const rawScore = previouslyAccumulatedScore.add(timeDelta.mul(bounty));
-  const normalizedScore = utils.formatEther(rawScore); // Divides by 10^18 to prevent big numbers.
-  return parseInt(normalizedScore).toFixed(0);
-};

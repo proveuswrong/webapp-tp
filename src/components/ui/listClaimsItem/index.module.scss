@@ -24,6 +24,9 @@
   color: map-get(colors.$palette, 'secondary');
   margin-right: spacings.$s-2;
 
+  & > span{
+    vertical-align: middle;
+  }
 }
 
 .createdAt{

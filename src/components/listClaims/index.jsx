@@ -5,6 +5,9 @@ import React, {useState, useEffect, useContext} from "react";
 import ListClaimsItem from "/src/components/ui/listClaimsItem";
 import Pill from "../ui/pill";
 import * as styles from "./index.module.scss";
+import getTrustScore from "../../businessLogic/getTrustScore";
+import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
+
 
 
 
@@ -79,9 +82,9 @@ export default function ListClaims() {
             <ListClaimsItem
               title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
               linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
-              score={1234}
-              createdAt='2th May 2022  01:54 PM'>
-                <Pill>{value?.status}</Pill>
+              score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
+              createdAt={value?.createdAtTimestamp}>
+                <Pill modifiers='small'>{value?.status}</Pill>
             </ListClaimsItem>
         )}
       </div>

@@ -7,10 +7,10 @@ export default function ListClaimsItem({title, score, createdAt, children, linkT
   return <div className={styles.listClaimsItem}>
     <div className={styles.trustScore}>Trust Score: {score}</div>
 
-    <div className={styles.containerTitle}> <Link to={linkTo}><span className={styles.title}>{title}</span>
+    <div className={styles.containerTitle}> <Link className={styles.title} to={linkTo}>{title} {children}
+
     </Link>
-    {children}
     </div>
-    <div className={styles.createdAt}>{createdAt}</div>
+    <div className={styles.createdAt}>{new Date(parseInt(createdAt)*1000).toUTCString()}</div>
   </div>;
 }
