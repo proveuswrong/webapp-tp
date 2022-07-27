@@ -2,7 +2,7 @@ import * as styles from "./index.module.scss";
 import TrustScore from "jsx:../../assets/trustScoreFormula.svg";
 
 export default function FAQ() {
-  return (<section className={styles.faq}>
+  return (<section>
     <ol>
       <li>
         What is <i>trust score</i>?
