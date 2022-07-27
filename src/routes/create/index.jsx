@@ -45,7 +45,7 @@ export default function Create() {
 
   return (
     <section>
-      <h1>Create</h1>
+      <h1>Report a news</h1>
       {createFlowProgress === 0 &&
         <FormCreate handleSave={handleSave} controlsState={controlsState} updateControlsState={setControlsState}/>}
       {createFlowProgress === 1 &&
