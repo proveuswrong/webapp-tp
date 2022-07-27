@@ -7,7 +7,7 @@ export default function FAQ() {
       <li>
         What is <i>trust score</i>?
         <p>
-          Trust score is a key metric for the likelihood of an item being inaccurate. The bigger the trust score is, the less likely the
+          Trust score is the key metric for the likelihood of an item being inaccurate. The bigger the trust score is, the less likely the
           item being inaccurate.
         </p>
       </li>
