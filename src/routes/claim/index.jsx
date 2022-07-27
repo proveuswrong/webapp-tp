@@ -4,13 +4,13 @@ import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
 import CustomButton from "/src/components/ui/button";
 
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getClaimByID } from "../../data/ethereumProvider";
-import { ipfsGateway } from "../../utils/addToIPFS";
-import { useEffect, useState, useContext } from "react";
+import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
+import {ipfsGateway} from "../../utils/addToIPFS";
+import {useEffect, useState, useContext} from "react";
 
-import { utils, constants, BigNumber } from "ethers";
+import {utils, constants, BigNumber} from "ethers";
 import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
 
@@ -103,7 +103,7 @@ export default function Index() {
       claim.claimID,
       claim.category,
       claim.storageAddress,
-      { value: "12312312311111" }
+      {value: "12312312311111"}
     );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
@@ -111,29 +111,28 @@ export default function Index() {
   let reRenderInMs = 1000;
 
 
-
-
   return (
     <section>
       <div className={styles.containerKeyMetrics}>
-      {claim && (
-        <span className={styles.trustScore}>
+        {claim && (
+          <span className={styles.trustScore}>
           {" "}
-          Trust Score:{" "}
+            Trust Score:{" "}
 
 
-              {fetchingClaim ? (
-                "Fetching claim"
-              ) : (
-                <Interval delay={reRenderInMs}>
-                  {() =>
-                    getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.blockNumber))
-                  }
-                </Interval>
-              )}
+            {fetchingClaim ? (
+              "Fetching claim"
+            ) : (
+              <Interval delay={reRenderInMs}>
+                {() =>
+                  getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.blockNumber))
+                }
+              </Interval>
+            )}
         </span>
-      )}
-        <Tooltip placement="topLeft" title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext.blockNumber)} blocks ago.`}>
+        )}
+        <Tooltip placement="topLeft"
+                 title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext.blockNumber)} blocks ago.`}>
 
         <span className={styles.bountyAmount}>
           Bounty:{" "}
@@ -156,14 +155,18 @@ export default function Index() {
         </Tooltip>
 
         <span>
-          <Tooltip placement="bottomLeft" title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp)*1000).toUTCString()}</Tooltip> by <Tooltip placement="bottomRight" title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0,6)}...{ claim?.owner.slice(-4)}</Tooltip>
+          <Tooltip placement="bottomLeft"
+                   title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+          placement="bottomRight"
+          title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
         </span>
 
 
         {claim?.disputeID && (
           <span>
             Dispute ID:{" "}
-            <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank" rel="noopener noreferrer">
+            <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank"
+               rel="noopener noreferrer">
                 {claim?.disputeID}
             </a>
           </span>
@@ -171,59 +174,58 @@ export default function Index() {
       </div>
 
 
-        <h1 className={styles.title}>
-          {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-          {claimContent?.title || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim title.")}{" "}
-          {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-        </h1>
+      <h1 className={styles.title}>
+        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
+        {claimContent?.title || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim title.")}{" "}
+        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
+      </h1>
       <Pill>{claim?.status}</Pill>
 
-        <p>
-          {" "}
-          {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
-        </p>
+      <p>
+        {" "}
+        {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
+      </p>
       <div className={styles.containerTag}>
         <Tag>Economy</Tag><Tag>Technology</Tag>
-        </div>
+      </div>
 
-        <div className={styles.containerButtons}>
-          <CustomButton modifiers='secondary'
-            onClick={() => {
-              navigate("/browse" + location.search);
-            }}
-          >
-            Go back
-          </CustomButton>
-          {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
-            <CustomButton onClick={handleInitiateWithdrawal}>Initiate Withdrawal</CustomButton>
-          )}
-          {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
-            <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
-          )}
-          {ethereumContext.accounts[1] != claim?.owner && claim?.status == "Live" && (
-            <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
-          )}
-          {ethereumContext.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
-            <CustomButton onClick={handleExecuteWithdrawal}>
-              {getWithdrawalCountdown(claim) > 0 ? (
-                <span>
+      <div className={styles.containerButtons}>
+        <CustomButton modifiers='secondary'
+                      onClick={() => {
+                        navigate("/browse" + location.search);
+                      }}
+        >
+          Go back
+        </CustomButton>
+        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
+          <CustomButton onClick={handleInitiateWithdrawal}>Initiate Withdrawal</CustomButton>
+        )}
+        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
+          <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
+        )}
+        {ethereumContext.accounts[1] != claim?.owner && claim?.status == "Live" && (
+          <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
+        )}
+        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
+          <CustomButton onClick={handleExecuteWithdrawal}>
+            {getWithdrawalCountdown(claim) > 0 ? (
+              <span>
                   You can execute withdrawal in
                   <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(claim)}</Interval> seconds
                 </span>
-              ) : (
-                "Execute Withdrawal"
-              )}
-            </CustomButton>
-          )}
-          {claim?.status == "Withdrawn" && <button onClick={handleRevamp}>Revamp</button>}
-        </div>
-      <small key={ethereumContext.blockNumber} style={{ marginTop: "auto" }}>
+            ) : (
+              "Execute Withdrawal"
+            )}
+          </CustomButton>
+        )}
+        {claim?.status == "Withdrawn" && <button onClick={handleRevamp}>Revamp</button>}
+      </div>
+      <small key={ethereumContext.blockNumber} style={{marginTop: "auto"}}>
         Last updated at block no: <span className="blink">{ethereumContext.blockNumber}</span>
       </small>
     </section>
   );
 }
-
 
 
 export const getWithdrawalCountdown = (claim) =>

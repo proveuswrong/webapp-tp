@@ -37,8 +37,8 @@
 
 .hrBelowLogo {
   width: 21rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  //margin-top: 0.5rem;
+  //margin-bottom: 0.5rem;
 
 }
 
@@ -54,6 +54,13 @@
   font-family: 'Texturina', serif;
 
   font-size: typo.$l;
+}
+
+.title {
+  text-align: center;
+  font-size: typo.$xxl * 2;
+  font-weight: 500;
+  margin-bottom: 0;
 }
 
 

@@ -7,7 +7,7 @@ import addToIPFS from "../../utils/addToIPFS";
 import {utils} from "ethers";
 
 
-export default function Index() {
+export default function Create() {
   const ethereumContext = useContext(EthereumContext);
   const [createFlowProgress, setCreateFlowProgress] = useState(0)
   const [controlsState, setControlsState] = useState({title: '', description: '', bounty: 0.001, categoryNo: -1})
@@ -52,7 +52,8 @@ export default function Index() {
         <ConfirmCreate title={controlsState.title} description={controlsState.description} bounty={controlsState.bounty}
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
-      <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span key={ethereumContext.blockNumber} className='blink'>{ethereumContext.blockNumber}</span></small>
+      <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span key={ethereumContext.blockNumber}
+                                                                                           className='blink'>{ethereumContext.blockNumber}</span></small>
     </section>
 
   );

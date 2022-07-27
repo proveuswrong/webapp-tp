@@ -8,9 +8,7 @@ export default function EthereumProviderErrors() {
       <EthereumContext.Consumer>
         {(context) => (
           <h2>
-            {!context.isDeployedOnThisChain && "This chain id is not supported."}
-            {!context.isProviderDetected && "No Ethereum provider has been detected."}
-
+            {!context.isProviderDetected ? "No Ethereum provider has been detected." : !context.isDeployedOnThisChain && "This chain id is not supported."}
           </h2>
         )}
       </EthereumContext.Consumer>

@@ -8,8 +8,10 @@ body {
 body::after {
   height: inherit;
   content: "";
-  background: url("../assets/background_paper.jpg") repeat;
-  opacity: 0.8;
+  //background: url("../assets/background_paper.jpg") repeat;
+  background: url("../assets/paper-texture-surface-texture.jpg") repeat;
+  background-size: contain;
+  opacity: 0.6;
   top: 0;
   left: 0;
   bottom: 0;
@@ -22,6 +24,7 @@ footer {
   h1, h2, h3, h4, h5, h6, p, a, span {
     color: map-get(colors.$palette, primary);
   }
+
   background-color: map-get(colors.$palette, secondary);
 
   svg {
@@ -42,7 +45,7 @@ a:hover, a > *:hover {
   color: map-get(colors.$palette, 'helper', 'blueLight');
 }
 
-a:hover svg circle, a:hover svg path, a:hover svg rect{
+a:hover svg circle, a:hover svg path, a:hover svg rect {
   fill: map-get(colors.$palette, 'helper', 'blueLight');;
 }
 

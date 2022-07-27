@@ -1,5 +1,5 @@
 html {
- height: auto;
+  height: auto;
 }
 
 body {
@@ -36,6 +36,9 @@ main {
 
   > section {
     padding: 3rem 1.75rem 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

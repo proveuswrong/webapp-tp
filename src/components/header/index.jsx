@@ -8,7 +8,8 @@ import * as styles from "./index.module.scss";
 export default function Header() {
   return (
     <header>
-      <Logo className={styles.logo}/>
+      {/*<Logo className={styles.logo}/>*/}
+      <h1 className={styles.title}>The Truth Post</h1>
       <hr className={styles.hrBelowLogo}/>
       <div className={styles.subtitle}>Accurate and Relevant News</div>
       <hr className={styles.hrBelowSubtitle}/>

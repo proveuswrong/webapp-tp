@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import App from "./App";
 import Home from "./routes/home";
-import Index from "./routes/create";
+import Create from "./routes/create";
 import Browse from "./routes/browse";
 import Claim from "./routes/claim";
 import EthereumProviderErrors from "./components/ethereumProviderErrors";
@@ -20,7 +20,7 @@ ReactDOM.render(
             <Route path="/" element={<App/>}>
               <Route index element={<Home/>}/>
               <Route path="create/"
-                     element={chains[value.chainId] && contractInstances[value.chainId] ? <Index/> : <EthereumProviderErrors/>}/>
+                     element={chains[value.chainId] && contractInstances[value.chainId] ? <Create/> : <EthereumProviderErrors/>}/>
               <Route path="browse/"
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Browse/> : <EthereumProviderErrors/>}/>
               <Route path="browse/:chain/:contract/:id"
