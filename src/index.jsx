@@ -23,7 +23,7 @@ ReactDOM.render(
               <Route path="faq/" element={<FAQ/>}/>
               <Route path="create/"
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Create/> : <EthereumProviderErrors/>}/>
-              <Route path="browse/"
+              <Route path="frontpage/"
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Browse/> : <EthereumProviderErrors/>}/>
               <Route path="browse/:chain/:contract/:id"
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Claim/> : <EthereumProviderErrors/>}/>

@@ -16,7 +16,7 @@ export default function Header() {
       <nav className={styles.nav}>
         <h2 hide="">Navigation</h2>
         <NavLink to="/">Home</NavLink>
-        <NavLink to="browse/">Browse</NavLink>
+        <NavLink to="frontpage/">Front Page</NavLink>
         <NavLink to="create/">Create</NavLink>
         <NavLink to="faq/">F.A.Q.</NavLink>
         <div className={styles.navEthereum}>
