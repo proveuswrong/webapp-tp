@@ -9,8 +9,6 @@ import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
 
 
-
-
 export default function ListClaims() {
   const [claims, setClaims] = useState();
   const [claimContents, setClaimContents] = useState()
@@ -79,14 +77,15 @@ export default function ListClaims() {
 
       <div className={styles.containerItems}>
         {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) =>
-            <ListClaimsItem
-              key={value?.id}
-              title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
-              linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
-              score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
-              createdAt={value?.createdAtTimestamp}>
-                <Pill modifiers=''>{value?.status}</Pill>
-            </ListClaimsItem>
+          <ListClaimsItem
+            key={value?.id}
+            title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
+            description={claimContents?.[value?.claimID]?.description}
+            linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
+            score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
+            createdAt={value?.createdAtTimestamp}>
+            <Pill modifiers='small'>{value?.status}</Pill>
+          </ListClaimsItem>
         )}
       </div>
       {!claims && fetchingClaims && 'Fetching claims'}

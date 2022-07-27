@@ -8,9 +8,6 @@
   font-size: typo.$s;
   height: 3.5rem;
 
-  a {
-    color: map-get(colors.$palette, secondary)
-  }
 
   > a + a {
     margin-left: 1.25rem;

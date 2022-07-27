@@ -7,35 +7,65 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  //border: 1px solid red;
+
+  @media (min-width: 1200px) {
+    border: 1px solid map-get(colors.$palette, secondary);
+    border-radius: 4px;
+  }
+
   padding-top: spacings.$s-2;
   padding-bottom: spacings.$s-2;
+  padding: spacings.$s-2;
 
+
+  &:hover {
+    color: unset;
+  }
 }
 
-.trustScore{
-
+.trustScore {
+  display: flex;
+  justify-content: space-between;
   font-size: typo.$m;
-  color: map-get(colors.$palette, 'grey', 'alpha')
+  color: map-get(colors.$palette, 'grey', 'alpha');
+  margin-bottom: spacings.$s-2;
 }
 
-.containerTitle{
-  margin-bottom: spacings.$s-1;
-}
 
-.title{
+.title {
   font-size: typo.$l;
   font-weight: 500;
   color: map-get(colors.$palette, 'secondary');
   margin-right: spacings.$s-2;
 
-  & > span{
+  & > span {
     vertical-align: middle;
   }
 }
 
-.createdAt{
+//.description {
+//  text-overflow: ellipsis;
+//  overflow: hidden;
+//  white-space: nowrap;
+//  //display: -webkit-box;
+//  //-webkit-line-clamp: 3;
+//  //-webkit-box-orient: vertical;
+//}
+
+.description {
+  margin-bottom: spacings.$s-2;
+}
+
+.createdAt {
   margin-top: auto;
   font-size: typo.$s;
   color: map-get(colors.$palette, 'grey', 'alpha')
+}
+
+.children {
+  display: contents;
+
+  & > span {
+    align-self: center;
+  }
 }

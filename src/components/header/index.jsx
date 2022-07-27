@@ -15,7 +15,10 @@ export default function Header() {
       <hr className={styles.hrBelowSubtitle}/>
       <nav className={styles.nav}>
         <h2 hide="">Navigation</h2>
-        <NavLink to="/">Home</NavLink> <NavLink to="browse/">Browse</NavLink> <NavLink to="create/">Create</NavLink>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="browse/">Browse</NavLink>
+        <NavLink to="create/">Create</NavLink>
+        <NavLink to="faq/">F.A.Q.</NavLink>
         <div className={styles.navEthereum}>
           <ButtonConnect/>
           <ButtonSelectNetwork/>

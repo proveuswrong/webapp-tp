@@ -41,7 +41,7 @@ a {
   color: map-get(colors.$palette, secondary)
 }
 
-a:hover, a > *:hover {
+a:hover {
   color: map-get(colors.$palette, 'helper', 'blueLight');
 }
 

@@ -8,15 +8,14 @@
   font-size: typo.$xs;
   padding: 0.25rem 0.5rem;
 
-  &:global(.small){
+  &:global(.small) {
     font-size: typo.$xxs;
   }
 
 
-
   &:global(.live) {
     color: map-get(colors.$palette, 'primary');
-    background-color:  map-get(colors.$palette, 'helper', 'green');
+    background-color: map-get(colors.$palette, 'helper', 'green');
     border-color: map-get(colors.$palette, 'green');
   }
 
@@ -37,7 +36,6 @@
     background-color: map-get(colors.$palette, 'helper', 'orange');
     border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
   }
-
 
 
 }
