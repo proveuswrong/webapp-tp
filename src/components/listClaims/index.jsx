@@ -88,7 +88,7 @@ export default function ListClaims() {
           </ListClaimsItem>
         )}
       </div>
-      {!claims && fetchingClaims && 'Fetching claims'}
+      {!claims && fetchingClaims && 'Fetching news...'}
       {!fetchingClaims && (claims == null || (claims && claims.filter(c => c != null).length == 0)) && 'No claims.'}
       {claims && loadingFetchingContents && 'Fetching claim details.'}
     </>
