@@ -30,6 +30,12 @@ export default function FAQ() {
           events.
         </p>
       </li>
+       <li>
+        What you do is great. I loved it. How do I donate?
+        <p>
+          First of all, thanks. We build this with love. And we really appreciate your help. Please send your contribution here: https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad
+        </p>
+       </li>
     </ol>
   </section>);
 }
