@@ -25,7 +25,7 @@ ReactDOM.render(
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Create/> : <EthereumProviderErrors/>}/>
               <Route index
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Browse/> : <EthereumProviderErrors/>}/>
-              <Route path="browse/:chain/:contract/:id"
+              <Route path=":chain/:contract/:id"
                      element={chains[value.chainId] && contractInstances[value.chainId] ? <Claim/> : <EthereumProviderErrors/>}/>
               <Route path="*" element={<p>There's nothing here!</p>}/>
             </Route>
