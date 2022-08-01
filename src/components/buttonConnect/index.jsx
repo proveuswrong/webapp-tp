@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { EthereumContext } from "../../data/ethereumProvider";
+import React, {useContext, useState} from "react";
+import {EthereumContext} from "../../data/ethereumProvider";
 import CustomButton from "/src/components/ui/button";
 
 export default function ButtonConnect() {
@@ -12,7 +12,7 @@ export default function ButtonConnect() {
           <CustomButton
             modifiers="small secondary"
             id="buttonConnect"
-            disabled={ethereum?.awaitingUserPermission || !ethereum.isDeployedOnThisChain}
+            disabled={ethereum?.awaitingUserPermission || !ethereum?.isDeployedOnThisChain}
             onClick={() => {
               ethereum?.accounts.length < 1
                 ? ethereumContext.requestAccounts()
@@ -33,8 +33,8 @@ export default function ButtonConnect() {
               {!ethereum?.accounts[0] && ethereum?.awaitingUserPermission
                 ? "Awaiting User Permission"
                 : !ethereum?.accounts[0]
-                ? "Connect Account"
-                : `${ethereum?.accounts[0].substring(0,6)}...${ethereum?.accounts[0].slice(-4)}`  }
+                  ? "Connect Account"
+                  : `${ethereum?.accounts[0].substring(0, 6)}...${ethereum?.accounts[0].slice(-4)}`}
             </a>
           </CustomButton>
         );

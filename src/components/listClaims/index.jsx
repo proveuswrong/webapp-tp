@@ -81,7 +81,7 @@ export default function ListClaims() {
             key={value?.id}
             title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
             description={claimContents?.[value?.claimID]?.description}
-            linkTo={`${ethereumContext.chainId}/${value?.contractAddress}/${value?.id}`}
+            linkTo={`${value?.contractAddress}/${value?.id}/`}
             score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
             createdAt={value?.createdAtTimestamp}>
             <Pill modifiers='small'>{value?.status}</Pill>

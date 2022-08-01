@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ipfsGateway } from "../utils/addToIPFS";
-import { ethers } from "ethers";
+import {ipfsGateway} from "../utils/addToIPFS";
+import {ethers} from "ethers";
 import ABI from "./abi.js";
 
 export default class EthereumProvider extends Component {
@@ -35,14 +35,15 @@ export default class EthereumProvider extends Component {
       console.log(provider);
       if (provider) this.initializeProvider();
     });
+
   }
 
   initializeProvider() {
-    this.setState({ isProviderDetected: true });
-    ethereum.request({ method: "eth_chainId" }).then(this.handleChainChanged);
-    ethereum.request({ method: "eth_accounts" }).then(this.handleAccountsChanged);
-    ethereum.request({ method: "eth_subscribe", params: ["newHeads"] });
-    ethereum.request({ method: "eth_blockNumber" }).then((result) => this.setState({ blockNumber: result }));
+    this.setState({isProviderDetected: true});
+    ethereum.request({method: "eth_chainId"}).then(this.handleChainChanged);
+    ethereum.request({method: "eth_accounts"}).then(this.handleAccountsChanged);
+    ethereum.request({method: "eth_subscribe", params: ["newHeads"]});
+    ethereum.request({method: "eth_blockNumber"}).then((result) => this.setState({blockNumber: result}));
 
     ethereum.on("accountsChanged", this.handleAccountsChanged);
     ethereum.on("chainChanged", this.handleChainChanged);
@@ -51,24 +52,46 @@ export default class EthereumProvider extends Component {
     ethereum.on("message", this.handleMessage);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    this.setState({ ethersProvider: provider });
+    this.setState({ethersProvider: provider});
+
+
   }
 
   // Public Functions //
   async requestAccounts() {
-    await this.setState({ awaitingUserPermission: true });
+    await this.setState({awaitingUserPermission: true});
     console.debug("Asking users permission to connect.");
-    ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
+    ethereum.request({method: "eth_requestAccounts"}).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
         console.log("User rejected connecting to Ethereum.");
-        this.setState({ awaitingUserPermission: false });
+        this.setState({awaitingUserPermission: false});
       } else if (error.code === -32002) {
         // Handle it
       } else {
-        this.setState({ awaitingUserPermission: true });
+        this.setState({awaitingUserPermission: true});
       }
     });
+  }
+
+  handleChainChanged(chainId) {
+    console.log("Chain changed.");
+    console.log(chainId)
+    const {ethersProvider, isProviderDetected} = this.state;
+
+    this.setState({
+      chainId: chainId,
+      isDeployedOnThisChain: contractInstances[chainId] != null,
+    });
+
+    if (isProviderDetected)
+      this.setState({
+        contractInstance: contractInstances[chainId]
+          ? new ethers.Contract(Object.keys(contractInstances[chainId])[0], ABI, ethersProvider.getSigner())
+          : null,
+      })
+
+    this.fetchMetaEvidenceContents(chainId);
   }
 
   // End of Public Functions
@@ -78,39 +101,26 @@ export default class EthereumProvider extends Component {
       console.log("Wallet locked.");
     } else {
       console.log("Accounts changed.");
-      this.setState({ awaitingUserPermission: false });
+      this.setState({awaitingUserPermission: false});
     }
-    this.setState({ accounts: accounts });
+    this.setState({accounts: accounts});
   }
 
-  handleChainChanged(chainId) {
-    console.log("Chain changed.");
-    const { ethersProvider } = this.state;
-
-    this.setState({
-      chainId: chainId,
-      isDeployedOnThisChain: contractInstances[chainId] != null,
-      contractInstance: contractInstances[chainId]
-        ? new ethers.Contract(Object.keys(contractInstances[chainId])[0], ABI, ethersProvider.getSigner())
-        : null,
-    });
-    this.fetchMetaEvidenceContents(chainId);
-  }
 
   handleConnected() {
     console.log("Connected to Ethereum.");
-    this.setState({ isConnected: true });
+    this.setState({isConnected: true});
   }
 
   handleDisconnected() {
     console.log("Disconnect to Ethereum.");
-    this.setState({ isConnected: false });
+    this.setState({isConnected: false});
   }
 
   handleMessage(message) {
     console.log(this.state)
     console.log(`Block number: ${message.data.result.number}`);
-    this.setState({ blockNumber: message.data.result.number });
+    this.setState({blockNumber: message.data.result.number});
   }
 
   async fetchMetaEvidenceContents(chainId) {
@@ -119,11 +129,11 @@ export default class EthereumProvider extends Component {
     const result = await Promise.allSettled(
       rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json()))
     );
-    this.setState({ metaEvidenceContents: result.map((item) => item.value) });
+    this.setState({metaEvidenceContents: result.map((item) => item.value)});
   }
 
   render = () => (
-    <EthereumContext.Provider value={{ ...this.state, requestAccounts: this.requestAccounts }}>
+    <EthereumContext.Provider value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.handleChainChanged}}>
       {" "}
       {this.props.children}
     </EthereumContext.Provider>
@@ -132,7 +142,7 @@ export default class EthereumProvider extends Component {
 export const EthereumContext = React.createContext();
 
 // Merge these two objects
-export const chains = { "0x4": { name: "Ethereum Testnet Rinkeby", shortname: "Rinkeby" } };
+export const chains = {"0x4": {name: "Ethereum Testnet Rinkeby", shortname: "Rinkeby"}};
 export const contractInstances = {
   "0x4": {
     "0x5678057C9a36697986A1003d49B73EBE6A0E9c03": {

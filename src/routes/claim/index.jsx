@@ -6,13 +6,14 @@ import CustomButton from "/src/components/ui/button";
 
 import {useParams, useNavigate, useLocation} from "react-router-dom";
 import Interval from "react-interval-rerender";
-import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
+import {contractInstances, EthereumContext, getClaimByID} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
 import {useEffect, useState, useContext} from "react";
 
 import {utils, constants, BigNumber} from "ethers";
 import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
+import EthereumProviderErrors from "../../components/ethereumProviderErrors";
 
 export default function Index() {
   const params = useParams();
@@ -192,7 +193,7 @@ export default function Index() {
       <div className={styles.containerButtons}>
         <CustomButton modifiers='secondary'
                       onClick={() => {
-                        navigate("/browse" + location.search);
+                        navigate(-1);
                       }}
         >
           Go back
