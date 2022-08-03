@@ -22,6 +22,8 @@ export default function ListClaims() {
 
 
   useEffect(() => {
+    if (!ethereumContext.isDeployedOnThisChain) return;
+
     console.log('Fetching claims...')
     let didCancel = false;
 

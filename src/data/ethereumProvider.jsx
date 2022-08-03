@@ -32,7 +32,6 @@ export default class EthereumProvider extends Component {
 
   componentDidMount() {
     detectEthereumProvider({silent: true}).then((provider,) => {
-      console.log(provider);
       if (provider) this.initializeProvider();
     });
 

@@ -16,11 +16,14 @@ export default function Browse() {
 
   useEffect(() => {
     if (!params.chain) navigate(Object.keys(contractInstances)[0] + '/')
+
+    else if (contractInstances[params.chain] && ethereumContext.chainId != params.chain)
+      ethereumContext.changeChain(params.chain);
+
   }, [ethereumContext.blockNumber]);
 
   if (contractInstances[params.chain] || ethereumContext.isDeployedOnThisChain) {
-    if (contractInstances[params.chain] && ethereumContext.chainId != params.chain)
-      ethereumContext.changeChain(params.chain);
+
     return (
       <section className={styles.browse}>
         <ListClaims/>
