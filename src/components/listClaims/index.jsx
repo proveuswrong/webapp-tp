@@ -43,7 +43,7 @@ export default function ListClaims() {
 
     console.log(claims && claims)
 
-  }, [ethereumContext.chainId, ethereumContext.blockNumber])
+  }, [ethereumContext?.chainId, ethereumContext?.graphMetadata?.block?.number])
 
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function ListClaims() {
             title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
             description={claimContents?.[value?.claimID]?.description}
             linkTo={`${value?.contractAddress}/${value?.id}/`}
-            score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.blockNumber))}
+            score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))}
             createdAt={value?.createdAtTimestamp}>
             <Pill modifiers='small'>{value?.status}</Pill>
           </ListClaimsItem>

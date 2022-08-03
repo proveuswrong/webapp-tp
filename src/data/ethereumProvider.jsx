@@ -89,7 +89,7 @@ export default class EthereumProvider extends Component {
 
   handleChainChanged(chainId) {
     console.log("Chain changed.");
-    console.log(chainId)
+    console.log(this.state)
     const {ethersProvider, isProviderDetected} = this.state;
 
     this.setState({

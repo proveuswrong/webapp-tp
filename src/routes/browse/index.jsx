@@ -16,12 +16,16 @@ export default function Browse() {
   const ethereumContext = useContext(EthereumContext);
 
   useEffect(() => {
-    if (!params.chain) navigate(Object.keys(contractInstances)[0] + '/')
+    console.log('entered');
+    console.log(ethereumContext)
 
-    else if (contractInstances[params.chain] && ethereumContext.chainId != params.chain)
+    if (!params.chain) {
+      console.log('navigated to first network in the list')
+      navigate(Object.keys(contractInstances)[0] + '/')
+    } else if (contractInstances[params.chain] && ethereumContext.chainId != params.chain)
       ethereumContext.changeChain(params.chain);
 
-  }, [ethereumContext.blockNumber]);
+  }, [ethereumContext?.graphMetadata?.block.number]);
 
   if (contractInstances[params.chain] || ethereumContext.isDeployedOnThisChain) {
 

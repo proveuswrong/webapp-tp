@@ -40,7 +40,7 @@ export default function Index() {
     return () => {
       didCancel = true;
     };
-  }, [ethereumContext?.blockNumber]);
+  }, [ethereumContext?.graphMetadata?.block?.number]);
 
   useEffect(() => {
     let didCancel = false;
