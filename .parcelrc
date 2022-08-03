@@ -3,5 +3,8 @@
   "transformers": {
     "jsx:*.svg": ["@parcel/transformer-svg-react"],
     "jsx:*": ["..."]
-  }
+  },
+    "compressors": {
+      "*.{html,css,js,svg,map}": ["@parcel/compressor-gzip"]
+    }
 }

@@ -752,6 +752,13 @@
   dependencies:
     chalk "^4.1.0"
 
+"@parcel/compressor-gzip@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@parcel/compressor-gzip/-/compressor-gzip-2.6.2.tgz#35e1b67c4ac54f7d335e80aa6b025c69d52f5c0f"
+  integrity sha512-VKk9F2DwBEYRQN9DSGZS8dWhqJMQXFul7pYg3QJM8qiKN8uoRgAwEe0wS9/8NIwtnaSCtgdJAHPK5LmcR6Hzag==
+  dependencies:
+    "@parcel/plugin" "2.6.2"
+
 "@parcel/compressor-raw@2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@parcel/compressor-raw/-/compressor-raw-2.6.2.tgz#6fec2654c7767a2fef042a37246549d41ee8a586"
