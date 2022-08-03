@@ -4,7 +4,7 @@
 .containerItems {
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(1fr, 100%));
   column-gap: spacings.$s-8;
   row-gap: spacings.$s-8;
 
