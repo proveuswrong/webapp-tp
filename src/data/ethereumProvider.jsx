@@ -35,7 +35,7 @@ export default class EthereumProvider extends Component {
       console.log(provider);
       if (provider) this.initializeProvider();
     }).catch((error) => {
-      console.error(error)
+      console.log("No ethereum provider was detected. You will be able to interact read-only.")
     });
 
   }
