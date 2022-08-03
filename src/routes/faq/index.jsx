@@ -7,8 +7,8 @@ export default function FAQ() {
       <li>
         What is <i>trust score</i>?
         <p>
-          Trust score is the key metric for the likelihood of an item being inaccurate. The bigger the trust score is, the less likely the
-          item being inaccurate.
+          Trust score is the key metric for the likelihood of an item being accurate. The bigger the trust score is, the more likely the
+          item being accurate.
         </p>
       </li>
       <li>
@@ -30,13 +30,13 @@ export default function FAQ() {
           events.
         </p>
       </li>
-       <li>
+      <li>
         What you do is great. I loved it. How do I donate?
         <p>
           First of all, thanks. We build this with love. And we really appreciate your help.
           Please send your contribution <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad
-"> here</a>.         </p>
-       </li>
+"> here</a>. </p>
+      </li>
     </ol>
   </section>);
 }
