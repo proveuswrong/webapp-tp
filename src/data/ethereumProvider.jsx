@@ -30,12 +30,26 @@ export default class EthereumProvider extends Component {
     this.setState = this.setState.bind(this);
   }
 
+  static constants = {
+    LONGPOLLING_PERIOD_MS: 10000,
+  };
+
   componentDidMount() {
     detectEthereumProvider({silent: true}).then((provider,) => {
       if (provider) this.initializeProvider();
     });
-
+    getGraphMetadata('0x4', '0x5678057C9a36697986A1003d49B73EBE6A0E9c03').then(r => this.setState({graphMetadata: r}))
+    this.setState({
+      interval: setInterval(() => {
+        getGraphMetadata('0x4', '0x5678057C9a36697986A1003d49B73EBE6A0E9c03').then(r => this.setState({graphMetadata: r}))
+      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
+    });
   }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval)
+  }
+
 
   initializeProvider() {
     this.setState({isProviderDetected: true});
@@ -119,7 +133,9 @@ export default class EthereumProvider extends Component {
   handleMessage(message) {
     console.log(this.state)
     console.log(`Block number: ${message.data.result.number}`);
-    this.setState({blockNumber: message.data.result.number});
+    this.setState({blockNumber: message.data.result.number, timestamp: message.data.result.timestamp});
+
+    console.log(message)
   }
 
   async fetchMetaEvidenceContents(chainId) {
@@ -198,6 +214,22 @@ export const getClaimByID = (chainID, contractAddress, id) => {
       }
       return data.claims[0];
     })
+    .catch(console.error);
+};
+
+export const getGraphMetadata = (chainID, contractAddress) => {
+  return queryTemplate(contractInstances[chainID][contractAddress].subgraphEndpoint,
+    `{
+                _meta {
+                   deployment
+                   hasIndexingErrors
+                   block {
+                     hash
+                     number
+                    }
+                  }
+                }`)
+    .then(r => r._meta)
     .catch(console.error);
 };
 

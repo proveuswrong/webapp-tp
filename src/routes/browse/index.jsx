@@ -3,6 +3,7 @@ import ListClaims from "../../components/listClaims";
 import EthereumProviderErrors from "../../components/ethereumProviderErrors";
 import {useContext, useEffect} from "react";
 import {EthereumContext, contractInstances, getClaimByID} from "../../data/ethereumProvider";
+import SyncStatus from "../../components/ui/syncStatus";
 
 
 import * as styles from "./index.module.scss";
@@ -27,8 +28,7 @@ export default function Browse() {
     return (
       <section className={styles.browse}>
         <ListClaims/>
-        <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span
-          key={ethereumContext.blockNumber} className="blink">{ethereumContext.blockNumber}</span></small>
+        <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
       </section>
     )
   } else {

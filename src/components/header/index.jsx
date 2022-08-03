@@ -19,8 +19,8 @@ export default function Header() {
       <hr className={styles.hrBelowSubtitle}/>
       <nav className={styles.nav}>
         <h2 hide="">Navigation</h2>
-        <NavLink to={`${ethereumContext.chainId}/`}>Front Page</NavLink>
-        {ethereumContext.isProviderDetected && <NavLink to={`${ethereumContext.chainId}/report/`}>Report</NavLink>}
+        <NavLink to={`${ethereumContext?.chainId}/`}>Front Page</NavLink>
+        {ethereumContext?.isProviderDetected && <NavLink to={`${ethereumContext?.chainId}/report/`}>Report</NavLink>}
         <NavLink to="faq/">F.A.Q.</NavLink>
         <NavLink to="about/">About</NavLink>
         <div className={styles.navEthereum}>

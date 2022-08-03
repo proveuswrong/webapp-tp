@@ -13,7 +13,7 @@ import {useEffect, useState, useContext} from "react";
 import {utils, constants, BigNumber} from "ethers";
 import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
-import EthereumProviderErrors from "../../components/ethereumProviderErrors";
+import SyncStatus from "../../components/ui/syncStatus";
 
 export default function Index() {
   const params = useParams();
@@ -40,7 +40,7 @@ export default function Index() {
     return () => {
       didCancel = true;
     };
-  }, [ethereumContext.blockNumber]);
+  }, [ethereumContext?.blockNumber]);
 
   useEffect(() => {
     let didCancel = false;
@@ -111,6 +111,7 @@ export default function Index() {
 
   let reRenderInMs = 1000;
 
+  console.log(ethereumContext)
 
   return (
     <section>
@@ -126,14 +127,14 @@ export default function Index() {
             ) : (
               <Interval delay={reRenderInMs}>
                 {() =>
-                  getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.blockNumber))
+                  getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))
                 }
               </Interval>
             )}
         </span>
         )}
         <Tooltip placement="topLeft"
-                 title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext.blockNumber)} blocks ago.`}>
+                 title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext?.blockNumber)} blocks ago.`}>
 
         <span className={styles.bountyAmount}>
           Bounty:{" "}
@@ -198,16 +199,16 @@ export default function Index() {
         >
           Go back
         </CustomButton>
-        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
+        {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
           <CustomButton onClick={handleInitiateWithdrawal}>Initiate Withdrawal</CustomButton>
         )}
-        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "Live" && (
+        {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
           <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
         )}
-        {ethereumContext.accounts[1] != claim?.owner && claim?.status == "Live" && (
+        {ethereumContext?.accounts[1] != claim?.owner && claim?.status == "Live" && (
           <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
         )}
-        {ethereumContext.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
+        {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
           <CustomButton onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(claim) > 0 ? (
               <span>
@@ -221,9 +222,7 @@ export default function Index() {
         )}
         {claim?.status == "Withdrawn" && <button onClick={handleRevamp}>Revamp</button>}
       </div>
-      <small key={ethereumContext.blockNumber} style={{marginTop: "auto"}}>
-        Last updated at block no: <span className="blink">{ethereumContext.blockNumber}</span>
-      </small>
+      <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
     </section>
   );
 }

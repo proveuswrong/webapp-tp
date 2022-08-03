@@ -5,6 +5,7 @@ import FormCreate from "/src/components/formCreate";
 import ConfirmCreate from "/src/components/confirmCreate";
 import addToIPFS from "../../utils/addToIPFS";
 import {utils} from "ethers";
+import SyncStatus from "../../components/ui/syncStatus";
 
 
 export default function Create() {
@@ -52,8 +53,7 @@ export default function Create() {
         <ConfirmCreate title={controlsState.title} description={controlsState.description} bounty={controlsState.bounty}
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
-      <small style={{marginTop: '32px', display: 'block'}}>Last updated at block no: <span key={ethereumContext.blockNumber}
-                                                                                           className='blink'>{ethereumContext.blockNumber}</span></small>
+      <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
     </section>
 
   );
