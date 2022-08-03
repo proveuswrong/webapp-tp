@@ -752,6 +752,13 @@
   dependencies:
     chalk "^4.1.0"
 
+"@parcel/compressor-brotli@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@parcel/compressor-brotli/-/compressor-brotli-2.6.2.tgz#2b028c924da7e0cd82e4d41f28021b6653135b85"
+  integrity sha512-du6NGGZt7DoT4+F3IihHWFvQnuBMxMDdFyl2odr+lGQfaLHxqb/leXxjBpxddDOxqkLIpxb642vYxKKL+3cg2g==
+  dependencies:
+    "@parcel/plugin" "2.6.2"
+
 "@parcel/compressor-gzip@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@parcel/compressor-gzip/-/compressor-gzip-2.6.2.tgz#35e1b67c4ac54f7d335e80aa6b025c69d52f5c0f"
