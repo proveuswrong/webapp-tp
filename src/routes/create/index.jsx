@@ -11,7 +11,13 @@ import SyncStatus from "../../components/ui/syncStatus";
 export default function Create() {
   const ethereumContext = useContext(EthereumContext);
   const [createFlowProgress, setCreateFlowProgress] = useState(0)
-  const [controlsState, setControlsState] = useState({title: '', description: '', bounty: 0.001, categoryNo: -1})
+  const [controlsState, setControlsState] = useState({
+    title: '',
+    description: '',
+    tags: '',
+    bounty: '0.001',
+    categoryNo: -1
+  })
 
 
   function handleSave() {
@@ -46,11 +52,12 @@ export default function Create() {
 
   return (
     <section>
-      <h1>Report a news</h1>
+
       {createFlowProgress === 0 &&
         <FormCreate handleSave={handleSave} controlsState={controlsState} updateControlsState={setControlsState}/>}
       {createFlowProgress === 1 &&
-        <ConfirmCreate title={controlsState.title} description={controlsState.description} bounty={controlsState.bounty}
+        <ConfirmCreate title={controlsState.title} description={controlsState.description} tags={controlsState.tags}
+                       bounty={controlsState.bounty}
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>

@@ -161,7 +161,7 @@ export const chains = {"0x4": {name: "Ethereum Testnet Rinkeby", shortname: "Rin
 export const contractInstances = {
   "0x4": {
     "0x5678057C9a36697986A1003d49B73EBE6A0E9c03": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/pmw/0.5",
+      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/pmw/0.6",
     },
   },
 };
@@ -255,7 +255,9 @@ export const getAllClaims = (chainID) => {
     arbitratorExtraData
   }}`
       ).then((data) => {
+        console.log(data)
         if (data && data.claims && data.claims.length > 0) {
+
           data.claims.map((claim) => {
             claim.contractAddress = key;
             return claim;

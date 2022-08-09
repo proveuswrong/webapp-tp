@@ -1,38 +1,46 @@
 import {useEffect, useState, useContext} from "react";
 import {EthereumContext} from "../../data/ethereumProvider";
+import Tag from "/src/components/ui/tag";
+import * as styles from "./index.module.scss";
+import {constants, utils} from "ethers";
+import CustomButton from "/src/components/ui/button";
 
-export default function ConfirmCreate({title, description, bounty, categoryNo, handleCreate, handleGoBack}) {
+
+export default function ConfirmCreate({title, description, tags, bounty, categoryNo, handleCreate, handleGoBack}) {
 
   const ethereumContext = useContext(EthereumContext);
 
 
   return (
     <>
-      <input className="displayBlock" type="text" id="title" name="title" required minLength="4" maxLength="36" size="40" disabled
-             value={title}
-      />
-      <textarea className="displayBlock" id="description" name="description" rows="5" cols="33" disabled value={description}/>
-
-      <div>
-        <label htmlFor="bounty">Bounty Amount in ETH:</label>
-
-        <input type="number" id="bounty" name="bounty" min="0.001" max="100.000" step="0.001" placeholder='1.000' disabled value={bounty}/>
+      <div className={styles.bountyAmount}>
+        Bounty:{" "}{bounty}{' '}{constants.EtherSymbol}
+      </div>
+      <h1>{title}</h1>
+      <p className={styles.description}>
+        {description}
+      </p>
+      <div className={styles.containerTag}>
+        {tags.split(' ').map((tag, index) => <Tag key={'tag' + index}>{tag}</Tag>)}
       </div>
 
-      <div>
+      <div className={styles.info}>
+        This article will be published in the curation pool id {categoryNo}. Before publishing this article make sure you read the rules of
+        this curation pool. In case of a dispute, respective arbitrator will be authorized to rule and you can defend your article by
+        presenting
+        your
+        arguments and evidence. If you lose a round in the dispute, you can appeal it by paying arbitration fees. If the final verdict is
+        that this article is not eligible for this curation pool, the challenger will win your bounty as a reward.
+      </div>
 
-        <label htmlFor="selectCategory">Chosen
-          arbitration setting: {categoryNo}: {ethereumContext.metaEvidenceContents?.[categoryNo]?.category}</label>
 
-
-        <div>
-          <button type="button" onClick={handleCreate}>
-            Prove Me Wrong
-          </button>
-          <button type="button" onClick={handleGoBack}>
-            Go Back And Edit
-          </button>
-        </div>
+      <div className={styles.buttons}>
+        <CustomButton type="button" onClick={handleCreate}>
+          Publish
+        </CustomButton>
+        <CustomButton type="button" modifiers='secondary' onClick={handleGoBack}>
+          Go Back And Edit
+        </CustomButton>
       </div>
 
     </>

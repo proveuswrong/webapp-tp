@@ -17,12 +17,11 @@ export default function ListClaims() {
   const [fetchingClaims, setFetchingClaims] = useState(true)
   const [loadingFetchingContents, setFetchingClaimsContents] = useState(true)
 
-
   let [searchParams, setSearchParams] = useSearchParams();
 
 
   useEffect(() => {
-    if (!ethereumContext.isDeployedOnThisChain) return;
+    if (!ethereumContext?.isDeployedOnThisChain) return;
 
     console.log('Fetching claims...')
     let didCancel = false;
@@ -91,7 +90,7 @@ export default function ListClaims() {
         )}
       </div>
       {!claims && fetchingClaims && 'Fetching news...'}
-      {!fetchingClaims && (claims == null || (claims && claims.filter(c => c != null).length == 0)) && 'No claims.'}
+      {!fetchingClaims && (claims == null || (claims && claims.filter(c => c != null).length == 0)) && 'No news articles.'}
       {claims && loadingFetchingContents && 'Fetching claim details.'}
     </>
   );

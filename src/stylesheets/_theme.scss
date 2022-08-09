@@ -1,4 +1,6 @@
 @use "src/stylesheets/variables/colors";
+@use "src/stylesheets/variables/spacings";
+
 
 body {
   background-color: map-get(colors.$palette, primary);
@@ -49,6 +51,15 @@ a:hover svg circle, a:hover svg path, a:hover svg rect {
   fill: map-get(colors.$palette, 'helper', 'blueLight');;
 }
 
+
+input, textarea, select {
+  margin-top: spacings.$s-1;
+  border: 1px solid map-get(colors.$palette, 'grey', 'alpha');
+  border-radius: 4px;
+  padding: spacings.$s-2;
+  background-color: transparent;
+  color: map-get(colors.$palette, 'grey', 'alpha');
+}
 
 
 
