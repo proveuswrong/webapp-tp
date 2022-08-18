@@ -38,10 +38,10 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({silent: true}).then((provider,) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata('0x4', '0x5678057C9a36697986A1003d49B73EBE6A0E9c03').then(r => this.setState({graphMetadata: r}))
+    getGraphMetadata(Object.keys(contractInstances)[0], Object.keys(contractInstances[Object.keys(contractInstances)[0]])[0]).then(r => this.setState({graphMetadata: r}))
     this.setState({
       interval: setInterval(() => {
-        getGraphMetadata('0x4', '0x5678057C9a36697986A1003d49B73EBE6A0E9c03').then(r => this.setState({graphMetadata: r}))
+        getGraphMetadata(Object.keys(contractInstances)[0], Object.keys(contractInstances[Object.keys(contractInstances)[0]])[0]).then(r => this.setState({graphMetadata: r}))
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
     });
   }
@@ -157,11 +157,11 @@ export default class EthereumProvider extends Component {
 export const EthereumContext = React.createContext();
 
 // Merge these two objects
-export const chains = {"0x4": {name: "Ethereum Testnet Rinkeby", shortname: "Rinkeby"}};
+export const chains = {"0x5": {name: "Ethereum Testnet Görli", shortname: "Görli"}};
 export const contractInstances = {
-  "0x4": {
-    "0x5678057C9a36697986A1003d49B73EBE6A0E9c03": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/pmw/0.6",
+  "0x5": {
+    "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
+      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.2.4",
     },
   },
 };
