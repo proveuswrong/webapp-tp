@@ -57,6 +57,7 @@ export default function Index() {
               ...prevState,
               title: data.title,
               description: data.description,
+              tags: data.tags,
             }))
           );
         })
@@ -188,7 +189,7 @@ export default function Index() {
         {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
       </p>
       <div className={styles.containerTag}>
-        <Tag>Economy</Tag><Tag>Technology</Tag>
+        {claimContent?.tags?.split(' ').map(tag => <Tag>{tag}</Tag>)}
       </div>
 
       <div className={styles.containerButtons}>

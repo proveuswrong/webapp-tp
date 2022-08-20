@@ -75,7 +75,6 @@ export default function ListClaims() {
 
   return (
     <>
-
       <div className={styles.containerItems}>
         {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) =>
           <ListClaimsItem
@@ -84,7 +83,8 @@ export default function ListClaims() {
             description={claimContents?.[value?.claimID]?.description}
             linkTo={`${value?.contractAddress}/${value?.id}/`}
             score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))}
-            createdAt={value?.createdAtTimestamp}>
+            createdAt={value?.createdAtTimestamp}
+            excerptSize={key % 2 == 1 ? 3 : 1}>
             <Pill modifiers='small'>{value?.status}</Pill>
           </ListClaimsItem>
         )}

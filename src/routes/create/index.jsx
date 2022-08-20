@@ -30,13 +30,15 @@ export default function Create() {
     try {
       const ipfsEndpointResponse = await addToIPFS('https://ipfs.kleros.io/add', "claim.json", JSON.stringify({
         title: controlsState.title,
-        description: controlsState.description
+        description: controlsState.description,
+        tags: controlsState.tags
       }))
 
       ipfsPathOfNewClaim = ipfsEndpointResponse[0].hash
     } catch (err) {
       console.error(err)
     }
+    console.log(ipfsPathOfNewClaim)
 
     const formattedBounty = utils.parseEther(controlsState.bounty)
 
