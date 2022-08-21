@@ -206,7 +206,7 @@ export default function Index() {
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
           <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
         )}
-        {ethereumContext?.accounts[1] != claim?.owner && claim?.status == "Live" && (
+        {ethereumContext?.accounts[0] != claim?.owner && claim?.status == "Live" && (
           <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
