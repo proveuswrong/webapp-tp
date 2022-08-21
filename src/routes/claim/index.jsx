@@ -81,7 +81,7 @@ export default function Index() {
 
   async function handleIncreaseBounty() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(claim.storageAddress, {
-      value: constants.Two.mul(claim.bounty),
+      value: claim.bounty,
     });
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
