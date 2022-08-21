@@ -184,7 +184,7 @@ export default function Index() {
       </h1>
       <Pill>{claim?.status}</Pill>
 
-      <p>
+      <p className={styles.description}>
         {" "}
         {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
       </p>

@@ -76,7 +76,7 @@ export default function ListClaims() {
   return (
     <>
       <div className={styles.containerItems}>
-        {claims && Object.entries(claims.filter(c => c != null)).map(([key, value]) =>
+        {claims && Object.entries(claims.filter(c => c != null)).sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext)).map(([key, value], index) =>
           <ListClaimsItem
             key={value?.id}
             title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
@@ -84,7 +84,7 @@ export default function ListClaims() {
             linkTo={`${value?.contractAddress}/${value?.id}/`}
             score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))}
             createdAt={value?.createdAtTimestamp}
-            excerptSize={key % 2 == 1 ? 3 : 1}>
+            excerptSize={index % 2 == 1 ? 3 : 1}>
             <Pill modifiers='small'>{value?.status}</Pill>
           </ListClaimsItem>
         )}
@@ -96,3 +96,4 @@ export default function ListClaims() {
   );
 }
 
+const sortAccordingToTrustScore = (item1, item2, ethereumContext) => getTrustScore(item2, getTimePastSinceLastBountyUpdate(item2?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber)) - getTrustScore(item1, getTimePastSinceLastBountyUpdate(item1?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))

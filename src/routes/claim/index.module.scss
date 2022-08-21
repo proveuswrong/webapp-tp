@@ -51,6 +51,10 @@
   }
 }
 
+.description {
+  white-space: break-spaces;
+}
+
 
 .image {
   border-color: map-get(colors.$palette, "grey", "beta");
