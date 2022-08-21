@@ -11,8 +11,9 @@ body::after {
   height: inherit;
   content: "";
   //background: url("../assets/background_paper.jpg") repeat;
-  background: url("../assets/paper-texture-surface-texture-small.jpg") repeat;
-  background-size: contain;
+  background: url("../assets/paper-texture-surface-texture-small.jpg");
+  background-repeat: repeat;
+  background-size: initial;
   opacity: 0.6;
   top: 0;
   left: 0;
