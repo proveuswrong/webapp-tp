@@ -27,7 +27,7 @@ export default function FormCreate({handleSave, controlsState, updateControlsSta
              placeholder='A Flashy Title' onChange={handleControlChange} value={controlsState.title}/>
       <label htmlFor='description'>Body</label>
       <textarea className={`displayBlock ${styles.description}`} id="description" name="description" rows="5" cols="33"
-                placeholder="A juicy description..."
+                placeholder="A juicy content..."
                 onChange={handleControlChange} value={controlsState.description}/>
       <label htmlFor='tags'>Tags</label>
       <input className={`displayBlock ${styles.tags}`} type="text" id="tags" name="tags" required minLength="4"
@@ -48,7 +48,8 @@ export default function FormCreate({handleSave, controlsState, updateControlsSta
       </div>
 
       <div className={styles.buttons}>
-        <CustomButton onClick={handleSave}>
+        <CustomButton onClick={handleSave}
+        >
           Save and Review
         </CustomButton>
       </div>
