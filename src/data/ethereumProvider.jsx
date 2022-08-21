@@ -31,7 +31,7 @@ export default class EthereumProvider extends Component {
   }
 
   static constants = {
-    LONGPOLLING_PERIOD_MS: 10000,
+    LONGPOLLING_PERIOD_MS: 30000,
   };
 
   componentDidMount() {
@@ -44,6 +44,7 @@ export default class EthereumProvider extends Component {
         getGraphMetadata(Object.keys(contractInstances)[0], Object.keys(contractInstances[Object.keys(contractInstances)[0]])[0]).then(r => this.setState({graphMetadata: r}))
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
     });
+
   }
 
   componentWillUnmount() {
