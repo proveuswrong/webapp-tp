@@ -1,4 +1,4 @@
-import {useParams, useNavigate, useLocation} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import ListClaims from "../../components/listClaims";
 import EthereumProviderErrors from "../../components/ethereumProviderErrors";
 import {useContext, useEffect} from "react";

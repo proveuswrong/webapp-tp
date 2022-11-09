@@ -1,4 +1,3 @@
-import styles from "./index.module.scss"
 import {useState, useContext} from "react";
 import {EthereumContext} from "../../data/ethereumProvider";
 import FormCreate from "/src/components/formCreate";
