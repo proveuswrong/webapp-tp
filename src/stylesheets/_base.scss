@@ -17,6 +17,10 @@ html, body {
   @include typo.fluid-type($minVW, $maxVW, $minFS, $maxFS);
 }
 
+*:not(input) {
+  user-select: none;
+}
+
 .displayBlock {
   display: block;
 }
