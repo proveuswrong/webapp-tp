@@ -18,7 +18,7 @@ html, body {
 }
 
 *:not(input) {
-  user-select: none;
+  caret-color: transparent;
 }
 
 .displayBlock {
