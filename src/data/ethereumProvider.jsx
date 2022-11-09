@@ -146,7 +146,6 @@ export default class EthereumProvider extends Component {
     console.log(`Block number: ${message.data.result.number}`);
     this.setState({blockNumber: message.data.result.number, timestamp: message.data.result.timestamp});
 
-    console.log(message)
   }
 
   async fetchMetaEvidenceContents(chainId) {

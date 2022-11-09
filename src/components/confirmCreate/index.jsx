@@ -8,8 +8,6 @@ import CustomButton from "/src/components/ui/button";
 
 export default function ConfirmCreate({title, description, tags, bounty, categoryNo, handleCreate, handleGoBack}) {
 
-  const ethereumContext = useContext(EthereumContext);
-
 
   return (
     <>

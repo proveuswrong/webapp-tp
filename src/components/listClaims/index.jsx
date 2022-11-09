@@ -17,8 +17,6 @@ export default function ListClaims() {
   const [fetchingClaims, setFetchingClaims] = useState(true)
   const [loadingFetchingContents, setFetchingClaimsContents] = useState(true)
 
-  let [searchParams, setSearchParams] = useSearchParams();
-
 
   useEffect(() => {
     if (!ethereumContext?.isDeployedOnThisChain) return;
@@ -40,7 +38,6 @@ export default function ListClaims() {
       didCancel = true
     }
 
-    console.log(claims && claims)
 
   }, [ethereumContext?.chainId, ethereumContext?.graphMetadata?.block?.number])
 
@@ -76,7 +73,7 @@ export default function ListClaims() {
   return (
     <>
       <div className={styles.containerItems}>
-        {claims && Object.entries(claims.filter(c => c != null)).sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext)).map(([key, value], index) =>
+        {claims && Object.entries(claims.filter(c => c != null)).sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext)).map(([_key, value], index) =>
           <ListClaimsItem
             key={value?.id}
             title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}

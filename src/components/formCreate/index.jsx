@@ -1,7 +1,6 @@
 import {useEffect, useState, useContext} from "react";
 import {EthereumContext} from "../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
-import TagEditor from "react-tageditor/lib/TagEditor";
 import CustomButton from "/src/components/ui/button";
 
 export default function FormCreate({handleSave, controlsState, updateControlsState}) {

@@ -16,8 +16,6 @@ export default function Browse() {
   const ethereumContext = useContext(EthereumContext);
 
   useEffect(() => {
-    console.log('entered');
-    console.log(ethereumContext)
 
     if (!params.chain) {
       console.log('navigated to first network in the list')

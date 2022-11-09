@@ -18,7 +18,6 @@ import SyncStatus from "../../components/ui/syncStatus";
 export default function Index() {
   const params = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const ethereumContext = useContext(EthereumContext);
   const [claim, setClaim] = useState();
@@ -64,11 +63,12 @@ export default function Index() {
         .catch(console.error)
         .then(setFetchingClaimContent(false));
 
+    console.debug(claim && claim);
+    console.debug(claimContent && claimContent);
+
     return () => {
       didCancel = true;
     };
-    console.log(claim && claim);
-    console.log(claimContent && claimContent);
 
   }, [claim]);
 
@@ -112,7 +112,6 @@ export default function Index() {
 
   let reRenderInMs = 1000;
 
-  console.log(ethereumContext)
 
   return (
     <section>
@@ -150,19 +149,20 @@ export default function Index() {
 
       <div className={styles.containerMetadata}>
         <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
-        <span>
-          <b>
-          Curation Pool ID: {claim?.category}
+          <span>
+            <b>
+              Curation Pool ID: {claim?.category}
             </b>
-        </span>
+          </span>
         </Tooltip>
 
-        <span>
-          <Tooltip placement="left"
-                   title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
-          placement="bottomRight"
-          title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
-        </span>
+        {claim?.createdAtBlock &&
+          <span> Posted on {' '}
+            <Tooltip placement="left"
+                     title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+              placement="bottomRight"
+              title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
+        </span>}
 
 
         {claim?.disputeID && (
