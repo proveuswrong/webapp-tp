@@ -1,7 +1,6 @@
 import {NavLink} from "react-router-dom";
 import ButtonConnect from "/src/components/buttonConnect";
 import ButtonSelectNetwork from "/src/components/buttonSelectNetwork";
-import Logo from "jsx:../../assets/logo.svg";
 import {EthereumContext} from "../../data/ethereumProvider";
 
 import * as styles from "./index.module.scss";

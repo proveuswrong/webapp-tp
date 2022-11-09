@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import * as styles from "./index.module.scss";
-import { Button as ButtonFromAntDesign } from "antd";
+import {Button as ButtonFromAntDesign} from "antd";
 
 export default function Button(props) {
 
@@ -8,7 +8,7 @@ export default function Button(props) {
     // Checking isValidElement is the safe way and avoids a typescript
     // error too.
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, {  });
+      return React.cloneElement(child, {});
     }
     return child
   });

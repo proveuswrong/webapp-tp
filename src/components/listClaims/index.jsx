@@ -1,4 +1,3 @@
-import {useSearchParams, Link} from "react-router-dom";
 import {EthereumContext, getAllClaims} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
 import React, {useState, useEffect, useContext} from "react";

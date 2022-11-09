@@ -1,8 +1,8 @@
-import {useSearchParams, Link, useParams, useNavigate, useLocation} from "react-router-dom";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
 import ListClaims from "../../components/listClaims";
 import EthereumProviderErrors from "../../components/ethereumProviderErrors";
 import {useContext, useEffect} from "react";
-import {EthereumContext, contractInstances, getClaimByID} from "../../data/ethereumProvider";
+import {EthereumContext, contractInstances} from "../../data/ethereumProvider";
 import SyncStatus from "../../components/ui/syncStatus";
 
 
@@ -12,7 +12,6 @@ export default function Browse() {
 
   const params = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const ethereumContext = useContext(EthereumContext);
 
   useEffect(() => {

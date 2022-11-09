@@ -1,8 +1,6 @@
-import {useEffect, useState, useContext} from "react";
-import {EthereumContext} from "../../data/ethereumProvider";
 import Tag from "/src/components/ui/tag";
 import * as styles from "./index.module.scss";
-import {constants, utils} from "ethers";
+import {constants} from "ethers";
 import CustomButton from "/src/components/ui/button";
 
 

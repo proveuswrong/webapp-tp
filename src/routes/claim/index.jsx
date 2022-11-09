@@ -4,13 +4,13 @@ import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
 import CustomButton from "/src/components/ui/button";
 
-import {useParams, useNavigate, useLocation} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
-import {contractInstances, EthereumContext, getClaimByID} from "../../data/ethereumProvider";
+import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
 import {useEffect, useState, useContext} from "react";
 
-import {utils, constants, BigNumber} from "ethers";
+import {utils, constants} from "ethers";
 import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
 import SyncStatus from "../../components/ui/syncStatus";

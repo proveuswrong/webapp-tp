@@ -1,13 +1,11 @@
 import React from "react";
 import {EthereumContext, chains} from "../../data/ethereumProvider";
-import {DownOutlined, UserOutlined} from "@ant-design/icons";
-import {Button, Dropdown, Menu, message, Space, Tooltip} from "antd";
-import CustomButton from "/src/components/ui/button";
+import {DownOutlined} from "@ant-design/icons";
+import {Button, Menu} from "antd";
 import CustomDropdown from "/src/components/ui/dropdown";
 import MenuItem from "/src/components/ui/menuItem";
 import {useNavigate} from "react-router-dom";
 
-import {utils} from "ethers";
 
 const handleMenuClick = (e, ethereumContext, navigate) => {
   console.log(ethereumContext);
