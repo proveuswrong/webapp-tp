@@ -49,7 +49,7 @@ a:hover {
 }
 
 a:hover svg circle, a:hover svg path, a:hover svg rect {
-  fill: map-get(colors.$palette, 'helper', 'blueLight');;
+  fill: map-get(colors.$palette, 'helper', 'blueLight');
 }
 
 

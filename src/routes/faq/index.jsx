@@ -1,6 +1,3 @@
-import * as styles from "./index.module.scss";
-import TrustScore from "jsx:../../assets/trustScoreFormula.svg";
-
 export default function FAQ() {
   return (<section>
     <ol>
