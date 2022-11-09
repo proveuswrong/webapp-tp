@@ -149,7 +149,7 @@ export default function Index() {
       {/*<img className={styles.image}/>*/}
 
       <div className={styles.containerMetadata}>
-        <Tooltip placement="topLeft" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
+        <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
         <span>
           <b>
           Curation Pool ID: {claim?.category}
@@ -158,7 +158,7 @@ export default function Index() {
         </Tooltip>
 
         <span>
-          <Tooltip placement="bottomLeft"
+          <Tooltip placement="left"
                    title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
           placement="bottomRight"
           title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
@@ -167,7 +167,7 @@ export default function Index() {
 
         {claim?.disputeID && (
           <span>
-            Dispute ID:{" "}
+            Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute  ID:{" "}
             <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank"
                rel="noopener noreferrer">
                 {claim?.disputeID}
