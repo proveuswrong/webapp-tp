@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {EthereumContext} from "../../data/ethereumProvider";
 import CustomButton from "/src/components/ui/button";
 
@@ -31,10 +31,11 @@ export default function ButtonConnect() {
               className="blink"
             >
               {!ethereum?.accounts[0] && ethereum?.awaitingUserPermission
-                ? "Awaiting User Permission"
-                : !ethereum?.accounts[0]
-                  ? "Connect Account"
-                  : `${ethereum?.accounts[0].substring(0, 6)}...${ethereum?.accounts[0].slice(-4)}`}
+                && "Awaiting User Permission"}
+              {ethereum?.accounts[0] || !ethereum?.awaitingUserPermission
+              && !ethereum?.accounts[0]
+                ? "Connect Account"
+                : `${ethereum?.accounts[0].substring(0, 6)}...${ethereum?.accounts[0].slice(-4)}`}
             </a>
           </CustomButton>
         );
