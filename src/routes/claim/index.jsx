@@ -165,7 +165,7 @@ export default function Index() {
             <Tooltip placement="left"
                      title={`Exact block number: ${claim?.createdAtBlock}`}>
               {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
-              key={uuidv4()}
+              key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
               className="blink"
               placement="bottomRight"
               title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
@@ -208,16 +208,18 @@ export default function Index() {
           Go back
         </CustomButton>
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleInitiateWithdrawal}>Initiate Withdrawal</CustomButton>
+          <CustomButton key={`InitiateWithdrawal${claim?.status}`} modifiers="blink" onClick={handleInitiateWithdrawal}>Initiate
+            Withdrawal</CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
+          <CustomButton key={`DoubleBounty${claim?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>Double the
+            Bounty</CustomButton>
         )}
         {ethereumContext?.accounts[0] != claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
+          <CustomButton key={`ProveItWrong${claim?.status}`} modifiers="blink" onClick={handleChallenge}>Prove it Wrong</CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
-          <CustomButton onClick={handleExecuteWithdrawal}>
+          <CustomButton key={`ExecuteWithdrawal${claim?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(claim) > 0 ? (
               <span>
                   You can execute withdrawal in
