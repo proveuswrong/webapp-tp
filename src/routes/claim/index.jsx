@@ -1,4 +1,6 @@
 import * as styles from "./index.module.scss";
+import {v4 as uuidv4} from 'uuid';
+
 import Tooltip from "/src/components/ui/tooltip";
 import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
@@ -8,6 +10,8 @@ import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
 import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
+import {getLabel} from "../../utils/account";
+
 import {useEffect, useState, useContext} from "react";
 
 import {utils, constants} from "ethers";
@@ -159,9 +163,12 @@ export default function Index() {
         {claim?.createdAtBlock &&
           <span> Posted on {' '}
             <Tooltip placement="left"
-                     title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+                     title={`Exact block number: ${claim?.createdAtBlock}`}>
+              {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+              key={uuidv4()}
+              className="blink"
               placement="bottomRight"
-              title={claim?.owner}>{fetchingClaim ? "fetching" : ethereumContext?.accounts[0] == claim?.owner ? 'you' : `${claim?.owner.substring(0, 6)}...${claim?.owner.slice(-4)}`}</Tooltip>
+              title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
         </span>}
 
 
