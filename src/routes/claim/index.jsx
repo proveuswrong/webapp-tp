@@ -161,7 +161,7 @@ export default function Index() {
             <Tooltip placement="left"
                      title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
               placement="bottomRight"
-              title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
+              title={claim?.owner}>{fetchingClaim ? "fetching" : ethereumContext?.accounts[0] == claim?.owner ? 'you' : `${claim?.owner.substring(0, 6)}...${claim?.owner.slice(-4)}`}</Tooltip>
         </span>}
 
 
