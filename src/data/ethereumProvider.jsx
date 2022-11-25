@@ -5,7 +5,13 @@ import {ethers} from "ethers";
 import ABI from "./abi.js";
 
 // Merge these two objects
-export const chains = {"0x5": {name: "Ethereum Testnet Görli", shortname: "Görli"}};
+export const chains = {
+  "0x5": {
+    name: "Ethereum Testnet Görli", shortname: "Görli", explorerURL(address) {
+      return `https://goerli.etherscan.io/address/${address}`;
+    }
+  }
+};
 export const contractInstances = {
   "0x5": {
     "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {

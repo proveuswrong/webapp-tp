@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {EthereumContext} from "../../data/ethereumProvider";
+import {EthereumContext, chains} from "../../data/ethereumProvider";
 import CustomButton from "/src/components/ui/button";
 
 export default function ButtonConnect() {
@@ -22,7 +22,7 @@ export default function ButtonConnect() {
             <a
               href={
                 ethereum?.accounts[0] && ethereumContext.isDeployedOnThisChain
-                  ? `https://rinkeby.etherscan.io/address/${ethereum?.accounts[0]}`
+                  ? chains[ethereumContext?.chainId].explorerURL(ethereum?.accounts[0])
                   : undefined
               }
               target="_blank"
