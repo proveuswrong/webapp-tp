@@ -1,5 +1,4 @@
 import * as styles from "./index.module.scss";
-import {v4 as uuidv4} from 'uuid';
 
 import Tooltip from "/src/components/ui/tooltip";
 import Pill from "/src/components/ui/pill";
