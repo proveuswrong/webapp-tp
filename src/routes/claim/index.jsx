@@ -8,7 +8,7 @@ import CustomButton from "/src/components/ui/button";
 import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
 import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
-import {ipfsGateway} from "../../utils/addToIPFS";
+import addToIPFS, {ipfsGateway} from "../../utils/addToIPFS";
 import {getLabel} from "../../utils/account";
 
 import {useEffect, useState, useContext} from "react";
@@ -95,6 +95,26 @@ export default function Index() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.challenge(claim.storageAddress, {
       value: fee,
     });
+    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+  }
+
+  async function handleSubmitEvidence() {
+
+    let ipfsPathOfNewEvidence
+    try {
+      const ipfsEndpointResponse = await addToIPFS('https://ipfs.kleros.io/add', "evidence.json", JSON.stringify({
+        name: `name`,
+        description: `desc`,
+        fileURI: `uri`
+      }))
+
+      ipfsPathOfNewEvidence = ipfsEndpointResponse[0].hash
+    } catch (err) {
+      console.error(err)
+    }
+    console.log(ipfsPathOfNewEvidence)
+
+    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(claim?.disputes.at(-1).id, `/ipfs/${ipfsPathOfNewEvidence}`);
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
 
@@ -217,6 +237,8 @@ export default function Index() {
         {ethereumContext?.accounts[0] != claim?.owner && claim?.status == "Live" && (
           <CustomButton key={`ProveItWrong${claim?.status}`} modifiers="blink" onClick={handleChallenge}>Prove it Wrong</CustomButton>
         )}
+        {claim?.status == "Challenged" && <CustomButton onClick={handleSubmitEvidence}>Submit Evidence</CustomButton>}
+
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
           <CustomButton key={`ExecuteWithdrawal${claim?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(claim) > 0 ? (
@@ -229,7 +251,7 @@ export default function Index() {
             )}
           </CustomButton>
         )}
-        {claim?.status == "Withdrawn" && <button onClick={handleRevamp}>Revamp</button>}
+        {claim?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
     </section>
