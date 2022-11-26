@@ -32,10 +32,9 @@ export default function ButtonConnect() {
             >
               {!ethereum?.accounts[0] && ethereum?.awaitingUserPermission
                 && "Awaiting User Permission"}
-              {ethereum?.accounts[0] || !ethereum?.awaitingUserPermission
-              && !ethereum?.accounts[0]
+              {!ethereum?.awaitingUserPermission && !ethereum?.accounts[0]
                 ? "Connect Account"
-                : `${ethereum?.accounts[0]?.substring(0, 6)}...${ethereum?.accounts[0].slice(-4)}`}
+                : `${ethereum?.accounts[0]?.substring(0, 6)}...${ethereum?.accounts[0]?.slice(-4)}`}
             </a>
           </CustomButton>
         );
