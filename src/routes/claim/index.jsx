@@ -1,4 +1,5 @@
 import * as styles from "./index.module.scss";
+
 import Tooltip from "/src/components/ui/tooltip";
 import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
@@ -8,6 +9,8 @@ import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
 import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
 import {ipfsGateway} from "../../utils/addToIPFS";
+import {getLabel} from "../../utils/account";
+
 import {useEffect, useState, useContext} from "react";
 
 import {utils, constants} from "ethers";
@@ -159,9 +162,12 @@ export default function Index() {
         {claim?.createdAtBlock &&
           <span> Posted on {' '}
             <Tooltip placement="left"
-                     title={`Exact block number: ${claim?.createdAtBlock}`}>{new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+                     title={`Exact block number: ${claim?.createdAtBlock}`}>
+              {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
+              key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
+              className="blink"
               placement="bottomRight"
-              title={claim?.owner}>{fetchingClaim ? "fetching" : claim?.owner.substring(0, 6)}...{claim?.owner.slice(-4)}</Tooltip>
+              title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
         </span>}
 
 
@@ -201,16 +207,18 @@ export default function Index() {
           Go back
         </CustomButton>
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleInitiateWithdrawal}>Initiate Withdrawal</CustomButton>
+          <CustomButton key={`InitiateWithdrawal${claim?.status}`} modifiers="blink" onClick={handleInitiateWithdrawal}>Initiate
+            Withdrawal</CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleIncreaseBounty}>Double Bounty</CustomButton>
+          <CustomButton key={`DoubleBounty${claim?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>Double the
+            Bounty</CustomButton>
         )}
         {ethereumContext?.accounts[0] != claim?.owner && claim?.status == "Live" && (
-          <CustomButton onClick={handleChallenge}>Prove it Wrong</CustomButton>
+          <CustomButton key={`ProveItWrong${claim?.status}`} modifiers="blink" onClick={handleChallenge}>Prove it Wrong</CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "TimelockStarted" && (
-          <CustomButton onClick={handleExecuteWithdrawal}>
+          <CustomButton key={`ExecuteWithdrawal${claim?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(claim) > 0 ? (
               <span>
                   You can execute withdrawal in
