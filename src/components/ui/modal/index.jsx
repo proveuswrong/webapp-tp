@@ -14,7 +14,7 @@ export default function Modal(props) {
   });
 
   return (
-    <ModalFromAntDesign className={`${styles.modal} ${props.modifiers}`} {...props} width={null}>
+    <ModalFromAntDesign className={`${props.modifiers}`} {...props} width={null}>
       {childrenWithProps}
     </ModalFromAntDesign>
   );
