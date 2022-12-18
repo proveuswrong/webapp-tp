@@ -7,6 +7,9 @@ $colorShadow1: color.scale(map-get(colorsNew.$paletteNew, 'primary'), $lightness
 $colorShadow2: color.scale(map-get(colorsNew.$paletteNew, 'brown'), $alpha: -75%);
 $colorShadow3: color.scale(map-get(colorsNew.$paletteNew, 'brown'), $alpha: -75%);
 
+.modal {
+
+}
 
 :global(.ant-modal-content) {
   color: map-get(colorsNew.$paletteNew, 'secondary');
