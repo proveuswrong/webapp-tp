@@ -1,0 +1,25 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colorsNew";
+@use "src/stylesheets/variables/spacings";
+@use 'sass:color';
+
+$colorShadow1: color.scale(map-get(colorsNew.$paletteNew, 'primary'), $lightness: -20%, $alpha: -40%);
+$colorShadow2: color.scale(map-get(colorsNew.$paletteNew, 'brown'), $alpha: -75%);
+$colorShadow3: color.scale(map-get(colorsNew.$paletteNew, 'brown'), $alpha: -75%);
+
+
+:global(.ant-modal-content) {
+  color: map-get(colorsNew.$paletteNew, 'secondary');
+  border-radius: 20px;
+
+  background-color: map-get(colorsNew.$paletteNew, 'primary');
+  box-shadow: inset 20px 20px 250px 0px $colorShadow1, 0px 5px 30px 0px $colorShadow2, 0px 10px 30px 0px $colorShadow3;
+}
+
+:global(.ant-modal-body) {
+  padding: spacings.$s-7;
+}
+
+:global(.ant-modal-mask) {
+  background-color: color.scale(map-get(colorsNew.$paletteNew, 'brown'), $lightness: -40%, $alpha: -40%);
+}

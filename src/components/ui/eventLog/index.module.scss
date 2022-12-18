@@ -1,0 +1,55 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colorsNew";
+@use "src/stylesheets/variables/spacings";
+@use 'sass:color';
+
+
+.eventLog {
+
+  width: 90%;
+  max-width: 1200px;
+
+  .title {
+    font-size: typo.$l;
+    margin-bottom: spacings.$s-7;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    //border-collapse: separate;
+    //border-spacing: spacings.$s-4;
+    //-webkit-border-vertical-spacing: spacings.$s-4;
+
+    tr {
+
+      &:not(:last-child) {
+        border-bottom: 1px solid color.scale(map-get(colorsNew.$paletteNew, 'brown'), $lightness: +20%);
+      }
+
+      //border-color: lighten(map-get(colorsNew.$paletteNew, 'brown'), 10);
+      text-align: left;
+
+      &:nth-child(1) {
+        font-size: typo.$m;
+        border-width: 3px;
+      }
+    }
+
+    td {
+      padding-bottom: spacings.$s-4;
+      padding-top: spacings.$s-4;
+    }
+
+    th {
+      padding-bottom: spacings.$s-4;
+    }
+  }
+
+  close {
+    button {
+      text-align: text-align-last;
+    }
+  }
+
+}

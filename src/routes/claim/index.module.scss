@@ -12,7 +12,15 @@
   margin-bottom: 1.25rem;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+
+
 }
 
 .containerTag {

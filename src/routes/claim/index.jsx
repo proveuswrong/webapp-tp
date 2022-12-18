@@ -4,6 +4,7 @@ import Tooltip from "/src/components/ui/tooltip";
 import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
 import CustomButton from "/src/components/ui/button";
+import EventLog from "../../components/ui/eventLog";
 
 import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
@@ -27,7 +28,7 @@ export default function Index() {
   const [claimContent, setClaimContent] = useState();
   const [fetchingClaim, setFetchingClaim] = useState(true);
   const [fetchingClaimContent, setFetchingClaimContent] = useState(true);
-
+  const [isEventLogOpen, setEventLogOpen] = useState(false);
 
   useEffect(() => {
     let didCancel = false;
@@ -171,35 +172,46 @@ export default function Index() {
       {/*<img className={styles.image}/>*/}
 
       <div className={styles.containerMetadata}>
-        <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
+        <div>
+          <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
           <span>
             <b>
               Curation Pool ID: {claim?.category}
             </b>
           </span>
-        </Tooltip>
+          </Tooltip>
 
-        {claim?.createdAtBlock &&
-          <span> Posted on {' '}
-            <Tooltip placement="left"
-                     title={`Exact block number: ${claim?.createdAtBlock}`}>
+          {claim?.createdAtBlock &&
+            <span> Posted on {' '}
+              <Tooltip placement="left"
+                       title={`Exact block number: ${claim?.createdAtBlock}`}>
               {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
-              key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
-              className="blink"
-              placement="bottomRight"
-              title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
+                key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
+                className="blink"
+                placement="bottomRight"
+                title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
         </span>}
 
 
-        {claim?.disputeID && (
-          <span>
+          {claim?.disputeID && (
+            <span>
             Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute  ID:{" "}
-            <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank"
-               rel="noopener noreferrer">
+              <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank"
+                 rel="noopener noreferrer">
                 {claim?.disputeID}
             </a>
           </span>
-        )}
+          )}
+        </div>
+        <div>
+          <CustomButton modifiers='secondary small'
+                        onClick={() => {
+                          setEventLogOpen(true);
+                        }}
+          >
+            Event Log
+          </CustomButton>
+        </div>
       </div>
 
 
@@ -254,6 +266,17 @@ export default function Index() {
         {claim?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
+      <EventLog style={{background: 'red'}} visible={isEventLogOpen} onCancel={() => setEventLogOpen(false)} events={[
+        {type: 'Withdrawn', actor: '0x00', time: new Date(Math.random(1000000)).toTimeString()},
+        {type: 'Debunked', actor: '0x00', time: 'sometime'},
+        {type: 'Dispute Raised', actor: '0x00', time: 'sometime'},
+        {
+          type: 'Evidence Submitted',
+          actor: '0x40',
+          time: 'now'
+        }
+      ]}>
+      </EventLog>
     </section>
   );
 }
