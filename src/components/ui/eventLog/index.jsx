@@ -27,7 +27,7 @@ export default function EventLog({visible, onCancel, events, activeAddress}) {
     <div className={styles.title}>Event Log</div>
     <table>
       <tr>
-        {Object.keys(events[0]).map((header, j) => <th className={styles.tableHeader} key={`header${j}`}>{header}</th>)}
+        {Object.keys(events[0]).map((header, j) => <th key={`header${j}`}>{header}</th>)}
       </tr>
       {events.map((event, i) =>
         <tr key={`row${i}`}>
