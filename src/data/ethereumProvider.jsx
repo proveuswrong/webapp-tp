@@ -15,7 +15,7 @@ export const chains = {
 export const contractInstances = {
   "0x5": {
     "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.5.0",
+      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.6.0",
     },
   },
 };
