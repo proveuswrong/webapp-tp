@@ -4,7 +4,7 @@ import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
 import ABI from "./abi.js";
 
-// Merge these two objects
+// Consider merging 'chains' and 'contractInstances'
 export const chains = {
   "0x5": {
     name: "Ethereum Testnet Görli", shortname: "Görli", explorerURL(address) {
@@ -15,7 +15,7 @@ export const chains = {
 export const contractInstances = {
   "0x5": {
     "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.3.0",
+      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.5.0",
     },
   },
 };
@@ -203,8 +203,14 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     createdAtBlock
     createdAtTimestamp
     disputeID
-    disputes { 
+    disputes (orderBy: id, orderDirection: asc) { 
       id
+    }
+    events (orderBy: timestamp, orderDirection: asc) {
+      id
+      name
+      timestamp
+      from
     }
     withdrawalPermittedAt
     lastCalculatedScore
@@ -249,24 +255,30 @@ export const getAllClaims = (chainID) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{
-  claims(orderBy: id, orderDirection: asc) {
-    id
-    claimID
-    owner
-    bounty
-    status
-    lastBalanceUpdate
-    createdAtBlock
-    createdAtTimestamp
-    disputeID
-    disputes {
-      id
-    }
-    withdrawalPermittedAt
-    lastCalculatedScore
-    arbitrator
-    arbitratorExtraData
-  }}`
+          claims(orderBy: id, orderDirection: asc) {
+          id
+          claimID
+          owner
+          bounty
+          status
+          lastBalanceUpdate
+          createdAtBlock
+          createdAtTimestamp
+          disputeID
+          disputes (orderBy: id, orderDirection: asc) {
+            id
+          }
+          events (orderBy: timestamp, orderDirection: asc) {
+            id
+            name
+            timestamp
+            from
+          }
+          withdrawalPermittedAt
+          lastCalculatedScore
+          arbitrator
+          arbitratorExtraData
+        }}`
       ).then((data) => {
         console.log(data)
         if (data && data.claims && data.claims.length > 0) {

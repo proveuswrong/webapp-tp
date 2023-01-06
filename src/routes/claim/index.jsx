@@ -266,17 +266,16 @@ export default function Index() {
         {claim?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
-      <EventLog style={{background: 'red'}} visible={isEventLogOpen} onCancel={() => setEventLogOpen(false)} events={[
-        {type: 'Withdrawn', actor: '0x00', time: new Date(Math.random(1000000)).toTimeString()},
-        {type: 'Debunked', actor: '0x00', time: 'sometime'},
-        {type: 'Dispute Raised', actor: '0x00', time: 'sometime'},
-        {
-          type: 'Evidence Submitted',
-          actor: '0x40',
-          time: 'now'
-        }
-      ]}>
-      </EventLog>
+      {claim?.events &&
+        <EventLog style={{background: 'red'}} visible={isEventLogOpen} onCancel={() => setEventLogOpen(false)} events={
+          [...claim?.events]?.reverse().map(event => ({
+            'event': event.name,
+            time: new Date(event.timestamp * 1000).toUTCString(),
+            actor: event.from
+          }))
+        } activeAddress={ethereumContext?.accounts[0]}>
+        </EventLog>
+      }
     </section>
   );
 }
