@@ -61,7 +61,8 @@ export default function Create() {
                        bounty={controlsState.bounty}
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
-      <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
+      <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
+                  subgraphDeployment={ethereumContext?.graphMetadata?.deployment}/>
     </section>
 
   );
