@@ -28,7 +28,8 @@ export default function Browse() {
     return (
       <section className={styles.browse}>
         <ListClaims/>
-        <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
+        <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
+                    subgraphDeployment={ethereumContext?.graphMetadata?.deployment}/>
       </section>
     )
   } else {
