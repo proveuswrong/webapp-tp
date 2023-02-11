@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import * as styles from "./index.module.scss";
 import Modal from '../ui/modal';
-import {constants, ethers, utils} from "ethers";
+import {constants, utils} from "ethers";
 import {getLabel} from "../../utils/account";
 import {chains, EthereumContext} from "../../data/ethereumProvider";
 
@@ -20,8 +20,6 @@ function getPrettyNamesForEvents(sourceCodeName) {
 }
 
 function formatExtraData(eventNameAsInSourceCode, extraData) {
-  const ethereumContext = useContext(EthereumContext);
-
   switch (eventNameAsInSourceCode) {
     case 'NewClaim':
       return `Curation Pool 0: ${ethereumContext?.metaEvidenceContents[extraData]?.category}`
