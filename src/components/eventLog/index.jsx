@@ -19,7 +19,7 @@ function getPrettyNamesForEvents(sourceCodeName) {
   }
 }
 
-function formatExtraData(eventNameAsInSourceCode, extraData) {
+function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
   switch (eventNameAsInSourceCode) {
     case 'NewClaim':
       return `Curation Pool 0: ${ethereumContext?.metaEvidenceContents[extraData]?.category}`
@@ -50,7 +50,7 @@ export default function EventLog({visible, onCancel, events, activeAddress}) {
       {events.map((event, i) =>
         <tr key={`row${i}`}>
           <td>{getPrettyNamesForEvents(event.name)}</td>
-          <td>{formatExtraData(event.name, event.details)}</td>
+          <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
           <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
           <td>{<a href={chains[ethereumContext?.chainId].explorerURL(event.from)} target="_blank"
                   rel="noreferrer noopener">{getLabel(event.from, activeAddress)}</a>}</td>
