@@ -4,7 +4,7 @@ import Tooltip from "/src/components/ui/tooltip";
 import Pill from "/src/components/ui/pill";
 import Tag from "/src/components/ui/tag";
 import CustomButton from "/src/components/ui/button";
-import EventLog from "../../components/ui/eventLog";
+import EventLog from "../../components/eventLog";
 
 import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
@@ -19,6 +19,8 @@ import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
 import SyncStatus from "../../components/ui/syncStatus";
 
+
+// TODO Refactor out components from this route.
 export default function Index() {
   const params = useParams();
   const navigate = useNavigate();
@@ -227,7 +229,7 @@ export default function Index() {
         {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
       </p>
       <div className={styles.containerTag}>
-        {claimContent?.tags?.split(' ').map(tag => <Tag>{tag}</Tag>)}
+        {claimContent?.tags?.split(' ').map((tag, index) => <Tag key={index}>{tag}</Tag>)}
       </div>
 
       <div className={styles.containerButtons}>
@@ -268,11 +270,7 @@ export default function Index() {
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}/>
       {claim?.events &&
         <EventLog style={{background: 'red'}} visible={isEventLogOpen} onCancel={() => setEventLogOpen(false)} events={
-          [...claim?.events]?.reverse().map(event => ({
-            'event': event.name,
-            time: new Date(event.timestamp * 1000).toUTCString(),
-            actor: event.from
-          }))
+          [...claim?.events]?.reverse()
         } activeAddress={ethereumContext?.accounts[0]}>
         </EventLog>
       }

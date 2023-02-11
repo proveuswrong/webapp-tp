@@ -15,7 +15,7 @@ export const chains = {
 export const contractInstances = {
   "0x5": {
     "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-      subgraphEndpoint: "https://api.studio.thegraph.com/query/16016/thetruthpost/1.6.0",
+      subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
     },
   },
 };
@@ -209,6 +209,7 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     events (orderBy: timestamp, orderDirection: asc) {
       id
       name
+      details
       timestamp
       from
     }
@@ -271,6 +272,7 @@ export const getAllClaims = (chainID) => {
           events (orderBy: timestamp, orderDirection: asc) {
             id
             name
+            details
             timestamp
             from
           }
