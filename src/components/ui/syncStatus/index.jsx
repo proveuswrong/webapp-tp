@@ -9,7 +9,7 @@ export default function SyncStatus({latestBlock, syncedBlock, subgraphDeployment
     </small>
     <br/>
     <small key={'sync' + parseInt(syncedBlock)} style={{marginTop: "auto"}}>
-      Synced to block: <span
+      Subgraph synced to block: <span
       className="blink">{syncedBlock || 'Unable to fetch.'}</span>
     </small>
     <br/>
