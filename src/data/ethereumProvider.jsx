@@ -202,7 +202,6 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     lastBalanceUpdate
     createdAtBlock
     createdAtTimestamp
-    disputeID
     disputes (orderBy: id, orderDirection: asc) { 
       id
     }
@@ -265,7 +264,6 @@ export const getAllClaims = (chainID) => {
           lastBalanceUpdate
           createdAtBlock
           createdAtTimestamp
-          disputeID
           disputes (orderBy: id, orderDirection: asc) {
             id
           }
