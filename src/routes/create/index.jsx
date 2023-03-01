@@ -62,7 +62,8 @@ export default function Create() {
                        categoryNo={controlsState.categoryNo} handleCreate={handleCreate}
                        handleGoBack={handleGoBack}/>}
       <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
-                  subgraphDeployment={ethereumContext?.graphMetadata?.deployment}/>
+                  subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
+                  providerURL={ethereumContext?.ethersProvider?.connection?.url}/>
     </section>
 
   );

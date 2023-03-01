@@ -1,12 +1,14 @@
 import React from "react";
 import * as styles from "./index.module.scss";
+import {capitalize} from "../../../utils/string";
 
-export default function SyncStatus({latestBlock, syncedBlock, subgraphDeployment}) {
+export default function SyncStatus({providerURL, latestBlock, syncedBlock, subgraphDeployment}) {
   return (<div className={styles.syncStatus}>
-    <small key={'last' + parseInt(latestBlock)} style={{marginTop: "auto"}}>
-      Latest block: <span
+    {providerURL ? <small style={{marginTop: "auto"}}>
+      Latest block by Web3 provider from <span className="blink">{capitalize(providerURL)}</span>: <span
+      key={'last' + parseInt(latestBlock)}
       className="blink">{latestBlock || 'Unable to fetch.'}</span>
-    </small>
+    </small> : <small>No Web3 provider available.</small>}
     <br/>
     <small key={'sync' + parseInt(syncedBlock)} style={{marginTop: "auto"}}>
       Subgraph synced to block: <span
