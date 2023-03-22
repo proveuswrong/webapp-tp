@@ -40,5 +40,3 @@ Try to strip away any logic from the components you create, that maximizes reusa
 contain logic, perfect, put it under `src/components/ui` else put it under `src/components`.
 If you need help building it, you can reuse a component from Ant Design. Prefer to not though, especially if the component is an easy one.
 The less we depend on a library the better.
-
-test
