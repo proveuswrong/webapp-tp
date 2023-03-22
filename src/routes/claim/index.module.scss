@@ -1,37 +1,6 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/colors";
-
-.containerKeyMetrics {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-}
-
-.containerMetadata {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  & > div:first-child {
-    display: flex;
-    flex-direction: column;
-  }
-
-
-}
-
-.containerTag {
-
-  margin-top: 0.75rem;
-  margin-bottom: 4rem;
-
-  span + span {
-    margin-left: 0.25rem;
-  }
-}
+@use "src/stylesheets/variables/spacings";
 
 .containerButtons {
   display: flex;
@@ -41,28 +10,6 @@
     margin-left: 1rem;
   }
 }
-
-.trustScore {
-  font-size: typo.$xl;
-}
-
-.bountyAmount {
-  font-size: typo.$xl;
-}
-
-.title {
-  display: inline;
-  margin-bottom: 0.75rem;
-
-  & + span {
-    vertical-align: super;
-  }
-}
-
-.description {
-  white-space: break-spaces;
-}
-
 
 .image {
   border-color: map-get(colors.$palette, "grey", "beta");

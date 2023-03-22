@@ -1,0 +1,16 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.containerKeyMetrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: spacings.$s-7;
+}
+
+.trustScore {
+  font-size: typo.$xl;
+}
+
+.bountyAmount {
+  font-size: typo.$xl;
+}
