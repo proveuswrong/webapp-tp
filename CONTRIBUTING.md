@@ -6,10 +6,10 @@ Please follow these guidelines to ensure a smooth collaboration and contribution
 
 ## Table of Contents
 
-- Code of Conduct
-- Getting Started
-- Coding Guidelines
-- Submitting a Pull Request
+- [Code of Conduct](https://github.com/proveuswrong/webapp-news/blob/main/CODE_OF_CONDUCT.md)
+- [Getting Started](#getting-started)
+- Codebase Organization(#codebase-organization)
+
 
 ## Code of Conduct
 We expect all contributors to adhere to our Code of Conduct. Please review it before participating in our community.
@@ -19,9 +19,9 @@ We expect all contributors to adhere to our Code of Conduct. Please review it be
 2. Clone your forked repository to your local machine.
 3. Install the required dependencies by running `yarn`.
 4. Start the development server by running `yarn start`.
-5. Create a new branch for your changes, following the GitHub Flow.
+5. Create a new branch for your changes, following the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow).
 
-## Organization Guideline
+## Codebase Organization
 
 ### Styling
 
