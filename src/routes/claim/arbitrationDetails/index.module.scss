@@ -58,8 +58,9 @@
   flex-direction: column;
   padding: spacings.$s-4;
   margin-bottom: spacings.$s-5;
-  border: 1px solid map-get(colors.$palette, "brown", "beta");
+  border: 1px solid map-get(colors.$palette, "brown", "beta"); // TODO: Use _colorsNew.scss
   border-radius: 4px;
+
   span {
     display: flex;
     justify-content: space-between;
@@ -80,6 +81,10 @@
 
 :global(.ant-progress-inner) {
   border: 1px solid map-get(colors.$palette, "brown", "alpha");
+}
+
+.appealPeriod :global(div.ant-progress-outer) {
+  padding-right: 0;
 }
 
 :global(.ant-progress) {

@@ -1,15 +1,7 @@
 import * as styles from "./index.module.scss";
 
-<<<<<<< HEAD
-import Tooltip from "/src/components/presentational/tooltip";
-import Pill from "/src/components/presentational/pill";
-import Tag from "/src/components/presentational/tag";
-import CustomButton from "/src/components/presentational/button";
-import EventLog from "../../components/others/eventLog";
-=======
 import CustomButton from "/src/components/ui/button";
 import EventLog from "/src/components/eventLog";
->>>>>>> refactor: claim component
 
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
@@ -18,19 +10,11 @@ import addToIPFS, { ipfsGateway } from "../../utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
 
-<<<<<<< HEAD
-import {utils, constants} from "ethers";
-import getTrustScore from "../../businessLogic/getTrustScore";
-import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
-import SyncStatus from "../../components/presentational/syncStatus";
-
-=======
 import SyncStatus from "../../components/ui/syncStatus";
 import KeyMetrics from "./keyMetrics";
 import Metadata from "./metadata";
 import Content from "./content";
 import ArbitrationDetails from "./arbitrationDetails";
->>>>>>> refactor: claim component
 
 // TODO Refactor out components from this route.
 export default function Index() {
@@ -159,72 +143,9 @@ export default function Index() {
     <section>
       <KeyMetrics {...{ fetchingClaim, claim }} />
       {/*<img className={styles.image}/>*/}
-<<<<<<< HEAD
-
-      <div className={styles.containerMetadata}>
-        <div>
-          <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
-          <span>
-            <b>
-              Curation Pool ID: {claim?.category}
-            </b>
-          </span>
-          </Tooltip>
-
-          {claim?.createdAtBlock &&
-            <span> Posted on {' '}
-              <Tooltip placement="left"
-                       title={`Exact block number: ${claim?.createdAtBlock}`}>
-              {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
-                key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
-                className="blink"
-                placement="bottomRight"
-                title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
-        </span>}
-
-
-          {claim?.disputes && (
-            <span>
-            Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute  ID:{" "}
-              <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim?.disputes.slice(-1)[0].id}`}
-                 target="_blank"
-                 rel="noopener noreferrer">
-                {claim?.disputes.slice(-1)[0].id}
-            </a>
-          </span>
-          )}
-        </div>
-        <div>
-          <CustomButton modifiers='secondary small'
-                        onClick={() => {
-                          setEventLogOpen(true);
-                        }}
-          >
-            Event Log
-          </CustomButton>
-        </div>
-      </div>
-
-
-      <h1 className={styles.title}>
-        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-        {claimContent?.title || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim title.")}{" "}
-        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-      </h1>
-      <Pill>{claim?.status}</Pill>
-
-      <p className={styles.description}>
-        {" "}
-        {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
-      </p>
-      <div className={styles.containerTag}>
-        {claimContent?.tags?.split(' ').map((tag, index) => <Tag key={index}>{tag}</Tag>)}
-      </div>
-=======
       <Metadata {...{ fetchingClaim, claim, setEventLogOpen }} />
       <Content {...{ claimContent, fetchingClaimContent, claimStatus: claim?.status }} />
       <ArbitrationDetails />
->>>>>>> refactor: claim component
 
       <div className={styles.containerButtons}>
         <CustomButton
