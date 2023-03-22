@@ -23,7 +23,7 @@ export default function ArbitrationDetails(props) {
   const [current, setCurrent] = useState(0);
   const onChange = (value) => [setCurrent(value)];
 
-  comnponents = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
+  const comnponents = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
   return (
     <>
       <div className={styles.title}>Arbitration Details</div>
