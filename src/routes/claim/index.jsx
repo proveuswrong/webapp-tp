@@ -195,12 +195,13 @@ export default function Index() {
         </span>}
 
 
-          {claim?.disputeID && (
+          {claim?.disputes && (
             <span>
             Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute  ID:{" "}
-              <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim.disputeID}`} target="_blank"
+              <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim?.disputes.slice(-1)[0].id}`}
+                 target="_blank"
                  rel="noopener noreferrer">
-                {claim?.disputeID}
+                {claim?.disputes.slice(-1)[0].id}
             </a>
           </span>
           )}
