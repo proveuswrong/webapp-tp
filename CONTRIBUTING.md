@@ -8,7 +8,7 @@ Please follow these guidelines to ensure a smooth collaboration and contribution
 
 - [Code of Conduct](https://github.com/proveuswrong/webapp-news/blob/main/CODE_OF_CONDUCT.md)
 - [Getting Started](#getting-started)
-- Codebase Organization(#codebase-organization)
+- [Codebase Organization](#codebase-organization)
 
 
 ## Code of Conduct
