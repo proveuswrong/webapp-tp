@@ -1,0 +1,37 @@
+# Contributing to the Truth Post (Incomplete)
+
+Thank you for your interest in contributing to the Truth Post!
+We value your time and effort in helping us create a useful and efficient platform for our users. 
+Please follow these guidelines to ensure a smooth collaboration and contribution process.
+
+## Table of Contents
+
+- Code of Conduct
+- Getting Started
+- Coding Guidelines
+- Submitting a Pull Request
+
+## Code of Conduct
+We expect all contributors to adhere to our Code of Conduct. Please review it before participating in our community.
+
+## Getting Started
+1. Fork the repository.
+2. Clone your forked repository to your local machine.
+3. Install the required dependencies by running `yarn`.
+4. Start the development server by running `yarn start`.
+5. Create a new branch for your changes, following the GitHub Flow.
+
+## Organization Guideline
+
+### Styling
+
+Use SCSS for targeting elements in general and use CSS Modules for targeting only a single element.
+Strive to find common styling rules to be able to put styling rules in global files to avoid duplications.
+Follow the SMACSS (Scalable and Modular Architecture for CSS) methodology to organize SCSS files.
+
+To achieve a responsive design, we use [fluid typography](https://css-tricks.com/snippets/css/fluid-typography/) and a [typographic scale](https://spencermortensen.com/articles/typographic-scale/).
+
+
+
+
+
