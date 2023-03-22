@@ -1,0 +1,38 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colors";
+
+.timelineSteps {
+  margin-top: spacings.$s-7;
+  margin-bottom: spacings.$s-18;
+}
+
+:global(.ant-steps-item-title) {
+  font-size: typo.$m;
+}
+
+:global(.ant-steps-item-description) {
+  font-size: typo.$s;
+  margin-top: spacings.$s-2;
+}
+
+:global(.ant-steps-item-icon) {
+  width: 40px;
+  height: 40px;
+  background: transparent !important;
+  border-color: map-get(colors.$colorButton, "primary", "fill") !important;
+
+  .ant-steps-icon {
+    color: map-get(colors.$colorButton, "primary", "fill") !important;
+  }
+}
+
+:global(.ant-steps-icon) {
+  color: map-get(colors.$colorButton, "primary", "fill") !important;
+}
+
+:global {
+  .ant-steps-item-active .ant-step-item-icon {
+    background: map-get(colors.$colorButton, "primary", "fill") !important;
+  }
+}
