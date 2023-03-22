@@ -30,7 +30,7 @@ Strive to find common styling rules to be able to put styling rules in global fi
 Follow the SMACSS (Scalable and Modular Architecture for CSS) methodology to organize SCSS files.
 
 To achieve a responsive design, we use [fluid typography](https://css-tricks.com/snippets/css/fluid-typography/) and a [typographic scale](https://spencermortensen.com/articles/typographic-scale/).
-You can pick a font size, color and spacing size using `_variables.scss`.
+You can pick a font size, color and spacing size using stylesheets under `src/stylesheets/variables`.
 
 ### Components 
 
