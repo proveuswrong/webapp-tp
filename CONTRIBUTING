@@ -30,7 +30,12 @@ Strive to find common styling rules to be able to put styling rules in global fi
 Follow the SMACSS (Scalable and Modular Architecture for CSS) methodology to organize SCSS files.
 
 To achieve a responsive design, we use [fluid typography](https://css-tricks.com/snippets/css/fluid-typography/) and a [typographic scale](https://spencermortensen.com/articles/typographic-scale/).
+You can pick a font size, color and spacing size using `_variables.scss`.
 
+### Components 
+
+Try to strip away any logic from the components you create, that maximizes reusability and maintainability. If your component does not contain logic, perfect, put it under `src/components/ui` else put it under `src/components`.
+If you need help building it, you can reuse a component from Ant Design. Prefer to not though, especially if the component is an easy one. The less we depend on a library the better.
 
 
 
