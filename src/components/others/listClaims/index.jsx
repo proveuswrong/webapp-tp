@@ -1,11 +1,11 @@
-import {EthereumContext, getAllClaims} from "../../data/ethereumProvider";
-import {ipfsGateway} from "../../utils/addToIPFS";
+import {EthereumContext, getAllClaims} from "../../../data/ethereumProvider";
+import {ipfsGateway} from "../../../utils/addToIPFS";
 import React, {useState, useEffect, useContext} from "react";
-import ListClaimsItem from "/src/components/ui/listClaimsItem";
-import Pill from "../ui/pill";
+import ListClaimsItem from "/src/components/presentational/listClaimsItem";
+import Pill from "../../presentational/pill";
 import * as styles from "./index.module.scss";
-import getTrustScore from "../../businessLogic/getTrustScore";
-import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
+import getTrustScore from "../../../businessLogic/getTrustScore";
+import getTimePastSinceLastBountyUpdate from "../../../businessLogic/getTimePastSinceLastBountyUpdate";
 
 
 export default function ListClaims() {

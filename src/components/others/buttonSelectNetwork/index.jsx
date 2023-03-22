@@ -1,9 +1,9 @@
 import React from "react";
-import {EthereumContext, chains} from "../../data/ethereumProvider";
+import {EthereumContext, chains} from "../../../data/ethereumProvider";
 import {DownOutlined} from "@ant-design/icons";
 import {Button, Menu} from "antd";
-import CustomDropdown from "/src/components/ui/dropdown";
-import MenuItem from "/src/components/ui/menuItem";
+import CustomDropdown from "/src/components/presentational/dropdown";
+import MenuItem from "/src/components/presentational/menuItem";
 import {useNavigate} from "react-router-dom";
 
 

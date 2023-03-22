@@ -1,9 +1,9 @@
 import {useParams, useNavigate} from "react-router-dom";
-import ListClaims from "../../components/listClaims";
-import EthereumProviderErrors from "../../components/ethereumProviderErrors";
+import ListClaims from "../../components/others/listClaims";
+import EthereumProviderErrors from "../../components/others/ethereumProviderErrors";
 import {useContext, useEffect} from "react";
 import {EthereumContext, contractInstances} from "../../data/ethereumProvider";
-import SyncStatus from "../../components/ui/syncStatus";
+import SyncStatus from "../../components/presentational/syncStatus";
 
 
 import * as styles from "./index.module.scss";

@@ -1,7 +1,7 @@
 import {useContext} from "react";
-import {EthereumContext} from "../../data/ethereumProvider";
+import {EthereumContext} from "../../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
-import CustomButton from "/src/components/ui/button";
+import CustomButton from "/src/components/presentational/button";
 
 export default function FormCreate({handleSave, controlsState, updateControlsState}) {
 

@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
-import {EthereumContext, chains} from "../../data/ethereumProvider";
-import CustomButton from "/src/components/ui/button";
+import {EthereumContext, chains} from "../../../data/ethereumProvider";
+import CustomButton from "/src/components/presentational/button";
 
 export default function ButtonConnect() {
   const ethereumContext = useContext(EthereumContext);

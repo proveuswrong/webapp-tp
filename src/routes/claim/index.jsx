@@ -1,10 +1,10 @@
 import * as styles from "./index.module.scss";
 
-import Tooltip from "/src/components/ui/tooltip";
-import Pill from "/src/components/ui/pill";
-import Tag from "/src/components/ui/tag";
-import CustomButton from "/src/components/ui/button";
-import EventLog from "../../components/eventLog";
+import Tooltip from "/src/components/presentational/tooltip";
+import Pill from "/src/components/presentational/pill";
+import Tag from "/src/components/presentational/tag";
+import CustomButton from "/src/components/presentational/button";
+import EventLog from "../../components/others/eventLog";
 
 import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
@@ -17,7 +17,7 @@ import {useEffect, useState, useContext} from "react";
 import {utils, constants} from "ethers";
 import getTrustScore from "../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
-import SyncStatus from "../../components/ui/syncStatus";
+import SyncStatus from "../../components/presentational/syncStatus";
 
 
 // TODO Refactor out components from this route.

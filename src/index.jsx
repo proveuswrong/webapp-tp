@@ -6,7 +6,7 @@ import FAQ from "./routes/faq";
 import Create from "./routes/create";
 import Browse from "./routes/browse";
 import Claim from "./routes/claim";
-import EthereumProviderErrors from "./components/ethereumProviderErrors";
+import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
 import EthereumProvider, {EthereumContext, chains, contractInstances} from "./data/ethereumProvider.jsx";
 

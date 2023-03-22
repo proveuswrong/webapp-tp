@@ -1,10 +1,10 @@
 import {useState, useContext} from "react";
 import {EthereumContext} from "../../data/ethereumProvider";
-import FormCreate from "/src/components/formCreate";
-import ConfirmCreate from "/src/components/confirmCreate";
+import FormCreate from "/src/components/others/formCreate";
+import ConfirmCreate from "/src/components/others/confirmCreate";
 import addToIPFS from "../../utils/addToIPFS";
 import {utils} from "ethers";
-import SyncStatus from "../../components/ui/syncStatus";
+import SyncStatus from "../../components/presentational/syncStatus";
 
 
 export default function Create() {

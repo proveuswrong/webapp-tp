@@ -1,7 +1,7 @@
-import Tag from "/src/components/ui/tag";
+import Tag from "/src/components/presentational/tag";
 import * as styles from "./index.module.scss";
 import {constants} from "ethers";
-import CustomButton from "/src/components/ui/button";
+import CustomButton from "/src/components/presentational/button";
 
 
 export default function ConfirmCreate({title, description, tags, bounty, categoryNo, handleCreate, handleGoBack}) {

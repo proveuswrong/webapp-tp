@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import {EthereumContext} from "../../data/ethereumProvider";
+import {EthereumContext} from "../../../data/ethereumProvider";
 import {useContext} from "react";
 
 export default function EthereumProviderErrors() {
