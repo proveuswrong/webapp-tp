@@ -3,7 +3,7 @@ import * as styles from "./index.module.scss";
 
 import { Tooltip } from "antd";
 import { EthereumContext } from "/src/data/ethereumProvider";
-import CustomButton from "/src/components/ui/button";
+import CustomButton from "/src/components/presentational/button";
 import { getLabel } from "/src/utils/account";
 
 export default function Metadata(props) {

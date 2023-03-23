@@ -1,16 +1,16 @@
 import * as styles from "./index.module.scss";
 
-import CustomButton from "/src/components/ui/button";
-import EventLog from "/src/components/eventLog";
+import CustomButton from "/src/components/presentational/button";
+import EventLog from "/src/components/others/eventLog";
 
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getClaimByID } from "../../data/ethereumProvider";
-import addToIPFS, { ipfsGateway } from "../../utils/addToIPFS";
+import { EthereumContext, getClaimByID } from "/src/data/ethereumProvider";
+import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
 
-import SyncStatus from "../../components/ui/syncStatus";
+import SyncStatus from "/src/components/presentational/syncStatus";
 import KeyMetrics from "./keyMetrics";
 import Metadata from "./metadata";
 import Content from "./content";

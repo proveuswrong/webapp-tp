@@ -1,7 +1,7 @@
 import * as styles from "./index.module.scss";
 
-import Tag from "/src/components/ui/tag";
-import Pill from "/src/components/ui/pill";
+import Tag from "/src/components/presentational/tag";
+import Pill from "/src/components/presentational/pill";
 
 export default function Content(props) {
   const { claimContent, claimStatus, fetchingClaimContent } = props;
