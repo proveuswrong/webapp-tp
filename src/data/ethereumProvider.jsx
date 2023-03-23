@@ -215,6 +215,14 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     withdrawalPermittedAt
     lastCalculatedScore
     arbitrator
+    {
+      id
+      policies
+      evidencePeriods
+      commitPeriods
+      votingPeriods
+      appealPeriods
+    }
     arbitratorExtraData
   }
     claimStorages(where: {claimEntityID: "${id}"}) {
@@ -277,6 +285,14 @@ export const getAllClaims = (chainID) => {
           withdrawalPermittedAt
           lastCalculatedScore
           arbitrator
+          {
+            id
+            policies
+            evidencePeriods
+            commitPeriods
+            votingPeriods
+            appealPeriods
+          }
           arbitratorExtraData
         }}`
       ).then((data) => {
