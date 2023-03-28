@@ -204,6 +204,14 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     createdAtTimestamp
     disputes (orderBy: id, orderDirection: asc) { 
       id
+      period
+      lastPeriodChange
+      court{
+        id
+        policy
+        hiddenVotes
+        timesPerPeriod
+      }
     }
     events (orderBy: timestamp, orderDirection: asc) {
       id
@@ -266,6 +274,14 @@ export const getAllClaims = (chainID) => {
           createdAtTimestamp
           disputes (orderBy: id, orderDirection: asc) {
             id
+            period
+            lastPeriodChange
+            court{
+              id
+              policy
+              hiddenVotes
+              timesPerPeriod
+            }
           }
           events (orderBy: timestamp, orderDirection: asc) {
             id
