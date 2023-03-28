@@ -1,8 +1,5 @@
 import * as styles from "./index.module.scss";
 
-import CustomButton from "/src/components/presentational/button";
-import EventLog from "/src/components/others/eventLog";
-
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
 import { EthereumContext, getClaimByID } from "/src/data/ethereumProvider";
@@ -10,11 +7,13 @@ import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
 
+import CustomButton from "/src/components/presentational/button";
+import EventLog from "/src/components/others/eventLog";
 import SyncStatus from "/src/components/presentational/syncStatus";
-import KeyMetrics from "./keyMetrics";
-import Metadata from "./metadata";
-import Content from "./content";
-import ArbitrationDetails from "./arbitrationDetails";
+import KeyMetrics from "/src/components/others/route_claim/keyMetrics";
+import Metadata from "/src/components/others/route_claim/metadata";
+import Content from "/src/components/others/route_claim/content";
+import ArbitrationDetails from "/src/components/others/route_claim/arbitrationDetails";
 
 // TODO Refactor out components from this route.
 export default function Index() {
@@ -145,7 +144,7 @@ export default function Index() {
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingClaim, claim, setEventLogOpen }} />
       <Content {...{ claimContent, fetchingClaimContent, claimStatus: claim?.status }} />
-      <ArbitrationDetails />
+      <ArbitrationDetails claim={claim} />
 
       <div className={styles.containerButtons}>
         <CustomButton
