@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
-import ABI from "./abi.js";
+import ABI from "./ABI.json";
 
 // Consider merging 'chains' and 'contractInstances'
 export const chains = {
