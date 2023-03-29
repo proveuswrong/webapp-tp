@@ -12,10 +12,16 @@ export const chains = {
     }
   }
 };
-export const contractInstances = {
+export const networkMap = {
   "0x5": {
-    "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-      subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+    name: "Ethereum Testnet Görli", shortname: "Görli",
+    explorerURL(address) {
+      return `https://goerli.etherscan.io/address/${address}`;
+    },
+    contractInstances: {
+      "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
+        subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+      },
     },
   },
 };
@@ -55,10 +61,10 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({silent: true}).then((provider,) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata(Object.keys(contractInstances)[0], Object.keys(contractInstances[Object.keys(contractInstances)[0]])[0]).then(r => this.setState({graphMetadata: r}))
+    getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
     this.setState({
       interval: setInterval(() => {
-        getGraphMetadata(Object.keys(contractInstances)[0], Object.keys(contractInstances[Object.keys(contractInstances)[0]])[0]).then(r => this.setState({graphMetadata: r}))
+        getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
     });
 
@@ -112,13 +118,13 @@ export default class EthereumProvider extends Component {
 
     this.setState({
       chainId: chainId,
-      isDeployedOnThisChain: contractInstances[chainId] != null,
+      isDeployedOnThisChain: networkMap[chainId].contractInstances != null,
     });
 
     if (isProviderDetected)
       this.setState({
-        contractInstance: contractInstances[chainId]
-          ? new ethers.Contract(Object.keys(contractInstances[chainId])[0], ABI, ethersProvider.getSigner())
+        contractInstance: networkMap[chainId].contractInstances[Object.keys(networkMap[chainId].contractInstances)[0]]
+          ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
           : null,
       })
 
@@ -191,7 +197,7 @@ const queryTemplate = (endpoint, query) =>
 
 export const getClaimByID = (chainID, contractAddress, id) => {
   return queryTemplate(
-    contractInstances[chainID][contractAddress].subgraphEndpoint,
+    networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
     `{
   claims(where: {id: "${id}"}) {
     id
@@ -243,7 +249,7 @@ export const getClaimByID = (chainID, contractAddress, id) => {
 };
 
 export const getGraphMetadata = (chainID, contractAddress) => {
-  return queryTemplate(contractInstances[chainID][contractAddress].subgraphEndpoint,
+  return queryTemplate(networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
     `{
                 _meta {
                    deployment
@@ -260,7 +266,7 @@ export const getGraphMetadata = (chainID, contractAddress) => {
 
 export const getAllClaims = (chainID) => {
   return Promise.allSettled(
-    Object.entries(contractInstances[chainID] || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{
@@ -315,7 +321,7 @@ export const getAllClaims = (chainID) => {
 
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
-    Object.entries(contractInstances[chainID] || {}).map(([, value]) => {
+    Object.entries(networkMap[chainID].contractInstances || {}).map(([, value]) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{

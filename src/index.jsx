@@ -8,7 +8,7 @@ import Browse from "./routes/browse";
 import Claim from "./routes/claim";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
-import EthereumProvider, {EthereumContext, chains, contractInstances} from "./data/ethereumProvider.jsx";
+import EthereumProvider, {EthereumContext, chains, networkMap} from "./data/ethereumProvider.jsx";
 
 const app = document.getElementById("app");
 
@@ -27,7 +27,8 @@ ReactDOM.render(
               <Route path=":chain/"
                      element={<Browse/>}/>
               <Route path=":chain/report/"
-                     element={chains[value.chainId] && contractInstances[value.chainId] ? <Create/> : <EthereumProviderErrors/>}/>
+                     element={chains[value.chainId] && networkMap[value.chainId].contractInstances ? <Create/> :
+                       <EthereumProviderErrors/>}/>
               <Route path=":chain/:contract/:id/"
                      element={<Claim/>}/>
               <Route path="*" element={<section><h1>There's nothing here!</h1></section>}/>
