@@ -4,14 +4,6 @@ import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
 import ABI from "./ABI.json";
 
-// Consider merging 'chains' and 'contractInstances'
-export const chains = {
-  "0x5": {
-    name: "Ethereum Testnet Görli", shortname: "Görli", explorerURL(address) {
-      return `https://goerli.etherscan.io/address/${address}`;
-    }
-  }
-};
 export const networkMap = {
   "0x5": {
     name: "Ethereum Testnet Görli", shortname: "Görli",

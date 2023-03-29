@@ -1,5 +1,5 @@
 import React from "react";
-import {EthereumContext, chains} from "../../../data/ethereumProvider";
+import {EthereumContext, networkMap} from "../../../data/ethereumProvider";
 import {DownOutlined} from "@ant-design/icons";
 import {Button, Menu} from "antd";
 import CustomDropdown from "/src/components/presentational/dropdown";
@@ -21,7 +21,7 @@ const handleMenuClick = (e, ethereumContext, navigate) => {
 
 const menu = (ethereumContext, navigate) => (
   <Menu onClick={(e) => handleMenuClick(e, ethereumContext, navigate)}>
-    {Object.entries(chains).map(([key, value], _index) => {
+    {Object.entries(networkMap).map(([key, value], _index) => {
       return <MenuItem key={key}>{value?.name}</MenuItem>;
     })}
   </Menu>
@@ -36,7 +36,7 @@ export default function ButtonSelectNetwork() {
         <CustomDropdown modifiers="small secondary" overlay={menu(ethereumContext, navigate)}>
           <Button id="buttonSelectNetwork">
             <span style={{color: 'inherit'}} key={ethereumContext?.chainId} className="blink">
-              {chains[ethereumContext?.chainId]?.shortname || "Unsupported Network"}
+              {networkMap[ethereumContext?.chainId]?.shortname || "Unsupported Network"}
             </span>
             <DownOutlined/>
           </Button>

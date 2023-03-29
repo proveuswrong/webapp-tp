@@ -3,7 +3,7 @@ import * as styles from "./index.module.scss";
 import Modal from '../../presentational/modal';
 import {constants, utils} from "ethers";
 import {getLabel} from "../../../utils/account";
-import {chains, EthereumContext} from "../../../data/ethereumProvider";
+import {networkMap, EthereumContext} from "../../../data/ethereumProvider";
 
 
 function getPrettyNamesForEvents(sourceCodeName) {
@@ -53,7 +53,7 @@ export default function EventLog({visible, onCancel, events, activeAddress}) {
           <td>{getPrettyNamesForEvents(event.name)}</td>
           <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
           <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
-          <td>{<a href={chains[ethereumContext?.chainId]?.explorerURL(event.from)} target="_blank"
+          <td>{<a href={networkMap[ethereumContext?.chainId]?.explorerURL(event.from)} target="_blank"
                   rel="noreferrer noopener">{getLabel(event.from, activeAddress)}</a>}</td>
 
         </tr>
