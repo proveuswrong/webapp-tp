@@ -2,7 +2,7 @@ import {useParams, useNavigate} from "react-router-dom";
 import ListClaims from "../../components/others/listClaims";
 import EthereumProviderErrors from "../../components/others/ethereumProviderErrors";
 import {useContext, useEffect} from "react";
-import {EthereumContext, contractInstances} from "../../data/ethereumProvider";
+import {EthereumContext, networkMap} from "../../data/ethereumProvider";
 import SyncStatus from "../../components/presentational/syncStatus";
 
 
@@ -15,15 +15,15 @@ export default function Browse() {
   const ethereumContext = useContext(EthereumContext);
 
   useEffect(() => {
-    if (!params.chain || !contractInstances[params.chain]) {
+    if (!params.chain || !networkMap[params.chain].contractInstances) {
       console.log('navigated to first network in the list')
-      navigate('/' + Object.keys(contractInstances)[0] + '/')
-    } else if (contractInstances[params.chain] && ethereumContext?.chainId != params.chain) {
+      navigate('/' + Object.keys(networkMap[params.chain].contractInstances)[0] + '/')
+    } else if (networkMap[params.chain].contractInstances && ethereumContext?.chainId != params.chain) {
       ethereumContext?.changeChain(params.chain);
     }
   }, [ethereumContext?.graphMetadata?.block.number]);
 
-  if (contractInstances[params.chain] || ethereumContext?.isDeployedOnThisChain) {
+  if (networkMap[params.chain].contractInstances || ethereumContext?.isDeployedOnThisChain) {
 
     return (
       <section className={styles.browse}>
