@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Navigate} from "react-router-dom";
 import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
@@ -6,7 +7,8 @@ import ABI from "./ABI.json";
 
 export const networkMap = {
   "0x5": {
-    name: "Ethereum Testnet Görli", shortname: "Görli",
+    name: "Ethereum Testnet Görli",
+    shortname: "Görli",
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
@@ -20,11 +22,16 @@ export const networkMap = {
 
 
 export default class EthereumProvider extends Component {
+  static constants = {
+    LONGPOLLING_PERIOD_MS: 60000,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       accounts: [],
       chainId: "",
+      metamaskChainId: "",
       isConnected: false,
       isProviderDetected: false,
       isDeployedOnThisChain: false,
@@ -34,6 +41,7 @@ export default class EthereumProvider extends Component {
       awaitingUserPermission: false,
     };
 
+    this.changeChain = this.changeChain.bind(this);
     this.handleChainChanged = this.handleChainChanged.bind(this);
     this.handleAccountsChanged = this.handleAccountsChanged.bind(this);
     this.handleConnected = this.handleConnected.bind(this);
@@ -45,9 +53,6 @@ export default class EthereumProvider extends Component {
     this.setState = this.setState.bind(this);
   }
 
-  static constants = {
-    LONGPOLLING_PERIOD_MS: 30000,
-  };
 
   componentDidMount() {
     detectEthereumProvider({silent: true}).then((provider,) => {
@@ -56,6 +61,7 @@ export default class EthereumProvider extends Component {
     getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
     this.setState({
       interval: setInterval(() => {
+        console.log(this.state)
         getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
     });
@@ -65,7 +71,6 @@ export default class EthereumProvider extends Component {
   componentWillUnmount() {
     clearInterval(this.state.interval)
   }
-
 
   initializeProvider() {
     this.setState({isProviderDetected: true});
@@ -90,37 +95,36 @@ export default class EthereumProvider extends Component {
   async requestAccounts() {
     await this.setState({awaitingUserPermission: true});
     console.debug("Asking users permission to connect.");
-    ethereum.request({method: "eth_requestAccounts"}).catch((error) => {
+    await ethereum.request({method: "eth_requestAccounts"}).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
         console.log("User rejected connecting to Ethereum.");
         this.setState({awaitingUserPermission: false});
       } else if (error.code === -32002) {
         // Handle it
-      } else {
-        this.setState({awaitingUserPermission: true});
       }
     });
   }
 
-  handleChainChanged(chainId) {
-    console.log("Chain changed.");
-    console.log(this.state)
-    const {ethersProvider, isProviderDetected} = this.state;
 
+  changeChain(chainId) {
     this.setState({
       chainId: chainId,
-      isDeployedOnThisChain: networkMap[chainId].contractInstances != null,
+      isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
 
-    if (isProviderDetected)
-      this.setState({
-        contractInstance: networkMap[chainId].contractInstances[Object.keys(networkMap[chainId].contractInstances)[0]]
-          ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
-          : null,
-      })
+  }
 
-    this.fetchMetaEvidenceContents(chainId);
+  handleChainChanged(chainId) {
+    const {ethersProvider} = this.state;
+
+    this.setState({
+      metamaskChainId: chainId,
+      contractInstance: networkMap[chainId]?.contractInstances
+        ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
+        : null,
+    });
+
   }
 
   // End of Public Functions
@@ -147,8 +151,6 @@ export default class EthereumProvider extends Component {
   }
 
   handleMessage(message) {
-    console.log(this.state)
-    console.log(`Block number: ${message.data.result.number}`);
     this.setState({blockNumber: message.data.result.number, timestamp: message.data.result.timestamp});
 
   }
@@ -163,7 +165,7 @@ export default class EthereumProvider extends Component {
   }
 
   render = () => (
-    <EthereumContext.Provider value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.handleChainChanged}}>
+    <EthereumContext.Provider value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain}}>
       {" "}
       {this.props.children}
     </EthereumContext.Provider>
@@ -313,7 +315,7 @@ export const getAllClaims = (chainID) => {
 
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([, value]) => {
+    Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{

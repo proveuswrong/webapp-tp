@@ -3,37 +3,46 @@ import {EthereumContext, networkMap} from "../../../data/ethereumProvider";
 import CustomButton from "/src/components/presentational/button";
 
 export default function ButtonConnect() {
-  const ethereumContext = useContext(EthereumContext);
 
   return (
     <EthereumContext.Consumer>
-      {(ethereum) => {
+      {(ethereumContext) => {
         return (
           <CustomButton
             modifiers="small secondary"
             id="buttonConnect"
-            disabled={ethereum?.awaitingUserPermission || !ethereum?.isDeployedOnThisChain}
+            disabled={ethereumContext?.awaitingUserPermission || !ethereumContext?.isDeployedOnThisChain}
             onClick={() => {
-              ethereum?.accounts.length < 1
-                ? ethereumContext.requestAccounts()
-                : console.log("There is a connected account already.");
+              if (ethereumContext?.accounts.length < 1) {
+                ethereumContext.requestAccounts().then(() => {
+                    ethereum.request({
+                      method: "wallet_switchEthereumChain",
+                      params: [{chainId: ethereumContext.chainId}]
+                    });
+                  }
+                )
+              } else {
+                console.log("There is a connected account already.")
+              }
+
+
             }}
           >
             <a
               href={
-                ethereum?.accounts[0] && ethereumContext.isDeployedOnThisChain
-                  ? networkMap[ethereumContext?.chainId].explorerURL(ethereum?.accounts[0])
+                ethereumContext?.accounts[0] && ethereumContext.isDeployedOnThisChain
+                  ? networkMap[ethereumContext?.chainId].explorerURL(ethereumContext?.accounts[0])
                   : undefined
               }
               target="_blank"
               rel="noopener noreferrer"
-              key={ethereum?.accounts[0]}
+              key={ethereumContext?.accounts[0]}
               className="blink"
             >
-              {!ethereum?.accounts[0] && ethereum?.awaitingUserPermission
+              {!ethereumContext?.accounts[0] && ethereumContext?.awaitingUserPermission
                 && "Awaiting User Permission"}
-              {!ethereum?.accounts[0] && !ethereum?.awaitingUserPermission && "Connect Account"}
-              {ethereum?.accounts[0] && `${ethereum?.accounts[0]?.substring(0, 6)}...${ethereum?.accounts[0]?.slice(-4)}`}
+              {!ethereumContext?.accounts[0] && !ethereumContext?.awaitingUserPermission && "Connect Account"}
+              {ethereumContext?.accounts[0] && `${ethereumContext?.accounts[0]?.substring(0, 6)}...${ethereumContext?.accounts[0]?.slice(-4)}`}
             </a>
           </CustomButton>
         );

@@ -2,14 +2,21 @@ import {Outlet} from "react-router-dom";
 import {EthereumContext} from "../../../data/ethereumProvider";
 import {useContext} from "react";
 
-export default function EthereumProviderErrors() {
+export default function EthereumProviderErrors({providedChainId}) {
   const ethereumContext = useContext(EthereumContext);
   console.log(ethereumContext)
   return (
     <section>
-      <h2>
-        {!ethereumContext?.isDeployedOnThisChain && "This chain id is not supported."}
-      </h2>
+      {!ethereumContext?.isDeployedOnThisChain &&
+        (<>
+            <h2>
+              {`Network ${providedChainId} is not supported.`}
+            </h2>
+            <p>
+              Please use the dropdown in navigation menu to switch to a supported network.
+            </p>
+          </>
+        )}
       <Outlet/>
     </section>
   );
