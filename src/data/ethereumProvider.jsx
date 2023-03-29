@@ -20,6 +20,14 @@ export const contractInstances = {
   },
 };
 
+// passPhase   learn phase, lastPhaseChange
+// passPeriod  DONE
+// executeDelayedSetStake learn lastDelayedSetStake, nextDelayedSetStake,minStakingTime
+// drawJurors
+//
+// objectiove drawJurors
+
+
 export default class EthereumProvider extends Component {
   constructor(props) {
     super(props);

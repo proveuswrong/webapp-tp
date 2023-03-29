@@ -1,11 +1,11 @@
 import * as styles from "./index.module.scss";
 
-import { useParams, useNavigate } from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getClaimByID } from "/src/data/ethereumProvider";
-import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
+import {EthereumContext, getClaimByID} from "/src/data/ethereumProvider";
+import addToIPFS, {ipfsGateway} from "/src/utils/addToIPFS";
 
-import { useEffect, useState, useContext } from "react";
+import {useEffect, useState, useContext} from "react";
 
 import CustomButton from "/src/components/presentational/button";
 import EventLog from "/src/components/others/eventLog";
@@ -41,6 +41,7 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
+
 
   useEffect(() => {
     let didCancel = false;
@@ -131,7 +132,7 @@ export default function Index() {
       claim.claimID,
       claim.category,
       claim.storageAddress,
-      { value: "12312312311111" }
+      {value: "12312312311111"}
     );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
@@ -140,11 +141,11 @@ export default function Index() {
 
   return (
     <section>
-      <KeyMetrics {...{ fetchingClaim, claim }} />
+      <KeyMetrics {...{fetchingClaim, claim}} />
       {/*<img className={styles.image}/>*/}
-      <Metadata {...{ fetchingClaim, claim, setEventLogOpen }} />
-      <Content {...{ claimContent, fetchingClaimContent, claimStatus: claim?.status }} />
-      <ArbitrationDetails claim={claim} />
+      <Metadata {...{fetchingClaim, claim, setEventLogOpen}} />
+      <Content {...{claimContent, fetchingClaimContent, claimStatus: claim?.status}} />
+      <ArbitrationDetails claim={claim}/>
 
       <div className={styles.containerButtons}>
         <CustomButton
@@ -194,7 +195,7 @@ export default function Index() {
       />
       {claim?.events && (
         <EventLog
-          style={{ background: "red" }}
+          style={{background: "red"}}
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
           events={[...claim?.events]?.reverse()}

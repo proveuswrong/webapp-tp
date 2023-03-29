@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import DisputeTimeline from "/src/components/others/disputeTimeline";
 
-import getCourtIdAndJurorSize from "/src/utils/getCourtIdAndJurorSize";
+import {getCourtIdAndJurySize, currentJurySize} from "/src/utils/getCourtIdAndJurorSize";
 import usePolicy from "/src/hooks/usePolicy";
-import { Periods } from "/src/constants/enums";
+import {Periods} from "/src/constants/enums";
 
 import AppealPeriod from "./appeal";
 
-export default function ArbitrationDetails({ claim }) {
+
+export default function ArbitrationDetails({claim}) {
   const currentDispute = claim?.disputes.slice(-1)[0];
+
+  claim
 
   const [current, setCurrent] = useState(0);
   const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
 
-  const { jurorSize } = getCourtIdAndJurorSize(claim?.arbitratorExtraData);
+  const {initialJurySize} = getCourtIdAndJurySize(claim?.arbitratorExtraData);
+
   const policy = usePolicy(currentDispute?.court?.policy);
 
   // TODO: Mimics the state progress of Period. Replace with contract call
@@ -29,10 +33,10 @@ export default function ArbitrationDetails({ claim }) {
     setCurrent(updatedCurrent);
   }, [currentPeriodIndex]);
 
-  console.log({ currentPeriodIndex });
-  console.log({ current });
+  console.log({currentPeriodIndex});
+  console.log({current});
 
-  const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
+  const components = [<EvidencePeriod/>, <VotingPeriod/>, <AppealPeriod/>];
   return (
     <>
       <div className={styles.titleWrapper}>
@@ -41,8 +45,8 @@ export default function ArbitrationDetails({ claim }) {
           Advance state
         </CustomButton>
       </div>
-      <Overview courtName={policy.name} disputeID={currentDispute?.id} roundNumber={9} jurorSize={jurorSize} />
-      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
+      <Overview courtName={policy.name} disputeID={currentDispute?.id} roundNumber={9} jurySize={currentJurySize(initialJurySize, 2)}/>
+      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current}/>
       {components[current]}
     </>
   );
@@ -70,7 +74,7 @@ function Overview(props) {
       </span>
       <span>
         <b>Jury Size:</b>
-        {props.jurorSize} votes
+        {props.jurySize} votes
       </span>
     </div>
   );
