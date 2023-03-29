@@ -46,7 +46,7 @@ hr {
   margin-block: 0;
 }
 
-a {
+a:first-child:nth-last-child(1) {
   text-decoration: underline;
 }
 
