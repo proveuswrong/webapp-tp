@@ -13,9 +13,7 @@ import AppealPeriod from "./appeal";
 
 export default function ArbitrationDetails({claim}) {
   const currentDispute = claim?.disputes.slice(-1)[0];
-
-  claim
-
+  
   const [current, setCurrent] = useState(0);
   const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
 
