@@ -1,24 +1,19 @@
 import * as styles from "./index.module.scss";
 
-import Tooltip from "/src/components/presentational/tooltip";
-import Pill from "/src/components/presentational/pill";
-import Tag from "/src/components/presentational/tag";
-import CustomButton from "/src/components/presentational/button";
-import EventLog from "../../components/others/eventLog";
-
 import {useParams, useNavigate} from "react-router-dom";
 import Interval from "react-interval-rerender";
-import {EthereumContext, getClaimByID} from "../../data/ethereumProvider";
-import addToIPFS, {ipfsGateway} from "../../utils/addToIPFS";
-import {getLabel} from "../../utils/account";
+import {EthereumContext, getClaimByID} from "/src/data/ethereumProvider";
+import addToIPFS, {ipfsGateway} from "/src/utils/addToIPFS";
 
 import {useEffect, useState, useContext} from "react";
 
-import {utils, constants} from "ethers";
-import getTrustScore from "../../businessLogic/getTrustScore";
-import getTimePastSinceLastBountyUpdate from "../../businessLogic/getTimePastSinceLastBountyUpdate";
-import SyncStatus from "../../components/presentational/syncStatus";
-
+import CustomButton from "/src/components/presentational/button";
+import EventLog from "/src/components/others/eventLog";
+import SyncStatus from "/src/components/presentational/syncStatus";
+import KeyMetrics from "/src/components/others/route_claim/keyMetrics";
+import Metadata from "/src/components/others/route_claim/metadata";
+import Content from "/src/components/others/route_claim/content";
+import ArbitrationDetails from "/src/components/others/route_claim/arbitrationDetails";
 
 // TODO Refactor out components from this route.
 export default function Index() {
@@ -46,6 +41,7 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
+
 
   useEffect(() => {
     let didCancel = false;
@@ -75,7 +71,6 @@ export default function Index() {
     return () => {
       didCancel = true;
     };
-
   }, [claim]);
 
   async function handleInitiateWithdrawal() {
@@ -102,22 +97,28 @@ export default function Index() {
   }
 
   async function handleSubmitEvidence() {
-
-    let ipfsPathOfNewEvidence
+    let ipfsPathOfNewEvidence;
     try {
-      const ipfsEndpointResponse = await addToIPFS('https://ipfs.kleros.io/add', "evidence.json", JSON.stringify({
-        name: `name`,
-        description: `desc`,
-        fileURI: `uri`
-      }))
+      const ipfsEndpointResponse = await addToIPFS(
+        "https://ipfs.kleros.io/add",
+        "evidence.json",
+        JSON.stringify({
+          name: `name`,
+          description: `desc`,
+          fileURI: `uri`,
+        })
+      );
 
-      ipfsPathOfNewEvidence = ipfsEndpointResponse[0].hash
+      ipfsPathOfNewEvidence = ipfsEndpointResponse[0].hash;
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-    console.log(ipfsPathOfNewEvidence)
+    console.log(ipfsPathOfNewEvidence);
 
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(claim?.disputes.at(-1).id, `/ipfs/${ipfsPathOfNewEvidence}`);
+    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(
+      claim?.disputes.at(-1).id,
+      `/ipfs/${ipfsPathOfNewEvidence}`
+    );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
 
@@ -138,119 +139,37 @@ export default function Index() {
 
   let reRenderInMs = 1000;
 
-
   return (
     <section>
-      <div className={styles.containerKeyMetrics}>
-        {claim && (
-          <span className={styles.trustScore}>
-          {" "}
-            Trust Score:{" "}
-
-
-            {fetchingClaim ? (
-              "Fetching claim"
-            ) : (
-              <Interval delay={reRenderInMs}>
-                {() =>
-                  getTrustScore(claim, getTimePastSinceLastBountyUpdate(claim?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))
-                }
-              </Interval>
-            )}
-        </span>
-        )}
-        <Tooltip placement="topLeft"
-                 title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext?.blockNumber)} blocks ago.`}>
-
-        <span className={styles.bountyAmount}>
-          Bounty:{" "}
-          {fetchingClaim
-            ? "fetching"
-            : `${parseFloat(utils.formatUnits(claim?.bounty)).toFixed(3)} ${constants.EtherSymbol}`}{" "}
-
-        </span>
-        </Tooltip>
-      </div>
+      <KeyMetrics {...{fetchingClaim, claim}} />
       {/*<img className={styles.image}/>*/}
-
-      <div className={styles.containerMetadata}>
-        <div>
-          <Tooltip placement="left" title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}>
-          <span>
-            <b>
-              Curation Pool ID: {claim?.category}
-            </b>
-          </span>
-          </Tooltip>
-
-          {claim?.createdAtBlock &&
-            <span> Posted on {' '}
-              <Tooltip placement="left"
-                       title={`Exact block number: ${claim?.createdAtBlock}`}>
-              {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}</Tooltip> by <Tooltip
-                key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
-                className="blink"
-                placement="bottomRight"
-                title={claim?.owner}>{fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}</Tooltip>
-        </span>}
-
-
-          {claim?.disputes && (
-            <span>
-            Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute  ID:{" "}
-              <a key={claim?.disputeID} className="blink" href={`https://resolve.kleros.io/cases/${claim?.disputes.slice(-1)[0].id}`}
-                 target="_blank"
-                 rel="noopener noreferrer">
-                {claim?.disputes.slice(-1)[0].id}
-            </a>
-          </span>
-          )}
-        </div>
-        <div>
-          <CustomButton modifiers='secondary small'
-                        onClick={() => {
-                          setEventLogOpen(true);
-                        }}
-          >
-            Event Log
-          </CustomButton>
-        </div>
-      </div>
-
-
-      <h1 className={styles.title}>
-        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-        {claimContent?.title || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim title.")}{" "}
-        {!fetchingClaimContent && !claimContent && "⚠️"}{" "}
-      </h1>
-      <Pill>{claim?.status}</Pill>
-
-      <p className={styles.description}>
-        {" "}
-        {claimContent?.description || (fetchingClaimContent ? "fetching..." : "Failed to fetch claim description.")}
-      </p>
-      <div className={styles.containerTag}>
-        {claimContent?.tags?.split(' ').map((tag, index) => <Tag key={index}>{tag}</Tag>)}
-      </div>
+      <Metadata {...{fetchingClaim, claim, setEventLogOpen}} />
+      <Content {...{claimContent, fetchingClaimContent, claimStatus: claim?.status}} />
+      <ArbitrationDetails claim={claim}/>
 
       <div className={styles.containerButtons}>
-        <CustomButton modifiers='secondary'
-                      onClick={() => {
-                        navigate(-1);
-                      }}
+        <CustomButton
+          modifiers="secondary"
+          onClick={() => {
+            navigate(-1);
+          }}
         >
           Go back
         </CustomButton>
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton key={`InitiateWithdrawal${claim?.status}`} modifiers="blink" onClick={handleInitiateWithdrawal}>Initiate
-            Withdrawal</CustomButton>
+          <CustomButton key={`InitiateWithdrawal${claim?.status}`} modifiers="blink" onClick={handleInitiateWithdrawal}>
+            Initiate Withdrawal
+          </CustomButton>
         )}
         {ethereumContext?.accounts[0] == claim?.owner && claim?.status == "Live" && (
-          <CustomButton key={`DoubleBounty${claim?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>Double the
-            Bounty</CustomButton>
+          <CustomButton key={`DoubleBounty${claim?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>
+            Double the Bounty
+          </CustomButton>
         )}
         {ethereumContext?.accounts[0] != claim?.owner && claim?.status == "Live" && (
-          <CustomButton key={`ProveItWrong${claim?.status}`} modifiers="blink" onClick={handleChallenge}>Prove it Wrong</CustomButton>
+          <CustomButton key={`ProveItWrong${claim?.status}`} modifiers="blink" onClick={handleChallenge}>
+            Prove it Wrong
+          </CustomButton>
         )}
         {claim?.status == "Challenged" && <CustomButton onClick={handleSubmitEvidence}>Submit Evidence</CustomButton>}
 
@@ -258,9 +177,9 @@ export default function Index() {
           <CustomButton key={`ExecuteWithdrawal${claim?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(claim) > 0 ? (
               <span>
-                  You can execute withdrawal in
-                  <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(claim)}</Interval> seconds
-                </span>
+                You can execute withdrawal in
+                <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(claim)}</Interval> seconds
+              </span>
             ) : (
               "Execute Withdrawal"
             )}
@@ -268,20 +187,24 @@ export default function Index() {
         )}
         {claim?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
-      <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
-                  subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
-                  providerURL={ethereumContext?.ethersProvider?.connection?.url}/>
-      {claim?.events &&
-        <EventLog style={{background: 'red'}} visible={isEventLogOpen} onCancel={() => setEventLogOpen(false)} events={
-          [...claim?.events]?.reverse()
-        } activeAddress={ethereumContext?.accounts[0]}>
-        </EventLog>
-      }
+      <SyncStatus
+        syncedBlock={ethereumContext?.graphMetadata?.block?.number}
+        latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
+        subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
+        providerURL={ethereumContext?.ethersProvider?.connection?.url}
+      />
+      {claim?.events && (
+        <EventLog
+          style={{background: "red"}}
+          visible={isEventLogOpen}
+          onCancel={() => setEventLogOpen(false)}
+          events={[...claim?.events]?.reverse()}
+          activeAddress={ethereumContext?.accounts[0]}
+        ></EventLog>
+      )}
     </section>
   );
 }
 
-
 export const getWithdrawalCountdown = (claim) =>
   Math.max(parseInt(claim.withdrawalPermittedAt) - parseInt(Date.now() / 1000), 0);
-

@@ -2,7 +2,6 @@
 @use "src/stylesheets/variables/colors";
 @use "src/stylesheets/variables/spacings";
 
-
 .pill {
   border-radius: 4px;
   font-size: typo.$xs;
@@ -13,36 +12,33 @@
     font-size: typo.$xxs;
   }
 
-
   &:global(.live) {
-    color: map-get(colors.$palette, 'primary');
-    background-color: map-get(colors.$palette, 'helper', 'green');
-    border-color: map-get(colors.$palette, 'green');
+    color: map-get(colors.$palette, "primary");
+    background-color: map-get(colors.$palette, "helper", "green", "alpha");
+    border-color: map-get(colors.$palette, "green");
   }
 
   &:global(.debunked) {
-    color: map-get(colors.$colorButton, 'secondary', 'text');
-    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
-    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+    color: map-get(colors.$colorButton, "secondary", "text");
+    background-color: map-get(colors.$colorButton, "secondary", "fill");
+    border-color: map-get(colors.$colorButton, "secondary", "stroke");
   }
 
   &:global(.timelockstarted) {
-    color: map-get(colors.$palette, 'primary');
-    background-color: map-get(colors.$palette, 'helper', 'orange');
-    border-color: map-get(colors.$palette, 'helper', 'orange');
+    color: map-get(colors.$palette, "primary");
+    background-color: map-get(colors.$palette, "helper", "orange");
+    border-color: map-get(colors.$palette, "helper", "orange");
   }
 
   &:global(.withdrawn) {
-    color: map-get(colors.$palette, 'primary');
-    background-color: map-get(colors.$palette, 'helper', 'blue');
-    border-color: map-get(colors.$palette, 'helper', 'blue');
+    color: map-get(colors.$palette, "primary");
+    background-color: map-get(colors.$palette, "helper", "blue");
+    border-color: map-get(colors.$palette, "helper", "blue");
   }
 
   &:global(.challenged) {
-    color: map-get(colors.$palette, 'primary');
-    background-color: map-get(colors.$palette, 'helper', 'orange');
-    border-color: map-get(colors.$palette, 'helper', 'orange');
+    color: map-get(colors.$palette, "primary");
+    background-color: map-get(colors.$palette, "helper", "orange");
+    border-color: map-get(colors.$palette, "helper", "orange");
   }
-
-
 }

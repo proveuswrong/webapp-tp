@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
-import ABI from "./abi.js";
+import ABI from "./ABI.json";
 
 // Consider merging 'chains' and 'contractInstances'
 export const chains = {
@@ -19,6 +19,7 @@ export const contractInstances = {
     },
   },
 };
+
 
 export default class EthereumProvider extends Component {
   constructor(props) {
@@ -204,6 +205,14 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     createdAtTimestamp
     disputes (orderBy: id, orderDirection: asc) { 
       id
+      period
+      lastPeriodChange
+      court{
+        id
+        policy
+        hiddenVotes
+        timesPerPeriod
+      }
     }
     events (orderBy: timestamp, orderDirection: asc) {
       id
@@ -266,6 +275,14 @@ export const getAllClaims = (chainID) => {
           createdAtTimestamp
           disputes (orderBy: id, orderDirection: asc) {
             id
+            period
+            lastPeriodChange
+            court{
+              id
+              policy
+              hiddenVotes
+              timesPerPeriod
+            }
           }
           events (orderBy: timestamp, orderDirection: asc) {
             id

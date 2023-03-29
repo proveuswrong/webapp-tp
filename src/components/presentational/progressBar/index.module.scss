@@ -1,0 +1,47 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/colorsNew";
+@use "sass:color";
+
+$brownDarken40: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness: -40%, $alpha: -40%);
+$brownDarken20: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness: -20%, $alpha: -40%);
+$green: hsl(180, 46%, 15%);
+$pink: hsl(313, 74%, 35%);
+
+.progressBar {
+  //TODO: Doesn't work. Remove styles from arbitrationDetails when this fixed.
+  :global {
+    .ant-progress {
+      .ant-progress-text {
+        font-size: typo.$xl;
+        width: 98%;
+        text-align: right;
+        margin-top: spacings.$s-2;
+        margin-bottom: spacings.$s-2;
+      }
+      .ant-progress-outer {
+        padding-right: 0;
+        .ant-progress-inner {
+          border: 1px solid $brownDarken20;
+          border-radius: 4px;
+          height: spacings.$s-4;
+
+          .ant-progress-bg {
+            background: hsl(313, 74%, 35%);
+            border: 1px solid hsl(314, 65%, 82%);
+          }
+          .ant-progress-success-bg {
+            background: hsl(180, 46%, 15%);
+            border: 1px solid hsl(180, 100%, 38%);
+          }
+
+          .ant-progress-bg,
+          .ant-progress-success-bg {
+            border-radius: inherit;
+            height: inherit !important;
+          }
+        }
+      }
+    }
+  }
+}
