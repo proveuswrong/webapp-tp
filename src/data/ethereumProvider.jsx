@@ -106,7 +106,6 @@ export default class EthereumProvider extends Component {
     });
   }
 
-
   changeChain(chainId) {
     this.setState({
       chainId: chainId,
@@ -124,10 +123,7 @@ export default class EthereumProvider extends Component {
         ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
         : null,
     });
-
   }
-
-  // End of Public Functions
 
   handleAccountsChanged(accounts) {
     if (accounts.length == 0) {
@@ -152,7 +148,6 @@ export default class EthereumProvider extends Component {
 
   handleMessage(message) {
     this.setState({blockNumber: message.data.result.number, timestamp: message.data.result.timestamp});
-
   }
 
   async fetchMetaEvidenceContents(chainId) {
