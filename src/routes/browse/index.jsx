@@ -15,17 +15,16 @@ export default function Browse() {
   const ethereumContext = useContext(EthereumContext);
 
   useEffect(() => {
-    if (!params.chain || !networkMap[params.chain].contractInstances) {
-      console.log('navigated to first network in the list')
-      navigate('/' + Object.keys(networkMap[params.chain].contractInstances)[0] + '/')
-    } else if (networkMap[params.chain].contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeChain(params.chain);
-    }
-  }, [ethereumContext?.graphMetadata?.block.number]);
+    if (!params.chain) {
+      navigate("/" + Object.keys(networkMap)[0] + "/")
+    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain)
+      ethereumContext?.changeChain(params.chain)
+  });
 
-  if (networkMap[params.chain].contractInstances || ethereumContext?.isDeployedOnThisChain) {
+  if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
 
     return (
+
       <section className={styles.browse}>
         <ListClaims/>
         <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}

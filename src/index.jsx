@@ -19,15 +19,15 @@ ReactDOM.render(
         {(value) => (
           <Routes>
             <Route path="/" element={<App/>}>
-              <Route index
-                     element={<Browse/>}/>
+              <Route index element={(networkMap?.[value.chainId]?.contractInstances || !value.chainId) ? <Browse/> :
+                <EthereumProviderErrors/>}/>
               <Route path="about/" element={<Home/>}/>
               <Route path="faq/" element={<FAQ/>}/>
 
               <Route path=":chain/"
                      element={<Browse/>}/>
               <Route path=":chain/report/"
-                     element={networkMap[value.chainId] && networkMap[value.chainId].contractInstances ? <Create/> :
+                     element={networkMap?.[value.chainId]?.contractInstances ? <Create/> :
                        <EthereumProviderErrors/>}/>
               <Route path=":chain/:contract/:id/"
                      element={<Claim/>}/>

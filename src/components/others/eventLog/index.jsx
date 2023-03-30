@@ -36,7 +36,6 @@ function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
 
 export default function EventLog({visible, onCancel, events, activeAddress}) {
   const ethereumContext = useContext(EthereumContext);
-  console.log(ethereumContext?.chainId)
 
   return <Modal visible={visible} className={styles.eventLog} onCancel={onCancel} footer={null}>
     <div className={styles.title}>Event Log</div>

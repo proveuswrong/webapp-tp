@@ -9,14 +9,14 @@ import {useNavigate} from "react-router-dom";
 
 const handleMenuClick = (e, ethereumContext, navigate) => {
   console.log(ethereumContext);
-  if (ethereumContext.isProviderDetected)
+  navigate('/' + e.key + '/')
+  if (ethereumContext?.isProviderDetected)
     ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{chainId: e.key}],
+      params: [{chainId: e.key}]
     });
-  else {
-    navigate('/0x4/')
-  }
+
+
 };
 
 const menu = (ethereumContext, navigate) => (
