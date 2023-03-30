@@ -37,7 +37,24 @@ export default function ArbitrationDetails({claim}) {
     // Blindly iterates, since we don't know the state of arbitrator yet. To be upgraded when Subgraph provides those info.
     setButtonAdvanceStateDisabled(true)
 
-    passPeriod()
+    executeRuling()
+  }
+
+  const executeRuling = async () => {
+    // prerequisite: last period
+    const unsignedTx = await arbitratorInstance.populateTransaction.executeRuling(currentDispute?.id);
+    let txResponse
+    try {
+      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
+      setMined(false)
+      const txReceipt = await txResponse.wait()
+      setMined(true)
+      setButtonAdvanceStateDisabled(false)
+
+
+    } catch (error) {
+      await passPeriod()
+    }
   }
 
   const passPeriod = async () => {
@@ -50,7 +67,7 @@ export default function ArbitrationDetails({claim}) {
       const txReceipt = await txResponse.wait()
       setMined(true)
       setButtonAdvanceStateDisabled(false)
-      
+
 
     } catch (error) {
       await drawJury()
