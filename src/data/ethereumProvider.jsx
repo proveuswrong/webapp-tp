@@ -111,7 +111,8 @@ export default class EthereumProvider extends Component {
       chainId: chainId,
       isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
-
+    
+    this.fetchMetaEvidenceContents(chainId);
   }
 
   handleChainChanged(chainId) {
