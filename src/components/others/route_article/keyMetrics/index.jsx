@@ -10,25 +10,25 @@ import getTrustScore from "/src/businessLogic/getTrustScore";
 import { EthereumContext } from "/src/data/ethereumProvider";
 
 export default function KeyMetrics(props) {
-  const { claim, fetchingClaim } = props;
+  const { article, fetchingArticle } = props;
   const ethereumContext = useContext(EthereumContext);
   let reRenderInMs = 1000;
 
   return (
     <div className={styles.containerKeyMetrics}>
-      {claim && (
+      {article && (
         <span className={styles.trustScore}>
           {" "}
           Trust Score:{" "}
-          {fetchingClaim ? (
-            "Fetching claim"
+          {fetchingArticle ? (
+            "Fetching article"
           ) : (
             <Interval delay={reRenderInMs}>
               {() =>
                 getTrustScore(
-                  claim,
+                  article,
                   getTimePastSinceLastBountyUpdate(
-                    claim?.lastBalanceUpdate,
+                    article?.lastBalanceUpdate,
                     ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
                   )
                 )
@@ -39,13 +39,13 @@ export default function KeyMetrics(props) {
       )}
       <Tooltip
         placement="topLeft"
-        title={`Last changed ${getTimePastSinceLastBountyUpdate(claim, ethereumContext?.blockNumber)} blocks ago.`}
+        title={`Last changed ${getTimePastSinceLastBountyUpdate(article, ethereumContext?.blockNumber)} blocks ago.`}
       >
         <span className={styles.bountyAmount}>
           Bounty:{" "}
-          {fetchingClaim
+          {fetchingArticle
             ? "fetching"
-            : `${parseFloat(utils.formatUnits(claim?.bounty)).toFixed(3)} ${constants.EtherSymbol}`}{" "}
+            : `${parseFloat(utils.formatUnits(article?.bounty)).toFixed(3)} ${constants.EtherSymbol}`}{" "}
         </span>
       </Tooltip>
     </div>

@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Navigate} from "react-router-dom";
+import React, { Component } from "react";
+import { Navigate } from "react-router-dom";
 import detectEthereumProvider from "@metamask/detect-provider";
-import {ipfsGateway} from "../utils/addToIPFS";
-import {ethers} from "ethers";
+import { ipfsGateway } from "../utils/addToIPFS";
+import { ethers } from "ethers";
 import ABI from "./ABI.json";
 
 export const networkMap = {
@@ -13,13 +13,12 @@ export const networkMap = {
       return `https://goerli.etherscan.io/address/${address}`;
     },
     contractInstances: {
-      "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-        subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+      "0xAA51402316075798040c2322D0361383577707ba": {
+        subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/gratestas/thetruthpost-test-goerli",
       },
     },
   },
 };
-
 
 export default class EthereumProvider extends Component {
   static constants = {
@@ -53,31 +52,35 @@ export default class EthereumProvider extends Component {
     this.setState = this.setState.bind(this);
   }
 
-
   componentDidMount() {
-    detectEthereumProvider({silent: true}).then((provider,) => {
+    detectEthereumProvider({ silent: true }).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
+    getGraphMetadata(
+      Object.keys(networkMap)[0],
+      Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
+    ).then((r) => this.setState({ graphMetadata: r }));
     this.setState({
       interval: setInterval(() => {
-        console.log(this.state)
-        getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
-      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
+        console.log(this.state);
+        getGraphMetadata(
+          Object.keys(networkMap)[0],
+          Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
+        ).then((r) => this.setState({ graphMetadata: r }));
+      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
     });
-
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.interval)
+    clearInterval(this.state.interval);
   }
 
   initializeProvider() {
-    this.setState({isProviderDetected: true});
-    ethereum.request({method: "eth_chainId"}).then(this.handleChainChanged);
-    ethereum.request({method: "eth_accounts"}).then(this.handleAccountsChanged);
-    ethereum.request({method: "eth_subscribe", params: ["newHeads"]});
-    ethereum.request({method: "eth_blockNumber"}).then((result) => this.setState({blockNumber: result}));
+    this.setState({ isProviderDetected: true });
+    ethereum.request({ method: "eth_chainId" }).then(this.handleChainChanged);
+    ethereum.request({ method: "eth_accounts" }).then(this.handleAccountsChanged);
+    ethereum.request({ method: "eth_subscribe", params: ["newHeads"] });
+    ethereum.request({ method: "eth_blockNumber" }).then((result) => this.setState({ blockNumber: result }));
 
     ethereum.on("accountsChanged", this.handleAccountsChanged);
     ethereum.on("chainChanged", this.handleChainChanged);
@@ -86,20 +89,18 @@ export default class EthereumProvider extends Component {
     ethereum.on("message", this.handleMessage);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    this.setState({ethersProvider: provider});
-
-
+    this.setState({ ethersProvider: provider });
   }
 
   // Public Functions //
   async requestAccounts() {
-    await this.setState({awaitingUserPermission: true});
+    await this.setState({ awaitingUserPermission: true });
     console.debug("Asking users permission to connect.");
-    await ethereum.request({method: "eth_requestAccounts"}).catch((error) => {
+    await ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
         console.log("User rejected connecting to Ethereum.");
-        this.setState({awaitingUserPermission: false});
+        this.setState({ awaitingUserPermission: false });
       } else if (error.code === -32002) {
         // Handle it
       }
@@ -111,12 +112,12 @@ export default class EthereumProvider extends Component {
       chainId: chainId,
       isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
-    
+
     this.fetchMetaEvidenceContents(chainId);
   }
 
   handleChainChanged(chainId) {
-    const {ethersProvider} = this.state;
+    const { ethersProvider } = this.state;
 
     this.setState({
       metamaskChainId: chainId,
@@ -131,24 +132,23 @@ export default class EthereumProvider extends Component {
       console.log("Wallet locked.");
     } else {
       console.log("Accounts changed.");
-      this.setState({awaitingUserPermission: false});
+      this.setState({ awaitingUserPermission: false });
     }
-    this.setState({accounts: accounts});
+    this.setState({ accounts: accounts });
   }
-
 
   handleConnected() {
     console.log("Connected to Ethereum.");
-    this.setState({isConnected: true});
+    this.setState({ isConnected: true });
   }
 
   handleDisconnected() {
     console.log("Disconnect to Ethereum.");
-    this.setState({isConnected: false});
+    this.setState({ isConnected: false });
   }
 
   handleMessage(message) {
-    this.setState({blockNumber: message.data.result.number, timestamp: message.data.result.timestamp});
+    this.setState({ blockNumber: message.data.result.number, timestamp: message.data.result.timestamp });
   }
 
   async fetchMetaEvidenceContents(chainId) {
@@ -157,18 +157,19 @@ export default class EthereumProvider extends Component {
     const result = await Promise.allSettled(
       rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json()))
     );
-    this.setState({metaEvidenceContents: result.map((item) => item.value)});
+    this.setState({ metaEvidenceContents: result.map((item) => item.value) });
   }
 
   render = () => (
-    <EthereumContext.Provider value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain}}>
+    <EthereumContext.Provider
+      value={{ ...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain }}
+    >
       {" "}
       {this.props.children}
     </EthereumContext.Provider>
   );
 }
 export const EthereumContext = React.createContext();
-
 
 const queryTemplate = (endpoint, query) =>
   fetch(endpoint, {
@@ -185,13 +186,13 @@ const queryTemplate = (endpoint, query) =>
     .then((r) => r.json())
     .then((json) => json.data);
 
-export const getClaimByID = (chainID, contractAddress, id) => {
+export const getArticleByID = (chainID, contractAddress, id) => {
   return queryTemplate(
     networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
     `{
-  claims(where: {id: "${id}"}) {
+  articles(where: {id: "${id}"}) {
     id
-    claimID
+    articleID
     owner
     category
     bounty
@@ -199,17 +200,7 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     lastBalanceUpdate
     createdAtBlock
     createdAtTimestamp
-    disputes (orderBy: id, orderDirection: asc) { 
-      id
-      period
-      lastPeriodChange
-      court{
-        id
-        policy
-        hiddenVotes
-        timesPerPeriod
-      }
-    }
+    
     events (orderBy: timestamp, orderDirection: asc) {
       id
       name
@@ -219,27 +210,30 @@ export const getClaimByID = (chainID, contractAddress, id) => {
     }
     withdrawalPermittedAt
     lastCalculatedScore
-    arbitrator
+    arbitrator{
+      id
+    }
     arbitratorExtraData
   }
-    claimStorages(where: {claimEntityID: "${id}"}) {
+    articleStorages(where: {articleEntityID: "${id}"}) {
     id
-    claimEntityID
+    articleEntityID
   }
   }`
   )
     .then((data) => {
       console.log(data);
-      if (data && data?.claims[0]) {
-        data.claims[0].storageAddress = data?.claimStorages[0]?.id;
+      if (data && data?.articles[0]) {
+        data.articles[0].storageAddress = data?.articleStorages[0]?.id;
       }
-      return data.claims[0];
+      return data.articles[0];
     })
     .catch(console.error);
 };
 
 export const getGraphMetadata = (chainID, contractAddress) => {
-  return queryTemplate(networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
+  return queryTemplate(
+    networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
     `{
                 _meta {
                    deployment
@@ -249,37 +243,28 @@ export const getGraphMetadata = (chainID, contractAddress) => {
                      number
                     }
                   }
-                }`)
-    .then(r => r._meta)
+                }`
+  )
+    .then((r) => r._meta)
     .catch(console.error);
 };
 
-export const getAllClaims = (chainID) => {
+export const getAllArticles = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
       return queryTemplate(
         value.subgraphEndpoint,
         `{
-          claims(orderBy: id, orderDirection: asc) {
+          articles(orderBy: id, orderDirection: asc) {
           id
-          claimID
+          articleID
           owner
           bounty
           status
           lastBalanceUpdate
           createdAtBlock
           createdAtTimestamp
-          disputes (orderBy: id, orderDirection: asc) {
-            id
-            period
-            lastPeriodChange
-            court{
-              id
-              policy
-              hiddenVotes
-              timesPerPeriod
-            }
-          }
+         
           events (orderBy: timestamp, orderDirection: asc) {
             id
             name
@@ -289,18 +274,19 @@ export const getAllClaims = (chainID) => {
           }
           withdrawalPermittedAt
           lastCalculatedScore
-          arbitrator
+          arbitrator{
+            id
+          }
           arbitratorExtraData
         }}`
       ).then((data) => {
-        console.log(data)
-        if (data && data.claims && data.claims.length > 0) {
-
-          data.claims.map((claim) => {
-            claim.contractAddress = key;
-            return claim;
+        console.log(data);
+        if (data && data.articles && data.articles.length > 0) {
+          data.articles.map((article) => {
+            article.contractAddress = key;
+            return article;
           });
-          return data.claims;
+          return data.articles;
         }
       });
     })

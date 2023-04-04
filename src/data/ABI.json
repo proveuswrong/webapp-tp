@@ -18,7 +18,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_claimWithdrawalTimelock",
+        "name": "_articleWithdrawalTimelock",
         "type": "uint256"
       },
       {
@@ -41,7 +41,20 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "claimAddress",
+        "name": "articleAddress",
+        "type": "uint256"
+      }
+    ],
+    "name": "ArticleWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "articleAddress",
         "type": "uint256"
       },
       {
@@ -60,7 +73,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "claimAddress",
+        "name": "articleAddress",
         "type": "uint256"
       },
       {
@@ -83,22 +96,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "claimAddress",
-        "type": "uint256"
-      }
-    ],
-    "name": "ClaimWithdrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "uint256",
-        "name": "claimStorageAddress",
+        "name": "disputeId",
         "type": "uint256"
       },
       {
@@ -109,7 +109,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "ruling",
         "type": "uint8"
       },
@@ -135,7 +135,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "claimAddress",
+        "name": "articleAddress",
         "type": "uint256"
       }
     ],
@@ -229,7 +229,7 @@
       {
         "indexed": false,
         "internalType": "string",
-        "name": "claimID",
+        "name": "articleID",
         "type": "string"
       },
       {
@@ -241,11 +241,11 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "claimAddress",
+        "name": "articleAddress",
         "type": "uint256"
       }
     ],
-    "name": "NewClaim",
+    "name": "NewArticle",
     "type": "event"
   },
   {
@@ -279,7 +279,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "claimStorageAddress",
+        "name": "disputeId",
         "type": "uint256"
       },
       {
@@ -290,7 +290,7 @@
       },
       {
         "indexed": true,
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "ruling",
         "type": "uint8"
       }
@@ -304,7 +304,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "claimAddress",
+        "name": "articleAddress",
         "type": "uint256"
       }
     ],
@@ -317,7 +317,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "claimStorageAddress",
+        "name": "disputeId",
         "type": "uint256"
       },
       {
@@ -328,7 +328,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "ruling",
         "type": "uint8"
       },
@@ -363,7 +363,7 @@
   },
   {
     "inputs": [],
-    "name": "CLAIM_WITHDRAWAL_TIMELOCK",
+    "name": "ARTICLE_WITHDRAWAL_TIMELOCK",
     "outputs": [
       {
         "internalType": "uint256",
@@ -441,7 +441,7 @@
   },
   {
     "inputs": [],
-    "name": "PMW_VERSION",
+    "name": "VERSION",
     "outputs": [
       {
         "internalType": "string",
@@ -498,6 +498,40 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint80",
+        "name": "",
+        "type": "uint80"
+      }
+    ],
+    "name": "articleStorage",
+    "outputs": [
+      {
+        "internalType": "address payable",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "withdrawalPermittedAt",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint56",
+        "name": "bountyAmount",
+        "type": "uint56"
+      },
+      {
+        "internalType": "uint8",
+        "name": "category",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "buyAndBurn",
     "outputs": [],
@@ -540,7 +574,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       }
     ],
@@ -553,7 +587,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       }
     ],
@@ -597,32 +631,37 @@
   {
     "inputs": [
       {
-        "internalType": "uint80",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint80"
+        "type": "uint256"
       }
     ],
-    "name": "claimStorage",
+    "name": "disputes",
     "outputs": [
       {
         "internalType": "address payable",
-        "name": "owner",
+        "name": "challenger",
         "type": "address"
       },
       {
-        "internalType": "uint32",
-        "name": "withdrawalPermittedAt",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint56",
-        "name": "bountyAmount",
-        "type": "uint56"
+        "internalType": "enum ITruthPost.RulingOptions",
+        "name": "outcome",
+        "type": "uint8"
       },
       {
         "internalType": "uint8",
-        "name": "category",
+        "name": "articleCategory",
         "type": "uint8"
+      },
+      {
+        "internalType": "bool",
+        "name": "resolved",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint80",
+        "name": "articleStorageAddress",
+        "type": "uint80"
       }
     ],
     "stateMutability": "view",
@@ -655,7 +694,7 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "_supportedRuling",
         "type": "uint8"
       }
@@ -679,12 +718,142 @@
         "type": "uint256"
       },
       {
+        "internalType": "enum ITruthPost.RulingOptions",
+        "name": "_ruling",
+        "type": "uint8"
+      }
+    ],
+    "name": "getAmountRemainsToBeRaised",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum ITruthPost.RulingOptions",
+        "name": "_ruling",
+        "type": "uint8"
+      }
+    ],
+    "name": "getAppealPeriod",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getLastRoundWinner",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum ITruthPost.RulingOptions",
+        "name": "_ruling",
+        "type": "uint8"
+      },
+      {
+        "internalType": "enum ITruthPost.RulingOptions",
+        "name": "_lastRoundWinner",
+        "type": "uint8"
+      }
+    ],
+    "name": "getReturnOfInvestmentRatio",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_round",
+        "type": "uint256"
+      }
+    ],
+    "name": "getRoundInfo",
+    "outputs": [
+      {
+        "internalType": "bool[3]",
+        "name": "hasPaid",
+        "type": "bool[3]"
+      },
+      {
+        "internalType": "uint256[3]",
+        "name": "totalPerRuling",
+        "type": "uint256[3]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalClaimableAfterExpenses",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      },
+      {
         "internalType": "address payable",
         "name": "_contributor",
         "type": "address"
       },
       {
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "_ruling",
         "type": "uint8"
       }
@@ -704,7 +873,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       }
     ],
@@ -717,7 +886,7 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_claimID",
+        "name": "_articleID",
         "type": "string"
       },
       {
@@ -731,7 +900,7 @@
         "type": "uint80"
       }
     ],
-    "name": "initializeClaim",
+    "name": "initializeArticle",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -740,7 +909,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       }
     ],
@@ -764,7 +933,7 @@
     ],
     "name": "newCategory",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -807,7 +976,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       },
       {
@@ -851,7 +1020,7 @@
     "inputs": [
       {
         "internalType": "uint80",
-        "name": "_claimStorageAddress",
+        "name": "_articleStorageAddress",
         "type": "uint80"
       }
     ],
@@ -878,7 +1047,7 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "_ruling",
         "type": "uint8"
       }
@@ -907,7 +1076,7 @@
         "type": "address"
       },
       {
-        "internalType": "enum IProveMeWrong.RulingOptions",
+        "internalType": "enum ITruthPost.RulingOptions",
         "name": "_ruling",
         "type": "uint8"
       }
