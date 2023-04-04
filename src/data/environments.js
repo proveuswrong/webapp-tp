@@ -1,4 +1,4 @@
-const articleFragment = gql`fragment Article on ArticleEntity {
+const articleFragment = `
     id
     articleID
     owner
@@ -7,6 +7,13 @@ const articleFragment = gql`fragment Article on ArticleEntity {
     lastBalanceUpdate
     createdAtBlock
     createdAtTimestamp
+    events (orderBy: timestamp, orderDirection: asc) {
+       id
+       name
+       details
+       timestamp
+       from
+    }
     disputes(orderBy: id, orderDirection: asc) {
         id
         ruled
@@ -26,21 +33,16 @@ const articleFragment = gql`fragment Article on ArticleEntity {
             appealDeadline
             hasPaid
         }
-        events (orderBy: timestamp, orderDirection: asc) {
-            id
-            name
-            details
-            timestamp
-            from
-        }
-        withdrawalPermittedAt
-        lastCalculatedScore
-        arbitrator{
-            id
-        }
-        arbitratorExtraData
+
     }
-}`
+    withdrawalPermittedAt
+    lastCalculatedScore
+    arbitrator{
+        id
+    }
+    arbitratorExtraData
+    
+`
 
 
 export default {
@@ -52,7 +54,7 @@ export default {
             subgraph: {
               endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
               queries: {
-                getArticleByID: gql`{
+                getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
                         id
                         articleID
@@ -101,7 +103,7 @@ export default {
                             articleEntityID
                         }
                     }`,
-                getAllArticles: gql`{
+                getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
                         id
                         articleID
@@ -144,13 +146,13 @@ export default {
                             }
                             arbitratorExtraData
                         }}`,
-                getAllMetaevidences: gql`{
+                getAllMetaevidences: `{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
                         uri
                     }
                 }`,
-                getGraphMetadata: gql`{
+                getGraphMetadata: `{
                     _meta {
                         deployment
                         hasIndexingErrors
@@ -175,21 +177,27 @@ export default {
             subgraph: {
               endpoint: "https://api.thegraph.com/subgraphs/name/gratestas/thetruthpost-test-goerli",
               queries: {
-                getArticleByID: gql`{
+                getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
-                        ...articleFragment
-                    }}`,
-                getAllArticles: gql`{
+                        ${articleFragment}
+                        
+                    }
+                    articleStorages(where: {articleEntityID: "${id}"}) {
+                        id
+                        articleEntityID
+                      }
+                    }`,
+                getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
-                        ...articleFragment
+                        ${articleFragment}
                     }}`,
-                getAllMetaevidences: gql`{
+                getAllMetaevidences: `{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
                         uri
                     }
                 }`,
-                getGraphMetadata: gql`{
+                getGraphMetadata: `{
                     _meta {
                         deployment
                         hasIndexingErrors

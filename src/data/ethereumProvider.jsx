@@ -13,7 +13,7 @@ export const networkMap = {
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
-    contractInstances: environment[process.env.ENV].networkMap["0x5"].contractInstances
+    contractInstances: environment[process.env.ENV || "dev"].networkMap["0x5"].contractInstances
   },
 };
 
@@ -186,12 +186,12 @@ const queryTemplate = (endpoint, query) =>
 export const getArticleByID = (chainID, contractAddress, id) => {
   return queryTemplate(
     networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID
+    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID(id)
   )
     .then((data) => {
       console.log(data);
       if (data && data?.articles[0]) {
-        data.articles[0].storageAddress = data?.articleStorages[0]?.id;
+        data.articles[0].storageAddress = data?.articleStorages?.[0]?.id;
       }
       return data.articles[0];
     })
