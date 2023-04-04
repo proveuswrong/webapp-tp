@@ -186,37 +186,7 @@ const queryTemplate = (endpoint, query) =>
 export const getArticleByID = (chainID, contractAddress, id) => {
   return queryTemplate(
     networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    `{
-  articles(where: {id: "${id}"}) {
-    id
-    articleID
-    owner
-    category
-    bounty
-    status
-    lastBalanceUpdate
-    createdAtBlock
-    createdAtTimestamp
-    
-    events (orderBy: timestamp, orderDirection: asc) {
-      id
-      name
-      details
-      timestamp
-      from
-    }
-    withdrawalPermittedAt
-    lastCalculatedScore
-    arbitrator{
-      id
-    }
-    arbitratorExtraData
-  }
-    articleStorages(where: {articleEntityID: "${id}"}) {
-    id
-    articleEntityID
-  }
-  }`
+    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID
   )
     .then((data) => {
       console.log(data);
@@ -231,16 +201,7 @@ export const getArticleByID = (chainID, contractAddress, id) => {
 export const getGraphMetadata = (chainID, contractAddress) => {
   return queryTemplate(
     networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    `{
-                _meta {
-                   deployment
-                   hasIndexingErrors
-                   block {
-                     hash
-                     number
-                    }
-                  }
-                }`
+    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata
   )
     .then((r) => r._meta)
     .catch(console.error);
@@ -251,31 +212,7 @@ export const getAllArticles = (chainID) => {
     Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
       return queryTemplate(
         value.subgraph.endpoint,
-        `{
-          articles(orderBy: id, orderDirection: asc) {
-          id
-          articleID
-          owner
-          bounty
-          status
-          lastBalanceUpdate
-          createdAtBlock
-          createdAtTimestamp
-         
-          events (orderBy: timestamp, orderDirection: asc) {
-            id
-            name
-            details
-            timestamp
-            from
-          }
-          withdrawalPermittedAt
-          lastCalculatedScore
-          arbitrator{
-            id
-          }
-          arbitratorExtraData
-        }}`
+        value.subgraph.queries.getAllArticles
       ).then((data) => {
         console.log(data);
         if (data && data.articles && data.articles.length > 0) {
@@ -297,12 +234,7 @@ export const getAllMetaEvidences = (chainID) => {
     Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
       return queryTemplate(
         value.subgraph.endpoint,
-        `{
-  metaEvidenceEntities(orderBy: id, orderDirection:asc){
-    id
-    uri
-  }
-}`
+        value.subgraph.queries.getAllMetaevidences
       ).then((data) => data.metaEvidenceEntities);
     })
   )
