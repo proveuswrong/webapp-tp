@@ -13,13 +13,10 @@ import {ethers} from "ethers";
 import ArbitratorABI from "../../../../data/klerosLiquidABI.json";
 import {EthereumContext, networkMap} from "../../../../data/ethereumProvider";
 
-const ARBITRATOR_ADDRESS = "0x1128eD55ab2d796fa92D2F8E1f336d745354a77A"
-// TODO: This info should come from subgraph, within article object.
 export default function ArbitrationDetails({article}) {
   const currentDispute = article?.disputes?.slice(-1)[0];
 
   const ethereumContext = useContext(EthereumContext);
-
 
   const [current, setCurrent] = useState(0);
   const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
@@ -29,10 +26,8 @@ export default function ArbitrationDetails({article}) {
   const {initialJurySize} = getCourtIdAndJurySize(article?.arbitratorExtraData);
   const [arbitratorInstance, setArbitratorInstance] = useState(null)
 
-
   const policy = usePolicy(currentDispute?.court?.policy);
-
-
+  
   const handleAdvanceState = () => {
     // Blindly iterates, since we don't know the state of arbitrator yet. To be upgraded when Subgraph provides those info.
     setButtonAdvanceStateDisabled(true)
@@ -130,8 +125,9 @@ export default function ArbitrationDetails({article}) {
 
 
   useEffect(() => {
-    setArbitratorInstance(new ethers.Contract(ARBITRATOR_ADDRESS, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner()))
-  }, [ethereumContext?.ethersProvider])
+    if(article?.arbitrator)
+      setArbitratorInstance(new ethers.Contract(article.arbitrator.id, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner()))
+  }, [ethereumContext?.ethersProvider, article])
 
   useEffect(() => {
     const updatedCurrent = currentPeriodToItemIndex(currentPeriodIndex);
