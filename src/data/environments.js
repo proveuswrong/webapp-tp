@@ -3,6 +3,7 @@ const articleFragment = `
     articleID
     owner
     bounty
+    category
     status
     lastBalanceUpdate
     createdAtBlock
