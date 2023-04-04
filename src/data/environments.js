@@ -1,3 +1,48 @@
+const articleFragment = gql`fragment Article on ArticleEntity {
+    id
+    articleID
+    owner
+    bounty
+    status
+    lastBalanceUpdate
+    createdAtBlock
+    createdAtTimestamp
+    disputes(orderBy: id, orderDirection: asc) {
+        id
+        ruled
+        ruling
+        period
+        lastPeriodChange
+        court{
+            id
+            policyURI
+            hiddenVotes
+            timesPerPeriod
+        }
+        rounds {
+            id
+            jurySize
+            raisedSoFar
+            appealDeadline
+            hasPaid
+        }
+        events (orderBy: timestamp, orderDirection: asc) {
+            id
+            name
+            details
+            timestamp
+            from
+        }
+        withdrawalPermittedAt
+        lastCalculatedScore
+        arbitrator{
+            id
+        }
+        arbitratorExtraData
+    }
+}`
+
+
 export default {
   prod: {
     networkMap: {
@@ -18,26 +63,44 @@ export default {
                         lastBalanceUpdate
                         createdAtBlock
                         createdAtTimestamp
-
-                        events (orderBy: timestamp, orderDirection: asc) {
+                        disputes(orderBy: id, orderDirection: asc) {
                             id
-                            name
-                            details
-                            timestamp
-                            from
+                            ruled
+                            ruling
+                            period
+                            lastPeriodChange
+                            court{
+                                id
+                                policyURI
+                                hiddenVotes
+                                timesPerPeriod
+                            }
+                            rounds {
+                                id
+                                jurySize
+                                raisedSoFar
+                                appealDeadline
+                                hasPaid
+                            }
+                            events (orderBy: timestamp, orderDirection: asc) {
+                                id
+                                name
+                                details
+                                timestamp
+                                from
+                            }
+                            withdrawalPermittedAt
+                            lastCalculatedScore
+                            arbitrator{
+                                id
+                            }
+                            arbitratorExtraData
                         }
-                        withdrawalPermittedAt
-                        lastCalculatedScore
-                        arbitrator{
+                        articleStorages(where: {articleEntityID: "${id}"}) {
                             id
+                            articleEntityID
                         }
-                        arbitratorExtraData
-                    }
-                    articleStorages(where: {articleEntityID: "${id}"}) {
-                        id
-                        articleEntityID
-                    }
-                }`,
+                    }`,
                 getAllArticles: gql`{
                     articles(orderBy: id, orderDirection: asc) {
                         id
@@ -48,21 +111,39 @@ export default {
                         lastBalanceUpdate
                         createdAtBlock
                         createdAtTimestamp
-
-                        events (orderBy: timestamp, orderDirection: asc) {
+                        disputes(orderBy: id, orderDirection: asc) {
                             id
-                            name
-                            details
-                            timestamp
-                            from
-                        }
-                        withdrawalPermittedAt
-                        lastCalculatedScore
-                        arbitrator{
-                            id
-                        }
-                        arbitratorExtraData
-                    }}`,
+                            ruled
+                            ruling
+                            period
+                            lastPeriodChange
+                            court{
+                                id
+                                policyURI
+                                hiddenVotes
+                                timesPerPeriod
+                            }
+                            rounds {
+                                id
+                                jurySize
+                                raisedSoFar
+                                appealDeadline
+                                hasPaid
+                            }
+                            events (orderBy: timestamp, orderDirection: asc) {
+                                id
+                                name
+                                details
+                                timestamp
+                                from
+                            }
+                            withdrawalPermittedAt
+                            lastCalculatedScore
+                            arbitrator{
+                                id
+                            }
+                            arbitratorExtraData
+                        }}`,
                 getAllMetaevidences: gql`{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
@@ -96,59 +177,11 @@ export default {
               queries: {
                 getArticleByID: gql`{
                     articles(where: {id: "${id}"}) {
-                        id
-                        articleID
-                        owner
-                        category
-                        bounty
-                        status
-                        lastBalanceUpdate
-                        createdAtBlock
-                        createdAtTimestamp
-
-                        events (orderBy: timestamp, orderDirection: asc) {
-                            id
-                            name
-                            details
-                            timestamp
-                            from
-                        }
-                        withdrawalPermittedAt
-                        lastCalculatedScore
-                        arbitrator{
-                            id
-                        }
-                        arbitratorExtraData
-                    }
-                    articleStorages(where: {articleEntityID: "${id}"}) {
-                        id
-                        articleEntityID
-                    }
-                }`,
+                        ...articleFragment
+                    }}`,
                 getAllArticles: gql`{
                     articles(orderBy: id, orderDirection: asc) {
-                        id
-                        articleID
-                        owner
-                        bounty
-                        status
-                        lastBalanceUpdate
-                        createdAtBlock
-                        createdAtTimestamp
-
-                        events (orderBy: timestamp, orderDirection: asc) {
-                            id
-                            name
-                            details
-                            timestamp
-                            from
-                        }
-                        withdrawalPermittedAt
-                        lastCalculatedScore
-                        arbitrator{
-                            id
-                        }
-                        arbitratorExtraData
+                        ...articleFragment
                     }}`,
                 getAllMetaevidences: gql`{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
