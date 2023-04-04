@@ -4,6 +4,8 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
 import ABI from "./ABI.json";
+import {networkMap as prodNetworkMap} from './environments/prod.js';
+import {networkMap as devNetworkMap} from './environments/dev.js';
 
 export const networkMap = {
   "0x5": {
@@ -12,11 +14,7 @@ export const networkMap = {
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
-    contractInstances: {
-      "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-        subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
-      },
-    },
+    contractInstances: process.env.ENV == "prod" ? prodNetworkMap["0x5"].contractInstances : devNetworkMap["0x5"].contractInstances
   },
 };
 
@@ -111,7 +109,7 @@ export default class EthereumProvider extends Component {
       chainId: chainId,
       isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
-    
+
     this.fetchMetaEvidenceContents(chainId);
   }
 
