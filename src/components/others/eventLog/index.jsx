@@ -8,7 +8,7 @@ import {networkMap, EthereumContext} from "../../../data/ethereumProvider";
 
 function getPrettyNamesForEvents(sourceCodeName) {
   switch (sourceCodeName) {
-    case 'NewClaim':
+    case 'NewArticle':
       return 'New Article'
     case 'BalanceUpdate':
       return 'Bounty Increase'
@@ -21,7 +21,7 @@ function getPrettyNamesForEvents(sourceCodeName) {
 
 function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
   switch (eventNameAsInSourceCode) {
-    case 'NewClaim':
+    case 'NewArticle':
       return `Curation Pool 0: ${ethereumContext?.metaEvidenceContents[extraData]?.category}`
     case 'BalanceUpdate':
       return `New Bounty: ${parseFloat(utils.formatUnits(extraData)).toFixed(3)} ${constants.EtherSymbol}`

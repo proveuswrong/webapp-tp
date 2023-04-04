@@ -7,7 +7,7 @@ import CustomButton from "/src/components/presentational/button";
 import { getLabel } from "/src/utils/account";
 
 export default function Metadata(props) {
-  const { claim, fetchingClaim, setEventLogOpen } = props;
+  const { article, fetchingarticle, setEventLogOpen } = props;
   const ethereumContext = useContext(EthereumContext);
 
   return (
@@ -15,43 +15,43 @@ export default function Metadata(props) {
       <div>
         <Tooltip
           placement="left"
-          title={`Pool name: ${ethereumContext?.metaEvidenceContents[claim?.category]?.category}`}
+          title={`Pool name: ${ethereumContext?.metaEvidenceContents[article?.category]?.category}`}
         >
           <span>
-            <b>Curation Pool ID: {claim?.category}</b>
+            <b>Curation Pool ID: {article?.category}</b>
           </span>
         </Tooltip>
 
-        {claim?.createdAtBlock && (
+        {article?.createdAtBlock && (
           <span>
             {" "}
             Posted on{" "}
-            <Tooltip placement="left" title={`Exact block number: ${claim?.createdAtBlock}`}>
-              {new Date(parseInt(claim?.createdAtTimestamp) * 1000).toUTCString()}
+            <Tooltip placement="left" title={`Exact block number: ${article?.createdAtBlock}`}>
+              {new Date(parseInt(article?.createdAtTimestamp) * 1000).toUTCString()}
             </Tooltip>{" "}
             by{" "}
             <Tooltip
-              key={`postedBy${claim?.owner}${ethereumContext?.accounts[0]}`}
+              key={`postedBy${article?.owner}${ethereumContext?.accounts[0]}`}
               className="blink"
               placement="bottomRight"
-              title={claim?.owner}
+              title={article?.owner}
             >
-              {fetchingClaim ? "fetching" : getLabel(claim?.owner, ethereumContext?.accounts[0])}
+              {fetchingarticle ? "fetching" : getLabel(article?.owner, ethereumContext?.accounts[0])}
             </Tooltip>
           </span>
         )}
 
-        {claim?.disputeID && (
+        {article?.disputeID && (
           <span>
-            Latest {claim?.disputes && `(out of ${claim?.disputes?.length})`} dispute ID:{" "}
+            Latest {article?.disputes && `(out of ${article?.disputes?.length})`} dispute ID:{" "}
             <a
-              key={claim?.disputeID}
+              key={article?.disputeID}
               className="blink"
-              href={`https://resolve.kleros.io/cases/${claim.disputeID}`}
+              href={`https://resolve.kleros.io/cases/${article.disputeID}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {claim?.disputeID}
+              {article?.disputeID}
             </a>
           </span>
         )}
