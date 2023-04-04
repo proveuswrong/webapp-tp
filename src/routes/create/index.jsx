@@ -25,23 +25,23 @@ export default function Create() {
 
   async function handleCreate() {
 
-    let ipfsPathOfNewClaim
+    let ipfsPathOfNewArticle
     try {
-      const ipfsEndpointResponse = await addToIPFS('https://ipfs.kleros.io/add', "claim.json", JSON.stringify({
+      const ipfsEndpointResponse = await addToIPFS('https://ipfs.kleros.io/add', "article.json", JSON.stringify({
         title: controlsState.title,
         description: controlsState.description,
         tags: controlsState.tags
       }))
 
-      ipfsPathOfNewClaim = ipfsEndpointResponse[0].hash
+      ipfsPathOfNewArticle = ipfsEndpointResponse[0].hash
     } catch (err) {
       console.error(err)
     }
-    console.log(ipfsPathOfNewClaim)
+    console.log(ipfsPathOfNewArticle)
 
     const formattedBounty = utils.parseEther(controlsState.bounty)
 
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initializeClaim(`/ipfs/${ipfsPathOfNewClaim}`, controlsState.categoryNo, 0, {value: formattedBounty})
+    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initializeArticle(`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, 0, {value: formattedBounty})
 
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log)
   }
