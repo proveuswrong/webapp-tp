@@ -1,5 +1,5 @@
 import {useParams, useNavigate} from "react-router-dom";
-import ListClaims from "../../components/others/listClaims";
+import ListArticles from "../../components/others/listArticles";
 import EthereumProviderErrors from "../../components/others/ethereumProviderErrors";
 import {useContext, useEffect} from "react";
 import {EthereumContext, networkMap} from "../../data/ethereumProvider";
@@ -26,7 +26,7 @@ export default function Browse() {
     return (
 
       <section className={styles.browse}>
-        <ListClaims/>
+        <ListArticles/>
         <SyncStatus syncedBlock={ethereumContext?.graphMetadata?.block?.number} latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
                     subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
                     providerURL={ethereumContext?.ethersProvider?.connection?.url}/>

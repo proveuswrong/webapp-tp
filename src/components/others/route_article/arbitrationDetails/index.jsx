@@ -14,9 +14,9 @@ import ArbitratorABI from "../../../../data/klerosLiquidABI.json";
 import {EthereumContext, networkMap} from "../../../../data/ethereumProvider";
 
 const ARBITRATOR_ADDRESS = "0x1128eD55ab2d796fa92D2F8E1f336d745354a77A"
-// TODO: This info should come from subgraph, within claim object.
-export default function ArbitrationDetails({claim}) {
-  const currentDispute = claim?.disputes.slice(-1)[0];
+// TODO: This info should come from subgraph, within article object.
+export default function ArbitrationDetails({article}) {
+  const currentDispute = article?.disputes?.slice(-1)[0];
 
   const ethereumContext = useContext(EthereumContext);
 
@@ -26,7 +26,7 @@ export default function ArbitrationDetails({claim}) {
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false)
   const [mined, setMined] = useState(true)
 
-  const {initialJurySize} = getCourtIdAndJurySize(claim?.arbitratorExtraData);
+  const {initialJurySize} = getCourtIdAndJurySize(article?.arbitratorExtraData);
   const [arbitratorInstance, setArbitratorInstance] = useState(null)
 
 

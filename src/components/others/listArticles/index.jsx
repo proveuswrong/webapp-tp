@@ -1,33 +1,33 @@
-import {EthereumContext, getAllClaims} from "../../../data/ethereumProvider";
+import {EthereumContext, getAllArticles} from "../../../data/ethereumProvider";
 import {ipfsGateway} from "../../../utils/addToIPFS";
 import React, {useState, useEffect, useContext} from "react";
-import ListClaimsItem from "/src/components/presentational/listClaimsItem";
+import ListArticlesItem from "/src/components/presentational/listArticlesItem";
 import Pill from "../../presentational/pill";
 import * as styles from "./index.module.scss";
 import getTrustScore from "../../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "../../../businessLogic/getTimePastSinceLastBountyUpdate";
 
 
-export default function ListClaims() {
-  const [claims, setClaims] = useState();
-  const [claimContents, setClaimContents] = useState()
+export default function ListArticles() {
+  const [articles, setArticles] = useState();
+  const [articleContents, setArticleContents] = useState()
   const ethereumContext = useContext(EthereumContext);
 
-  const [fetchingClaims, setFetchingClaims] = useState(true)
-  const [loadingFetchingContents, setFetchingClaimsContents] = useState(true)
+  const [fetchingArticles, setFetchingArticles] = useState(true)
+  const [loadingFetchingContents, setFetchingArticlesContents] = useState(true)
 
 
   useEffect(() => {
     if (!ethereumContext?.isDeployedOnThisChain) return;
 
-    console.log('Fetching claims...')
+    console.log('Fetching articles...')
     let didCancel = false;
 
     async function fetchFromGraph() {
       if (!didCancel) {
-        let data = await getAllClaims(ethereumContext?.chainId);
-        setClaims(data)
-        setFetchingClaims(false)
+        let data = await getAllArticles(ethereumContext?.chainId);
+        setArticles(data)
+        setFetchingArticles(false)
       }
     }
 
@@ -43,51 +43,51 @@ export default function ListClaims() {
 
   useEffect(() => {
     let didCancel = false;
-    if (!didCancel && claims) {
-      claims.filter(c => c != null).map((claim) => fetch(ipfsGateway + claim?.claimID).then(response => {
+    if (!didCancel && articles) {
+      articles.filter(a => a != null).map((article) => fetch(ipfsGateway + article?.articleID).then(response => {
         if (!response.ok) {
           throw new Error('Network response was not OK');
         }
         response.json().then(data => {
-          setClaimContents((prevState) => ({
+          setArticleContents((prevState) => ({
             ...prevState,
-            [claim.claimID]: {title: data.title, description: data.description}
+            [article.articleID]: {title: data.title, description: data.description}
           }))
 
-          setFetchingClaimsContents(false)
+          setFetchingArticlesContents(false)
         });
       }, (err) => {
         console.error(err)
       }))
     } else {
-      setFetchingClaimsContents(false)
+      setFetchingArticlesContents(false)
     }
     return () => {
       didCancel = true
     }
 
-  }, [claims])
+  }, [articles])
 
 
   return (
     <>
       <div className={styles.containerItems}>
-        {claims && Object.entries(claims.filter(c => c != null)).sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext)).map(([_key, value], index) =>
-          <ListClaimsItem
+        {articles && Object.entries(articles.filter(c => c != null)).sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext)).map(([_key, value], index) =>
+          <ListArticlesItem
             key={value?.id}
-            title={claimContents?.[value?.claimID]?.title || (!loadingFetchingContents && `Unable to fetch claim data from ${value?.claimID}`)}
-            description={claimContents?.[value?.claimID]?.description}
+            title={articleContents?.[value?.articleID]?.title || (!loadingFetchingContents && `Unable to fetch article data from ${value?.articleID}`)}
+            description={articleContents?.[value?.articleID]?.description}
             linkTo={`${value?.contractAddress}/${value?.id}/`}
             score={getTrustScore(value, getTimePastSinceLastBountyUpdate(value?.lastBalanceUpdate, ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber))}
             createdAt={value?.createdAtTimestamp}
             excerptSize={index % 2 == 1 ? 3 : 1}>
             <Pill modifiers='small'>{value?.status}</Pill>
-          </ListClaimsItem>
+          </ListArticlesItem>
         )}
       </div>
-      {!claims && fetchingClaims && 'Fetching news...'}
-      {!fetchingClaims && (claims == null || (claims && claims.filter(c => c != null).length == 0)) && 'No news articles.'}
-      {claims && loadingFetchingContents && 'Fetching claim details.'}
+      {!articles && fetchingArticles && 'Fetching news...'}
+      {!fetchingArticles && (articles == null || (articles && articles.filter(a => a != null).length == 0)) && 'No news articles.'}
+      {articles && loadingFetchingContents && 'Fetching article details.'}
     </>
   );
 }

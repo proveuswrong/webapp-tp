@@ -1,6 +1,6 @@
 let events = {
   0: {
-    name: "newClaim",
+    name: "newArticle",
   },
   1: {
     name: "raise",
@@ -65,21 +65,21 @@ let arbitrators = {
 };
 
 
-export function getTrustScore(claim) {
+export function getTrustScore(Article) {
 
   return (
-    parseInt(claim.lastCalculatedScore) +
-    (Math.floor(Date.now() / 1000) - parseInt(claim.lastBalanceUpdate))
+    parseInt(Article.lastCalculatedScore) +
+    (Math.floor(Date.now() / 1000) - parseInt(Article.lastBalanceUpdate))
   ).toFixed(0);
 
 
 }
 
-export function getTrustScore2(claim) {
+export function getTrustScore2(Article) {
 
   return (
-    parseInt(claim.lastCalculatedScore) +
-    (Math.floor(Date.now() / 1000) - parseInt(claim.lastBalanceUpdate)) * parseInt(claim.bounty)
+    parseInt(Article.lastCalculatedScore) +
+    (Math.floor(Date.now() / 1000) - parseInt(Article.lastBalanceUpdate)) * parseInt(Article.bounty)
   ).toFixed(0);
 
 

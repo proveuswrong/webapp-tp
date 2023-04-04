@@ -5,7 +5,7 @@ import Home from "./routes/home";
 import FAQ from "./routes/faq";
 import Create from "./routes/create";
 import Browse from "./routes/browse";
-import Claim from "./routes/claim";
+import Article from "./routes/article";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
 import EthereumProvider, {EthereumContext, networkMap} from "./data/ethereumProvider.jsx";
@@ -30,7 +30,7 @@ ReactDOM.render(
                      element={networkMap?.[value.chainId]?.contractInstances ? <Create/> :
                        <EthereumProviderErrors/>}/>
               <Route path=":chain/:contract/:id/"
-                     element={<Claim/>}/>
+                     element={<Article/>}/>
               <Route path="*" element={<section><h1>There's nothing here!</h1></section>}/>
             </Route>
           </Routes>
