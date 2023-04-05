@@ -143,7 +143,6 @@ export default function ArbitrationDetails({ article }) {
       />
       <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
       {components[current]}
-      <VotingPeriod />
     </section>
   );
 }
