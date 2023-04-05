@@ -1,14 +1,15 @@
 import * as styles from "./index.module.scss";
 
-import {useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import {EthereumContext, getArticleByID} from "/src/data/ethereumProvider";
-import addToIPFS, {ipfsGateway} from "/src/utils/addToIPFS";
+import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
+import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
 
-import {useEffect, useState, useContext} from "react";
+import { useEffect, useState, useContext } from "react";
 
 import CustomButton from "/src/components/presentational/button";
 import EventLog from "/src/components/others/eventLog";
+import EvidenceModal from "/src/components/others/evidenceModal";
 import SyncStatus from "/src/components/presentational/syncStatus";
 import KeyMetrics from "/src/components/others/route_article/keyMetrics";
 import Metadata from "/src/components/others/route_article/metadata";
@@ -26,7 +27,7 @@ export default function Index() {
   const [fetchingArticle, setFetchingArticle] = useState(true);
   const [fetchingArticleContent, setFetchingArticleContent] = useState(true);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
-
+  const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
   useEffect(() => {
     let didCancel = false;
 
@@ -41,7 +42,6 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
-
 
   useEffect(() => {
     let didCancel = false;
@@ -81,9 +81,12 @@ export default function Index() {
   }
 
   async function handleIncreaseBounty() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(article.storageAddress, {
-      value: article.bounty,
-    });
+    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(
+      article.storageAddress,
+      {
+        value: article.bounty,
+      }
+    );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
 
@@ -93,32 +96,6 @@ export default function Index() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.challenge(article.storageAddress, {
       value: fee,
     });
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
-  }
-
-  async function handleSubmitEvidence() {
-    let ipfsPathOfNewEvidence;
-    try {
-      const ipfsEndpointResponse = await addToIPFS(
-        "https://ipfs.kleros.io/add",
-        "evidence.json",
-        JSON.stringify({
-          name: `name`,
-          description: `desc`,
-          fileURI: `uri`,
-        })
-      );
-
-      ipfsPathOfNewEvidence = ipfsEndpointResponse[0].hash;
-    } catch (err) {
-      console.error(err);
-    }
-    console.log(ipfsPathOfNewEvidence);
-
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(
-      article?.disputes.at(-1).id,
-      `/ipfs/${ipfsPathOfNewEvidence}`
-    );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
 
@@ -132,7 +109,7 @@ export default function Index() {
       article.articleID,
       article.category,
       article.storageAddress,
-      {value: "12312312311111"}
+      { value: "12312312311111" }
     );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
@@ -141,11 +118,11 @@ export default function Index() {
 
   return (
     <section>
-      <KeyMetrics {...{fetchingArticle, article}} />
+      <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
-      <Metadata {...{fetchingArticle, article, setEventLogOpen}} />
-      <Content {...{articleContent, fetchingArticleContent, articleStatus: article?.status}} />
-      <ArbitrationDetails article={article}/>
+      <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
+      <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
+      <ArbitrationDetails article={article} />
 
       <div className={styles.containerButtons}>
         <CustomButton
@@ -157,7 +134,11 @@ export default function Index() {
           Go back
         </CustomButton>
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
-          <CustomButton key={`InitiateWithdrawal${article?.status}`} modifiers="blink" onClick={handleInitiateWithdrawal}>
+          <CustomButton
+            key={`InitiateWithdrawal${article?.status}`}
+            modifiers="blink"
+            onClick={handleInitiateWithdrawal}
+          >
             Initiate Withdrawal
           </CustomButton>
         )}
@@ -171,7 +152,9 @@ export default function Index() {
             Prove it Wrong
           </CustomButton>
         )}
-        {article?.status == "Challenged" && <CustomButton onClick={handleSubmitEvidence}>Submit Evidence</CustomButton>}
+        {article?.status == "Challenged" && (
+          <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
+        )}
 
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "TimelockStarted" && (
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
@@ -195,13 +178,18 @@ export default function Index() {
       />
       {article?.events && (
         <EventLog
-          style={{background: "red"}}
+          style={{ background: "red" }}
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
           events={[...article?.events]?.reverse()}
           activeAddress={ethereumContext?.accounts[0]}
         ></EventLog>
       )}
+      <EvidenceModal
+        disputeID={article?.disputes?.at(-1).id}
+        visible={isEvidenceModalOpen}
+        onCancel={() => setEvidenceModalOpen(false)}
+      />
     </section>
   );
 }
