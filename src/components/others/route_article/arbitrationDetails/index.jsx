@@ -26,8 +26,7 @@ export default function ArbitrationDetails({article}) {
   const {initialJurySize} = getCourtIdAndJurySize(article?.arbitratorExtraData);
   const [arbitratorInstance, setArbitratorInstance] = useState(null)
 
-  const policy = usePolicy(currentDispute?.court?.policy);
-  
+  const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
     // Blindly iterates, since we don't know the state of arbitrator yet. To be upgraded when Subgraph provides those info.
     setButtonAdvanceStateDisabled(true)
@@ -125,7 +124,7 @@ export default function ArbitrationDetails({article}) {
 
 
   useEffect(() => {
-    if(article?.arbitrator)
+    if (article?.arbitrator)
       setArbitratorInstance(new ethers.Contract(article.arbitrator.id, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner()))
   }, [ethereumContext?.ethersProvider, article])
 
