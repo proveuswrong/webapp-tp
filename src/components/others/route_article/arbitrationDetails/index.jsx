@@ -1,140 +1,132 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import DisputeTimeline from "/src/components/others/disputeTimeline";
 
-import {getCourtIdAndJurySize, currentJurySize} from "/src/utils/getCourtIdAndJurorSize";
+import { getCourtIdAndJurySize, currentJurySize } from "/src/utils/getCourtIdAndJurorSize";
 import usePolicy from "/src/hooks/usePolicy";
-import {Periods} from "/src/constants/enums";
+import { Periods } from "/src/constants/enums";
 
 import AppealPeriod from "./appeal";
-import {ethers} from "ethers";
-import ArbitratorABI from "../../../../data/klerosLiquidABI.json";
-import {EthereumContext, networkMap} from "../../../../data/ethereumProvider";
+import { ethers } from "ethers";
+import ArbitratorABI from "/src/data/klerosLiquidABI.json";
+import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
+import VotingPeriod from "./vote";
+import EvidencePeriod from "./evidence";
 
-export default function ArbitrationDetails({article}) {
-  const currentDispute = article?.disputes?.slice(-1)[0];
+export default function ArbitrationDetails({ article }) {
+  const currentDispute = article?.disputes?.at(-1);
 
   const ethereumContext = useContext(EthereumContext);
 
   const [current, setCurrent] = useState(0);
   const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
-  const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false)
-  const [mined, setMined] = useState(true)
+  const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
+  const [mined, setMined] = useState(true);
 
-  const {initialJurySize} = getCourtIdAndJurySize(article?.arbitratorExtraData);
-  const [arbitratorInstance, setArbitratorInstance] = useState(null)
+  const [arbitratorInstance, setArbitratorInstance] = useState(null);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
     // Blindly iterates, since we don't know the state of arbitrator yet. To be upgraded when Subgraph provides those info.
-    setButtonAdvanceStateDisabled(true)
+    setButtonAdvanceStateDisabled(true);
 
-    executeRuling()
-  }
+    executeRuling();
+  };
 
   const executeRuling = async () => {
     // prerequisite: last period
     const unsignedTx = await arbitratorInstance.populateTransaction.executeRuling(currentDispute?.id);
-    let txResponse
+    let txResponse;
     try {
       txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      setMined(false)
-      const txReceipt = await txResponse.wait()
-      setMined(true)
-      setButtonAdvanceStateDisabled(false)
-
-
+      setMined(false);
+      await txResponse.wait();
+      setMined(true);
+      setButtonAdvanceStateDisabled(false);
     } catch (error) {
-      await passPeriod()
+      await passPeriod();
     }
-  }
+  };
 
   const passPeriod = async () => {
     // prerequisite: jury drawn
     const unsignedTx = await arbitratorInstance.populateTransaction.passPeriod(currentDispute?.id);
-    let txResponse
+    let txResponse;
     try {
       txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      setMined(false)
-      const txReceipt = await txResponse.wait()
-      setMined(true)
-      setButtonAdvanceStateDisabled(false)
-
-
+      setMined(false);
+      await txResponse.wait();
+      setMined(true);
+      setButtonAdvanceStateDisabled(false);
     } catch (error) {
-      await drawJury()
+      await drawJury();
     }
-  }
+  };
 
   const drawJury = async (completedCallback, minedCallback) => {
     // prerequisite: phase = drawing && nextDelayedSetStake > lastDelayedSetStake
 
     const unsignedTx = await arbitratorInstance.populateTransaction.drawJurors(currentDispute?.id, 1000);
-    let txResponse
+    let txResponse;
     try {
       txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      setMined(false)
-      const txReceipt = await txResponse.wait()
-      setMined(true)
-      setButtonAdvanceStateDisabled(false)
-
+      setMined(false);
+      await txResponse.wait();
+      setMined(true);
+      setButtonAdvanceStateDisabled(false);
     } catch (error) {
-      await executeDelayedSetStake(completedCallback, minedCallback)
+      await executeDelayedSetStake(completedCallback, minedCallback);
     }
-  }
+  };
 
   const executeDelayedSetStake = async (completedCallback, minedCallback) => {
     // prerequisite: phase = staking
 
     const unsignedTx = await arbitratorInstance.populateTransaction.drawJurors(currentDispute?.id, 1000);
-    let txResponse
+    let txResponse;
     try {
       txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      setMined(false)
-      const txReceipt = await txResponse.wait()
-      setMined(true)
-      setButtonAdvanceStateDisabled(false)
-
-
+      setMined(false);
+      await txResponse.wait();
+      setMined(true);
+      setButtonAdvanceStateDisabled(false);
     } catch (error) {
-      await passPhase(completedCallback, minedCallback)
+      await passPhase(completedCallback, minedCallback);
     }
-  }
+  };
 
   const passPhase = async (completedCallback, minedCallback) => {
     // prerequisite: (phase = staking && disputesWithoutJurors > 0), now - lastPhaseChange >= minStakingTime
 
     const unsignedTx = await arbitratorInstance.populateTransaction.passPhase();
-    let txResponse
+    let txResponse;
     try {
       txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      setMined(false)
-      const txReceipt = await txResponse.wait()
-      setMined(true)
-      setButtonAdvanceStateDisabled(false)
-
-
+      setMined(false);
+      await txResponse.wait();
+      setMined(true);
+      setButtonAdvanceStateDisabled(false);
     } catch (error) {
     } finally {
-      setButtonAdvanceStateDisabled(false)
+      setButtonAdvanceStateDisabled(false);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (article?.arbitrator)
-      setArbitratorInstance(new ethers.Contract(article.arbitrator.id, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner()))
-  }, [ethereumContext?.ethersProvider, article])
+      setArbitratorInstance(
+        new ethers.Contract(article.arbitrator.id, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner())
+      );
+  }, [ethereumContext?.ethersProvider, article]);
 
   useEffect(() => {
     const updatedCurrent = currentPeriodToItemIndex(currentPeriodIndex);
     setCurrent(updatedCurrent);
   }, [currentPeriodIndex]);
 
-
-  const components = [<EvidencePeriod/>, <VotingPeriod/>, <AppealPeriod/>];
+  const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
   return (
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
@@ -143,9 +135,15 @@ export default function ArbitrationDetails({article}) {
           {mined ? `Advance state` : `Mining...`}
         </CustomButton>
       </div>
-      <Overview courtName={policy.name} disputeID={currentDispute?.id} roundNumber={9} jurySize={currentJurySize(initialJurySize, 2)}/>
-      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current}/>
+      <Overview
+        courtName={policy.name}
+        disputeID={currentDispute?.id}
+        roundNumber={currentDispute?.rounds?.length}
+        jurySize={currentDispute?.rounds?.at(-1).jurySize}
+      />
+      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
       {components[current]}
+      <VotingPeriod />
     </section>
   );
 }
@@ -172,16 +170,8 @@ function Overview(props) {
       </span>
       <span>
         <b>Jury Size:</b>
-        {props.jurySize} votes
+        {`${props.jurySize} ${props.jurySize > 1 ? "votes" : "vote"}`}
       </span>
     </div>
   );
-}
-
-function EvidencePeriod(props) {
-  return <div>Evidence period</div>;
-}
-
-function VotingPeriod(props) {
-  return <div>Voting period</div>;
 }
