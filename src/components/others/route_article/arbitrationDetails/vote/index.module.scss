@@ -1,0 +1,36 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/colorsNew";
+@use "src/stylesheets/variables/typo";
+@use "sass:color";
+
+.votingPeriod {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: spacings.$s-20;
+  .cardWrapper {
+    width: 60%;
+    margin: spacings.$s-4 auto;
+    display: flex;
+    justify-content: center;
+    gap: spacings.$s-10;
+
+    .voteCard {
+      min-width: 120px;
+      padding: spacings.$s-6 spacings.$s-3;
+      display: flex;
+      gap: spacings.$s-4;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid black;
+      border-radius: spacings.$s-1;
+
+      .voteCount {
+        font-size: typo.$l;
+      }
+      .voteOption {
+        font-size: typo.$xs;
+      }
+    }
+  }
+}
