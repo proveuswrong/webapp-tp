@@ -186,7 +186,7 @@ export default function Index() {
         ></EventLog>
       )}
       <EvidenceModal
-        disputeID={article?.disputes?.at(-1).id}
+        disputeID={article?.disputes?.at(-1)?.id}
         visible={isEvidenceModalOpen}
         onCancel={() => setEvidenceModalOpen(false)}
       />
