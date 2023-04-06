@@ -12,8 +12,10 @@ export default function Content(props) {
 
   return (
     <>
-      <h1 className={styles.title}>{articleContent?.title}</h1>
-      <Pill>{articleStatus}</Pill>
+      <div>
+        <h1 className={styles.title}>{articleContent?.title}</h1>
+        <Pill>{articleStatus}</Pill>
+      </div>
 
       <p className={styles.description}> {articleContent?.description}</p>
       <div className={styles.containerTag}>

@@ -32,6 +32,9 @@ $brownLighten40: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness
     .ant-steps-item-icon {
       background: $brownDarken40;
       border-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .ant-steps-item-tail:after {
@@ -41,9 +44,16 @@ $brownLighten40: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness
   .ant-steps-item-wait > .ant-steps-item-container,
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-item-icon {
-      background: transparent;
+      background: inherit;
       border-color: $brownLighten40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+  }
+
+  .ant-steps-label-vertical .ant-steps-item-tail {
+    padding: 3.5px 42px;
   }
 
   .ant-steps-item-wait > .ant-steps-item-container {
