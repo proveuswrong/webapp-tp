@@ -122,7 +122,7 @@ export default function Index() {
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
-      <ArbitrationDetails article={article} />
+      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
         <CustomButton
