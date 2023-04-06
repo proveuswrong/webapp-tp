@@ -57,96 +57,18 @@ export default {
               queries: {
                 getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
+                        ${articleFragment}
+                        
+                    }
+                    articleStorages(where: {articleEntityID: "${id}"}) {
                         id
-                        articleID
-                        owner
-                        category
-                        bounty
-                        status
-                        lastBalanceUpdate
-                        createdAtBlock
-                        createdAtTimestamp
-                        disputes(orderBy: id, orderDirection: asc) {
-                            id
-                            ruled
-                            ruling
-                            period
-                            lastPeriodChange
-                            court{
-                                id
-                                policyURI
-                                hiddenVotes
-                                timesPerPeriod
-                            }
-                            rounds {
-                                id
-                                jurySize
-                                raisedSoFar
-                                appealDeadline
-                                hasPaid
-                            }
-                            events (orderBy: timestamp, orderDirection: asc) {
-                                id
-                                name
-                                details
-                                timestamp
-                                from
-                            }
-                            withdrawalPermittedAt
-                            lastCalculatedScore
-                            arbitrator{
-                                id
-                            }
-                            arbitratorExtraData
-                        }
-                        articleStorages(where: {articleEntityID: "${id}"}) {
-                            id
-                            articleEntityID
-                        }
+                        articleEntityID
+                      }
                     }`,
                 getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
-                        id
-                        articleID
-                        owner
-                        bounty
-                        status
-                        lastBalanceUpdate
-                        createdAtBlock
-                        createdAtTimestamp
-                        disputes(orderBy: id, orderDirection: asc) {
-                            id
-                            ruled
-                            ruling
-                            period
-                            lastPeriodChange
-                            court{
-                                id
-                                policyURI
-                                hiddenVotes
-                                timesPerPeriod
-                            }
-                            rounds {
-                                id
-                                jurySize
-                                raisedSoFar
-                                appealDeadline
-                                hasPaid
-                            }
-                            events (orderBy: timestamp, orderDirection: asc) {
-                                id
-                                name
-                                details
-                                timestamp
-                                from
-                            }
-                            withdrawalPermittedAt
-                            lastCalculatedScore
-                            arbitrator{
-                                id
-                            }
-                            arbitratorExtraData
-                        }}`,
+                        ${articleFragment}
+                    }}`,
                 getAllMetaevidences: `{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
