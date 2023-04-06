@@ -4,6 +4,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
 import ABI from "./ABI.json";
+import environment from './environments';
 
 export const networkMap = {
   "0x5": {
@@ -12,14 +13,9 @@ export const networkMap = {
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
-    contractInstances: {
-      "0x0136ed2132Ec1e99046889058F67c9C2fd5FD578": {
-        subgraphEndpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
-      },
-    },
+    contractInstances: environment[process.env.ENV || "dev"].networkMap["0x5"].contractInstances
   },
 };
-
 
 export default class EthereumProvider extends Component {
   static constants = {
@@ -53,23 +49,27 @@ export default class EthereumProvider extends Component {
     this.setState = this.setState.bind(this);
   }
 
-
   componentDidMount() {
-    detectEthereumProvider({silent: true}).then((provider,) => {
+    detectEthereumProvider({silent: true}).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
+    getGraphMetadata(
+      Object.keys(networkMap)[0],
+      Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
+    ).then((r) => this.setState({graphMetadata: r}));
     this.setState({
       interval: setInterval(() => {
-        console.log(this.state)
-        getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then(r => this.setState({graphMetadata: r}))
-      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
+        console.log(this.state);
+        getGraphMetadata(
+          Object.keys(networkMap)[0],
+          Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
+        ).then((r) => this.setState({graphMetadata: r}));
+      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
     });
-
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.interval)
+    clearInterval(this.state.interval);
   }
 
   initializeProvider() {
@@ -87,8 +87,6 @@ export default class EthereumProvider extends Component {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     this.setState({ethersProvider: provider});
-
-
   }
 
   // Public Functions //
@@ -111,7 +109,7 @@ export default class EthereumProvider extends Component {
       chainId: chainId,
       isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
-    
+
     this.fetchMetaEvidenceContents(chainId);
   }
 
@@ -135,7 +133,6 @@ export default class EthereumProvider extends Component {
     }
     this.setState({accounts: accounts});
   }
-
 
   handleConnected() {
     console.log("Connected to Ethereum.");
@@ -161,14 +158,15 @@ export default class EthereumProvider extends Component {
   }
 
   render = () => (
-    <EthereumContext.Provider value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain}}>
+    <EthereumContext.Provider
+      value={{...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain}}
+    >
       {" "}
       {this.props.children}
     </EthereumContext.Provider>
   );
 }
 export const EthereumContext = React.createContext();
-
 
 const queryTemplate = (endpoint, query) =>
   fetch(endpoint, {
@@ -185,122 +183,44 @@ const queryTemplate = (endpoint, query) =>
     .then((r) => r.json())
     .then((json) => json.data);
 
-export const getClaimByID = (chainID, contractAddress, id) => {
+export const getArticleByID = (chainID, contractAddress, id) => {
   return queryTemplate(
-    networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
-    `{
-  claims(where: {id: "${id}"}) {
-    id
-    claimID
-    owner
-    category
-    bounty
-    status
-    lastBalanceUpdate
-    createdAtBlock
-    createdAtTimestamp
-    disputes (orderBy: id, orderDirection: asc) { 
-      id
-      period
-      lastPeriodChange
-      court{
-        id
-        policy
-        hiddenVotes
-        timesPerPeriod
-      }
-    }
-    events (orderBy: timestamp, orderDirection: asc) {
-      id
-      name
-      details
-      timestamp
-      from
-    }
-    withdrawalPermittedAt
-    lastCalculatedScore
-    arbitrator
-    arbitratorExtraData
-  }
-    claimStorages(where: {claimEntityID: "${id}"}) {
-    id
-    claimEntityID
-  }
-  }`
+    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
+    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID(id)
   )
     .then((data) => {
       console.log(data);
-      if (data && data?.claims[0]) {
-        data.claims[0].storageAddress = data?.claimStorages[0]?.id;
+      if (data && data?.articles[0]) {
+        data.articles[0].storageAddress = data?.articleStorages?.[0]?.id;
       }
-      return data.claims[0];
+      return data.articles[0];
     })
     .catch(console.error);
 };
 
 export const getGraphMetadata = (chainID, contractAddress) => {
-  return queryTemplate(networkMap[chainID].contractInstances[contractAddress].subgraphEndpoint,
-    `{
-                _meta {
-                   deployment
-                   hasIndexingErrors
-                   block {
-                     hash
-                     number
-                    }
-                  }
-                }`)
-    .then(r => r._meta)
+  return queryTemplate(
+    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
+    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata
+  )
+    .then((r) => r._meta)
     .catch(console.error);
 };
 
-export const getAllClaims = (chainID) => {
+export const getAllArticles = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
       return queryTemplate(
-        value.subgraphEndpoint,
-        `{
-          claims(orderBy: id, orderDirection: asc) {
-          id
-          claimID
-          owner
-          bounty
-          status
-          lastBalanceUpdate
-          createdAtBlock
-          createdAtTimestamp
-          disputes (orderBy: id, orderDirection: asc) {
-            id
-            period
-            lastPeriodChange
-            court{
-              id
-              policy
-              hiddenVotes
-              timesPerPeriod
-            }
-          }
-          events (orderBy: timestamp, orderDirection: asc) {
-            id
-            name
-            details
-            timestamp
-            from
-          }
-          withdrawalPermittedAt
-          lastCalculatedScore
-          arbitrator
-          arbitratorExtraData
-        }}`
+        value.subgraph.endpoint,
+        value.subgraph.queries.getAllArticles
       ).then((data) => {
-        console.log(data)
-        if (data && data.claims && data.claims.length > 0) {
-
-          data.claims.map((claim) => {
-            claim.contractAddress = key;
-            return claim;
+        console.log(data);
+        if (data && data.articles && data.articles.length > 0) {
+          data.articles.map((article) => {
+            article.contractAddress = key;
+            return article;
           });
-          return data.claims;
+          return data.articles;
         }
       });
     })
@@ -313,13 +233,8 @@ export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
       return queryTemplate(
-        value.subgraphEndpoint,
-        `{
-  metaEvidenceEntities(orderBy: id, orderDirection:asc){
-    id
-    uri
-  }
-}`
+        value.subgraph.endpoint,
+        value.subgraph.queries.getAllMetaevidences
       ).then((data) => data.metaEvidenceEntities);
     })
   )
