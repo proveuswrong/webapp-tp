@@ -14,6 +14,7 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
   function handleControlChange(e) {
     setAmount(e.target.value);
   }
+  console.log({ currentBounty });
 
   async function handleIncreaseBounty() {
     setIsSubmitting(true);
@@ -56,9 +57,11 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
           className={styles.bountyInput}
         />
       </div>
-      <p className={styles.currentBounty}>
-        {`Current bounty: ${parseFloat(utils.formatEther(currentBounty)).toFixed(3)} ${constants.EtherSymbol}`}
-      </p>
+      {currentBounty && (
+        <p className={styles.currentBounty}>
+          {`Current bounty: ${parseFloat(utils.formatEther(currentBounty)).toFixed(3)} ${constants.EtherSymbol}`}
+        </p>
+      )}
       <div className={styles.button}>
         <CustomButton onClick={handleIncreaseBounty}>{isSubmitting ? <LoadingSpinner /> : "Confirm"}</CustomButton>
       </div>
