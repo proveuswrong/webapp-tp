@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Fail if PR is from develop branch
         run: |
-          if [[ "${{ github.event.pull_request.head.ref }}" !~ ^release/.* ]]; then
-            echo "Error: Merging 'develop' branch into 'main' branch is not allowed."
+          if [[ "${{ github.event.pull_request.head.ref }}" =~ ^release/.* ]]; then
+            exit 0
+          else
+            echo "Error: Merging from a branch that doesn't start with 'release/' into the 'main' branch is not allowed."
             exit 1
           fi
