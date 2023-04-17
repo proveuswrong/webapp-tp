@@ -1,0 +1,30 @@
+name: Reset Develop to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  reset_develop_to_main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
+          token: ${{ secrets.REPO_ACCESS }}
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "0xferit"
+          git config --global user.email "ferit@proveuswrong.io"
+
+      - name: Reset develop to main
+        run: |
+          git fetch origin 
+          git checkout develop
+          git reset --hard origin/main
+          git push --force origin develop
