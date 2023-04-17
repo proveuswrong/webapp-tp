@@ -39,7 +39,10 @@ export default function KeyMetrics(props) {
       )}
       <Tooltip
         placement="topLeft"
-        title={`Last changed ${getTimePastSinceLastBountyUpdate(article, ethereumContext?.blockNumber)} blocks ago.`}
+        title={`Last changed ${getTimePastSinceLastBountyUpdate(
+          article?.lastBalanceUpdate,
+          ethereumContext?.blockNumber
+        )} blocks ago.`}
       >
         <span className={styles.bountyAmount}>
           Bounty:{" "}
