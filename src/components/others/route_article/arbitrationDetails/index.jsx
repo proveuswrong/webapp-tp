@@ -17,14 +17,13 @@ import EvidencePeriod from "./evidence";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
+  const currentPeriodIndex = Periods[currentDispute?.period] ?? 0;
 
   const ethereumContext = useContext(EthereumContext);
 
   const [current, setCurrent] = useState(0);
-  const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
   const [mined, setMined] = useState(true);
-
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
@@ -122,10 +121,11 @@ export default function ArbitrationDetails({ article }) {
   }, [ethereumContext?.ethersProvider, article]);
 
   useEffect(() => {
-    const updatedCurrent = currentPeriodToItemIndex(currentPeriodIndex);
+    const updatedCurrent = currentPeriodToItemIndex(Periods[currentDispute?.period] ?? 0);
     setCurrent(updatedCurrent);
-  }, [currentPeriodIndex]);
+  }, [currentDispute?.period]);
 
+  console.log({ current });
   const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
   return (
     <section className={styles.arbitrationDetails}>
@@ -141,7 +141,11 @@ export default function ArbitrationDetails({ article }) {
         roundNumber={currentDispute?.rounds?.length}
         jurySize={currentDispute?.rounds?.at(-1).jurySize}
       />
-      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
+      <DisputeTimeline
+        dispute={currentDispute}
+        currentPeriodIndex={currentPeriodToItemIndex(currentPeriodIndex)}
+        current={current}
+      />
       {components[current]}
     </section>
   );
