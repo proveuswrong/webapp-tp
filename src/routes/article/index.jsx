@@ -15,6 +15,7 @@ import KeyMetrics from "/src/components/others/route_article/keyMetrics";
 import Metadata from "/src/components/others/route_article/metadata";
 import Content from "/src/components/others/route_article/content";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
+import BountyModal from "../../components/others/bountyModal";
 
 // TODO Refactor out components from this route.
 export default function Index() {
@@ -28,6 +29,7 @@ export default function Index() {
   const [fetchingArticleContent, setFetchingArticleContent] = useState(true);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
+  const [isBountyModalOpen, setBountyModalOpen] = useState(false);
   useEffect(() => {
     let didCancel = false;
 
@@ -76,16 +78,6 @@ export default function Index() {
   async function handleInitiateWithdrawal() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initiateWithdrawal(
       article.storageAddress
-    );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
-  }
-
-  async function handleIncreaseBounty() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(
-      article.storageAddress,
-      {
-        value: article.bounty,
-      }
     );
     ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
   }
@@ -142,9 +134,14 @@ export default function Index() {
             Initiate Withdrawal
           </CustomButton>
         )}
+
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
-          <CustomButton key={`DoubleBounty${article?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>
-            Double the Bounty
+          <CustomButton
+            key={`DoubleBounty${article?.status}`}
+            modifiers="blink"
+            onClick={() => setBountyModalOpen(true)}
+          >
+            Increase Bounty
           </CustomButton>
         )}
         {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
@@ -189,6 +186,12 @@ export default function Index() {
         disputeID={article?.disputes?.at(-1)?.id}
         visible={isEvidenceModalOpen}
         onCancel={() => setEvidenceModalOpen(false)}
+      />
+      <BountyModal
+        articleStorageAddress={article?.storageAddress}
+        currentBounty={article?.bounty}
+        visible={isBountyModalOpen}
+        onCancel={() => setBountyModalOpen(false)}
       />
     </section>
   );
