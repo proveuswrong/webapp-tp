@@ -1,0 +1,33 @@
+name: Delete Merged Branch
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  delete_merged_branch:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.base.ref }}
+          token: ${{ secrets.REPO_ACCESS }}
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "0xferit"
+          git config --global user.email "ferit@proveuswrong.io"
+
+      - name: Delete merged branch
+        run: |
+          MERGED_BRANCH=${{ github.event.pull_request.head.ref }}
+          if [ ! -z "$MERGED_BRANCH" ]; then
+            git push origin --delete "$MERGED_BRANCH"
+          fi
