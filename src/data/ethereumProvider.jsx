@@ -13,7 +13,7 @@ export const networkMap = {
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
-    contractInstances: environment[process.env.ENV || "dev"].networkMap["0x5"].contractInstances
+    contractInstances: environment.prod.networkMap["0x5"].contractInstances
   },
 };
 
