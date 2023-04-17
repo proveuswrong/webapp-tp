@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: Let merges from develop to release/* branches
     conditions:
-      - base=release/*
+      - base=^release/
       - head=develop
     actions:
       merge:
@@ -9,7 +9,7 @@ pull_request_rules:
   - name: Let merges from release/* to main branch
     conditions:
       - base=main
-      - head=release/*
+      - head=^release/
     actions:
       merge:
         method: rebase # You can choose "squash", "rebase", or "merge" based on your preferred merge method
