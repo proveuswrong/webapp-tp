@@ -14,7 +14,6 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
   function handleControlChange(e) {
     setAmount(e.target.value);
   }
-  console.log({ currentBounty });
 
   async function handleIncreaseBounty() {
     setIsSubmitting(true);
@@ -54,7 +53,6 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
           step="0.001"
           onChange={handleControlChange}
           value={amount}
-          className={styles.bountyInput}
         />
       </div>
       {currentBounty && (
