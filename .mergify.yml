@@ -1,8 +1,15 @@
 pull_request_rules:
-  - name: Merge pull requests from develop branch to release/* branches
+  - name: Let merges from develop to release/* branches
     conditions:
       - base=release/*
       - head=develop
+    actions:
+      merge:
+        method: rebase # You can choose "squash", "rebase", or "merge" based on your preferred merge method
+  - name: Let merges from release/* to main branch
+    conditions:
+      - base=main
+      - head=release/*
     actions:
       merge:
         method: rebase # You can choose "squash", "rebase", or "merge" based on your preferred merge method
