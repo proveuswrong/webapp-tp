@@ -1,0 +1,17 @@
+name: Only Let Release Branches Merge Into Main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check_base_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if PR is from develop branch
+        run: |
+          if [[ "${{ github.event.pull_request.head.ref }}" =~ ^release/.* ]]; then
+            echo "Error: Merging 'develop' branch into 'main' branch is not allowed."
+            exit 1
+          fi
