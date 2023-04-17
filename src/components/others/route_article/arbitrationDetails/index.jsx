@@ -121,9 +121,9 @@ export default function ArbitrationDetails({ article }) {
   }, [ethereumContext?.ethersProvider, article]);
 
   useEffect(() => {
-    const updatedCurrent = currentPeriodToItemIndex(Periods[currentDispute?.period] ?? 0);
+    const updatedCurrent = currentPeriodToItemIndex(currentPeriodIndex);
     setCurrent(updatedCurrent);
-  }, [currentDispute?.period]);
+  }, [currentPeriodIndex]);
 
   console.log({ current });
   const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
