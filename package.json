@@ -6,7 +6,6 @@
     "@metamask/detect-provider": "^1.2.0",
     "antd": "^4.21.4",
     "color": "^4.2.3",
-    "dotenv": "^16.0.3",
     "ethers": "^5.6.5",
     "os-browserify": "^0.3.0",
     "react": "^17.0.2",
