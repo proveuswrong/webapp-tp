@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
@@ -157,11 +158,12 @@ function currentPeriodToItemIndex(currentPeriodIndex) {
 }
 
 function Overview(props) {
+  const { contract } = useParams();
   return (
     <div className={styles.detailsContainer}>
       <span>
         <b>Arbitrator:</b>
-        {props.courtName}
+        <Link to={`/0x5/${contract}/court/0`}>{props.courtName}</Link>
       </span>
       <span>
         <b>DisputeID:</b>
