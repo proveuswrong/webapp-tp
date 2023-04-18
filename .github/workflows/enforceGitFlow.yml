@@ -13,6 +13,8 @@ jobs:
         run: |
           if [[ "${{ github.event.pull_request.head.ref }}" =~ ^release/.* ]]; then
             exit 0
+          elif [[ "${{ github.event.pull_request.head.ref }}" =~ ^hotfix/.* ]]; then
+            exit 0
           else
             echo "Error: Merging from a branch that doesn't start with 'release/' into the 'main' branch is not allowed."
             exit 1
