@@ -74,6 +74,13 @@ const environments = {
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}
                     }}`,
+                getCourtByID: (id) => `{
+                  courtEntity(id: ${id}){
+                    policyURI
+                    timesPerPeriod
+                    hiddenVotes
+                  }
+                }`,
                 getAllMetaevidences: `{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
@@ -123,6 +130,13 @@ const environments = {
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}
                     }}`,
+                getCourtByID: (id) => `{
+                  courtEntity(id: ${id}){
+                    policyURI
+                    timesPerPeriod
+                    hiddenVotes
+                  }
+                }`,
                 getAllMetaevidences: `{
                     metaEvidenceEntities(orderBy: id, orderDirection:asc){
                         id
