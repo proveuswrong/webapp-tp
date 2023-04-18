@@ -137,12 +137,12 @@ const environments = {
       },
     }
   },
-
-
 };
 
-const isProd = (branchName) =>
-  branchName === 'main' || branchName.startsWith('hotfix/') || branchName.startsWith('release/') || (branchName === 'develop' && process.env.PULL_REQUEST);
+const isProd = (branchName) => {
+  if (!branchName) return false;
+  return branchName === 'main' || branchName.startsWith('hotfix/') || branchName.startsWith('release/') || (branchName === 'develop' && process.env.PULL_REQUEST);
+}
 
 
 const selectedEnvironment = isProd(process.env.HEAD) ? "prod" : "dev";
