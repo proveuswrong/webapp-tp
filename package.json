@@ -25,6 +25,7 @@
     "buffer": "^6.0.3",
     "flow-bin": "0",
     "parcel": "2",
+    "path-browserify": "^1.0.1",
     "postcss": "8",
     "postcss-modules": "4",
     "prettier": "2",
