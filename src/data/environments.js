@@ -46,7 +46,7 @@ const articleFragment = `
 `
 
 
-export default {
+const environments = {
   prod: {
     networkMap: {
       "0x5": {
@@ -140,3 +140,16 @@ export default {
 
 
 };
+
+const isProd = (branchName) =>
+  branchName === 'main' || branchName.startsWith('hotfix/') || branchName.startsWith('release/') || (branchName === 'develop' && process.env.PULL_REQUEST);
+
+
+export let environment = isProd(process.env.HEAD) ? environments.prod : environments.dev;
+
+
+console.debug(`Environment: ${process.env.ENV}`);
+console.debug(`Head: ${process.env.HEAD}`);
+console.debug(`Commit Ref: ${process.env.COMMIT_REF}`);
+console.debug(`Pull Request: ${process.env.PULL_REQUEST}`);
+console.debug(`Review ID: ${process.env.REVIEW_ID}`);

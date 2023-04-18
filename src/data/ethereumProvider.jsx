@@ -4,7 +4,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import {ipfsGateway} from "../utils/addToIPFS";
 import {ethers} from "ethers";
 import ABI from "./ABI.json";
-import environment from './environments';
+import { environment } from './environments';
 
 export const networkMap = {
   "0x5": {
@@ -13,7 +13,7 @@ export const networkMap = {
     explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
     },
-    contractInstances: environment.prod.networkMap["0x5"].contractInstances
+    contractInstances: environment.networkMap["0x5"].contractInstances
   },
 };
 
