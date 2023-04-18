@@ -1,4 +1,4 @@
-name: Only Let Release Branches Merge Into Main
+name: Enforce Git Flow
 
 on:
   pull_request:
