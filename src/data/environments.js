@@ -145,10 +145,11 @@ const isProd = (branchName) =>
   branchName === 'main' || branchName.startsWith('hotfix/') || branchName.startsWith('release/') || (branchName === 'develop' && process.env.PULL_REQUEST);
 
 
-export let environment = isProd(process.env.HEAD) ? environments.prod : environments.dev;
+const selectedEnvironment = isProd(process.env.HEAD) ? "prod" : "dev";
+export let environment = environments[selectedEnvironment];
 
 
-console.debug(`Environment: ${process.env.ENV}`);
+console.debug(`Environment: ${selectedEnvironment}`);
 console.debug(`Head: ${process.env.HEAD}`);
 console.debug(`Commit Ref: ${process.env.COMMIT_REF}`);
 console.debug(`Pull Request: ${process.env.PULL_REQUEST}`);
