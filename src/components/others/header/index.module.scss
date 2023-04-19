@@ -67,7 +67,7 @@ $breakpoint-mobile: 480px;
     border-bottom: 1px solid black;
     padding-bottom: 2px;
     margin: 0 auto;
-    background: url("/src/assets/paper-texture-surface-texture-small.jpg");
+    background-color: map-get(colors.$palette, "primary");
     z-index: 999;
   }
 
@@ -108,7 +108,7 @@ $breakpoint-mobile: 480px;
     right: 0;
     height: 100%;
     max-height: 100vh;
-    background: url("/src/assets/paper-texture-surface-texture-small.jpg");
+    background-color: map-get(colors.$palette, "primary");
     background-repeat: repeat;
     z-index: 999;
     transition: opacity 0.4s ease-out;
