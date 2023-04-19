@@ -10,6 +10,7 @@ import { EthereumContext } from "/src/data/ethereumProvider";
 import useScrollLock from "/src/hooks/useScrollLock";
 
 const BREAKPOINT_TABLET = 768;
+const STICKY_THRESHOLD = 130;
 
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
@@ -36,7 +37,7 @@ export default function Header() {
 
       if (navWrapper) {
         const navWrapperTop = navWrapper.getBoundingClientRect().top;
-        setIsSticky(scrollTop >= navWrapperTop + 130);
+        setIsSticky(scrollTop >= navWrapperTop + STICKY_THRESHOLD);
       }
     };
 
