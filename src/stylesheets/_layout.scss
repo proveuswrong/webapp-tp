@@ -35,10 +35,14 @@ main {
   padding: 0 2.5rem;
 
   > section {
-    padding: 3rem 1.75rem 3rem;
+    padding: 3rem 0;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+
+    @media (min-width: 1200px) {
+      padding: 3rem 1.75rem 3rem;
+    }
   }
 }
 
