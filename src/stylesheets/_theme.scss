@@ -7,10 +7,9 @@ body {
   position: relative;
 }
 
-body::after {
+body::after, .withBackground::after {
   height: inherit;
   content: "";
-  //background: url("../assets/background_paper.jpg") repeat;
   background: url("../assets/paper-texture-surface-texture-small.jpg");
   background-repeat: repeat;
   background-size: initial;

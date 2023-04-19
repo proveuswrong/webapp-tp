@@ -75,7 +75,7 @@ export default function Header() {
       <div className={styles.subtitle}>Accurate and Relevant News</div>
       <hr className={styles.hrBelowSubtitle} />
 
-      <nav className={styles.navWrapper} ref={navWrapperRef}>
+      <nav className={`withBackground ${styles.navWrapper}`} ref={navWrapperRef}>
         <BurgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
         <div className={styles.nav}>
           <h2 hide="">Navigation</h2>
@@ -99,7 +99,7 @@ export default function Header() {
 function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
   const ethereumContext = useContext(EthereumContext);
   return (
-    <div className={`${styles.overlay} ${isMenuOpen && styles.visible}`} ref={customRef}>
+    <div className={`withBackground ${styles.overlay} ${isMenuOpen && styles.visible}`} ref={customRef}>
       <nav className={`${styles.overlayNav} ${isMenuOpen && styles.visible}`}>
         <h2>Navigation</h2>
         <NavLink to={`${ethereumContext?.chainId}/`} onClick={toggleMenu}>
