@@ -139,13 +139,16 @@ const environments = {
   },
 };
 
-const isProd = (branchName) => {
-  if (!branchName) return false;
-  return branchName === 'main' || branchName.startsWith('hotfix/') || branchName.startsWith('release/') || (branchName === 'develop' && process.env.PULL_REQUEST);
+const isProd = (branchName, isPullRequest) => {
+  if (!branchName || typeof isPullRequest == 'undefined') return false;
+  return branchName === 'main'
+    || branchName.startsWith('hotfix/')
+    || branchName.startsWith('release/')
+    || (branchName === 'develop' && isPullRequest);
 }
 
 
-const selectedEnvironment = isProd(process.env.HEAD) ? "prod" : "dev";
+const selectedEnvironment = isProd(process.env.HEAD, process.env.PULL_REQUEST) ? "prod" : "dev";
 export let environment = environments[selectedEnvironment];
 
 
