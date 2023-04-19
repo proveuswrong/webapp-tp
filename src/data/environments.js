@@ -144,7 +144,7 @@ const isProd = (branchName, isPullRequest) => {
   return branchName === 'main'
     || branchName.startsWith('hotfix/')
     || branchName.startsWith('release/')
-    || (branchName === 'develop' && isPullRequest);
+    || (branchName === 'develop' && process.env.PULL_REQUEST === 'true');
 }
 
 
