@@ -176,37 +176,3 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
     </Modal>
   );
 }
-
-const messageTemplates = {
-  ipfs: {
-    pending: "Adding file to IPFS...",
-    success: (data) => (
-      <div>
-        <div>File added to IPFS successfully</div>
-        <a target="_blank" href={`https://ipfs.kleros.io/ipfs/${data.hash}`}>
-          view
-        </a>
-      </div>
-    ),
-    error: "Error while adding file to IPFS",
-  },
-  transaction: {
-    pending: "Sending transaction...",
-    success: ({ data }) => (
-      <div>
-        <div>Transaction mined successfully!</div>
-        <a target="_blank" href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}>
-          View on Etherscan
-        </a>
-      </div>
-    ),
-    error: {
-      render({ data }) {
-        console.log({ data });
-        if (data.code === 4001) return "User denied transaction";
-        return "Failed to execute transaction";
-      },
-    },
-  },
-  // add more message types here as needed
-};
