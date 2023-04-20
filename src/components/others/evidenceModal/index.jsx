@@ -1,11 +1,15 @@
 import { useState, useEffect, useContext } from "react";
+import { ToastContainer } from "react-toastify";
 import { EthereumContext } from "/src/data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
-import Modal from "../../presentational/modal";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
-import addToIPFS from "../../../utils/addToIPFS";
+import Modal from "/src/components/presentational/modal";
+
+import addToIPFS from "/src/utils/addToIPFS";
+import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
+
 import UploadIcon from "jsx:/src/assets/upload.svg";
 
 const INITIAL_STATE = { title: "", description: "", file: null };
@@ -17,7 +21,6 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [sumbitSuccess, setSumbitSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   useEffect(() => {
     if (sumbitSuccess) {
       setControlsState(INITIAL_STATE);
@@ -72,27 +75,36 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
     let ipfsPathOfNewEvidence;
     setIsSubmitting(true);
     try {
-      const data = await controlsState.file.arrayBuffer();
-      const ipfsImageResponse = await addToIPFS(IPFS_ENDPOINT, "evidence.json", data);
-      const ipfsFileUri = `/ipfs/${ipfsImageResponse[0].hash}`;
+      const fileBuffer = await controlsState.file.arrayBuffer();
 
-      const ipfsResponse = await addToIPFS(
-        IPFS_ENDPOINT,
-        "evidence.json",
-        JSON.stringify({
-          name: controlsState.title,
-          description: controlsState.description,
-          fileURI: ipfsFileUri,
-        })
+      const ipfsResponse = await notifyWithToast(
+        addToIPFS(IPFS_ENDPOINT, "evidence-file", fileBuffer).then((res) =>
+          addToIPFS(
+            IPFS_ENDPOINT,
+            "evidence.json",
+            JSON.stringify({
+              name: controlsState.title,
+              description: controlsState.description,
+              fileURI: `/ipfs/${res[0].hash}`,
+            })
+          )
+        ),
+        MESSAGE_TYPE.ipfs
       );
 
-      ipfsPathOfNewEvidence = ipfsResponse[0].hash;
       const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(
         disputeID,
-        `/ipfs/${ipfsPathOfNewEvidence}`
+        `/ipfs/${ipfsResponse[0].hash}`
       );
-      const tx = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+
+      await notifyWithToast(
+        ethereumContext.ethersProvider
+          .getSigner()
+          .sendTransaction(unsignedTx)
+          .then((tx) => tx.wait()),
+        MESSAGE_TYPE.transaction
+      );
+
       setIsSubmitting(false);
       setSumbitSuccess(true);
     } catch (err) {
@@ -160,6 +172,41 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
       <div className={styles.button}>
         <CustomButton onClick={handleSubmitEvidence}>{isSubmitting ? <LoadingSpinner /> : "Submit"}</CustomButton>
       </div>
+      <ToastContainer />
     </Modal>
   );
 }
+
+const messageTemplates = {
+  ipfs: {
+    pending: "Adding file to IPFS...",
+    success: (data) => (
+      <div>
+        <div>File added to IPFS successfully</div>
+        <a target="_blank" href={`https://ipfs.kleros.io/ipfs/${data.hash}`}>
+          view
+        </a>
+      </div>
+    ),
+    error: "Error while adding file to IPFS",
+  },
+  transaction: {
+    pending: "Sending transaction...",
+    success: ({ data }) => (
+      <div>
+        <div>Transaction mined successfully!</div>
+        <a target="_blank" href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}>
+          View on Etherscan
+        </a>
+      </div>
+    ),
+    error: {
+      render({ data }) {
+        console.log({ data });
+        if (data.code === 4001) return "User denied transaction";
+        return "Failed to execute transaction";
+      },
+    },
+  },
+  // add more message types here as needed
+};
