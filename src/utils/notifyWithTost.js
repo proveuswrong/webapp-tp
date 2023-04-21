@@ -6,8 +6,8 @@ export const MESSAGE_TYPE = Object.freeze({
     transaction: "transaction",
 })
 
-export default async function notifyWithToast(promise, messageType) {
-    return toast.promise(promise, messageTemplates[messageType], { position: toast.POSITION.BOTTOM_RIGHT });
+export default async function notifyWithToast(promise, messageType, options = {}) {
+    return toast.promise(promise, messageTemplates[messageType], options);
 }
 
 const messageTemplates = {
