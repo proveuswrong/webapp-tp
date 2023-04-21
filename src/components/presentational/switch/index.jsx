@@ -10,7 +10,7 @@ export default function Switch({ onChange, label, positionRight }) {
 
   return (
     <div className={`${styles.switch} ${positionRight && styles.right}`}>
-      {label && <div className={styles.label}>{label}</div>}
+      {label && <div>{label}</div>}
       <input type="checkbox" className="switch-checkbox" checked={checked} onChange={handleChange} id="switch" />
       <label className={styles.switchArea} htmlFor="switch">
         <span className={styles.switchAreaInner} />
