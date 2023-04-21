@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import { ToastContainer } from "react-toastify";
 import { EthereumContext } from "/src/data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
@@ -172,7 +171,6 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
       <div className={styles.button}>
         <CustomButton onClick={handleSubmitEvidence}>{isSubmitting ? <LoadingSpinner /> : "Submit"}</CustomButton>
       </div>
-      <ToastContainer />
     </Modal>
   );
 }

@@ -53,6 +53,8 @@ $body-margin: 2.5rem;
   }
 
   .navEthereum {
+    display: flex;
+    align-items: center;
     margin-left: auto;
 
     > button + button {

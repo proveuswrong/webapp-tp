@@ -8,6 +8,7 @@ import BurgerMenu from "../../presentational/burgerMenu";
 
 import { EthereumContext } from "/src/data/ethereumProvider";
 import useScrollLock from "/src/hooks/useScrollLock";
+import NotificationCenter from "../notificationCenter";
 
 const BREAKPOINT_TABLET = 768;
 const STICKY_THRESHOLD = 130;
@@ -85,6 +86,7 @@ export default function Header() {
           <NavLink to="about/">About</NavLink>
         </div>
         <div className={styles.navEthereum}>
+          <NotificationCenter />
           {ethereumContext?.isProviderDetected && <ButtonConnect />}
           <ButtonSelectNetwork />
         </div>
