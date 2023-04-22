@@ -1,16 +1,19 @@
+import { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import * as styles from "./index.module.scss";
+
 import ListArticles from "/src/components/others/listArticles";
 import EthereumProviderErrors from "/src/components/others/ethereumProviderErrors";
-import { useContext, useEffect } from "react";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
-import * as styles from "./index.module.scss";
+import { EthereumContext, networkMap, getAllArticles } from "/src/data/ethereumProvider";
+import useGraphFethcer from "/src/hooks/useGraphFetcher";
 
 export default function Browse() {
   const params = useParams();
   const navigate = useNavigate();
   const ethereumContext = useContext(EthereumContext);
+  const { data, isFetching } = useGraphFethcer(() => getAllArticles(params.chain));
 
   useEffect(() => {
     if (!params.chain) {
@@ -22,7 +25,7 @@ export default function Browse() {
   if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
     return (
       <section className={styles.browse}>
-        <ListArticles />
+        <ListArticles articles={data} isFetching={isFetching} />
         <SyncStatus
           syncedBlock={ethereumContext?.graphMetadata?.block?.number}
           latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
