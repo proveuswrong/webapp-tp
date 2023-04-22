@@ -2,8 +2,11 @@ import { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import ListArticles from "/src/components/others/listArticles";
 import EthereumProviderErrors from "/src/components/others/ethereumProviderErrors";
+import LazyLoader from "/src/components/others/lazyLoader";
+import ListArticles from "/src/components/others/listArticles";
+
+import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
 import { EthereumContext, networkMap, getAllArticles } from "/src/data/ethereumProvider";
@@ -25,7 +28,9 @@ export default function Browse() {
   if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
     return (
       <section className={styles.browse}>
-        <ListArticles articles={data} isFetching={isFetching} />
+        <LazyLoader fallback={<LoadingSpinner />} isLoading={isFetching}>
+          <ListArticles articles={data} isFetching={isFetching} />
+        </LazyLoader>
         <SyncStatus
           syncedBlock={ethereumContext?.graphMetadata?.block?.number}
           latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
