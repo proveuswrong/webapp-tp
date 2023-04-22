@@ -65,6 +65,11 @@ const environments = {
                         articleEntityID
                       }
                     }`,
+                getArticlesByAuthor:(address) => `{
+                  articles(where: {owner: "${address}"}){
+                    ${articleFragment}
+                  }
+                }`,
                 getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}
@@ -103,13 +108,17 @@ const environments = {
                 getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
                         ${articleFragment}
-                        
                     }
                     articleStorages(where: {articleEntityID: "${id}"}) {
                         id
                         articleEntityID
                       }
                     }`,
+                getArticlesByAuthor: (address) => `{
+                  articles(where: {owner: "${address}"}){
+                    ${articleFragment}
+                  }
+                }`,
                 getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}

@@ -229,6 +229,30 @@ export const getAllArticles = (chainID) => {
     .catch(console.error);
 };
 
+export const getArticlesByAuthor = (chainID, walletAddress) => {
+  return Promise.allSettled(
+    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+      return queryTemplate(
+        value.subgraph.endpoint,
+        value.subgraph.queries.getArticlesByAuthor(walletAddress)
+      ).then((data) => {
+        console.log("articles by author",data);
+        if (data && data.articles && data.articles.length > 0) {
+          data.articles.map((article) => {
+            article.contractAddress = key;
+            return article;
+          });
+        console.log("articles by authorttttt",data);
+
+          return data.articles;
+        }
+      });
+    })
+  )
+  .then((r) => r[0]?.value)
+  .catch(console.error);
+}
+
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
