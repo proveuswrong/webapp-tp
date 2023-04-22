@@ -34,7 +34,8 @@
   }
 
 
-  &:active {
+  &:active,
+  &:global(.ant-btn:focus) {
     color: map-get(colors.$colorButton, 'pressed', 'text');
     background-color: map-get(colors.$colorButton, 'pressed', 'fill');
     border-color: map-get(colors.$colorButton, 'pressed', 'stroke');
