@@ -62,7 +62,7 @@ export default function ListArticles({ articles, isFetching }) {
                   (!loadingFetchingContents && `Unable to fetch article data from ${value?.articleID}`)
                 }
                 description={articleContents?.[value?.articleID]?.description}
-                linkTo={`${value?.contractAddress}/${value?.id}/`}
+                linkTo={`/${ethereumContext?.chainId}/${value?.contractAddress}/${value?.id}/`}
                 score={getTrustScore(
                   value,
                   getTimePastSinceLastBountyUpdate(
