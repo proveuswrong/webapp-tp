@@ -1,0 +1,26 @@
+.account {
+  max-width: 100%;
+  padding-top: 30px;
+
+  .author,
+  .totalPublished {
+    font-weight: bold;
+    margin-bottom: 4px;
+    span {
+      margin-left: 10px;
+    }
+  }
+
+  .articles {
+    margin: 40px 0;
+
+    hr {
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+}

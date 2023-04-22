@@ -84,6 +84,8 @@ export default function Header() {
           {ethereumContext?.isProviderDetected && <NavLink to={`${ethereumContext?.chainId}/report/`}>Report</NavLink>}
           <NavLink to="faq/">F.A.Q.</NavLink>
           <NavLink to="about/">About</NavLink>
+          <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
+
         </div>
         <div className={styles.navEthereum}>
           <NotificationCenter />
@@ -118,6 +120,8 @@ function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
         <NavLink to="about/" onClick={toggleMenu}>
           About
         </NavLink>
+        <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
+
       </nav>
     </div>
   );
