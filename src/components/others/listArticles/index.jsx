@@ -4,39 +4,16 @@ import * as styles from "./index.module.scss";
 import ListArticlesItem from "/src/components/presentational/listArticlesItem";
 import Pill from "/src/components/presentational/pill";
 
-import { EthereumContext, getAllArticles } from "/src/data/ethereumProvider";
+import { EthereumContext } from "/src/data/ethereumProvider";
 import getTrustScore from "/src/businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 import { ipfsGateway } from "/src/utils/addToIPFS";
 
-export default function ListArticles() {
-  const [articles, setArticles] = useState();
+export default function ListArticles({ articles, isFetching }) {
   const [articleContents, setArticleContents] = useState();
   const ethereumContext = useContext(EthereumContext);
 
-  const [fetchingArticles, setFetchingArticles] = useState(true);
   const [loadingFetchingContents, setFetchingArticlesContents] = useState(true);
-
-  useEffect(() => {
-    if (!ethereumContext?.isDeployedOnThisChain) return;
-
-    console.log("Fetching articles...");
-    let didCancel = false;
-
-    async function fetchFromGraph() {
-      if (!didCancel) {
-        let data = await getAllArticles(ethereumContext?.chainId);
-        setArticles(data);
-        setFetchingArticles(false);
-      }
-    }
-
-    fetchFromGraph();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [ethereumContext?.chainId, ethereumContext?.graphMetadata?.block?.number]);
 
   useEffect(() => {
     let didCancel = false;
@@ -100,8 +77,7 @@ export default function ListArticles() {
               </ListArticlesItem>
             ))}
       </div>
-      {!articles && fetchingArticles && "Fetching news..."}
-      {!fetchingArticles &&
+      {!isFetching &&
         (articles == null || (articles && articles.filter((a) => a != null).length == 0)) &&
         "No news articles."}
       {articles && loadingFetchingContents && "Fetching article details."}
