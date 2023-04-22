@@ -65,6 +65,11 @@ const environments = {
                         articleEntityID
                       }
                     }`,
+                getArticlesByAuthor:(address) => `{
+                  articles(where: {owner: "${address}"}){
+                    ${articleFragment}
+                  }
+                }`,
                 getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}
@@ -103,13 +108,17 @@ const environments = {
                 getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
                         ${articleFragment}
-                        
                     }
                     articleStorages(where: {articleEntityID: "${id}"}) {
                         id
                         articleEntityID
                       }
                     }`,
+                getArticlesByAuthor: (address) => `{
+                  articles(where: {owner: "${address}"}){
+                    ${articleFragment}
+                  }
+                }`,
                 getAllArticles: `{
                     articles(orderBy: id, orderDirection: asc) {
                         ${articleFragment}
@@ -155,5 +164,5 @@ export let environment = environments[selectedEnvironment];
 console.debug(`Environment: ${selectedEnvironment}`);
 console.debug(`Head: ${process.env.HEAD}`);
 console.debug(`Pull Request: ${process.env.PULL_REQUEST}`);
-console.debug(`Commit Ref: ${process.env.COMMIT_REF.substring(0,7)}`);
+console.debug(`Commit Ref: ${process.env.COMMIT_REF?.substring(0, 7)}`);
 console.debug(`Review ID: ${process.env.REVIEW_ID}`);
