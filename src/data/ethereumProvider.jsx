@@ -242,7 +242,6 @@ export const getArticlesByAuthor = (chainID, walletAddress) => {
             article.contractAddress = key;
             return article;
           });
-        console.log("articles by authorttttt",data);
 
           return data.articles;
         }
