@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
@@ -16,7 +16,12 @@ export default function Browse() {
   const params = useParams();
   const navigate = useNavigate();
   const ethereumContext = useContext(EthereumContext);
-  const { data, isFetching } = useGraphFethcer(() => getAllArticles(params.chain));
+
+  const fetchData = useCallback(() => {
+    return getAllArticles(params.chain);
+  }, [params.chain]);
+
+  const { data, isFetching } = useGraphFethcer(fetchData);
 
   useEffect(() => {
     if (!params.chain) {
