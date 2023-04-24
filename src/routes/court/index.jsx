@@ -1,33 +1,22 @@
-import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import { EthereumContext, getCourtById } from "/src/data/ethereumProvider";
+import { getCourtById } from "/src/data/ethereumProvider";
 import usePolicy from "/src/hooks/usePolicy";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
+import { useCallback } from "react";
 
 const PERIODS = ["Evidence", "Vote", "Appeal", "Execution"];
 
 export default function Court() {
-  const [court, setCourt] = useState();
-  const [fetchingCourt, setFetchingCourt] = useState(true);
-  const ethereumContext = useContext(EthereumContext);
   const params = useParams();
+
+  const fetchData = useCallback(() => {
+    return getCourtById(params.chain, params.contract, params.id);
+  }, [params.chain, params.contract, params.id]);
+
+  const { data: court } = useGraphFetcher(fetchData);
   const policy = usePolicy(court?.policyURI);
-
-  useEffect(() => {
-    let didCancel = false;
-
-    if (!didCancel) {
-      getCourtById(params.chain, params.contract, params.id).then((data) => {
-        setCourt(data);
-        setFetchingCourt(false);
-      });
-    }
-
-    return () => {
-      didCancel = true;
-    };
-  }, [ethereumContext?.graphMetadata?.block?.number]);
 
   return (
     <div className={styles.court}>
