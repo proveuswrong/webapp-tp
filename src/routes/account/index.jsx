@@ -6,7 +6,7 @@ import LazyLoader from "/src/components/others/lazyLoader";
 import ListArticles from "/src/components/others/listArticles";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
-import useGraphFethcer from "/src/hooks/useGraphFetcher";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import { getArticlesByAuthor } from "/src/data/ethereumProvider";
 import { EthereumContext } from "../../data/ethereumProvider";
 
@@ -18,7 +18,7 @@ export default function Account() {
     return getArticlesByAuthor(chainId, accounts[0]);
   }, [chainId, accounts[0]]);
 
-  const { data, isFetching } = useGraphFethcer(fetchData);
+  const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
     navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });

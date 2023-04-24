@@ -10,7 +10,7 @@ import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
 import { EthereumContext, networkMap, getAllArticles } from "/src/data/ethereumProvider";
-import useGraphFethcer from "/src/hooks/useGraphFetcher";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
 
 export default function Browse() {
   const params = useParams();
@@ -21,7 +21,7 @@ export default function Browse() {
     return getAllArticles(params.chain);
   }, [params.chain]);
 
-  const { data, isFetching } = useGraphFethcer(fetchData);
+  const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
     if (!params.chain) {

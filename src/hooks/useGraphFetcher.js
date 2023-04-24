@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { EthereumContext } from "../data/ethereumProvider";
 
-export default function useGraphFethcer(fetchCallback) {
+export default function useGraphFetcher(fetchCallback) {
     const ethereumContext = useContext(EthereumContext);
     const [data, setData] = useState();
     const [isFetching, setFetching] = useState(true);
