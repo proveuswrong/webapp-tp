@@ -30,6 +30,7 @@ const articleFragment = `
         rounds {
             id
             jurySize
+            votesPerChoice
             raisedSoFar
             appealDeadline
             hasPaid
@@ -65,7 +66,7 @@ const environments = {
                         articleEntityID
                       }
                     }`,
-                getArticlesByAuthor:(address) => `{
+                getArticlesByAuthor: (address) => `{
                   articles(where: {owner: "${address}"}){
                     ${articleFragment}
                   }

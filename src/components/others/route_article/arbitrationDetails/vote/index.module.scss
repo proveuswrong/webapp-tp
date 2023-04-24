@@ -8,6 +8,10 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: spacings.$s-20;
+
+  .hiddenVotes {
+    margin-top: spacings.$s-2;
+  }
   .cardWrapper {
     width: 60%;
     margin: spacings.$s-4 auto;
