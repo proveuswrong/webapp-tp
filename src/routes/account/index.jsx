@@ -26,7 +26,7 @@ export default function Account() {
         Author: <span>{params.id}</span>
       </div>
       <div className={styles.totalPublished}>
-        Total published: <span>{data?.length}</span>
+        Total published: <span>{data?.length ?? 0}</span>
       </div>
       <div className={styles.articles}>
         <h3>My Articles</h3>
