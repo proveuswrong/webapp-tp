@@ -188,6 +188,7 @@ export const getCourtById = async (chainId, contractAddress, id) => {
     networkMap[chainId].contractInstances[contractAddress].subgraph.endpoint,
     networkMap[chainId].contractInstances[contractAddress].subgraph.queries.getCourtByID(id)
   ).then((data) => {
+    console.log({ data });
     return data?.courtEntity;
   });
 };
