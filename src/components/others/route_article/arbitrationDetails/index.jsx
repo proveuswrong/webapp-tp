@@ -127,7 +127,12 @@ export default function ArbitrationDetails({ article }) {
   }, [currentPeriodIndex]);
 
   console.log({ current });
-  const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
+  console.log({ currentDispute });
+  const components = [
+    <EvidencePeriod />,
+    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
+    <AppealPeriod />,
+  ];
   return (
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
