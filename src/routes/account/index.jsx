@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+import { useCallback, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import LazyLoader from "/src/components/others/lazyLoader";
@@ -7,23 +8,26 @@ import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
 import useGraphFethcer from "/src/hooks/useGraphFetcher";
 import { getArticlesByAuthor } from "/src/data/ethereumProvider";
-import { useCallback, useContext } from "react";
 import { EthereumContext } from "../../data/ethereumProvider";
 
 export default function Account() {
-  const params = useParams();
-  const { accounts } = useContext(EthereumContext);
+  const navigate = useNavigate();
+  const { accounts, chainId } = useContext(EthereumContext);
 
-  const fetchData = useCallback(() => {
-    return getArticlesByAuthor(params.chain, accounts[0]);
-  }, [accounts[0]]);
+  const fetchData = useCallback(async () => {
+    return getArticlesByAuthor(chainId, accounts[0]);
+  }, [chainId, accounts[0]]);
 
   const { data, isFetching } = useGraphFethcer(fetchData);
+
+  useEffect(() => {
+    navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
+  }, [chainId, accounts[0]]);
 
   return (
     <div className={styles.account}>
       <div className={styles.author}>
-        Author: <span>{params.id}</span>
+        Author: <span>{accounts[0]}</span>
       </div>
       <div className={styles.totalPublished}>
         Total published: <span>{data?.length ?? 0}</span>
