@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import LazyLoader from "/src/components/others/lazyLoader";
