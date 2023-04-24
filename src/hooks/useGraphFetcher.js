@@ -22,7 +22,7 @@ export default function useGraphFethcer(fetchCallback) {
         return () => {
             didCancel = true;
         };
-    }, [ethereumContext?.graphMetadata?.block?.number]);
+    }, [ethereumContext?.graphMetadata?.block?.number, fetchCallback]);
 
     return { data, isFetching }
 }
