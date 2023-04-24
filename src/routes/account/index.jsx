@@ -7,10 +7,18 @@ import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
 import useGraphFethcer from "/src/hooks/useGraphFetcher";
 import { getArticlesByAuthor } from "/src/data/ethereumProvider";
+import { useCallback, useContext } from "react";
+import { EthereumContext } from "../../data/ethereumProvider";
 
 export default function Account() {
   const params = useParams();
-  const { data, isFetching } = useGraphFethcer(() => getArticlesByAuthor(params.chain, params.id));
+  const { accounts } = useContext(EthereumContext);
+
+  const fetchData = useCallback(() => {
+    return getArticlesByAuthor(params.chain, accounts[0]);
+  }, [accounts[0]]);
+
+  const { data, isFetching } = useGraphFethcer(fetchData);
 
   return (
     <div className={styles.account}>
