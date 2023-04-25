@@ -152,7 +152,7 @@ export default function ArbitrationDetails({ article }) {
         currentPeriodIndex={currentPeriodToItemIndex(currentPeriodIndex)}
         current={current}
       />
-      {components[2]}
+      {components[current]}
     </section>
   );
 }
