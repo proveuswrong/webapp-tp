@@ -131,7 +131,7 @@ export default function ArbitrationDetails({ article }) {
   const components = [
     <EvidencePeriod />,
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
-    <AppealPeriod />,
+    <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
   ];
   return (
     <section className={styles.arbitrationDetails}>
@@ -152,7 +152,7 @@ export default function ArbitrationDetails({ article }) {
         currentPeriodIndex={currentPeriodToItemIndex(currentPeriodIndex)}
         current={current}
       />
-      {components[current]}
+      {components[2]}
     </section>
   );
 }
