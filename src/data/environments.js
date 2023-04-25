@@ -89,6 +89,16 @@ const environments = {
                         uri
                     }
                 }`,
+                getAllContributors: `{
+                  users(orderBy: id){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions{
+                     id
+                     amount
+                  }
+                }`,
                 getGraphMetadata: `{
                     _meta {
                         deployment
@@ -148,9 +158,9 @@ const environments = {
                 getAllContributors: `{
                   users(orderBy: id){
                     id
-                    otalWithdrawableAmount
-                    ithdrew
-                    ontributions(first:10){
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions(first:10){
                      id
                      amount
                   }
