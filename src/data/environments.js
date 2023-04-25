@@ -32,6 +32,7 @@ const articleFragment = `
             jurySize
             votesPerChoice
             raisedSoFar
+            totalToBeRaised
             appealDeadline
             hasPaid
         }
@@ -143,6 +144,16 @@ const environments = {
                         id
                         uri
                     }
+                }`,
+                getAllContributors: `{
+                  users(orderBy: id){
+                    id
+                    otalWithdrawableAmount
+                    ithdrew
+                    ontributions(first:10){
+                     id
+                     amount
+                  }
                 }`,
                 getGraphMetadata: `{
                     _meta {
