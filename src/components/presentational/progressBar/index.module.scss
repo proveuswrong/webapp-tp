@@ -1,10 +1,8 @@
 @use "src/stylesheets/variables/spacings";
 @use "src/stylesheets/variables/typo";
-@use "src/stylesheets/variables/colorsNew";
-@use "sass:color";
 
-$brownDarken40: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness: -40%, $alpha: -40%);
-$brownDarken20: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness: -20%, $alpha: -40%);
+$brownDarken40: hsla(var(--english-breakfast-800), 0.6);
+$brownDarken20: hsla(var(--english-breakfast-700), 0.6);
 $green: hsl(180, 46%, 15%);
 $pink: hsl(313, 74%, 35%);
 

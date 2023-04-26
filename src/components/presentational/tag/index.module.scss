@@ -1,12 +1,11 @@
 @use "src/stylesheets/variables/typo";
-@use "src/stylesheets/variables/colors";
 
 .tag {
   padding: 0.25rem;
   border-width: 1px;
   font-size: typo.$xs;
-  border-color: map-get(colors.$palette, 'gray', 'alpha');
-  color: map-get(colors.$palette, 'grey', 'alpha');
+  border-color: var(--smooth-coffee-600);
+  color: var(--smooth-coffee-600);
   border-style: solid;
   border-radius: 4px;
   text-transform: uppercase;

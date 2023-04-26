@@ -1,4 +1,3 @@
-@use "src/stylesheets/variables/colors";
 @use "src/stylesheets/variables/typo";
 
 $minVW: 320px;
@@ -42,7 +41,6 @@ html, body {
 hr {
   border: none;
   height: 0.025rem;
-  background: map-get(colors.$palette, "grey", "beta");
   margin-block: 0;
 }
 
