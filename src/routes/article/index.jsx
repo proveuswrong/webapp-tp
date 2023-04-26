@@ -107,14 +107,13 @@ export default function Index() {
   }
 
   let reRenderInMs = 1000;
-
   return (
     <section>
       <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
-      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
+      {article?.disputes?.length > 0 && !article?.disputes?.at(-1)?.ruled && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
         <CustomButton
