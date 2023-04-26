@@ -95,8 +95,9 @@ const environments = {
                     totalWithdrawableAmount
                     withdrew
                     contributions{
-                     id
-                     amount
+                      id
+                      amount
+                    }
                   }
                 }`,
                 getGraphMetadata: `{
@@ -160,9 +161,10 @@ const environments = {
                     id
                     totalWithdrawableAmount
                     withdrew
-                    contributions(first:10){
-                     id
-                     amount
+                    contributions{
+                      id
+                      amount
+                    }
                   }
                 }`,
                 getGraphMetadata: `{
