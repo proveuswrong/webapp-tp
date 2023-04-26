@@ -8,16 +8,12 @@ import ProgressBar from "/src/components/presentational/progressBar";
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 
-const OPTIONS = Object.freeze({
-  Yes: 1,
-  No: 2,
-});
-
 export default function AppealPeriod({ currentRound }) {
   const [supportedRuling, setSupportedRuling] = useState(1);
-  const { chainId, accounts, contractInstance, ethersProvider } = useContext(EthereumContext);
+  const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
   const { totalToBeRaised, raisedSoFar } = currentRound;
 
+  console.log({ metaEvidenceContents });
   const fetchData = useCallback(() => {
     return getAllContributors(chainId);
   }, [chainId]);
@@ -47,38 +43,30 @@ export default function AppealPeriod({ currentRound }) {
   return (
     <>
       <div className={styles.appealPeriod}>
-        <h1 className={styles.title}>Appeal Crowdfunding Status</h1>
+        <h3 className={styles.title}>Appeal Crowdfunding Status</h3>
         <Radio.Group name="radiogroup" onChange={onChange} value={supportedRuling}>
           <div className={styles.appealOptions}>
-            <div className={styles.option}>
-              <div className={styles.topRow}>
-                <Radio value={OPTIONS.Yes}>Yes</Radio>
-                <EtherValue value={totalToBeRaised[OPTIONS.Yes]} />
-              </div>
-              <ProgressBar
-                percent={getPercentage(raisedSoFar[OPTIONS.Yes], totalToBeRaised[OPTIONS.Yes])}
-                // success={{ percent: getPercentage(raisedSoFar[OPTIONS.Yes], totalToBeRaised[OPTIONS.Yes]) }}
-                success={{
-                  percent: getPercentage(
-                    getContributionByRuling(connectedAccount, currentRound?.id, OPTIONS.Yes),
-                    totalToBeRaised[OPTIONS.Yes]
-                  ),
-                }}
-              />
-            </div>
-            <div className={styles.option}>
-              <div className={styles.topRow}>
-                <Radio value={OPTIONS.No}>No</Radio>
-                <EtherValue value={totalToBeRaised[OPTIONS.No]} />
-              </div>
-              <ProgressBar
-                percent={getPercentage(
-                  getContributionByRuling(connectedAccount, currentRound?.id, OPTIONS.No),
-                  totalToBeRaised[OPTIONS.No]
-                )}
-                success={{ percent: getPercentage(raisedSoFar[OPTIONS.No], totalToBeRaised[OPTIONS.No]) }}
-              />
-            </div>
+            {metaEvidenceContents[0]?.rulingOptions?.titles?.map((title, index) => {
+              const rulingOption = index + 1;
+              return (
+                <div key={rulingOption} className={styles.option}>
+                  <div className={styles.topRow}>
+                    <Radio value={rulingOption}>{title}</Radio>
+                    <EtherValue value={totalToBeRaised[rulingOption]} />
+                  </div>
+                  <ProgressBar
+                    percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
+                    // success={{ percent: getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption]) }}
+                    success={{
+                      percent: getPercentage(
+                        getContributionByRuling(connectedAccount, currentRound?.id, rulingOption),
+                        totalToBeRaised[rulingOption]
+                      ),
+                    }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </Radio.Group>
         <div className={styles.label}>
