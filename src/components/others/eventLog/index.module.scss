@@ -1,8 +1,5 @@
 @use "src/stylesheets/variables/typo";
-@use "src/stylesheets/variables/colorsNew";
 @use "src/stylesheets/variables/spacings";
-@use 'sass:color';
-
 
 .eventLog {
 
@@ -24,10 +21,9 @@
     tr {
 
       &:not(:last-child) {
-        border-bottom: 1px solid color.scale(map-get(colorsNew.$paletteNew, 'brown'), $lightness: +20%);
+        border-bottom: 1px solid (var(--english-breakfast-500));
       }
 
-      //border-color: lighten(map-get(colorsNew.$paletteNew, 'brown'), 10);
       text-align: left;
 
       &:nth-child(1) {

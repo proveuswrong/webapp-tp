@@ -180,3 +180,4 @@ console.debug(`Head: ${process.env.HEAD}`);
 console.debug(`Pull Request: ${process.env.PULL_REQUEST}`);
 console.debug(`Commit Ref: ${process.env.COMMIT_REF?.substring(0, 7)}`);
 console.debug(`Review ID: ${process.env.REVIEW_ID}`);
+
