@@ -44,4 +44,4 @@ export default function VotingPeriod({ currentRound, isHiddenVotes }) {
 }
 
 const getRemainingVoteCount = (jurySize, votesPerChoice) =>
-  jurySize - votesPerChoice.reduce((acc, val) => acc + val, 0);
+  jurySize - votesPerChoice.reduce((acc, val) => acc + Number(val), 0);
