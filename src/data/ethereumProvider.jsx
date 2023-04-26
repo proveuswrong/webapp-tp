@@ -264,7 +264,7 @@ export const getAllContributors = (chainID) =>{
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then(
         (data) => {
           console.log("contributors", data);
-          return data.articles;
+          return data.users;
         }
       );
     })
