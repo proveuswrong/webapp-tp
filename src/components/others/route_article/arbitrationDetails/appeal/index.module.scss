@@ -1,11 +1,6 @@
 @use "src/stylesheets/variables/spacings";
 @use "src/stylesheets/variables/typo";
 
-$brownDarken40: hsla(var(--english-breakfast-800), 0.6);
-$brownDarken20: hsla(var(--english-breakfast-700), 0.6);
-$green: hsl(180, 46%, 15%);
-$pink: hsl(313, 74%, 35%);
-
 .appealPeriod {
   display: flex;
   flex-direction: column;
@@ -13,7 +8,7 @@ $pink: hsl(313, 74%, 35%);
   .crowdFundingPanel {
     padding: spacings.$s-4 spacings.$s-7;
     margin-bottom: spacings.$s-18;
-    border: 1px solid $brownDarken40;
+    border: 1px solid  var(--english-breakfast-800);
     border-radius: 4px;
 
     .title {
@@ -32,7 +27,7 @@ $pink: hsl(313, 74%, 35%);
         flex-direction: column;
         padding: spacings.$s-4;
         margin-bottom: spacings.$s-5;
-        border: 1px solid $brownDarken40;
+        border: 1px solid var(--english-breakfast-900);
         border-radius: 4px;
 
         .topRow {
@@ -55,7 +50,7 @@ $pink: hsl(313, 74%, 35%);
         .colorBox {
           width: spacings.$s-3;
           height: spacings.$s-3;
-          background-color: $pink;
+          background-color: hsl(313, 74%, 35%);
         }
       }
     }
@@ -80,7 +75,7 @@ $pink: hsl(313, 74%, 35%);
       .ant-progress-outer {
         padding-right: 0;
         .ant-progress-inner {
-          border: 1px solid $brownDarken20;
+          border: 1px solid var(--english-breakfast-800);
           border-radius: 4px;
           height: spacings.$s-4;
 
@@ -110,12 +105,12 @@ $pink: hsl(313, 74%, 35%);
       }
 
       .ant-radio-inner {
-        border-color: $brownDarken40;
+        border-color:  var(--english-breakfast-800);
         background-color: transparent;
       }
       .ant-radio-inner:after,
       .ant-radio-checked:after {
-        background-color: $brownDarken40;
+        background-color:  var(--english-breakfast-800);
       }
     }
   }

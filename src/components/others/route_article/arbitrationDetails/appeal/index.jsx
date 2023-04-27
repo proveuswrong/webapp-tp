@@ -88,7 +88,7 @@ export default function AppealPeriod({ currentRound }) {
                 id="contribution"
                 name="contribution"
                 min="0.001"
-                max="100.000"
+                max={totalToBeRaised-raisedSoFar}
                 step="0.001"
                 onChange={onInputeChange}
                 value={amount}
