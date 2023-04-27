@@ -30,9 +30,14 @@ const articleFragment = `
         rounds {
             id
             jurySize
+            votesPerChoice
             raisedSoFar
+            totalToBeRaised
             appealDeadline
             hasPaid
+            dispute{
+              id
+            }
         }
 
     }
@@ -65,7 +70,7 @@ const environments = {
                         articleEntityID
                       }
                     }`,
-                getArticlesByAuthor:(address) => `{
+                getArticlesByAuthor: (address) => `{
                   articles(where: {owner: "${address}"}){
                     ${articleFragment}
                   }
@@ -86,6 +91,17 @@ const environments = {
                         id
                         uri
                     }
+                }`,
+                getAllContributors: `{
+                  users(orderBy: id){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions{
+                      id
+                      amount
+                    }
+                  }
                 }`,
                 getGraphMetadata: `{
                     _meta {
@@ -142,6 +158,17 @@ const environments = {
                         id
                         uri
                     }
+                }`,
+                getAllContributors: `{
+                  users(orderBy: id){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions{
+                      id
+                      amount
+                    }
+                  }
                 }`,
                 getGraphMetadata: `{
                     _meta {

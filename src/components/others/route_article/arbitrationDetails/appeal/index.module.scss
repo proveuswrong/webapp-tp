@@ -7,100 +7,121 @@ $green: hsl(180, 46%, 15%);
 $pink: hsl(313, 74%, 35%);
 
 .appealPeriod {
-  padding: spacings.$s-4 spacings.$s-7;
-  margin-bottom: spacings.$s-18;
-  border: 1px solid $brownDarken40;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 
-  .title {
-    margin-bottom: spacings.$s-4;
-    font-size: typo.$m;
-  }
+  .crowdFundingPanel {
+    padding: spacings.$s-4 spacings.$s-7;
+    margin-bottom: spacings.$s-18;
+    border: 1px solid $brownDarken40;
+    border-radius: 4px;
 
-  .appealOptions {
-    display: flex;
-    justify-content: space-between;
-    gap: spacings.$s-4;
+    .title {
+      margin-bottom: spacings.$s-4;
+      font-size: typo.$m;
+    }
 
-    .option {
-      flex-grow: 1;
+    .appealOptions {
       display: flex;
-      flex-direction: column;
-      padding: spacings.$s-4;
-      margin-bottom: spacings.$s-5;
-      border: 1px solid $brownDarken40;
-      border-radius: 4px;
+      justify-content: space-between;
+      gap: spacings.$s-4;
 
-      .topRow {
+      .option {
+        flex-grow: 1;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        padding: spacings.$s-4;
+        margin-bottom: spacings.$s-5;
+        border: 1px solid $brownDarken40;
+        border-radius: 4px;
+
+        .topRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+
+      .label {
+        display: flex;
         align-items: center;
+        gap: spacings.$s-1;
+        margin-bottom: spacings.$s-2;
+        font-size: typo.$xs;
+        .colorBox {
+          width: spacings.$s-3;
+          height: spacings.$s-3;
+          background-color: $pink;
+        }
       }
     }
   }
 
-  .label {
+  .button {
     display: flex;
-    align-items: center;
-    gap: spacings.$s-1;
-    margin-bottom: spacings.$s-2;
-    font-size: typo.$xs;
-    .colorBox {
-      width: spacings.$s-3;
-      height: spacings.$s-3;
-      background-color: $pink;
+    justify-content: center;
+    margin-bottom: spacings.$s-5;
+    width: 100%;
+  }
+
+  .crowdFundingPanel :global {
+    .ant-progress {
+      .ant-progress-text {
+        font-size: typo.$xl;
+        width: 98%;
+        text-align: right;
+        margin-top: spacings.$s-2;
+        margin-bottom: spacings.$s-2;
+      }
+      .ant-progress-outer {
+        padding-right: 0;
+        .ant-progress-inner {
+          border: 1px solid $brownDarken20;
+          border-radius: 4px;
+          height: spacings.$s-4;
+
+          .ant-progress-bg {
+            background: hsl(180, 46%, 15%);
+            border: 1px solid hsl(180, 100%, 38%);
+          }
+          .ant-progress-success-bg {
+            background: hsl(313, 74%, 35%);
+            border: 1px solid hsl(314, 65%, 82%);
+          }
+
+          .ant-progress-bg,
+          .ant-progress-success-bg {
+            border-radius: inherit;
+            height: inherit !important;
+          }
+        }
+      }
+    }
+
+    .ant-radio-group {
+      width: 100%;
+      span {
+        font-size: typo.$s;
+        font-weight: bold;
+      }
+
+      .ant-radio-inner {
+        border-color: $brownDarken40;
+        background-color: transparent;
+      }
+      .ant-radio-inner:after,
+      .ant-radio-checked:after {
+        background-color: $brownDarken40;
+      }
     }
   }
 }
 
-.appealPeriod :global {
-  .ant-progress {
-    .ant-progress-text {
-      font-size: typo.$xl;
-      width: 98%;
-      text-align: right;
-      margin-top: spacings.$s-2;
-      margin-bottom: spacings.$s-2;
-    }
-    .ant-progress-outer {
-      padding-right: 0;
-      .ant-progress-inner {
-        border: 1px solid $brownDarken20;
-        border-radius: 4px;
-        height: spacings.$s-4;
-
-        .ant-progress-bg {
-          background: hsl(313, 74%, 35%);
-          border: 1px solid hsl(314, 65%, 82%);
-        }
-        .ant-progress-success-bg {
-          background: hsl(180, 46%, 15%);
-          border: 1px solid hsl(180, 100%, 38%);
-        }
-
-        .ant-progress-bg,
-        .ant-progress-success-bg {
-          border-radius: inherit;
-          height: inherit !important;
-        }
-      }
-    }
-  }
-
-  .ant-radio-group {
-    width: 100%;
-    span {
-      font-size: typo.$s;
-      font-weight: bold;
-    }
-
-    .ant-radio-inner {
-      border-color: $brownDarken40;
-      background-color: transparent;
-    }
-    .ant-radio-inner:after,
-    .ant-radio-checked:after {
-      background-color: $brownDarken40;
-    }
-  }
+.appealFundingModal {
+  width: 90%;
+  max-width: 1200px;
 }

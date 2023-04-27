@@ -1,36 +1,104 @@
-import { useState } from "react";
-import { constants, utils } from "ethers";
-import { Radio } from "antd";
+import { useCallback, useContext, useState } from "react";
+import { BigNumber, constants, utils } from "ethers";
+import { Radio, Tooltip } from "antd";
 import * as styles from "./index.module.scss";
 
+import CustomButton from "/src/components/presentational/button";
 import ProgressBar from "/src/components/presentational/progressBar";
+import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
+import Modal from "../../../../presentational/modal";
 
-export default function AppealPeriod(props) {
-  const [value, setValue] = useState(1);
-  const onChange = (e) => setValue(e.target.value);
+export default function AppealPeriod({ currentRound }) {
+  const [amount, setAmount] = useState(0.01);
+  const [supportedRuling, setSupportedRuling] = useState(1);
+  const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
+  const { totalToBeRaised, raisedSoFar } = currentRound;
+
+  console.log({ metaEvidenceContents });
+  const fetchData = useCallback(() => {
+    return getAllContributors(chainId);
+  }, [chainId]);
+
+  const { data: contributors, isFetching } = useGraphFetcher(fetchData);
+
+  const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
+  console.log({ connectedAccount });
+  const onChange = (e) => setSupportedRuling(e.target.value);
+  const onInputeChange = (e) => setAmount(e.target.value);
+
+  const handleFundAppeal = async () => {
+    try {
+      const unsignedTx = await contractInstance.populateTransaction.fundAppeal(
+        currentRound?.dispute?.id,
+        supportedRuling,
+        {
+          value: utils.parseEther(amount?.toString()),
+        }
+      );
+      const tx = await ethersProvider.getSigner().sendTransaction(unsignedTx);
+      await tx.wait();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className={styles.appealPeriod}>
-      <h1 className={styles.title}>Appeal Crowdfunding Status</h1>
-      <Radio.Group name="radiogroup" onChange={onChange} value={value}>
-        <div className={styles.appealOptions}>
-          <div className={styles.option}>
-            <div className={styles.topRow}>
-              <Radio value={1}>Yes</Radio>
-              <EtherValue value="810000000000000000" />
-            </div>
-            <ProgressBar percent={57} success={{ percent: 57 }} />
+      <div className={styles.crowdFundingPanel}>
+        <h3 className={styles.title}>Appeal Crowdfunding Status</h3>
+        <Radio.Group name="radiogroup" onChange={onChange} value={supportedRuling}>
+          <div className={styles.appealOptions}>
+            {metaEvidenceContents[0]?.rulingOptions?.titles?.map((title, index) => {
+              const rulingOption = index + 1;
+              const contributedByAccount = getContributionByRuling(connectedAccount, currentRound?.id, rulingOption);
+              return (
+                <div key={rulingOption} className={styles.option}>
+                  <div className={styles.topRow}>
+                    <Radio value={rulingOption}>{title}</Radio>
+                    <EtherValue value={totalToBeRaised[rulingOption]} />
+                  </div>
+                  <Tooltip
+                    placement="top"
+                    title={`Raised so far: ${formatToEther(raisedSoFar[rulingOption])} ${
+                      constants.EtherSymbol
+                    } / Your contribution: ${formatToEther(contributedByAccount)} ${constants.EtherSymbol}`}
+                  >
+                    <ProgressBar
+                      percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
+                      success={{
+                        percent: getPercentage(contributedByAccount, totalToBeRaised[rulingOption]),
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              );
+            })}
           </div>
-          <div className={styles.option}>
-            <div className={styles.topRow}>
-              <Radio value={0}>No</Radio>
-              <EtherValue value="1200000000000000000" />
+        </Radio.Group>
+        <div className={styles.footer}>
+          <div className={styles.label}>
+            <div className={styles.colorBox} /> Your contribution
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div>
+              <label htmlFor="contribution">{`Fund amount ( ${constants.EtherSymbol} ): `}</label>
+              <input
+                type="number"
+                id="contribution"
+                name="contribution"
+                min="0.001"
+                max="100.000"
+                step="0.001"
+                onChange={onInputeChange}
+                value={amount}
+              />
             </div>
-            <ProgressBar percent={57} success={{ percent: 35 }} />
+            <CustomButton modifiers="small" onClick={handleFundAppeal}>
+              Fund Appeal
+            </CustomButton>
           </div>
         </div>
-      </Radio.Group>
-      <div className={styles.label}>
-        <div className={styles.colorBox} /> Your contribution
       </div>
     </div>
   );
@@ -39,3 +107,20 @@ export default function AppealPeriod(props) {
 function EtherValue(props) {
   return <h2>{`${parseFloat(utils.formatUnits(props.value)).toFixed(3)} ${constants.EtherSymbol}`}</h2>;
 }
+
+const formatToEther = (value) => parseFloat(utils.formatUnits(value)).toFixed(3);
+
+const getPercentage = (amount, total) => {
+  amount = BigNumber.from(amount);
+  total = BigNumber.from(total);
+  return amount.mul(100).div(total).toNumber();
+};
+
+const getContributionByRuling = (contributor, roundID, ruling) => {
+  if (!contributor || !roundID || !ruling) return 0;
+
+  const contributionId = `${roundID}-${contributor?.id}-${ruling}`;
+  const contribution = contributor?.contributions?.find((contribution) => contribution.id === contributionId);
+  console.log(`amount for ruling ${ruling} is ${contribution?.amount}`);
+  return contribution?.amount ?? 0;
+};
