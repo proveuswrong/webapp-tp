@@ -152,6 +152,10 @@ a:hover svg circle, a:hover svg path, a:hover svg rect {
   fill: var(--schiava-blue-600);
 }
 
+hr {
+  background: var(--dark-orchestra-600);
+}
+
 
 input, textarea, select {
   margin-top: spacings.$s-1;

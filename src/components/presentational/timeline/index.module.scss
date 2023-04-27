@@ -1,9 +1,7 @@
 @use "src/stylesheets/variables/spacings";
 @use "src/stylesheets/variables/typo";
 
-$brownDarken40: hsla(var(--english-breakfast-800),  0.8);
 $brownLighten20: hsla(var(--english-breakfast-500), 0.2);
-$brownLighten40: hsla(var(--english-breakfast-800),  0.2);
 
 .timelineSteps {
   margin-top: spacings.$s-7;
@@ -27,7 +25,7 @@ $brownLighten40: hsla(var(--english-breakfast-800),  0.2);
 .timelineSteps :global {
   .ant-steps-item-process > .ant-steps-item-container {
     .ant-steps-item-icon {
-      background: $brownDarken40;
+      background: var(--english-breakfast-800);
       border-color: transparent;
       display: flex;
       align-items: center;
@@ -35,14 +33,14 @@ $brownLighten40: hsla(var(--english-breakfast-800),  0.2);
     }
 
     .ant-steps-item-tail:after {
-      background-color: $brownLighten40;
+      background-color: var(--english-breakfast-500);
     }
   }
   .ant-steps-item-wait > .ant-steps-item-container,
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-item-icon {
       background: inherit;
-      border-color: $brownLighten40;
+      border-color: var(--english-breakfast-500);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -55,17 +53,17 @@ $brownLighten40: hsla(var(--english-breakfast-800),  0.2);
 
   .ant-steps-item-wait > .ant-steps-item-container {
     .ant-steps-item-tail:after {
-      background-color: $brownLighten40;
+      background-color: var(--english-breakfast-500);
     }
   }
 
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-icon {
-      color: $brownDarken40;
+      color: var(--english-breakfast-800);
     }
 
     .ant-steps-item-tail:after {
-      background-color: $brownDarken40;
+      background-color: var(--english-breakfast-500);
     }
   }
 }
@@ -73,6 +71,7 @@ $brownLighten40: hsla(var(--english-breakfast-800),  0.2);
 .timelineSteps :global {
   .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
     > .ant-steps-item-container[role="button"]:hover {
-    color: $brownDarken40;
+    color: var(--english-breakfast-800);
   }
 }
+
