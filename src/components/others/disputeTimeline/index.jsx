@@ -2,7 +2,7 @@ import Timeline from "../../presentational/timeline";
 import useCountdown, { formatTime } from "/src/hooks/useCountdown";
 import getDisputePeriodDeadline from "/src/businessLogic/getDisputePeriodDeadline";
 
-const ITEM_TITLES = ["Evidence", "Vote", "Appeal"];
+const DISPUTE_PERIODS = ["Evidence","Commit", "Voting", "Appeal", "Execution"];
 
 export default function DisputeTimeline({ dispute, currentPeriodIndex, current }) {
   const deadline = getDisputePeriodDeadline(
@@ -10,19 +10,16 @@ export default function DisputeTimeline({ dispute, currentPeriodIndex, current }
     dispute?.lastPeriodChange,
     dispute?.court?.timesPerPeriod
   );
+
   const timeLeft = useCountdown(deadline);
 
-  const items = ITEM_TITLES.map((title, _index) => ({
+  const items = DISPUTE_PERIODS.map((title, _index) => ({
     title,
-    description: _index === current ? formatTime(timeLeft) : "",
+    description: _index === current && current < 4 ? formatTime(timeLeft) : "",
   }));
 
   return (
     <>
-      <div>
-        <p>Time left until deadline:</p>
-        <p>{formatTime(timeLeft)}</p>
-      </div>
       <Timeline items={items} current={current} />
     </>
   );

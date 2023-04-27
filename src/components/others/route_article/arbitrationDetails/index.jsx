@@ -9,12 +9,14 @@ import { getCourtIdAndJurySize, currentJurySize } from "/src/utils/getCourtIdAnd
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
 
+import EvidencePeriod from "./evidence";
+import VotingPeriod from "./vote";
 import AppealPeriod from "./appeal";
+import ExecutionPeriod from "./execution";
+
 import { ethers } from "ethers";
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
 import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
-import VotingPeriod from "./vote";
-import EvidencePeriod from "./evidence";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
@@ -131,7 +133,9 @@ export default function ArbitrationDetails({ article }) {
   const components = [
     <EvidencePeriod />,
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
+    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
+    <ExecutionPeriod currentRound={currentDispute?.rounds.at(-1)} executed={!!currentDispute?.ruled} arbitratorInstance={arbitratorInstance}/>
   ];
   return (
     <section className={styles.arbitrationDetails}>
@@ -154,7 +158,6 @@ export default function ArbitrationDetails({ article }) {
 }
 
 function currentPeriodToItemIndex(currentPeriodIndex) {
-  if ([Periods.vote, Periods.appeal, Periods.execution].includes(currentPeriodIndex)) return currentPeriodIndex - 1;
   return currentPeriodIndex;
 }
 
