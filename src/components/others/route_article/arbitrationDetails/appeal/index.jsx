@@ -81,8 +81,8 @@ export default function AppealPeriod({ currentRound }) {
             <div className={styles.colorBox} /> Your contribution
           </div>
           <div style={{ display: "flex", gap: "10px" }}>
-            <div className={styles.inputContainer}>
-              <label htmlFor="contribution">{`Fund amount: ( ${constants.EtherSymbol} ): `}</label>
+            <div>
+              <label htmlFor="contribution">{`Fund amount ( ${constants.EtherSymbol} ): `}</label>
               <input
                 type="number"
                 id="contribution"
