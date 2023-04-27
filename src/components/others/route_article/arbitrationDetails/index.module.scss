@@ -8,7 +8,6 @@ $brownDarken20: color.scale(map-get(colorsNew.$paletteNew, "brown"), $lightness:
 $green: hsl(180, 46%, 15%);
 $pink: hsl(313, 74%, 35%);
 
-
 .arbitrationDetails {
   /*! Keep Me or It Won't Compile */
 }
@@ -83,63 +82,6 @@ $pink: hsl(313, 74%, 35%);
       width: spacings.$s-3;
       height: spacings.$s-3;
       background-color: $pink;
-    }
-  }
-}
-
-.appealPeriod :global {
-  .ant-progress {
-    .ant-progress-text {
-      font-size: typo.$xl;
-      width: 98%;
-      text-align: right;
-      margin-top: spacings.$s-2;
-      margin-bottom: spacings.$s-2;
-    }
-
-    .ant-progress-outer {
-      padding-right: 0;
-
-      .ant-progress-inner {
-        border: 1px solid $brownDarken20;
-        border-radius: 4px;
-        height: spacings.$s-4;
-
-        .ant-progress-bg {
-          background: hsl(313, 74%, 35%);
-          border: 1px solid hsl(314, 65%, 82%);
-        }
-
-        .ant-progress-success-bg {
-          background: hsl(180, 46%, 15%);
-          border: 1px solid hsl(180, 100%, 38%);
-        }
-
-        .ant-progress-bg,
-        .ant-progress-success-bg {
-          border-radius: inherit;
-          height: inherit !important;
-        }
-      }
-    }
-  }
-
-  .ant-radio-group {
-    width: 100%;
-
-    span {
-      font-size: typo.$s;
-      font-weight: bold;
-    }
-
-    .ant-radio-inner {
-      border-color: $brownDarken40;
-      background-color: transparent;
-    }
-
-    .ant-radio-inner:after,
-    .ant-radio-checked:after {
-      background-color: $brownDarken40;
     }
   }
 }
