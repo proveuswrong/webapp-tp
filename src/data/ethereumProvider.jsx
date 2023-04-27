@@ -19,7 +19,7 @@ export const networkMap = {
 
 export default class EthereumProvider extends Component {
   static constants = {
-    LONGPOLLING_PERIOD_MS: 60000,
+    LONGPOLLING_PERIOD_MS: 20000,
   };
 
   constructor(props) {

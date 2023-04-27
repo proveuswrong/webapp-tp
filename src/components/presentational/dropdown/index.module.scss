@@ -1,6 +1,4 @@
 @use 'src/stylesheets/variables/typo';
-@use 'src/stylesheets/variables/colors';
-
 
 .dropdown {
   height: auto !important;
@@ -11,14 +9,14 @@
   font-size: typo.$s;
   outline: none;
 
-  color: map-get(colors.$colorButton, 'primary', 'text');
-  background-color: map-get(colors.$colorButton, 'primary', 'fill');
-  border-color: map-get(colors.$colorButton, 'primary', 'stroke');
+  color: var(--starbright-600);
+  background-color: var(--english-breakfast-600);
+  border-color:var(--english-breakfast-600);
 
   &:global(.secondary) {
-    color: map-get(colors.$colorButton, 'secondary', 'text');
-    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
-    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
+    color: var(--dark-orchestra-600);
+    background-color: transparent;
+    border-color: var(--english-breakfast-800);
   }
 
   &:global(.small) {
@@ -29,16 +27,16 @@
 
 
   &:hover {
-    color: map-get(colors.$colorButton, 'hover', 'text') !important;
-    background-color: map-get(colors.$colorButton, 'hover', 'fill') !important;
-    border-color: map-get(colors.$colorButton, 'hover', 'stroke') !important;
+    color: var(--starbright-600);
+    background-color: var(--english-breakfast-700);
+    border-color: var(--english-breakfast-700);
   }
 
 
   &:active {
-    color: map-get(colors.$colorButton, 'pressed', 'text');
-    background-color: map-get(colors.$colorButton, 'pressed', 'fill');
-    border-color: map-get(colors.$colorButton, 'pressed', 'stroke');
+    color: var(--starbright-600);
+    background-color: var(--english-breakfast-900);
+    border-color: var(--english-breakfast-900);
   }
   
 }

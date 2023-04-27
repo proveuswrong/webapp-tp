@@ -1,9 +1,110 @@
-@use "src/stylesheets/variables/colors";
 @use "src/stylesheets/variables/spacings";
 
+:root {
+  /* Gryphonne Sepia Wash CSS Vars */
+  --gryphonne-sepia-wash-100: hsl(25, 33%, 93%);
+  --gryphonne-sepia-wash-200: hsl(25, 36%, 86%);
+  --gryphonne-sepia-wash-300: hsl(25, 35%, 72%);
+  --gryphonne-sepia-wash-400: hsl(25, 35%, 57%);
+  --gryphonne-sepia-wash-500: hsl(25, 46%, 43%);
+  --gryphonne-sepia-wash-600: hsl(25, 86%, 29%);
+  --gryphonne-sepia-wash-700: hsl(25, 86%, 23%);
+  --gryphonne-sepia-wash-800: hsl(25, 87%, 17%);
+  --gryphonne-sepia-wash-900: hsl(25, 86%, 12%);
+  --gryphonne-sepia-wash-1000: hsl(25, 87%, 6%);
+  /* Red Reign CSS Vars */
+  --red-reign-100: hsl(0, 32%, 93%);
+  --red-reign-200: hsl(0, 31%, 85%);
+  --red-reign-300: hsl(0, 31%, 70%);
+  --red-reign-400: hsl(0, 31%, 56%);
+  --red-reign-500: hsl(0, 45%, 41%);
+  --red-reign-600: hsl(0, 88%, 26%);
+  --red-reign-700: hsl(0, 89%, 21%);
+  --red-reign-800: hsl(0, 88%, 16%);
+  --red-reign-900: hsl(0, 89%, 10%);
+  --red-reign-1000: hsl(0, 85%, 5%);
+  /* Schiava Blue CSS Vars */
+  --schiava-blue-100: hsl(225, 21%, 93%);
+  --schiava-blue-200: hsl(228, 20%, 85%);
+  --schiava-blue-300: hsl(230, 19%, 70%);
+  --schiava-blue-400: hsl(228, 20%, 55%);
+  --schiava-blue-500: hsl(229, 29%, 41%);
+  --schiava-blue-600: hsl(229, 56%, 26%);
+  --schiava-blue-700: hsl(229, 56%, 21%);
+  --schiava-blue-800: hsl(228, 57%, 15%);
+  --schiava-blue-900: hsl(230, 55%, 10%);
+  --schiava-blue-1000: hsl(228, 56%, 5%);
+  /* Army Green CSS Vars */
+  --army-green-100: hsl(72, 13%, 92%);
+  --army-green-200: hsl(66, 13%, 85%);
+  --army-green-300: hsl(69, 13%, 69%);
+  --army-green-400: hsl(66, 13%, 54%);
+  --army-green-500: hsl(67, 21%, 38%);
+  --army-green-600: hsl(67, 44%, 23%);
+  --army-green-700: hsl(67, 44%, 18%);
+  --army-green-800: hsl(66, 43%, 14%);
+  --army-green-900: hsl(69, 45%, 9%);
+  --army-green-1000: hsl(66, 42%, 5%);
+  /* Dark Eclipse CSS Vars */
+  --dark-eclipse-100: hsl(216, 12%, 92%);
+  --dark-eclipse-200: hsl(213, 13%, 83%);
+  --dark-eclipse-300: hsl(217, 12%, 66%);
+  --dark-eclipse-400: hsl(215, 12%, 49%);
+  --dark-eclipse-500: hsl(217, 25%, 32%);
+  --dark-eclipse-600: hsl(216, 68%, 15%);
+  --dark-eclipse-700: hsl(217, 67%, 12%);
+  --dark-eclipse-800: hsl(215, 69%, 9%);
+  --dark-eclipse-900: hsl(217, 68%, 6%);
+  --dark-eclipse-1000: hsl(213, 73%, 3%);
+  /* Smooth Coffee CSS Vars */
+  --smooth-coffee-100: hsl(0, 6%, 93%);
+  --smooth-coffee-200: hsl(0, 4%, 86%);
+  --smooth-coffee-300: hsl(0, 4%, 73%);
+  --smooth-coffee-400: hsl(0, 4%, 60%);
+  --smooth-coffee-500: hsl(0, 5%, 47%);
+  --smooth-coffee-600: hsl(0, 9%, 33%);
+  --smooth-coffee-700: hsl(0, 9%, 27%);
+  --smooth-coffee-800: hsl(0, 9%, 20%);
+  --smooth-coffee-900: hsl(0, 9%, 13%);
+  --smooth-coffee-1000: hsl(0, 9%, 6%);
+  /* English Breakfast CSS Vars */
+  --english-breakfast-100: hsl(12, 12%, 92%);
+  --english-breakfast-200: hsl(6, 12%, 83%);
+  --english-breakfast-300: hsl(9, 12%, 66%);
+  --english-breakfast-400: hsl(6, 12%, 50%);
+  --english-breakfast-500: hsl(7, 24%, 33%);
+  --english-breakfast-600: hsl(7, 61%, 16%);
+  --english-breakfast-700: hsl(8, 61%, 13%);
+  --english-breakfast-800: hsl(6, 60%, 10%);
+  --english-breakfast-900: hsl(9, 63%, 6%);
+  --english-breakfast-1000: hsl(6, 63%, 3%);
+  /* Dark Orchestra CSS Vars */
+  --dark-orchestra-100: hsl(0, 2%, 91%);
+  --dark-orchestra-200: hsl(0, 2%, 82%);
+  --dark-orchestra-300: hsl(0, 2%, 65%);
+  --dark-orchestra-400: hsl(0, 2%, 47%);
+  --dark-orchestra-500: hsl(0, 4%, 30%);
+  --dark-orchestra-600: hsl(0, 13%, 12%);
+  --dark-orchestra-700: hsl(0, 12%, 10%);
+  --dark-orchestra-800: hsl(0, 14%, 7%);
+  --dark-orchestra-900: hsl(0, 12%, 5%);
+  --dark-orchestra-1000: hsl(0, 17%, 2%);
+  /* Starbright CSS Vars */
+  --starbright-100: hsl(45, 67%, 99%);
+  --starbright-200: hsl(47, 69%, 97%);
+  --starbright-300: hsl(49, 63%, 95%);
+  --starbright-400: hsl(50, 64%, 92%);
+  --starbright-500: hsl(51, 62%, 90%);
+  --starbright-600: hsl(50, 64%, 87%);
+  --starbright-700: hsl(51, 21%, 70%);
+  --starbright-800: hsl(50, 10%, 52%);
+  --starbright-900: hsl(49, 10%, 35%);
+  --starbright-1000: hsl(47, 10%, 17%);
+
+}
 
 body {
-  background-color: map-get(colors.$palette, primary);
+  background-color: var(--starbright-600);
   position: relative;
 }
 
@@ -24,14 +125,14 @@ body::after, .withBackground::after {
 
 footer {
   h1, h2, h3, h4, h5, h6, p, a, span {
-    color: map-get(colors.$palette, primary);
+    color: var(--starbright-600);
   }
 
-  background-color: map-get(colors.$palette, secondary);
+  background-color: var(--dark-orchestra-600);
 
   svg {
     path, circle, rect {
-      fill: map-get(colors.$palette, primary);
+      fill: var(--starbright-600);
 
     }
   }
@@ -40,26 +141,24 @@ footer {
 }
 
 a {
-  color: map-get(colors.$palette, secondary)
+  color: var(--dark-orchestra-600)
 }
 
 a:hover {
-  color: map-get(colors.$palette, 'helper', 'blueLight');
+  color: var(--schiava-blue-600);
 }
 
 a:hover svg circle, a:hover svg path, a:hover svg rect {
-  fill: map-get(colors.$palette, 'helper', 'blueLight');
+  fill: var(--schiava-blue-600);
 }
 
 
 input, textarea, select {
   margin-top: spacings.$s-1;
-  border: 1px solid map-get(colors.$palette, 'grey', 'alpha');
+  border: 1px solid var(--smooth-coffee-600);
   border-radius: 4px;
   padding: spacings.$s-2;
   background-color: transparent;
-  color: map-get(colors.$palette, 'grey', 'alpha');
+  color: var(--smooth-coffee-600);
 }
-
-
 
