@@ -35,6 +35,9 @@ const articleFragment = `
             totalToBeRaised
             appealDeadline
             hasPaid
+            dispute{
+              id
+            }
         }
 
     }
