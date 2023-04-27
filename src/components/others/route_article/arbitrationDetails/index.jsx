@@ -175,7 +175,7 @@ function Overview(props) {
       </span>
       <span>
         <b>Jury Size:</b>
-        {`${props.jurySize} ${props.jurySize > 1 ? "votes" : "vote"}`}
+        <span key={props.jurySize} className="blink">{`${props.jurySize} ${props.jurySize > 1 ? "votes" : "vote"}`}</span>
       </span>
     </div>
   );
