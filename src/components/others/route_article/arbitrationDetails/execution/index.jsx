@@ -1,4 +1,3 @@
-import * as styles from "./index.module.scss";
 import CustomButton from "/src/components/presentational/button";
 import { utils } from "ethers";
 import { EthereumContext } from "/src/data/ethereumProvider";
@@ -33,7 +32,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
       console.error(error);
     }
   };
-  return <div className={styles.executionPeriod}>
+  return <div>
     {executed ?
     <CustomButton modifiers={"small"} onClick={handleWithdrawCrowdfunding}>Withdraw Crowdfunding</CustomButton> : <CustomButton modifiers={"small"} onClick={handleExecuteRuling}>Execute Ruling</CustomButton>
     }
