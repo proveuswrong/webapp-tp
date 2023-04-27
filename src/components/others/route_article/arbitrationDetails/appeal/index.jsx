@@ -7,8 +7,10 @@ import CustomButton from "/src/components/presentational/button";
 import ProgressBar from "/src/components/presentational/progressBar";
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
+import Modal from "../../../../presentational/modal";
 
 export default function AppealPeriod({ currentRound }) {
+  const [amount, setAmount] = useState(0.01);
   const [supportedRuling, setSupportedRuling] = useState(1);
   const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
   const { totalToBeRaised, raisedSoFar } = currentRound;
@@ -23,14 +25,15 @@ export default function AppealPeriod({ currentRound }) {
   const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
   console.log({ connectedAccount });
   const onChange = (e) => setSupportedRuling(e.target.value);
+  const onInputeChange = (e) => setAmount(e.target.value);
 
-  const handleFundAppeal = async (amount) => {
+  const handleFundAppeal = async () => {
     try {
       const unsignedTx = await contractInstance.populateTransaction.fundAppeal(
         currentRound?.dispute?.id,
         supportedRuling,
         {
-          value: utils.parseEther(amount.toString()),
+          value: utils.parseEther(amount?.toString()),
         }
       );
       const tx = await ethersProvider.getSigner().sendTransaction(unsignedTx);
@@ -41,8 +44,8 @@ export default function AppealPeriod({ currentRound }) {
   };
 
   return (
-    <>
-      <div className={styles.appealPeriod}>
+    <div className={styles.appealPeriod}>
+      <div className={styles.crowdFundingPanel}>
         <h3 className={styles.title}>Appeal Crowdfunding Status</h3>
         <Radio.Group name="radiogroup" onChange={onChange} value={supportedRuling}>
           <div className={styles.appealOptions}>
@@ -63,7 +66,6 @@ export default function AppealPeriod({ currentRound }) {
                   >
                     <ProgressBar
                       percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
-                      // success={{ percent: getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption]) }}
                       success={{
                         percent: getPercentage(contributedByAccount, totalToBeRaised[rulingOption]),
                       }}
@@ -74,12 +76,31 @@ export default function AppealPeriod({ currentRound }) {
             })}
           </div>
         </Radio.Group>
-        <div className={styles.label}>
-          <div className={styles.colorBox} /> Your contribution
+        <div className={styles.footer}>
+          <div className={styles.label}>
+            <div className={styles.colorBox} /> Your contribution
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="contribution">{`Fund amount: ( ${constants.EtherSymbol} ): `}</label>
+              <input
+                type="number"
+                id="contribution"
+                name="contribution"
+                min="0.001"
+                max="100.000"
+                step="0.001"
+                onChange={onInputeChange}
+                value={amount}
+              />
+            </div>
+            <CustomButton modifiers="small" onClick={handleFundAppeal}>
+              Fund Appeal
+            </CustomButton>
+          </div>
         </div>
       </div>
-      <CustomButton>Fund Appeal</CustomButton>
-    </>
+    </div>
   );
 }
 
