@@ -20,7 +20,7 @@ export default function VotingPeriod(props) {
         {VOTE_DATA.map((vote, _index) => (
           <div key={_index} className={styles.voteCard}>
             <div>{vote.icon}</div>
-            <div className={styles.voteCount}>{vote.count}</div>
+            <div key={vote.count} className={`blink ${styles.voteCount}`}>{vote.count}</div>
             <div className={styles.voteOption}>{vote.option}</div>
           </div>
         ))}
