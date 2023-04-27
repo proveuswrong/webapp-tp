@@ -171,7 +171,7 @@ function Overview(props) {
       </span>
       <span>
         <b>Round Number:</b>
-        {props.roundNumber}
+        <span key={props.roundNumber} className="blink">{props.roundNumber}</span>
       </span>
       <span>
         <b>Jury Size:</b>
