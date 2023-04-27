@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
 import { BigNumber, constants, utils } from "ethers";
-import { Radio } from "antd";
+import { Radio, Tooltip } from "antd";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
@@ -48,22 +48,27 @@ export default function AppealPeriod({ currentRound }) {
           <div className={styles.appealOptions}>
             {metaEvidenceContents[0]?.rulingOptions?.titles?.map((title, index) => {
               const rulingOption = index + 1;
+              const contributedByAccount = getContributionByRuling(connectedAccount, currentRound?.id, rulingOption);
               return (
                 <div key={rulingOption} className={styles.option}>
                   <div className={styles.topRow}>
                     <Radio value={rulingOption}>{title}</Radio>
                     <EtherValue value={totalToBeRaised[rulingOption]} />
                   </div>
-                  <ProgressBar
-                    percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
-                    // success={{ percent: getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption]) }}
-                    success={{
-                      percent: getPercentage(
-                        getContributionByRuling(connectedAccount, currentRound?.id, rulingOption),
-                        totalToBeRaised[rulingOption]
-                      ),
-                    }}
-                  />
+                  <Tooltip
+                    placement="top"
+                    title={`Raised so far: ${formatToEther(raisedSoFar[rulingOption])} ${
+                      constants.EtherSymbol
+                    } / Your contribution: ${formatToEther(contributedByAccount)} ${constants.EtherSymbol}`}
+                  >
+                    <ProgressBar
+                      percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
+                      // success={{ percent: getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption]) }}
+                      success={{
+                        percent: getPercentage(contributedByAccount, totalToBeRaised[rulingOption]),
+                      }}
+                    />
+                  </Tooltip>
                 </div>
               );
             })}
@@ -81,6 +86,8 @@ export default function AppealPeriod({ currentRound }) {
 function EtherValue(props) {
   return <h2>{`${parseFloat(utils.formatUnits(props.value)).toFixed(3)} ${constants.EtherSymbol}`}</h2>;
 }
+
+const formatToEther = (value) => parseFloat(utils.formatUnits(value)).toFixed(3);
 
 const getPercentage = (amount, total) => {
   amount = BigNumber.from(amount);
