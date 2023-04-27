@@ -32,9 +32,13 @@ export default function VotingPeriod({ currentRound, isHiddenVotes }) {
         {VOTE_DATA.map((vote, _index) => (
           <div key={_index} className={styles.voteCard}>
             <div>{vote.icon}</div>
+<<<<<<< HEAD
             <div className={styles.voteCount}>
               {vote.option === "Remaining" ? getRemainingVoteCount(jurySize, votesPerChoice) : votesPerChoice[_index]}
             </div>
+=======
+            <div key={vote.count} className={`blink ${styles.voteCount}`}>{vote.count}</div>
+>>>>>>> blink on vote change
             <div className={styles.voteOption}>{vote.option}</div>
           </div>
         ))}
