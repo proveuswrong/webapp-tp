@@ -6,9 +6,9 @@ import VoteRemainingIcon from "jsx:/src/assets/vote-remaining.svg";
 import VoteHiddenIcon from "jsx:/src/assets/vote-hidden.svg";
 
 const VOTE_DATA = [
+  { option: "Refused", icon: <VoteRefusedIcon /> },
   { option: "Yes", icon: <VoteYesIcon /> },
   { option: "No", icon: <VoteNoIcon /> },
-  { option: "Refused", icon: <VoteRefusedIcon /> },
   { option: "Remaining", icon: <VoteRemainingIcon /> },
 ];
 
