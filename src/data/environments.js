@@ -124,7 +124,7 @@ const environments = {
     networkMap: {
       "0x5": {
         contractInstances: {
-          "0xAA51402316075798040c2322D0361383577707ba": {
+          "0x4d4c347f102fe8c01c94d003b9e9a03f5fe67d67": {
             subgraph: {
               endpoint: "https://api.thegraph.com/subgraphs/name/gratestas/thetruthpost-test-goerli",
               queries: {
