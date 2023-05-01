@@ -103,6 +103,17 @@ const environments = {
                     }
                   }
                 }`,
+                getContributorByID: (id) => `{
+                  user(id:"${id}"){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions{
+                      id
+                      amount
+                    }
+                  }
+                }`,
                 getGraphMetadata: `{
                     _meta {
                         deployment
@@ -161,6 +172,17 @@ const environments = {
                 }`,
                 getAllContributors: `{
                   users(orderBy: id){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                    contributions{
+                      id
+                      amount
+                    }
+                  }
+                }`,
+                getContributorByID: (id) => `{
+                  user(id:"${id}"){
                     id
                     totalWithdrawableAmount
                     withdrew

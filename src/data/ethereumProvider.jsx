@@ -258,20 +258,33 @@ export const getArticlesByAuthor = (chainID, walletAddress) => {
     .catch(console.error);
 };
 
-export const getAllContributors = (chainID) =>{
+export const getAllContributors = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then(
+      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then((data) => {
+        console.log("contributors", data);
+        return data.users;
+      });
+    })
+  )
+    .then((r) => r[0]?.value)
+    .catch(console.error);
+};
+
+export const getContributorByID = (chainID, walletAddress) => {
+  return Promise.allSettled(
+    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getContributorByID(walletAddress)).then(
         (data) => {
-          console.log("contributors", data);
-          return data.users;
+          console.log("contributor by ID", data);
+          return data.user;
         }
       );
     })
   )
     .then((r) => r[0]?.value)
     .catch(console.error);
-}
+};
 
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
