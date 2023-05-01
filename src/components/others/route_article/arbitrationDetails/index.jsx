@@ -16,7 +16,7 @@ import ExecutionPeriod from "./execution";
 
 import { ethers } from "ethers";
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
+import { EthereumContext } from "/src/data/ethereumProvider";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
@@ -131,7 +131,7 @@ export default function ArbitrationDetails({ article }) {
   console.log({ current });
   console.log({ currentDispute });
   const components = [
-    <EvidencePeriod />,
+    <EvidencePeriod evidenceEvents={article?.events.filter((event) => event.name === "Evidence")} />,
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
