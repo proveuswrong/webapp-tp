@@ -1,0 +1,31 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.evidencePeriod {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: spacings.$s-5;
+
+  .evidenceCard {
+    margin: spacings.$s-6 spacings.$s-1;
+
+    .description {
+      margin: spacings.$s-6 0;
+    }
+    .timestamp {
+      color: #8d8282;
+
+      span {
+        color: black;
+      }
+    }
+
+    h4 {
+      margin-bottom: spacings.$s-1;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}
