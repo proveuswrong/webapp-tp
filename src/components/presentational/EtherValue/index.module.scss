@@ -1,0 +1,6 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.container {
+  font-size: typo.$l;
+}
