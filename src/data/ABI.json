@@ -851,11 +851,6 @@
         "internalType": "address payable",
         "name": "_contributor",
         "type": "address"
-      },
-      {
-        "internalType": "enum ITruthPost.RulingOptions",
-        "name": "_ruling",
-        "type": "uint8"
       }
     ],
     "name": "getTotalWithdrawableAmount",
@@ -864,6 +859,11 @@
         "internalType": "uint256",
         "name": "sum",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256[][]",
+        "name": "amounts",
+        "type": "uint256[][]"
       }
     ],
     "stateMutability": "view",
@@ -1082,6 +1082,47 @@
       }
     ],
     "name": "withdrawFeesAndRewardsForAllRounds",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_contributor",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawFeesAndRewardsForAllRoundsAndAllRulings",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_disputeID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "_contributor",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256[][]",
+        "name": "positions",
+        "type": "uint256[][]"
+      }
+    ],
+    "name": "withdrawFeesAndRewardsForGivenPositions",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
