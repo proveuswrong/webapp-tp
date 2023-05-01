@@ -43,7 +43,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   const rewardField = (
     <div className={styles.reward}>
       <div className={styles.label}>Total rewards:</div>
-      {!isFetching && <EtherValue value={contributor?.totalWithdrawableAmount} />}
+      {!isFetching && <EtherValue value={contributor?.totalWithdrawableAmount ?? 0} />}
     </div>
   );
 
