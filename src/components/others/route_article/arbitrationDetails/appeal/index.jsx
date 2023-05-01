@@ -5,9 +5,10 @@ import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import ProgressBar from "/src/components/presentational/progressBar";
+import EtherValue, { formatToEther } from "../../../../presentational/EtherValue";
+
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import Modal from "../../../../presentational/modal";
 
 export default function AppealPeriod({ currentRound }) {
   const [amount, setAmount] = useState(0.01);
@@ -56,7 +57,7 @@ export default function AppealPeriod({ currentRound }) {
                 <div key={rulingOption} className={styles.option}>
                   <div className={styles.topRow}>
                     <Radio value={rulingOption}>{title}</Radio>
-                    <EtherValue value={totalToBeRaised[rulingOption]} />
+                    <EtherValue value={totalToBeRaised[rulingOption]} modifiers={styles.ethValue} />
                   </div>
                   <Tooltip
                     placement="top"
@@ -88,7 +89,7 @@ export default function AppealPeriod({ currentRound }) {
                 id="contribution"
                 name="contribution"
                 min="0.001"
-                max={totalToBeRaised-raisedSoFar}
+                max={totalToBeRaised - raisedSoFar}
                 step="0.001"
                 onChange={onInputeChange}
                 value={amount}
@@ -103,12 +104,6 @@ export default function AppealPeriod({ currentRound }) {
     </div>
   );
 }
-
-function EtherValue(props) {
-  return <h2>{`${parseFloat(utils.formatUnits(props.value)).toFixed(3)} ${constants.EtherSymbol}`}</h2>;
-}
-
-const formatToEther = (value) => parseFloat(utils.formatUnits(value)).toFixed(3);
 
 const getPercentage = (amount, total) => {
   amount = BigNumber.from(amount);

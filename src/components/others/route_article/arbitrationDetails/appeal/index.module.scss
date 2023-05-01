@@ -8,7 +8,7 @@
   .crowdFundingPanel {
     padding: spacings.$s-4 spacings.$s-7;
     margin-bottom: spacings.$s-18;
-    border: 1px solid  var(--english-breakfast-800);
+    border: 1px solid var(--english-breakfast-800);
     border-radius: 4px;
 
     .title {
@@ -34,6 +34,10 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+
+          .ethValue {
+            font-size: typo.$xl;
+          }
         }
       }
     }
@@ -105,12 +109,12 @@
       }
 
       .ant-radio-inner {
-        border-color:  var(--english-breakfast-800);
+        border-color: var(--english-breakfast-800);
         background-color: transparent;
       }
       .ant-radio-inner:after,
       .ant-radio-checked:after {
-        background-color:  var(--english-breakfast-800);
+        background-color: var(--english-breakfast-800);
       }
     }
   }
