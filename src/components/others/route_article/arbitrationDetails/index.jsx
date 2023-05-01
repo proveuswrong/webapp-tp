@@ -135,7 +135,11 @@ export default function ArbitrationDetails({ article }) {
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
     <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
-    <ExecutionPeriod currentRound={currentDispute?.rounds.at(-1)} executed={!!currentDispute?.ruled} arbitratorInstance={arbitratorInstance}/>
+    <ExecutionPeriod
+      currentRound={currentDispute?.rounds.at(-1)}
+      executed={!!currentDispute?.ruled}
+      arbitratorInstance={arbitratorInstance}
+    />,
   ];
   return (
     <section className={styles.arbitrationDetails}>
@@ -175,11 +179,15 @@ function Overview(props) {
       </span>
       <span>
         <b>Round Number:</b>
-        <span key={props.roundNumber} className="blink">{props.roundNumber}</span>
+        <span key={props.roundNumber} className="blink">
+          {props.roundNumber}
+        </span>
       </span>
       <span>
         <b>Jury Size:</b>
-        <span key={props.jurySize} className="blink">{`${props.jurySize} ${props.jurySize > 1 ? "votes" : "vote"}`}</span>
+        <span key={props.jurySize} className="blink">{`${props.jurySize} ${
+          props.jurySize > 1 ? "votes" : "vote"
+        }`}</span>
       </span>
     </div>
   );

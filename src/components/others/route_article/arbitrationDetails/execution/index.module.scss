@@ -1,0 +1,23 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.executionPeriod {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: spacings.$s-5;
+
+  .reward {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: typo.$l;
+    margin-bottom: spacings.$s-5;
+
+    .label {
+      font-size: typo.$s;
+      margin-right: spacings.$s-2;
+    }
+  }
+}
