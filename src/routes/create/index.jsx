@@ -1,17 +1,18 @@
 import { useState, useContext } from "react";
-import { ToastContainer } from "react-toastify";
-import { EthereumContext } from "../../data/ethereumProvider";
+import { useNavigate } from "react-router-dom";
 import { utils } from "ethers";
 
 import FormCreate from "/src/components/others/formCreate";
 import ConfirmCreate from "/src/components/others/confirmCreate";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
+import { EthereumContext, getLastArticleByAuthor } from "../../data/ethereumProvider";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 import addToIPFS from "../../utils/addToIPFS";
 
 export default function Create() {
   const ethereumContext = useContext(EthereumContext);
+  const navigate = useNavigate();
   const [createFlowProgress, setCreateFlowProgress] = useState(0);
   const [controlsState, setControlsState] = useState({
     title: "",
@@ -60,6 +61,10 @@ export default function Create() {
           .then((tx) => tx.wait()),
         MESSAGE_TYPE.transaction
       );
+
+      const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]);
+      console.log({ article });
+      navigate(`/${ethereumContext.chainId}/${article?.contractAddress}/${article?.id}`);
     } catch (err) {
       console.error(err);
     }
