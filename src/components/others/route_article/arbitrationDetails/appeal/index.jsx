@@ -9,6 +9,7 @@ import EtherValue, { formatToEther } from "../../../../presentational/EtherValue
 
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
+import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
 
 export default function AppealPeriod({ currentRound }) {
   const [amount, setAmount] = useState(0.01);
@@ -37,8 +38,13 @@ export default function AppealPeriod({ currentRound }) {
           value: utils.parseEther(amount?.toString()),
         }
       );
-      const tx = await ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+      await notifyWithToast(
+        ethersProvider
+          .getSigner()
+          .sendTransaction(unsignedTx)
+          .then((tx) => tx.wait()),
+        MESSAGE_TYPE.transaction
+      );
     } catch (error) {
       console.error(error);
     }

@@ -91,7 +91,6 @@ export default function Create() {
         subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
         providerURL={ethereumContext?.ethersProvider?.connection?.url}
       />
-      <ToastContainer />
     </section>
   );
 }
