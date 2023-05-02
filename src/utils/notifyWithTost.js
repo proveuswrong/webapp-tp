@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./toast.module.scss";
 
 export const MESSAGE_TYPE = Object.freeze({
     ipfs: "ipfs",
@@ -24,7 +25,7 @@ const messageTemplates = {
                         </a>
                     </div >
                 )
-            }
+            },
         },
         error: "Error while adding file to IPFS",
     },
