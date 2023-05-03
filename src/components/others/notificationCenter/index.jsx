@@ -20,9 +20,8 @@ export default function NotificationCenter() {
 
   const types = ["success", "info", "warning", "error"];
   const addNotification = () => {
-    // use a random type of notification
     toast("Lorem ipsum dolor sit amet", {
-      type: types[Math.floor(Math.random() * types.length)],
+      type: types[getSecureRandomNumber(types.length)],
     });
   };
 
@@ -76,3 +75,10 @@ export default function NotificationCenter() {
     </div>
   );
 }
+
+const getSecureRandomNumber = (max) => {
+  let cryptoObj = window.crypto;
+  let randomBuffer = new Uint32Array(1); // Create a buffer for random data
+  cryptoObj.getRandomValues(randomBuffer); // Fill the buffer with random data
+  return randomBuffer[0] % max; // Return a random number within the desired range
+};
