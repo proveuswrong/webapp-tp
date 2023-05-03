@@ -63,7 +63,6 @@ export default function Create() {
       );
 
       const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]);
-      console.log({ article });
       navigate(`/${ethereumContext.chainId}/${article?.contractAddress}/${article?.id}`);
     } catch (err) {
       console.error(err);
