@@ -13,6 +13,8 @@ import NotificationCenter from "../notificationCenter";
 const BREAKPOINT_TABLET = 768;
 const STICKY_THRESHOLD = 130;
 
+const DISABLED = true; //
+
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
   const [lockScroll, unlockScroll] = useScrollLock();
@@ -85,10 +87,9 @@ export default function Header() {
           <NavLink to="faq/">F.A.Q.</NavLink>
           <NavLink to="about/">About</NavLink>
           <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
-
         </div>
         <div className={styles.navEthereum}>
-          <NotificationCenter />
+          {!DISABLED && <NotificationCenter />} {/* TODO: unlock when UI design is ready */}
           {ethereumContext?.isProviderDetected && <ButtonConnect />}
           <ButtonSelectNetwork />
         </div>
@@ -121,7 +122,6 @@ function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
           About
         </NavLink>
         <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
-
       </nav>
     </div>
   );
