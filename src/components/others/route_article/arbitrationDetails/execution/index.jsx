@@ -1,11 +1,12 @@
 import { useCallback, useContext } from "react";
 import * as styles from "./index.module.scss";
 
-import { EthereumContext, getContributorByID } from "/src/data/ethereumProvider";
-import useGraphFetcher from "/src/hooks/useGraphFetcher";
-
 import CustomButton from "/src/components/presentational/button";
 import EtherValue from "../../../../presentational/EtherValue";
+
+import { EthereumContext, getContributorByID } from "/src/data/ethereumProvider";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
+import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
 
 export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance }) {
   const { chainId, accounts, contractInstance, ethersProvider } = useContext(EthereumContext);
@@ -16,11 +17,19 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
 
   const { data: contributor, isFetching } = useGraphFetcher(fetchData);
 
+  const sendTransaction = async (unsignedTx) =>
+    await notifyWithToast(
+      ethersProvider
+        .getSigner()
+        .sendTransaction(unsignedTx)
+        .then((tx) => tx.wait()),
+      MESSAGE_TYPE.transaction
+    );
+
   const handleExecuteRuling = async () => {
     try {
       const unsignedTx = await arbitratorInstance.populateTransaction.executeRuling(currentRound?.dispute?.id);
-      const tx = await ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+      sendTransaction(unsignedTx);
     } catch (error) {
       console.error(error);
     }
@@ -33,8 +42,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
         accounts[0],
         1
       );
-      const tx = await ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+      sendTransaction(unsignedTx);
     } catch (error) {
       console.error(error);
     }

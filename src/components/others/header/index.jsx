@@ -8,9 +8,12 @@ import BurgerMenu from "../../presentational/burgerMenu";
 
 import { EthereumContext } from "/src/data/ethereumProvider";
 import useScrollLock from "/src/hooks/useScrollLock";
+import NotificationCenter from "../notificationCenter";
 
 const BREAKPOINT_TABLET = 768;
 const STICKY_THRESHOLD = 130;
+
+const DISABLED = true;
 
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
@@ -84,9 +87,9 @@ export default function Header() {
           <NavLink to="faq/">F.A.Q.</NavLink>
           <NavLink to="about/">About</NavLink>
           <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
-
         </div>
         <div className={styles.navEthereum}>
+          {!DISABLED && <NotificationCenter />} {/* TODO: unlock when UI design is ready */}
           {ethereumContext?.isProviderDetected && <ButtonConnect />}
           <ButtonSelectNetwork />
         </div>
@@ -118,8 +121,9 @@ function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
         <NavLink to="about/" onClick={toggleMenu}>
           About
         </NavLink>
-        <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
-
+        <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`} onClick={toggleMenu}>
+          Account
+        </NavLink>
       </nav>
     </div>
   );

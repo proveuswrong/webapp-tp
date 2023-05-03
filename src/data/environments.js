@@ -71,8 +71,13 @@ const environments = {
                       }
                     }`,
                 getArticlesByAuthor: (address) => `{
-                  articles(where: {owner: "${address}"}){
+                  articles(orderBy: createdAtBlock, orderDirection: asc, where: {owner: "${address}"}){
                     ${articleFragment}
+                  }
+                }`,
+                getLastArticleByAuthor: (address) => `{
+                  articles(first:1, orderBy: createdAtBlock, orderDirection: desc, where: {owner: "${address}"}){
+                    id
                   }
                 }`,
                 getAllArticles: `{
@@ -151,6 +156,11 @@ const environments = {
                 getArticlesByAuthor: (address) => `{
                   articles(where: {owner: "${address}"}){
                     ${articleFragment}
+                  }
+                }`,
+                getLastArticleByAuthor: (address) => `{
+                  articles(first:1, orderBy: createdAtBlock, orderDirection: desc, where: {owner: "${address}"}){
+                    id
                   }
                 }`,
                 getAllArticles: `{

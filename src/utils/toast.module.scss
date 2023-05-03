@@ -1,0 +1,75 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+:root {
+  --toastify-icon-color-error: var(--red-reign-600);
+  --toastify-icon-color-success: var(--army-green-600);
+  --toastify-icon-color-info: var(--smooth-coffee-600);
+  --toastify-icon-color-warning: var(--gryphonne-sepia-wash-600);
+}
+
+:global(.Toastify__toast) {
+  min-height: spacings.$s-18;
+}
+
+:global(.Toastify__toast-body) {
+  padding: spacings.$s-3 spacings.$s-2;
+  a {
+    color: var(--english-breakfast-700);
+    text-decoration: underline;
+    font-size: typo.$xs;
+  }
+}
+
+:global(.Toastify__toast-icon) {
+  margin-inline-end: spacings.$s-3;
+  align-self: flex-start;
+  margin-top: spacings.$s-1;
+}
+
+:global(.Toastify__toast--error) {
+  background-color: var(--red-reign-100);
+  border: 1px solid;
+  border-color: var(--red-reign-400);
+  color: var(--red-reign-600);
+}
+
+:global(.Toastify__toast--success) {
+  background-color: var(--starbright-200);
+  border: 1px solid;
+  border-color: var(--army-green-400);
+  color: var(--army-green-600);
+}
+
+:global(.Toastify__toast--warning) {
+  background-color: var(--gryphonne-sepia-wash-100);
+  border: 1px solid;
+  border-color: var(--gryphonne-sepia-wash-400);
+  color: var(--gryphonne-sepia-wash-600);
+}
+
+:global(.Toastify__toast--info .Toastify__toast--default) {
+  background-color: var(--smooth-coffee-100);
+  border: 1px solid;
+  border-color: var(--smooth-coffee-400);
+  color: var(--smooth-coffee-600);
+}
+
+:global(.Toastify__progress-bar) {
+  height: spacings.$s-2;
+}
+
+:global(.Toastify__progress-bar--error) {
+  background-color: var(--red-reign-500);
+}
+
+:global(.Toastify__progress-bar--success) {
+  background-color: var(--army-green-500);
+}
+
+:global(.Toastify__progress-bar--info) {
+  background-color: var(--smooth-coffee-500);
+}
+:global(.Toastify__progress-bar--warning) {
+  background-color: var(--gryphonne-sepia-wash-500);
+}

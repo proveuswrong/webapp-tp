@@ -5,6 +5,7 @@ import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import { useContext, useState } from "react";
 import { EthereumContext } from "/src/data/ethereumProvider";
 import { constants, utils } from "ethers";
+import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
 
 export default function BountyModal({ articleStorageAddress, currentBounty, visible, onCancel }) {
   const ethereumContext = useContext(EthereumContext);
@@ -24,11 +25,15 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
           value: utils.parseEther(amount.toString()),
         }
       );
-      const tx = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+      await notifyWithToast(
+        ethereumContext.ethersProvider
+          .getSigner()
+          .sendTransaction(unsignedTx)
+          .then((tx) => tx.wait()),
+        MESSAGE_TYPE.transaction
+      );
     } catch (error) {
       console.error(error);
-      //TODO: add toastify
     } finally {
       setIsSubmitting(false);
     }

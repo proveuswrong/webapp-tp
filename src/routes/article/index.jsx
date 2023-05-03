@@ -16,6 +16,7 @@ import Metadata from "/src/components/others/route_article/metadata";
 import Content from "/src/components/others/route_article/content";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
 import BountyModal from "../../components/others/bountyModal";
+import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 
 // TODO Refactor out components from this route.
 export default function Index() {
@@ -75,11 +76,21 @@ export default function Index() {
     };
   }, [article]);
 
+  async function sendTransaction(unsignedTx) {
+    return await notifyWithToast(
+      ethereumContext.ethersProvider
+        .getSigner()
+        .sendTransaction(unsignedTx)
+        .then((tx) => tx.wait()),
+      MESSAGE_TYPE.transaction
+    );
+  }
+
   async function handleInitiateWithdrawal() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initiateWithdrawal(
       article.storageAddress
     );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await sendTransaction(unsignedTx);
   }
 
   async function handleChallenge() {
@@ -88,12 +99,12 @@ export default function Index() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.challenge(article.storageAddress, {
       value: fee,
     });
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await sendTransaction(unsignedTx);
   }
 
   async function handleExecuteWithdrawal() {
     const unsignedTx = await ethereumContext.contractInstance.populateTransaction.withdraw(article.storageAddress);
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await sendTransaction(unsignedTx);
   }
 
   async function handleRevamp() {
@@ -103,7 +114,7 @@ export default function Index() {
       article.storageAddress,
       { value: "12312312311111" }
     );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await sendTransaction(unsignedTx);
   }
 
   let reRenderInMs = 1000;
@@ -113,7 +124,7 @@ export default function Index() {
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
-      {article?.disputes?.length > 0 &&  <ArbitrationDetails article={article} />}
+      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
         <CustomButton
