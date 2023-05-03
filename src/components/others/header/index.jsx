@@ -13,7 +13,7 @@ import NotificationCenter from "../notificationCenter";
 const BREAKPOINT_TABLET = 768;
 const STICKY_THRESHOLD = 130;
 
-const DISABLED = true; //
+const DISABLED = true;
 
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
@@ -121,7 +121,9 @@ function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
         <NavLink to="about/" onClick={toggleMenu}>
           About
         </NavLink>
-        <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
+        <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`} onClick={toggleMenu}>
+          Account
+        </NavLink>
       </nav>
     </div>
   );
