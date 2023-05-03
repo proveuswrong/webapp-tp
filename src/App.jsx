@@ -8,7 +8,7 @@ export default class App extends React.Component {
     return (
       <Layout>
         <Outlet />
-        <ToastContainer position="bottom-right" newestOnTop />
+        <ToastContainer position="bottom-right" newestOnTop autoClose={10000} />
       </Layout>
     );
   }

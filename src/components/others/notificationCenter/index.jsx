@@ -9,7 +9,7 @@ import { getTimeAgo } from "../../../utils/time";
 import Switch from "../../presentational/switch";
 
 export default function NotificationCenter() {
-  const { notifications, clear, markAllAsRead, markAsRead, remove, unreadCount } = useNotificationCenter();
+  const { notifications, clear, markAllAsRead, markAsRead, unreadCount } = useNotificationCenter();
   const [showUnreadOnly, toggleFilter] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
