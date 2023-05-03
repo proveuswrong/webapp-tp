@@ -31,7 +31,6 @@ export default function Index() {
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
   const [isBountyModalOpen, setBountyModalOpen] = useState(false);
-
   useEffect(() => {
     let didCancel = false;
 
