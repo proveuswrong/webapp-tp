@@ -60,13 +60,14 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
     <div className={styles.executionPeriod}>
       {executed ? (
         <>
-          {contributor === null ? (
-            <InformationBox>You have not contributed to the dispute</InformationBox>
-          ) : contributor?.withdrew ? (
-            <InformationBox>You have already withdrawn your rewards</InformationBox>
-          ) : (
-            rewardField
-          )}
+          {accounts[0] &&
+            (contributor === null ? (
+              <InformationBox>You have not contributed to the dispute</InformationBox>
+            ) : contributor?.withdrew ? (
+              <InformationBox>You have already withdrawn your rewards</InformationBox>
+            ) : (
+              rewardField
+            ))}
           <CustomButton disabled={!contributor || contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
             Withdraw Crowdfunding
           </CustomButton>
