@@ -21,7 +21,7 @@
     tr {
 
       &:not(:last-child) {
-        border-bottom: 1px solid (var(--english-breakfast-500));
+        border-bottom: 1px solid (hsl(var(--english-breakfast-500)));
       }
 
       text-align: left;

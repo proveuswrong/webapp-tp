@@ -8,7 +8,7 @@
   .crowdFundingPanel {
     padding: spacings.$s-4 spacings.$s-7;
     margin-bottom: spacings.$s-18;
-    border: 1px solid var(--english-breakfast-800);
+    border: 1px solid hsl(var(--english-breakfast-800));
     border-radius: 4px;
 
     .title {
@@ -27,7 +27,7 @@
         flex-direction: column;
         padding: spacings.$s-4;
         margin-bottom: spacings.$s-5;
-        border: 1px solid var(--english-breakfast-900);
+        border: 1px solid hsl(var(--english-breakfast-900));
         border-radius: 4px;
 
         .topRow {
@@ -79,7 +79,7 @@
       .ant-progress-outer {
         padding-right: 0;
         .ant-progress-inner {
-          border: 1px solid var(--english-breakfast-800);
+          border: 1px solid hsl(var(--english-breakfast-800));
           border-radius: 4px;
           height: spacings.$s-4;
 
@@ -109,12 +109,12 @@
       }
 
       .ant-radio-inner {
-        border-color: var(--english-breakfast-800);
+        border-color: hsl(var(--english-breakfast-800));
         background-color: transparent;
       }
       .ant-radio-inner:after,
       .ant-radio-checked:after {
-        background-color: var(--english-breakfast-800);
+        background-color: hsl(var(--english-breakfast-800));
       }
     }
   }

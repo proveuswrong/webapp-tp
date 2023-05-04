@@ -12,32 +12,32 @@
   }
 
   &:global(.live) {
-    color: var(--starbright-600);
-    background-color: var(--army-green-600);
-    border-color: var(--army-green-600);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--army-green-600));
+    border-color: hsl(var(--army-green-600));
   }
 
   &:global(.debunked) {
-    color: var(--starbright-600);
-    background-color: var(--red-reign-600);
-    border-color: var(--red-reign-600);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--red-reign-600));
+    border-color: hsl(var(--red-reign-600));
   }
 
   &:global(.timelockstarted) {
-    color: var(--starbright-600);
-    background-color: var(--gryphonne-sepia-wash-600);
-    border-color: var(--gryphonne-sepia-wash-600);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--gryphonne-sepia-wash-600));
+    border-color: hsl(var(--gryphonne-sepia-wash-600));
   }
 
   &:global(.withdrawn) {
-    color: var(--starbright-600);
-    background-color: var(--schiava-blue-600);
-    border-color: var(--schiava-blue-600);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--schiava-blue-600));
+    border-color: hsl(var(--schiava-blue-600));
   }
 
   &:global(.challenged) {
-    color: var(--starbright-600);
-    background-color: var(--gryphonne-sepia-wash-600);
-    border-color: var(--gryphonne-sepia-wash-600);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--gryphonne-sepia-wash-600));
+    border-color: hsl(var(--gryphonne-sepia-wash-600));
   }
 }

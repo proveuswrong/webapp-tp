@@ -9,14 +9,14 @@
   font-size: typo.$s;
   outline: none;
 
-  color: var(--starbright-600);
-  background-color: var(--english-breakfast-600);
-  border-color:var(--english-breakfast-600);
+  color: hsl(var(--starbright-600));
+  background-color: hsl(var(--english-breakfast-600));
+  border-color:hsl(var(--english-breakfast-600));
 
   &:global(.secondary) {
-    color: var(--dark-orchestra-600);
+    color: hsl(var(--dark-orchestra-600));
     background-color: transparent;
-    border-color: var(--english-breakfast-800);
+    border-color: hsl(var(--english-breakfast-800));
   }
 
   &:global(.small) {
@@ -27,16 +27,16 @@
 
 
   &:hover {
-    color: var(--starbright-600);
-    background-color: var(--english-breakfast-700);
-    border-color: var(--english-breakfast-700);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--english-breakfast-700));
+    border-color: hsl(var(--english-breakfast-700));
   }
 
 
   &:active {
-    color: var(--starbright-600);
-    background-color: var(--english-breakfast-900);
-    border-color: var(--english-breakfast-900);
+    color: hsl(var(--starbright-600));
+    background-color: hsl(var(--english-breakfast-900));
+    border-color: hsl(var(--english-breakfast-900));
   }
   
 }
