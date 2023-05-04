@@ -1,0 +1,11 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.infoBox {
+  padding: spacings.$s-6 spacings.$s-3;
+  margin-bottom: spacings.$s-4;
+  font-size: typo.$xs;
+  color: var(--english-breakfast-600);
+  border: 1px solid var(--english-breakfast-600);
+  border-radius: 4px;
+}
