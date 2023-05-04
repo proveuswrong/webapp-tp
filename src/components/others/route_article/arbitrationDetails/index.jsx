@@ -155,7 +155,7 @@ export default function ArbitrationDetails({ article }) {
         roundNumber={currentDispute?.rounds?.length}
         jurySize={currentDispute?.rounds?.at(-1).jurySize}
       />
-      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
+      <DisputeTimeline dispute={currentDispute} current={currentPeriodIndex} />
       {components[current]}
     </section>
   );
