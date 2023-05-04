@@ -1,5 +1,6 @@
 @use "src/stylesheets/variables/spacings";
 
+
 :root {
   /* Gryphonne Sepia Wash CSS Vars */
   --gryphonne-sepia-wash-100: 25, 33%, 93%;
@@ -165,4 +166,5 @@ input, textarea, select {
   background-color: transparent;
   color: hsl(var(--smooth-coffee-600));
 }
+
 
