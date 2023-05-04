@@ -2,7 +2,20 @@ import Timeline from "../../presentational/timeline";
 import useCountdown, { formatTime } from "/src/hooks/useCountdown";
 import getDisputePeriodDeadline from "/src/businessLogic/getDisputePeriodDeadline";
 
-const DISPUTE_PERIODS = ["Evidence", "Commit", "Voting", "Appeal", "Execution"];
+import EvidenceIcon from "jsx:/src/assets/evidence.svg";
+import CommitIcon from "jsx:/src/assets/commit.svg";
+import VotingIcon from "jsx:/src/assets/voting.svg";
+import AppealIcon from "jsx:/src/assets/appeal.svg";
+import ExecutionIcon from "jsx:/src/assets/execution.svg";
+import CheckIcon from "jsx:/src/assets/check-mark.svg";
+
+const DISPUTE_PERIODS = [
+  { name: "Evidence", icon: <EvidenceIcon /> },
+  { name: "Commit", icon: <CommitIcon /> },
+  { name: "Voting", icon: <VotingIcon /> },
+  { name: "Appeal", icon: <AppealIcon /> },
+  { name: "Execution", icon: <ExecutionIcon /> },
+];
 
 export default function DisputeTimeline({ dispute, currentPeriodIndex, current }) {
   const deadline = getDisputePeriodDeadline(
@@ -12,15 +25,13 @@ export default function DisputeTimeline({ dispute, currentPeriodIndex, current }
   );
 
   const timeLeft = useCountdown(deadline);
+  const isExecuted = (periodName) => (periodName === "Execution") & dispute?.ruled;
 
-  const items = DISPUTE_PERIODS.map((title, _index) => ({
-    title,
+  const items = DISPUTE_PERIODS.map((period, _index) => ({
+    icon: isExecuted(period.name) ? <CheckIcon /> : period.icon,
+    title: isExecuted(period.name) ? "Executed" : period.name,
     description: _index === current && current < 4 ? formatTime(timeLeft) : "",
   }));
 
-  return (
-    <>
-      <Timeline items={items} current={current} completed={dispute?.ruled} />
-    </>
-  );
+  return <Timeline items={items} current={current} completed={dispute?.ruled} />;
 }
