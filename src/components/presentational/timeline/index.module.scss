@@ -15,62 +15,71 @@
   margin-top: spacings.$s-2;
 }
 
-:global(.ant-steps-item-icon) {
-  width: 40px;
-  height: 40px;
+:global(.ant-steps-item-tail) {
+  top: spacings.$s-4;
 }
 
 .timelineSteps :global {
+  .ant-steps-item-wait > .ant-steps-item-container {
+    .ant-steps-item-icon {
+      border: 1px solid hsl(var(--english-breakfast-400));
+    }
+    svg {
+      opacity: 0.6;
+    }
+  }
+
+  .ant-steps-item-finish > .ant-steps-item-container {
+    .ant-steps-item-icon {
+      border: 1px solid hsl(var(--english-breakfast-800));
+    }
+  }
+
   .ant-steps-item-process > .ant-steps-item-container {
     .ant-steps-item-icon {
       background: hsl(var(--english-breakfast-800));
-      border-color: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-color: hsl(var(--english-breakfast-800));
     }
 
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-500));
-    }
-  }
-  .ant-steps-item-wait > .ant-steps-item-container,
-  .ant-steps-item-finish > .ant-steps-item-container {
-    .ant-steps-item-icon {
-      background: inherit;
-      border-color: hsl(var(--english-breakfast-500));
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background-color: hsl(var(--english-breakfast-300));
     }
   }
 
-  .ant-steps-label-vertical .ant-steps-item-tail {
-    padding: 3.5px 42px;
+  .ant-steps:not(.ant-steps-vertical) .ant-steps-item-custom .ant-steps-item-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: spacings.$s-10;
+    height: spacings.$s-10;
+
+    .ant-steps-icon {
+      top: 2px;
+    }
+  }
+
+  .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: spacings.$s-10;
+    height: spacings.$s-10;
+    border: 1px solid hsl(var(--english-breakfast-800));
+  }
+
+  .ant-steps-label-vertical .ant-steps-item-icon {
+    margin-left: 2rem;
   }
 
   .ant-steps-item-wait > .ant-steps-item-container {
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-500));
+      background-color: hsl(var(--english-breakfast-300));
     }
   }
 
   .ant-steps-item-finish > .ant-steps-item-container {
-    .ant-steps-icon {
-      color: hsl(var(--english-breakfast-800));
-    }
-
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-500));
+      background-color: hsl(var(--english-breakfast-600));
     }
   }
-
 }
-
-.timelineSteps :global {
-  .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
-    > .ant-steps-item-container[role="button"]:hover {
-    color: hsl(var(--english-breakfast-800));
-  }
-}
-
