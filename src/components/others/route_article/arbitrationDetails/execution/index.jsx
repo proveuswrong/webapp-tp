@@ -38,10 +38,9 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
 
   const handleWithdrawCrowdfunding = async () => {
     try {
-      const unsignedTx = await contractInstance.populateTransaction.withdrawFeesAndRewardsForAllRounds(
+      const unsignedTx = await contractInstance.populateTransaction.withdrawFeesAndRewardsForAllRoundsAndAllRulings(
         currentRound?.dispute?.id,
-        accounts[0],
-        1
+        accounts[0]
       );
       sendTransaction(unsignedTx);
     } catch (error) {
