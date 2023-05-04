@@ -1,7 +1,6 @@
 import Timeline from "../../presentational/timeline";
 import useCountdown, { formatTime } from "/src/hooks/useCountdown";
 import getDisputePeriodDeadline from "/src/businessLogic/getDisputePeriodDeadline";
-import { Periods } from "../../../constants/enums";
 
 const DISPUTE_PERIODS = ["Evidence", "Commit", "Voting", "Appeal", "Execution"];
 
@@ -19,7 +18,6 @@ export default function DisputeTimeline({ dispute, currentPeriodIndex, current }
     description: _index === current && current < 4 ? formatTime(timeLeft) : "",
   }));
 
-  console.log({ dispute });
   return (
     <>
       <Timeline items={items} current={current} completed={dispute?.ruled} />
