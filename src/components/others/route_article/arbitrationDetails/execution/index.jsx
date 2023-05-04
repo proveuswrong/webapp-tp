@@ -7,6 +7,7 @@ import EtherValue from "../../../../presentational/EtherValue";
 import { EthereumContext, getContributorByID } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
+import InformationBox from "../../../../presentational/informationBox";
 
 export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance }) {
   const { chainId, accounts, contractInstance, ethersProvider } = useContext(EthereumContext);
@@ -58,12 +59,18 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   return (
     <div className={styles.executionPeriod}>
       {executed ? (
-        <div>
-          {rewardField}
-          <CustomButton disabled={contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
+        <>
+          {contributor === null ? (
+            <InformationBox>You have not contributed to the dispute</InformationBox>
+          ) : contributor?.withdrew ? (
+            <InformationBox>You have already withdrawn your rewards</InformationBox>
+          ) : (
+            rewardField
+          )}
+          <CustomButton disabled={!contributor || contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
             Withdraw Crowdfunding
           </CustomButton>
-        </div>
+        </>
       ) : (
         <CustomButton onClick={handleExecuteRuling}>Execute Ruling</CustomButton>
       )}
