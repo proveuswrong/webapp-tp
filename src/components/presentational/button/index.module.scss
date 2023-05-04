@@ -1,5 +1,10 @@
 @use 'src/stylesheets/variables/typo';
 
+@function shadowTemplate($color) {
+  @return 0rem 0.25rem 0.5rem 0rem hsl($color, 0.25),
+  inset 0.125rem 0.125rem 0.5rem 0rem hsl($color, 0.50);
+}
+
 .button {
   height: auto !important;
   border-radius: 4px;
@@ -8,20 +13,11 @@
   padding: 0.75rem 1.5rem;
   font-size: typo.$s;
   outline: none;
-  color: hsl(var(--starbright-600));
+
   background-color: hsl(var(--english-breakfast-600));
-  border-color:hsl(var(--english-breakfast-600));
-  box-shadow: 0 0.25rem 0.5rem 0 hsl(var(--english-breakfast-700), 0.25),
-  inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--english-breakfast-700), 0.5);
-
-  &:global(.secondary) {
-    color: hsl(var(--dark-orchestra-600));
-    background-color: transparent;
-    border-color: hsl(var(--english-breakfast-800));
-    box-shadow: 0 0.25rem 0.5rem 0 hsl(var(--english-breakfast-900), 0.25),
-    inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--english-breakfast-900), 0.5);
-
-  }
+  border-color: hsl(var(--english-breakfast-600));
+  color: hsl(var(--starbright-600));
+  box-shadow: shadowTemplate(var(--english-breakfast-700));
 
   &:global(.small) {
     padding: 0.5rem 0.75rem;
@@ -29,32 +25,28 @@
     min-width: unset;
   }
 
-
-  &:hover {
-    color: hsl(var(--starbright-600));
-    background-color: hsl(var(--english-breakfast-700));
-    border-color: hsl(var(--english-breakfast-700));
-    box-shadow: 0 0.25rem 0.5rem 0 hsl(var(--english-breakfast-800), 0.25),
-    inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--english-breakfast-800), 0.5);
+  &:global(.secondary) {
+    background-color: transparent;
+    border-color: hsl(var(--english-breakfast-800));
+    color: hsl(var(--dark-orchestra-600));
+    box-shadow: none;
   }
 
-
-
-  &:active {
+  &:hover, &:active, &:focus {
+    background-color: hsl(var(--english-breakfast-700));
+    border-color: hsl(var(--english-breakfast-700));
     color: hsl(var(--starbright-600));
-    background-color: hsl(var(--english-breakfast-900));
-    border-color: hsl(var(--english-breakfast-900));
-    box-shadow: 0 0.25rem 0.5rem 0 hsl(var(--english-breakfast-1000), 0.25),
-    inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--english-breakfast-1000), 0.5);
+    box-shadow: shadowTemplate(var(--english-breakfast-800));
   }
 
   &[disabled], &[disabled]:hover {
-    color: hsl(var(--smooth-coffee-400));
-    background-color: hsl(var(--english-breakfast-200));
-    border-color: hsl(var(--english-breakfast-200));
-    box-shadow: 0 0.25rem 0.5rem 0 hsl(var(--smooth-coffe-300), 0.25),
-    inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--smooth-coffe-300), 0.5);
+    background-color: hsl(var(--smooth-coffee-200));
+    border-color: hsl(var(--smooth-coffee-200));
+    color: hsl(var(--smooth-coffee-500));
+    box-shadow: shadowTemplate(var(--smooth-coffee-300));
   }
-
 }
+
+
+
 

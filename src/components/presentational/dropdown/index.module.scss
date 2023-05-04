@@ -9,15 +9,11 @@
   font-size: typo.$s;
   outline: none;
 
-  color: hsl(var(--starbright-600));
-  background-color: hsl(var(--english-breakfast-600));
-  border-color:hsl(var(--english-breakfast-600));
 
-  &:global(.secondary) {
-    color: hsl(var(--dark-orchestra-600));
-    background-color: transparent;
-    border-color: hsl(var(--english-breakfast-800));
-  }
+  background-color: hsl(var(--english-breakfast-600));
+  border-color: hsl(var(--english-breakfast-600));
+  color: hsl(var(--starbright-600));
+  box-shadow: shadowTemplate(var(--english-breakfast-700));
 
   &:global(.small) {
     padding: 0.5rem 0.75rem;
@@ -25,19 +21,26 @@
     min-width: unset;
   }
 
+  &:global(.secondary) {
+    background-color: transparent;
+    border-color: hsl(var(--english-breakfast-800));
+    color: hsl(var(--dark-orchestra-600));
+    box-shadow: none;
+  }
 
-  &:hover {
-    color: hsl(var(--starbright-600));
+  &:hover, &:active, &:focus {
     background-color: hsl(var(--english-breakfast-700));
     border-color: hsl(var(--english-breakfast-700));
-  }
-
-
-  &:active {
     color: hsl(var(--starbright-600));
-    background-color: hsl(var(--english-breakfast-900));
-    border-color: hsl(var(--english-breakfast-900));
+    box-shadow: shadowTemplate(var(--english-breakfast-800));
   }
-  
+
+  &[disabled], &[disabled]:hover {
+    background-color: hsl(var(--smooth-coffee-200));
+    border-color: hsl(var(--smooth-coffee-200));
+    color: hsl(var(--smooth-coffee-500));
+    box-shadow: shadowTemplate(var(--smooth-coffee-300));
+  }
+
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
 import {EthereumContext, networkMap} from "../../../data/ethereumProvider";
 import {DownOutlined} from "@ant-design/icons";
-import {Button, Menu} from "antd";
+import {Menu} from "antd";
+import Button from "/src/components/presentational/button"
 import CustomDropdown from "/src/components/presentational/dropdown";
 import MenuItem from "/src/components/presentational/menuItem";
 import {useNavigate} from "react-router-dom";
@@ -34,7 +35,7 @@ export default function ButtonSelectNetwork() {
     <EthereumContext.Consumer>
       {(ethereumContext) => (
         <CustomDropdown modifiers="small secondary" overlay={menu(ethereumContext, navigate)}>
-          <Button id="buttonSelectNetwork">
+          <Button modifiers="small secondary" id="buttonSelectNetwork">
             <span style={{color: 'inherit'}} key={ethereumContext?.chainId} className="blink">
               {networkMap[ethereumContext?.chainId]?.shortname || "Unsupported Network"}
             </span>
