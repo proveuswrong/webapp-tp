@@ -1,15 +1,15 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
 
-$colorShadow1: hsla(var(--starbright-700), 0.6);
-$colorShadow2: hsla(var(--english-breakfast-600), 0.25);
-$colorShadow3: hsla(var(--english-breakfast-600), 0.25);
+$colorShadow1: hsl(var(--starbright-700), 0.6);
+$colorShadow2: hsl(var(--english-breakfast-600), 0.25);
+$colorShadow3: hsl(var(--english-breakfast-600), 0.25);
 
 :global(.ant-modal-content) {
-  color: var(--dark-orchestra-600);
+  color: hsl(var(--dark-orchestra-600));
   border-radius: 20px;
 
-  background-color: var(--starbright-600);
+  background-color: hsl(var(--starbright-600));
   box-shadow: inset 20px 20px 250px 0px $colorShadow1, 0px 5px 30px 0px $colorShadow2, 0px 10px 30px 0px $colorShadow3;
 }
 
@@ -18,5 +18,5 @@ $colorShadow3: hsla(var(--english-breakfast-600), 0.25);
 }
 
 :global(.ant-modal-mask) {
-  background-color: hsla(var(--english-breakfast-800), 0.6);
+  background-color: hsl(var(--english-breakfast-800), 0.6);
 }

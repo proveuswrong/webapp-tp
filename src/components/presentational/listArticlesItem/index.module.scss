@@ -1,7 +1,7 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
 
-$brownDarken40: hsla(var(--english-breakfast-800), 0.8);
+$brownDarken40: hsl(var(--english-breakfast-800), 0.8);
 
 .listArticlesItem {
   display: flex;
@@ -9,13 +9,13 @@ $brownDarken40: hsla(var(--english-breakfast-800), 0.8);
   flex: 1;
 
   @media (min-width: 1200px) {
-    border: 1px solid var(--english-breakfast-600);
+    border: 1px solid hsl(var(--english-breakfast-600));
     border-radius: 1rem;
     transition: border-color 0.6s ease-in-out;
     padding: spacings.$s-6;
 
     &:hover {
-      border: 1px solid var(--english-breakfast-700);
+      border: 1px solid hsl(var(--english-breakfast-700));
     }
   }
 
@@ -30,14 +30,14 @@ $brownDarken40: hsla(var(--english-breakfast-800), 0.8);
   justify-content: space-between;
   gap: spacings.$s-2;
   font-size: typo.$m;
-  color: var(--smooth-coffee-600);
+  color: hsl(var(--smooth-coffee-600));
   margin-bottom: spacings.$s-2;
 }
 
 .title {
   font-size: typo.$l;
   font-weight: 500;
-  color: var(--dark-orchestra-600);
+  color: hsl(var(--dark-orchestra-600));
   margin-right: spacings.$s-2;
 
   & > span {
@@ -53,7 +53,7 @@ $brownDarken40: hsla(var(--english-breakfast-800), 0.8);
 .createdAt {
   margin-top: auto;
   font-size: typo.$s;
-  color: var(--smooth-coffee-600);
+  color: hsl(var(--smooth-coffee-600));
 }
 
 .children {

@@ -3,7 +3,7 @@
 @use "sass:color";
 
 $borderRadius: spacings.$s-1;
-$brownDarken20: hsla(var(--english-breakfast-700), 0.6);
+$brownDarken20: hsl(var(--english-breakfast-700), 0.6);
 
 .switch {
   display: flex;

@@ -23,7 +23,7 @@
 .timelineSteps :global {
   .ant-steps-item-process > .ant-steps-item-container {
     .ant-steps-item-icon {
-      background: var(--english-breakfast-800);
+      background: hsl(var(--english-breakfast-800));
       border-color: transparent;
       display: flex;
       align-items: center;
@@ -31,14 +31,14 @@
     }
 
     .ant-steps-item-tail:after {
-      background-color: var(--english-breakfast-500);
+      background-color: hsl(var(--english-breakfast-500));
     }
   }
   .ant-steps-item-wait > .ant-steps-item-container,
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-item-icon {
       background: inherit;
-      border-color: var(--english-breakfast-500);
+      border-color: hsl(var(--english-breakfast-500));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -51,17 +51,17 @@
 
   .ant-steps-item-wait > .ant-steps-item-container {
     .ant-steps-item-tail:after {
-      background-color: var(--english-breakfast-500);
+      background-color: hsl(var(--english-breakfast-500));
     }
   }
 
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-icon {
-      color: var(--english-breakfast-800);
+      color: hsl(var(--english-breakfast-800));
     }
 
     .ant-steps-item-tail:after {
-      background-color: var(--english-breakfast-500);
+      background-color: hsl(var(--english-breakfast-500));
     }
   }
 
@@ -70,7 +70,7 @@
 .timelineSteps :global {
   .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
     > .ant-steps-item-container[role="button"]:hover {
-    color: var(--english-breakfast-800);
+    color: hsl(var(--english-breakfast-800));
   }
 }
 
