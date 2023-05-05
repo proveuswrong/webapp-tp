@@ -1,15 +1,14 @@
 import { useCallback, useContext, useState } from "react";
-import { BigNumber, constants, utils } from "ethers";
-import { Radio, Tooltip } from "antd";
+import { constants, utils } from "ethers";
+import { Radio } from "antd";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
-import ProgressBar from "/src/components/presentational/progressBar";
-import EtherValue, { formatToEther } from "../../../../presentational/EtherValue";
 
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
+import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
+import CrowdfundingCard from "./croudfundingCard";
 
 export default function AppealPeriod({ currentRound }) {
   const [amount, setAmount] = useState(0.01);
@@ -49,7 +48,7 @@ export default function AppealPeriod({ currentRound }) {
       console.error(error);
     }
   };
-
+  console.log({ currentRound });
   return (
     <div className={styles.appealPeriod}>
       <div className={styles.crowdFundingPanel}>
@@ -60,25 +59,14 @@ export default function AppealPeriod({ currentRound }) {
               const rulingOption = index + 1;
               const contributedByAccount = getContributionByRuling(connectedAccount, currentRound?.id, rulingOption);
               return (
-                <div key={rulingOption} className={styles.option}>
-                  <div className={styles.topRow}>
-                    <Radio value={rulingOption}>{title}</Radio>
-                    <EtherValue value={totalToBeRaised[rulingOption]} modifiers={styles.ethValue} />
-                  </div>
-                  <Tooltip
-                    placement="top"
-                    title={`Raised so far: ${formatToEther(raisedSoFar[rulingOption])} ${
-                      constants.EtherSymbol
-                    } / Your contribution: ${formatToEther(contributedByAccount)} ${constants.EtherSymbol}`}
-                  >
-                    <ProgressBar
-                      percent={getPercentage(raisedSoFar[rulingOption], totalToBeRaised[rulingOption])}
-                      success={{
-                        percent: getPercentage(contributedByAccount, totalToBeRaised[rulingOption]),
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                <CrowdfundingCard
+                  title={title}
+                  rulingOption={rulingOption}
+                  amount={contributedByAccount}
+                  raisedSoFar={raisedSoFar[rulingOption]}
+                  totalToBeRaised={totalToBeRaised[rulingOption]}
+                  appealDeadline={currentRound?.appealDeadline[rulingOption]}
+                />
               );
             })}
           </div>
@@ -110,12 +98,6 @@ export default function AppealPeriod({ currentRound }) {
     </div>
   );
 }
-
-const getPercentage = (amount, total) => {
-  amount = BigNumber.from(amount);
-  total = BigNumber.from(total);
-  return amount.mul(100).div(total).toNumber();
-};
 
 const getContributionByRuling = (contributor, roundID, ruling) => {
   if (!contributor || !roundID || !ruling) return 0;
