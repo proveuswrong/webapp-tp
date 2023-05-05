@@ -20,27 +20,8 @@
       display: flex;
       justify-content: space-between;
       gap: spacings.$s-4;
-
-      .option {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        padding: spacings.$s-4;
-        margin-bottom: spacings.$s-5;
-        border: 1px solid hsl(var(--english-breakfast-900));
-        border-radius: 4px;
-
-        .topRow {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .ethValue {
-            font-size: typo.$xl;
-          }
-        }
-      }
     }
+
     .footer {
       display: flex;
       justify-content: space-between;
