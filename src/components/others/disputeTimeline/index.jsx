@@ -25,7 +25,7 @@ export default function DisputeTimeline({ dispute, current }) {
   const isExecuted = (periodName) => (periodName === "Execution") & dispute?.ruled;
 
   const items = DISPUTE_PERIODS.map((period, _index) => ({
-    icon: isExecuted(period.name) ? <CheckIcon /> : period.icon,
+    icon: _index < current || isExecuted(period.name) ? <CheckIcon /> : period.icon,
     title: period.name,
     description: _index === current && current < Periods.execution ? formatTime(timeLeft) : "",
   }));
