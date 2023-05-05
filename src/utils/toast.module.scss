@@ -60,16 +60,16 @@
 }
 
 :global(.Toastify__progress-bar--error) {
-  background-color: var(--red-reign-500);
+  background-color: hsl(var(--red-reign-500));
 }
 
 :global(.Toastify__progress-bar--success) {
-  background-color: var(--army-green-500);
+  background-color: hsl(var(--army-green-500));
 }
 
 :global(.Toastify__progress-bar--info) {
-  background-color: var(--smooth-coffee-500);
+  background-color: hsl(var(--smooth-coffee-500));
 }
 :global(.Toastify__progress-bar--warning) {
-  background-color: var(--gryphonne-sepia-wash-500);
+  background-color: hsl(var(--gryphonne-sepia-wash-500));
 }
