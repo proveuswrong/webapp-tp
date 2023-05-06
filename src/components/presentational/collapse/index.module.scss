@@ -1,0 +1,34 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+
+.collapse {
+  margin: spacings.$s-2 0;
+  border-radius: 0.25rem;
+  border: 1px solid hsl(var(--english-breakfast-600));
+}
+
+:global(.ant-collapse-content) {
+  font-size: typo.$s;
+  color: hsl(var(--dark-orchestra-600));
+  background-color: hsl(var(--starbright-600));
+  .ant-collapse-content-box {
+    background-color: hsl(var(--starbright-600));
+  }
+}
+
+:global(.ant-collapse > .ant-collapse-item) {
+  border: none;
+}
+
+:global(.ant-collapse-header) {
+  font-size: typo.$s;
+  background-color: hsl(var(--english-breakfast-600));
+}
+
+:global(.ant-collapse-header-text) {
+  color: hsl(var(--starbright-600));
+}
+
+:global(.ant-collapse-expand-icon) {
+  color: hsl(var(--starbright-600));
+}
