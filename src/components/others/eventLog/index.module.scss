@@ -2,45 +2,80 @@
 @use "src/stylesheets/variables/spacings";
 
 .eventLog {
-
-  width: 90%;
-  max-width: 1200px;
+  width: 95%;
+  max-width: 100vw;
 
   .title {
-    font-size: typo.$l;
-    margin-bottom: spacings.$s-7;
+    font-size: typo.$xl;
+    margin-top: spacings.$s-7;
   }
 
   table {
     width: 100%;
-    table-layout: fixed;
-    //border-collapse: separate;
-    //border-spacing: spacings.$s-4;
-    //-webkit-border-vertical-spacing: spacings.$s-4;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+      font-size: typo.$m;
+      text-align: left;
+      border-bottom: 3px solid hsl(var(--english-breakfast-500));
+    }
+
+    tbody {
+      display: block;
+      max-height: 600px;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        margin-left: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: hsl(var(--english-breakfast-500), 0.9);
+        border-radius: 4px;
+        &:hover {
+          background-color: hsl(var(--english-breakfast-500));
+        }
+      }
+    }
 
     tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
 
       &:not(:last-child) {
-        border-bottom: 1px solid (hsl(var(--english-breakfast-500)));
+        border-bottom: 1px solid hsl(var(--english-breakfast-500));
       }
 
-      text-align: left;
-
-      &:nth-child(1) {
-        font-size: typo.$m;
-        border-width: 3px;
+      td {
+        padding: spacings.$s-4;
+        &.evidenceRow {
+          padding: spacings.$s-1 spacings.$s-2;
+        }
       }
     }
 
+    th,
     td {
-      padding-bottom: spacings.$s-4;
-      padding-top: spacings.$s-4;
-    }
-
-    th {
-      padding-bottom: spacings.$s-4;
+      padding: spacings.$s-4;
       text-transform: capitalize;
+
+      &:nth-child(1),
+      &:nth-child(3) {
+        width: 20%;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        width: 30%;
+      }
     }
   }
-
 }
