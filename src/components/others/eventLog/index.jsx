@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as styles from "./index.module.scss";
 import Modal from "../../presentational/modal";
 import { constants, utils } from "ethers";
@@ -10,6 +10,8 @@ function getPrettyNamesForEvents(sourceCodeName) {
   switch (sourceCodeName) {
     case "NewArticle":
       return "New Article";
+    case "ArticleWithdrawal":
+      return "Article Unpublished";
     case "BalanceUpdate":
       return "Bounty Increase";
     case "Ruling":
@@ -20,26 +22,61 @@ function getPrettyNamesForEvents(sourceCodeName) {
 }
 
 function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
+  const { metaEvidenceContents } = ethereumContext;
   switch (eventNameAsInSourceCode) {
     case "NewArticle":
-      return `Curation Pool 0: ${ethereumContext?.metaEvidenceContents[extraData]?.category}`;
+      return `Curation Pool 0: ${metaEvidenceContents[extraData]?.category}`;
     case "BalanceUpdate":
       return `New Bounty: ${parseFloat(utils.formatUnits(extraData)).toFixed(3)} ${constants.EtherSymbol}`;
     case "Challenge":
-      return `${ethereumContext?.metaEvidenceContents[0]?.question}`;
+      return `${metaEvidenceContents[0]?.question}`;
     case "Ruling":
       return `${
         extraData == 0
           ? "Jury was absent, refused to arbitrate, or it was a tie. Challenge failed."
-          : ethereumContext?.metaEvidenceContents[0]?.rulingOptions.titles[extraData]
+          : metaEvidenceContents[0]?.rulingOptions.titles[extraData]
       }`;
+    case "Contribution":
+      const [ruling, amount, _] = extraData.split("-");
+      return `${parseFloat(utils.formatUnits(amount)).toFixed(3)} ${constants.EtherSymbol} in favor of ${
+        metaEvidenceContents[0]?.rulingOptions.titles[ruling - 1]
+      }`;
+    case "TimelockStarted":
+      return `Article can be unpublished on: ${new Date(extraData * 1000).toUTCString()}`;
     default:
       return extraData;
   }
 }
 
-export default function EventLog({ visible, onCancel, events, activeAddress }) {
+const EVENTS_TO_IGNGORE = ["Withdrawal"];
+const IPFS_GATEWAY_URL = "https://ipfs.kleros.io";
+
+export default function EventLog({ visible, onCancel, events }) {
   const ethereumContext = useContext(EthereumContext);
+  const [evidenceDetails, setEvidenceDetails] = useState({});
+
+  useEffect(() => {
+    async function fetchEvidences(ipfsPaths) {
+      try {
+        const responses = await Promise.all(ipfsPaths.map((path) => fetch(IPFS_GATEWAY_URL + path)));
+        const data = await Promise.all(responses.map((response) => response.json()));
+        const evidences = ipfsPaths.reduce((acc, path, index) => ({ ...acc, [path]: data[index] }), {});
+
+        setEvidenceDetails(evidences);
+      } catch (error) {
+        console.error("Failed to fetch event evidences from IPFS", error);
+      }
+    }
+
+    const ipfsPaths = events.filter((event) => event.name === "Evidence").map((event) => event.details);
+    if (ipfsPaths.length) fetchEvidences(ipfsPaths);
+  }, [events]);
+
+  const EvidenceRow = ({ evidence }) => (
+    <td colSpan="4" className={styles.evidenceRow}>
+      <Collapse header={evidence?.name} content={evidence?.description} />
+    </td>
+  );
 
   return (
     <Modal visible={visible} className={styles.eventLog} onCancel={onCancel} footer={null}>
@@ -54,32 +91,32 @@ export default function EventLog({ visible, onCancel, events, activeAddress }) {
           </tr>
         </thead>
         <tbody>
-          {events.map((event, i) => (
-            <tr key={`row${i}`}>
-              {event.name === "Evidence" ? (
-                <td colSpan="4" className={styles.evidenceRow}>
-                  <Collapse header={event.name} content={event.details} />
-                </td>
-              ) : (
-                <>
-                  <td>
-                    {
-                      <a
-                        href={networkMap[ethereumContext?.chainId]?.explorerURL(event.from)}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {getLabel(event.from, activeAddress)}
-                      </a>
-                    }
-                  </td>
-                  <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
-                  <td>{getPrettyNamesForEvents(event.name)}</td>
-                  <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
-                </>
-              )}
-            </tr>
-          ))}
+          {events
+            .filter((e) => !EVENTS_TO_IGNGORE.includes(e.name))
+            .map((event, i) => (
+              <tr key={`row${i}`}>
+                {event.name === "Evidence" ? (
+                  <EvidenceRow evidence={evidenceDetails[event.details]} />
+                ) : (
+                  <>
+                    <td>
+                      {
+                        <a
+                          href={networkMap[ethereumContext?.chainId]?.explorerURL(event.from)}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          {getLabel(event.from, ethereumContext?.accounts[0])}
+                        </a>
+                      }
+                    </td>
+                    <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
+                    <td>{getPrettyNamesForEvents(event.name)}</td>
+                    <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
+                  </>
+                )}
+              </tr>
+            ))}
         </tbody>
       </table>
     </Modal>
