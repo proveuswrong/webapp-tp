@@ -184,7 +184,6 @@ export default function Index() {
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
           events={[...article?.events]?.reverse()}
-          activeAddress={ethereumContext?.accounts[0]}
         ></EventLog>
       )}
       <EvidenceModal
