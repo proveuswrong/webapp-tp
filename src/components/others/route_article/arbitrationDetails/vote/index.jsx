@@ -1,9 +1,9 @@
 import * as styles from "./index.module.scss";
-import VoteYesIcon from "jsx:/src/assets/vote-yes.svg";
-import VoteNoIcon from "jsx:/src/assets/vote-no.svg";
-import VoteRefusedIcon from "jsx:/src/assets/vote-refused.svg";
-import VoteRemainingIcon from "jsx:/src/assets/vote-remaining.svg";
-import VoteHiddenIcon from "jsx:/src/assets/vote-hidden.svg";
+import VoteYesIcon from "jsx:/src/assets/voteYes.svg";
+import VoteNoIcon from "jsx:/src/assets/voteNo.svg";
+import VoteRefusedIcon from "jsx:/src/assets/voteRefused.svg";
+import VoteRemainingIcon from "jsx:/src/assets/voteRemaining.svg";
+import VoteHiddenIcon from "jsx:/src/assets/voteHidden.svg";
 
 const VOTE_DATA = [
   { option: "Refused", icon: <VoteRefusedIcon /> },

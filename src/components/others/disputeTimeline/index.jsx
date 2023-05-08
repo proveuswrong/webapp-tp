@@ -8,7 +8,7 @@ import CommitIcon from "jsx:/src/assets/commit.svg";
 import VotingIcon from "jsx:/src/assets/voting.svg";
 import AppealIcon from "jsx:/src/assets/appeal.svg";
 import ExecutionIcon from "jsx:/src/assets/execution.svg";
-import CheckIcon from "jsx:/src/assets/check-mark.svg";
+import CheckIcon from "jsx:/src/assets/checkMark.svg";
 
 const DISPUTE_PERIODS = [
   { name: "Evidence", icon: <EvidenceIcon /> },

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Collapse as CollapseAntDesign } from "antd";
 import * as styles from "./index.module.scss";
 import classNames from "classnames";
-import CaretUpIcon from "jsx:/src/assets/caret-up.svg";
-import CaretDownIcon from "jsx:/src/assets/caret-down.svg";
+import CaretUpIcon from "jsx:/src/assets/caretUp.svg";
+import CaretDownIcon from "jsx:/src/assets/caretDown.svg";
 
 const { Panel } = CollapseAntDesign;
 
