@@ -2,7 +2,7 @@ import * as styles from "./index.module.scss";
 
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
+import { EthereumContext, getArticleByID, networkMap } from "/src/data/ethereumProvider";
 import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
@@ -45,6 +45,14 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
+
+  useEffect(() => {
+    if (!params.chain) {
+      navigate("/" + Object.keys(networkMap)[0] + "/");
+    } else {
+      ethereumContext?.changeChain(params.chain);
+    }
+  });
 
   useEffect(() => {
     let didCancel = false;

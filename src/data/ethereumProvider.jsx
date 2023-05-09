@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Navigate } from "react-router-dom";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ipfsGateway } from "../utils/addToIPFS";
 import { ethers } from "ethers";
