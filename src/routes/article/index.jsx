@@ -111,7 +111,6 @@ export default function Index() {
 
   const breadcrumbItems = [
     { label: "Browse", linkTo: ethereumContext?.chainId },
-    { label: articleContent?.tags, linkTo: "" },
     { label: articleContent?.title },
   ];
 
