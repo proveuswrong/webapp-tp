@@ -134,14 +134,6 @@ export default function Index() {
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
-        <CustomButton
-          modifiers="secondary"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Go back
-        </CustomButton>
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
           <CustomButton
             key={`InitiateWithdrawal${article?.status}`}
