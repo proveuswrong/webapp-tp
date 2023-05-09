@@ -28,7 +28,7 @@ export default function Account() {
   useEffect(() => {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
+    } else if (networkMap[params.chain]?.contractInstances && chainId != params.chain) {
       changeChain(params.chain);
     }
   });
