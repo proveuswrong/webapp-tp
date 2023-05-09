@@ -13,7 +13,7 @@ import { EthereumContext } from "../../data/ethereumProvider";
 export default function Account() {
   const params = useParams();
   const navigate = useNavigate();
-  const { accounts, chainId } = useContext(EthereumContext);
+  const { accounts, chainId, changeChain } = useContext(EthereumContext);
 
   const fetchData = useCallback(async () => {
     return getArticlesByAuthor(chainId, accounts[0]);
@@ -29,12 +29,11 @@ export default function Account() {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
     } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeChain(params.chain);
+      changeChain(params.chain);
     }
   });
 
-  return (
-    <div className={styles.account}>
+  return (<div className={styles.account}>
       <div className={styles.author}>
         Author: <span>{accounts[0]}</span>
       </div>
@@ -48,6 +47,5 @@ export default function Account() {
           <ListArticles articles={data} isFetching={isFetching} />
         </LazyLoader>
       </div>
-    </div>
-  );
+    </div>);
 }
