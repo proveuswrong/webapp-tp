@@ -14,6 +14,7 @@ import SyncStatus from "/src/components/presentational/syncStatus";
 import KeyMetrics from "/src/components/others/route_article/keyMetrics";
 import Metadata from "/src/components/others/route_article/metadata";
 import Content from "/src/components/others/route_article/content";
+import Breadcrumb from "/src/components/presentational/breadcrumb";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
 import BountyModal from "../../components/others/bountyModal";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
@@ -125,12 +126,19 @@ export default function Index() {
     await sendTransaction(unsignedTx);
   }
 
+  const breadcrumbItmes = [
+    { label: "Browse", link: ethereumContext.chainId },
+    { label: articleContent?.tags, link: "" },
+    { label: articleContent?.title },
+  ];
+
   let reRenderInMs = 1000;
   return (
     <section>
       <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
+      <Breadcrumb items={breadcrumbItmes} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
