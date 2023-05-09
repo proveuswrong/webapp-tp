@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import LazyLoader from "/src/components/others/lazyLoader";
@@ -11,6 +11,7 @@ import { getArticlesByAuthor, networkMap } from "/src/data/ethereumProvider";
 import { EthereumContext } from "../../data/ethereumProvider";
 
 export default function Account() {
+  const params = useParams();
   const navigate = useNavigate();
   const { accounts, chainId } = useContext(EthereumContext);
 
