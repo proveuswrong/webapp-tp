@@ -116,15 +116,6 @@ export default function Index() {
     await sendTransaction(unsignedTx);
   }
 
-  async function handleRevamp() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initializeArticle(
-      article.articleID,
-      article.category,
-      article.storageAddress,
-      { value: "12312312311111" }
-    );
-    await sendTransaction(unsignedTx);
-  }
 
   const breadcrumbItems = [
     { label: "Browse", linkTo: ethereumContext?.chainId },
