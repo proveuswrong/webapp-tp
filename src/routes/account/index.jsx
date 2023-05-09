@@ -22,6 +22,7 @@ export default function Account() {
   const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
+    if(accounts[0])
     navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
   }, [chainId, accounts[0]]);
 
