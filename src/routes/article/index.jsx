@@ -49,7 +49,7 @@ export default function Index() {
   useEffect(() => {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else {
+    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
       ethereumContext?.changeChain(params.chain);
     }
   });
