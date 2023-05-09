@@ -7,7 +7,7 @@ import ListArticles from "/src/components/others/listArticles";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import { getArticlesByAuthor } from "/src/data/ethereumProvider";
+import { getArticlesByAuthor, networkMap } from "/src/data/ethereumProvider";
 import { EthereumContext } from "../../data/ethereumProvider";
 
 export default function Account() {
@@ -23,6 +23,14 @@ export default function Account() {
   useEffect(() => {
     navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
   }, [chainId, accounts[0]]);
+
+  useEffect(() => {
+    if (!params.chain) {
+      navigate("/" + Object.keys(networkMap)[0] + "/");
+    } else {
+      ethereumContext?.changeChain(params.chain);
+    }
+  });
 
   return (
     <div className={styles.account}>

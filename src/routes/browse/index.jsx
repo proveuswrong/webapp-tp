@@ -26,8 +26,9 @@ export default function Browse() {
   useEffect(() => {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain)
+    } else {
       ethereumContext?.changeChain(params.chain);
+    }
   });
 
   if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
