@@ -1,0 +1,12 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.breadcrumb {
+  margin-top: spacings.$s-8;
+  margin-bottom: spacings.$s-2;
+}
+
+:global(.ant-breadcrumb) {
+  color: hsl(var(--smooth-coffee-600));
+  font-size: typo.$xs;
+}
