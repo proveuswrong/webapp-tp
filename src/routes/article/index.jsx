@@ -118,7 +118,7 @@ export default function Index() {
     await sendTransaction(unsignedTx);
   }
 
-  const breadcrumbItmes = [
+  const breadcrumbItems = [
     { label: "Browse", linkTo: ethereumContext?.chainId },
     { label: articleContent?.tags, linkTo: "" },
     { label: articleContent?.title },
@@ -130,7 +130,7 @@ export default function Index() {
       <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
-      <Breadcrumb items={breadcrumbItmes} />
+      <Breadcrumb items={breadcrumbItems} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
