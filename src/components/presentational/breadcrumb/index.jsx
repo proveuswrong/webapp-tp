@@ -10,7 +10,7 @@ export default function Breadcrumb({ items }) {
           if (!item.label) return null;
           const isLast = index === items.length - 1;
           return (
-            <BreadcrumbAntDesign.Item key={index} className={isLast && "active"}>
+            <BreadcrumbAntDesign.Item key={index}>
               {isLast || !item.linkTo ? item.label : <Link to={`/${item.linkTo}`}>{item.label}</Link>}
             </BreadcrumbAntDesign.Item>
           );
