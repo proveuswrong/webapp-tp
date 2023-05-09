@@ -30,9 +30,7 @@ export default function ListArticles({ articles, isFetching }) {
                 setArticleContents((prevState) => ({
                   ...prevState,
                   [article.articleID]: { title: data.title, description: data.description },
-                }));
-
-                setFetchingArticlesContents(false);
+                })).then(() => setFetchingArticlesContents(false));
               });
             },
             (err) => {
