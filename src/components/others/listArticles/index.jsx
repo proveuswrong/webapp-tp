@@ -18,55 +18,54 @@ export default function ListArticles({ articles, isFetching }) {
   useEffect(() => {
     let didCancel = false;
 
-    if (articles) {
-      const fetchArticleData = async () => {
-        try {
-          const fetchPromises = articles
-            .filter((a) => a != null)
-            .map(async (article) => {
-              try {
-                const response = await fetch(ipfsGateway + article?.articleID);
-                if (!response.ok) {
-                  throw new Error("Network response was not OK");
-                }
-                const data = await response.json();
-                return {
-                  articleID: article.articleID,
-                  title: data.title,
-                  description: data.description,
-                };
-              } catch (error) {
-                console.error(error);
-                return null;
-              }
-            });
-
-          const articleData = await Promise.all(fetchPromises);
-          const fetchedArticleContents = articleData.reduce(
-            (prevState, data) => ({
-              ...prevState,
-              [data.articleID]: { title: data.title, description: data.description },
-            }),
-            {}
-          );
-
-          if (!didCancel) {
-            setArticleContents(fetchedArticleContents);
-          }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          if (!didCancel) {
-            setFetchingArticlesContents(false);
-          }
-        }
-      };
-
-      fetchArticleData();
-    } else {
+    if (!articles) {
       setFetchingArticlesContents(false);
+      return;
     }
+    const fetchArticleData = async () => {
+      try {
+        const fetchPromises = articles
+          .filter((a) => a != null)
+          .map(async (article) => {
+            try {
+              const response = await fetch(ipfsGateway + article?.articleID);
+              if (!response.ok) {
+                throw new Error("Network response was not OK");
+              }
+              const data = await response.json();
+              return {
+                articleID: article.articleID,
+                title: data.title,
+                description: data.description,
+              };
+            } catch (error) {
+              console.error(error);
+              return null;
+            }
+          });
 
+        const articleData = await Promise.all(fetchPromises);
+        const fetchedArticleContents = articleData.reduce(
+          (prevState, data) => ({
+            ...prevState,
+            [data.articleID]: { title: data.title, description: data.description },
+          }),
+          {}
+        );
+
+        if (!didCancel) {
+          setArticleContents(fetchedArticleContents);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!didCancel) {
+          setFetchingArticlesContents(false);
+        }
+      }
+    };
+
+    fetchArticleData();
     return () => {
       didCancel = true;
     };
