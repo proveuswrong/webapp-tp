@@ -17,30 +17,56 @@ export default function ListArticles({ articles, isFetching }) {
 
   useEffect(() => {
     let didCancel = false;
-    if (!didCancel && articles) {
-      articles
-        .filter((a) => a != null)
-        .map((article) =>
-          fetch(ipfsGateway + article?.articleID).then(
-            (response) => {
-              if (!response.ok) {
-                throw new Error("Network response was not OK");
+
+    if (articles) {
+      const fetchArticleData = async () => {
+        try {
+          const fetchPromises = articles
+            .filter((a) => a != null)
+            .map(async (article) => {
+              try {
+                const response = await fetch(ipfsGateway + article?.articleID);
+                if (!response.ok) {
+                  throw new Error("Network response was not OK");
+                }
+                const data = await response.json();
+                return {
+                  articleID: article.articleID,
+                  title: data.title,
+                  description: data.description,
+                };
+              } catch (error) {
+                console.error(error);
+                return null;
               }
-              response.json().then((data) => {
-                setArticleContents((prevState) => ({
-                  ...prevState,
-                  [article.articleID]: { title: data.title, description: data.description },
-                })).then(() => setFetchingArticlesContents(false));
-              });
-            },
-            (err) => {
-              console.error(err);
-            }
-          )
-        );
+            });
+
+          const articleData = await Promise.all(fetchPromises);
+          const fetchedArticleContents = articleData.reduce(
+            (prevState, data) => ({
+              ...prevState,
+              [data.articleID]: { title: data.title, description: data.description },
+            }),
+            {}
+          );
+
+          if (!didCancel) {
+            setArticleContents(fetchedArticleContents);
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          if (!didCancel) {
+            setFetchingArticlesContents(false);
+          }
+        }
+      };
+
+      fetchArticleData();
     } else {
       setFetchingArticlesContents(false);
     }
+
     return () => {
       didCancel = true;
     };
