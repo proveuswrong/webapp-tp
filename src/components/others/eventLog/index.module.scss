@@ -49,8 +49,12 @@
       width: 100%;
       table-layout: fixed;
 
-      &:not(:last-child .expanded) {
+      &:not(:last-child) {
         border-bottom: 1px solid hsl(var(--english-breakfast-500));
+      }
+
+      &.expanded {
+        border-bottom: none;
       }
 
       td {
