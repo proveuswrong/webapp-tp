@@ -84,10 +84,10 @@ export default function EventLog({ visible, onCancel, events }) {
       <table>
         <thead>
           <tr>
-            <th>Actor</th>
-            <th>Time</th>
             <th>Name</th>
             <th>Details</th>
+            <th>Actor</th>
+            <th>Time</th>
           </tr>
         </thead>
         <tbody>
@@ -99,6 +99,8 @@ export default function EventLog({ visible, onCancel, events }) {
                   <EvidenceRow evidence={evidenceDetails[event.details]} />
                 ) : (
                   <>
+                    <td>{getPrettyNamesForEvents(event.name)}</td>
+                    <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
                     <td>
                       {
                         <a
@@ -111,8 +113,6 @@ export default function EventLog({ visible, onCancel, events }) {
                       }
                     </td>
                     <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
-                    <td>{getPrettyNamesForEvents(event.name)}</td>
-                    <td>{formatExtraData(event.name, event.details, ethereumContext)}</td>
                   </>
                 )}
               </tr>
