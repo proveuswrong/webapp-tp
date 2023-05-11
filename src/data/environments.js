@@ -14,6 +14,11 @@ const articleFragment = `
        details
        timestamp
        from
+       article{
+          bounty
+          lastCalculatedScore
+          lastBalanceUpdate
+       }
     }
     disputes(orderBy: id, orderDirection: asc) {
         id
