@@ -7,6 +7,8 @@ import { getLabel } from "../../../utils/account";
 import { networkMap, EthereumContext } from "../../../data/ethereumProvider";
 
 import AttachmentIcon from "jsx:/src/assets/attachment.svg";
+import getTrustScore from "../../../businessLogic/getTrustScore";
+import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 
 const EVENTS_TO_IGNGORE = ["Withdrawal"];
 const IPFS_GATEWAY_URL = "https://ipfs.kleros.io";
@@ -45,6 +47,16 @@ export default function EventLog({ visible, onCancel, events }) {
     if (ipfsPaths.length) fetchEvidences(ipfsPaths);
   }, [events]);
 
+  const calculateTrustScore = (article) => {
+    return getTrustScore(
+      article,
+      getTimePastSinceLastBountyUpdate(
+        article.lastBalanceUpdate,
+        ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
+      )
+    );
+  };
+
   return (
     <Modal visible={visible} className={styles.eventLog} onCancel={onCancel} footer={null}>
       <div className={styles.title}>Event Log</div>
@@ -72,6 +84,8 @@ export default function EventLog({ visible, onCancel, events }) {
                         <div className={styles.expandButton} onClick={() => toggleEvidenceRow(i)}>
                           {isExpanded ? "Hide Details" : "Show Details"}
                         </div>
+                      ) : event.name === "ArticleWithdrawal" ? (
+                        formatExtraData(event.name, calculateTrustScore(event.article), ethereumContext)
                       ) : (
                         formatExtraData(event.name, event.details, ethereumContext)
                       )}
