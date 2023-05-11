@@ -26,6 +26,8 @@ export default function EventLog({ visible, onCancel, events }) {
     setExpandedRows(updatedRows);
   };
 
+  console.log({ events });
+
   useEffect(() => {
     async function fetchEvidences(ipfsPaths) {
       try {
@@ -126,6 +128,8 @@ function getPrettyNamesForEvents(sourceCodeName) {
       return "Bounty Increase";
     case "Ruling":
       return "Arbitrator Ruling";
+    case "RulingFunded":
+      return "Funded Ruling";
     default:
       return sourceCodeName;
   }
@@ -136,6 +140,8 @@ function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
   switch (eventNameAsInSourceCode) {
     case "NewArticle":
       return `Curation Pool 0: ${metaEvidenceContents[extraData]?.category}`;
+    case "ArticleWithdrawal":
+      return `Last calculated Trust Score: ${extraData}`;
     case "BalanceUpdate":
       return `New Bounty: ${parseFloat(utils.formatUnits(extraData)).toFixed(3)} ${constants.EtherSymbol}`;
     case "Challenge":
@@ -146,9 +152,11 @@ function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
           ? "Jury was absent, refused to arbitrate, or it was a tie. Challenge failed."
           : metaEvidenceContents[0]?.rulingOptions.titles[extraData]
       }`;
+    case "RulingFunded":
+      return metaEvidenceContents[0]?.rulingOptions.titles[extraData - 1];
     case "Contribution":
-      const [ruling, amount, _] = extraData.split("-");
-      return `${parseFloat(utils.formatUnits(amount)).toFixed(3)} ${constants.EtherSymbol} in favor of ${
+      const [ruling, amount] = extraData.split("-");
+      return `${parseFloat(utils.formatUnits(amount)).toFixed(3)} ${constants.EtherSymbol} in favor of Ruling: ${
         metaEvidenceContents[0]?.rulingOptions.titles[ruling - 1]
       }`;
     case "TimelockStarted":
