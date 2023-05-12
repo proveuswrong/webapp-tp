@@ -7,18 +7,19 @@
   .title {
     font-size: typo.$xl;
     margin-top: spacings.$s-7;
+    margin-bottom: spacings.$s-4;
   }
 
   .label {
     font-size: typo.$m;
-    margin-bottom: spacings.$s-2;
+    margin-top: spacings.$s-4;
   }
-  .title {
+  .evidenceTitle {
     width: 100%;
     margin-bottom: spacings.$s-4;
   }
 
-  .description {
+  .evidenceDescription {
     width: 100%;
     margin-bottom: spacings.$s-4;
   }

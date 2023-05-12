@@ -120,7 +120,7 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         Title
       </label>
       <input
-        className={`displayBlock ${styles.title}`}
+        className={`displayBlock ${styles.evidenceTitle}`}
         type="text"
         id="title"
         name="title"
@@ -135,7 +135,7 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         Description
       </label>
       <textarea
-        className={`displayBlock ${styles.description}`}
+        className={`displayBlock ${styles.evidenceDescription}`}
         id="description"
         name="description"
         rows="5"
