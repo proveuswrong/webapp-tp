@@ -91,21 +91,11 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         MESSAGE_TYPE.ipfs
       );
 
-      const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(
-        disputeID,
-        `/ipfs/${ipfsResponse[0].hash}`
-      );
-
-      await notifyWithToast(
-        ethereumContext.ethersProvider
-          .getSigner()
-          .sendTransaction(unsignedTx)
-          .then((tx) => tx.wait()),
-        MESSAGE_TYPE.transaction
-      );
+      await ethereumContext.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`])
 
       setIsSubmitting(false);
       setSumbitSuccess(true);
+      onCancel();
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);

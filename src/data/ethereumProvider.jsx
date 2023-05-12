@@ -4,21 +4,19 @@ import { ipfsGateway } from "../utils/addToIPFS";
 import { ethers } from "ethers";
 import ABI from "./ABI.json";
 import { environment } from "./environments";
+import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
 
 export const networkMap = {
   "0x5": {
-    name: "Ethereum Testnet Görli",
-    shortname: "Görli",
-    explorerURL(address) {
+    name: "Ethereum Testnet Görli", shortname: "Görli", explorerURL(address) {
       return `https://goerli.etherscan.io/address/${address}`;
-    },
-    contractInstances: environment.networkMap["0x5"].contractInstances,
-  },
+    }, contractInstances: environment.networkMap["0x5"].contractInstances
+  }
 };
 
 export default class EthereumProvider extends Component {
   static constants = {
-    LONGPOLLING_PERIOD_MS: 20000,
+    LONGPOLLING_PERIOD_MS: 20000
   };
 
   constructor(props) {
@@ -33,10 +31,10 @@ export default class EthereumProvider extends Component {
       metaEvidenceContents: [],
       blockNumber: 0,
       ethersProvider: null,
-      awaitingUserPermission: false,
+      awaitingUserPermission: false
     };
 
-    this.changeChain = this.changeChain.bind(this);
+    this.changeNetwork = this.changeNetwork.bind(this);
     this.handleChainChanged = this.handleChainChanged.bind(this);
     this.handleAccountsChanged = this.handleAccountsChanged.bind(this);
     this.handleConnected = this.handleConnected.bind(this);
@@ -44,6 +42,9 @@ export default class EthereumProvider extends Component {
     this.fetchMetaEvidenceContents = this.fetchMetaEvidenceContents.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
     this.requestAccounts = this.requestAccounts.bind(this);
+    this.invokeTransaction = this.invokeTransaction.bind(this);
+    this.invokeCall = this.invokeCall.bind(this);
+
 
     this.setState = this.setState.bind(this);
   }
@@ -52,18 +53,12 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({ silent: true }).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata(
-      Object.keys(networkMap)[0],
-      Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
-    ).then((r) => this.setState({ graphMetadata: r }));
+    getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then((r) => this.setState({ graphMetadata: r }));
     this.setState({
       interval: setInterval(() => {
         console.log(this.state);
-        getGraphMetadata(
-          Object.keys(networkMap)[0],
-          Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
-        ).then((r) => this.setState({ graphMetadata: r }));
-      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
+        getGraphMetadata(Object.keys(networkMap)[0], Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]).then((r) => this.setState({ graphMetadata: r }));
+      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS)
     });
   }
 
@@ -85,7 +80,10 @@ export default class EthereumProvider extends Component {
     ethereum.on("message", this.handleMessage);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    this.setState({ ethersProvider: provider });
+
+    this.setState({
+      ethersProvider: provider
+    });
   }
 
   // Public Functions //
@@ -103,34 +101,40 @@ export default class EthereumProvider extends Component {
     });
   }
 
-  changeChain(chainId) {
+  changeNetwork(chainId) {
     this.setState({
-      chainId: chainId,
-      isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
+      chainId: chainId, isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null
     });
+
+    console.log(this.state);
 
     this.fetchMetaEvidenceContents(chainId);
   }
 
   handleChainChanged(chainId) {
-    const { ethersProvider } = this.state;
+    const { metamaskChainId } = this.state;
+    console.log("Metamask network changed.");
+    if (metamaskChainId != "") window.location.reload();
+    else
+      this.setState({
+        metamaskChainId: chainId
+      });
 
-    this.setState({
-      metamaskChainId: chainId,
-      contractInstance: networkMap[chainId]?.contractInstances
-        ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
-        : null,
-    });
   }
 
   handleAccountsChanged(accounts) {
+    const { ethersProvider, chainId } = this.state;
+
     if (accounts.length == 0) {
       console.log("Wallet locked.");
     } else {
       console.log("Accounts changed.");
       this.setState({ awaitingUserPermission: false });
     }
-    this.setState({ accounts: accounts });
+    this.setState({
+      accounts: accounts,
+      contractInstance: ethersProvider && networkMap[chainId]?.contractInstances ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner()) : null
+    });
   }
 
   handleConnected() {
@@ -150,53 +154,82 @@ export default class EthereumProvider extends Component {
   async fetchMetaEvidenceContents(chainId) {
     const rawMetaEvidenceList = (await getAllMetaEvidences(chainId))?.map((item) => item.uri);
     if (!rawMetaEvidenceList) return;
-    const result = await Promise.allSettled(
-      rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json()))
-    );
+    const result = await Promise.allSettled(rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json())));
     this.setState({ metaEvidenceContents: result.map((item) => item.value) });
   }
 
-  render = () => (
-    <EthereumContext.Provider
-      value={{ ...this.state, requestAccounts: this.requestAccounts, changeChain: this.changeChain }}
-    >
-      {" "}
-      {this.props.children}
-    </EthereumContext.Provider>
-  );
+  async sendTransaction(unsignedTx) {
+    const { ethersProvider } = this.state;
+    return await notifyWithToast(
+      ethersProvider
+        .getSigner()
+        .sendTransaction(unsignedTx)
+        .then((tx) => tx.wait()),
+      MESSAGE_TYPE.transaction
+    );
+  }
+
+  async invokeCall(methodName, args) {
+    const { contractInstance, chainId, metamaskChainId } = this.state;
+
+    if (chainId != metamaskChainId) {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainId }]
+      });
+      return null;
+    } else {
+      return await contractInstance[methodName](...args);
+    }
+  }
+
+  async invokeTransaction(methodName, args, value) {
+    const { contractInstance, chainId, metamaskChainId } = this.state;
+
+    if (chainId != metamaskChainId) {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainId }]
+      });
+    } else {
+      const unsignedTx = await contractInstance.populateTransaction[methodName](...args, { value });
+      await this.sendTransaction(unsignedTx);
+    }
+  }
+
+  render = () => (<EthereumContext.Provider
+    value={{
+      ...this.state,
+      requestAccounts: this.requestAccounts,
+      changeNetwork: this.changeNetwork,
+      invokeTransaction: this.invokeTransaction,
+      invokeCall: this.invokeCall
+    }}
+  >
+    {this.props.children}
+  </EthereumContext.Provider>);
 }
 export const EthereumContext = React.createContext();
 
-const queryTemplate = (endpoint, query) =>
-  fetch(endpoint, {
-    headers: {
-      Accept: "*/*",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: query,
-    }),
-    method: "POST",
-    mode: "cors",
-  })
-    .then((r) => r.json())
-    .then((json) => json.data);
+const queryTemplate = (endpoint, query) => fetch(endpoint, {
+  headers: {
+    Accept: "*/*", "Content-Type": "application/json"
+  }, body: JSON.stringify({
+    query: query
+  }), method: "POST", mode: "cors"
+})
+  .then((r) => r.json())
+  .then((json) => json.data);
 
 export const getCourtById = async (chainId, contractAddress, id) => {
-  return queryTemplate(
-    networkMap[chainId].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainId].contractInstances[contractAddress].subgraph.queries.getCourtByID(id)
-  ).then((data) => {
+  return queryTemplate(networkMap[chainId].contractInstances[contractAddress].subgraph.endpoint, networkMap[chainId].contractInstances[contractAddress].subgraph.queries.getCourtByID(id)).then((data) => {
     console.log({ data });
     return data?.courtEntity;
   });
 };
 
 export const getArticleByID = (chainID, contractAddress, id) => {
-  return queryTemplate(
-    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID(id)
-  )
+  return queryTemplate(networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint, networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID(id))
     .then((data) => {
       console.log(data);
       if (data && data?.articles[0]) {
@@ -208,113 +241,90 @@ export const getArticleByID = (chainID, contractAddress, id) => {
 };
 
 export const getGraphMetadata = (chainID, contractAddress) => {
-  return queryTemplate(
-    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata
-  )
+  return queryTemplate(networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint, networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata)
     .then((r) => r._meta)
     .catch(console.error);
 };
 
 export const getAllArticles = (chainID) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllArticles).then((data) => {
-        console.log(data);
-        if (data && data.articles && data.articles.length > 0) {
-          data.articles.map((article) => {
-            article.contractAddress = key;
-            return article;
-          });
-          return data.articles;
-        }
-      });
-    })
-  )
+  return Promise.allSettled(Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllArticles).then((data) => {
+      console.log(data);
+      if (data && data.articles && data.articles.length > 0) {
+        data.articles.map((article) => {
+          article.contractAddress = key;
+          return article;
+        });
+        return data.articles;
+      }
+    });
+  }))
     .then((r) => r[0]?.value)
     .catch(console.error);
 };
 
 export const getArticlesByAuthor = (chainID, walletAddress) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getArticlesByAuthor(walletAddress)).then(
-        (data) => {
-          console.log("articles by author", data);
-          if (data && data.articles && data.articles.length > 0) {
-            data.articles.map((article) => {
-              article.contractAddress = key;
-              return article;
-            });
+  return Promise.allSettled(Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getArticlesByAuthor(walletAddress)).then((data) => {
+      console.log("articles by author", data);
+      if (data && data.articles && data.articles.length > 0) {
+        data.articles.map((article) => {
+          article.contractAddress = key;
+          return article;
+        });
 
-            return data.articles;
-          }
-        }
-      );
-    })
-  )
+        return data.articles;
+      }
+    });
+  }))
     .then((r) => r[0]?.value)
     .catch(console.error);
 };
 
 export const getLastArticleByAuthor = (chainID, walletAddress) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getLastArticleByAuthor(walletAddress)).then(
-        (data) => {
-          console.log("last article by author", data);
-          if (data && data.articles && data.articles.length > 0) {
-            data.articles.map((article) => {
-              article.contractAddress = key;
-              return article;
-            });
+  return Promise.allSettled(Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getLastArticleByAuthor(walletAddress)).then((data) => {
+      console.log("last article by author", data);
+      if (data && data.articles && data.articles.length > 0) {
+        data.articles.map((article) => {
+          article.contractAddress = key;
+          return article;
+        });
 
-            return data.articles;
-          }
-        }
-      );
-    })
-  )
+        return data.articles;
+      }
+    });
+  }))
     .then((r) => r[0]?.value[0])
     .catch(console.error);
 };
 
 export const getAllContributors = (chainID) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then((data) => {
-        console.log("contributors", data);
-        return data.users;
-      });
-    })
-  )
+  return Promise.allSettled(Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then((data) => {
+      console.log("contributors", data);
+      return data.users;
+    });
+  }))
     .then((r) => r[0]?.value)
     .catch(console.error);
 };
 
 export const getContributorByID = (chainID, walletAddress) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getContributorByID(walletAddress)).then(
-        (data) => {
-          console.log("contributor by ID", data);
-          return data.user;
-        }
-      );
-    })
-  )
+  return Promise.allSettled(Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getContributorByID(walletAddress)).then((data) => {
+      console.log("contributor by ID", data);
+      return data.user;
+    });
+  }))
     .then((r) => r[0]?.value)
     .catch(console.error);
 };
 
 export const getAllMetaEvidences = (chainID) => {
-  return Promise.allSettled(
-    Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
-      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllMetaevidences).then(
-        (data) => data.metaEvidenceEntities
-      );
-    })
-  )
+  return Promise.allSettled(Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
+    return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllMetaevidences).then((data) => data.metaEvidenceEntities);
+  }))
     .then((r) => r[0]?.value)
     .catch(console.error);
 };
