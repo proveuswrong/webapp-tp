@@ -25,12 +25,6 @@ header {
   padding-top: 2.5rem;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
-
-  > nav {
-    @media (min-width: 780px) {
-      padding: 0 1.75rem;
-    }
-  }
 }
 
 main {
