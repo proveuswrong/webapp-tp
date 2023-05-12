@@ -2,8 +2,12 @@
 @use "src/stylesheets/variables/spacings";
 
 .evidenceModal {
-  width: 90%;
-  max-width: 1200px;
+  max-width: 80vw;
+
+  .title {
+    font-size: typo.$xl;
+    margin-top: spacings.$s-7;
+  }
 
   .label {
     font-size: typo.$m;
