@@ -20,7 +20,3 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
 :global(.ant-modal-mask) {
   background-color: hsl(var(--english-breakfast-500), 0.15);
 }
-
-:global(.ant-modal) {
-  top: 145px;
-}
