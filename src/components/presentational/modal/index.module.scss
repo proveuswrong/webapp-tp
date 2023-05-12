@@ -10,6 +10,7 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
   border-radius: 20px;
 
   background-color: hsl(var(--starbright-600));
+  background: url("/src/assets/paper-texture-surface-texture-small.jpg");
   box-shadow: inset 20px 20px 250px 0px $colorShadow1, 0px 5px 30px 0px $colorShadow2, 0px 10px 30px 0px $colorShadow3;
 }
 
@@ -18,5 +19,9 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
 }
 
 :global(.ant-modal-mask) {
-  background-color: hsl(var(--english-breakfast-800), 0.6);
+  background-color: hsl(var(--english-breakfast-500), 0.15);
+}
+
+:global(.ant-modal) {
+  top: 145px;
 }
