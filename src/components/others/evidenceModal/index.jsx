@@ -115,7 +115,7 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
 
   return (
     <Modal visible={visible} className={styles.evidenceModal} onCancel={onCancel} footer={null}>
-      <h1>Submit Evidence</h1>
+      <div className={styles.title}>Submit Evidence</div>
       <label htmlFor="title" className={styles.label}>
         Title
       </label>
