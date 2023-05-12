@@ -19,19 +19,8 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
   async function handleIncreaseBounty() {
     setIsSubmitting(true);
     try {
-      const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(
-        articleStorageAddress,
-        {
-          value: utils.parseEther(amount.toString()),
-        }
-      );
-      await notifyWithToast(
-        ethereumContext.ethersProvider
-          .getSigner()
-          .sendTransaction(unsignedTx)
-          .then((tx) => tx.wait()),
-        MESSAGE_TYPE.transaction
-      );
+      await ethereumContext.invokeTransaction("increaseBounty", [articleStorageAddress], utils.parseEther(amount.toString()));
+      onCancel();
     } catch (error) {
       console.error(error);
     } finally {

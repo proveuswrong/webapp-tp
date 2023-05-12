@@ -27,7 +27,7 @@ export default function Browse() {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
     } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeChain(params.chain);
+      ethereumContext?.changeNetwork(params.chain);
     }
   });
 

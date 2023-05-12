@@ -47,22 +47,11 @@ export default function Create() {
 
       const formattedBounty = utils.parseEther(controlsState.bounty);
 
-      const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initializeArticle(
-        `/ipfs/${ipfsPathOfNewArticle}`,
-        controlsState.categoryNo,
-        0,
-        { value: formattedBounty }
-      );
+      await ethereumContext.invokeTransaction("initializeArticle", [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, 0], formattedBounty); // TODO: Replace 0 with a better guess.
 
-      await notifyWithToast(
-        ethereumContext.ethersProvider
-          .getSigner()
-          .sendTransaction(unsignedTx)
-          .then((tx) => tx.wait()),
-        MESSAGE_TYPE.transaction
-      );
-
-      const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]);
+      const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]); // TODO: You can use article
+      // storage
+      // address from tx, and block number from tx to compute this.
       navigate(`/${ethereumContext.chainId}/${article?.contractAddress}/${article?.id}`);
     } catch (err) {
       console.error(err);

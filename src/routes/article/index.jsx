@@ -3,7 +3,7 @@ import * as styles from "./index.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
 import { EthereumContext, getArticleByID, networkMap } from "/src/data/ethereumProvider";
-import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
+import { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
 
@@ -17,9 +17,7 @@ import Content from "/src/components/others/route_article/content";
 import Breadcrumb from "/src/components/presentational/breadcrumb";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
 import BountyModal from "../../components/others/bountyModal";
-import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 
-// TODO Refactor out components from this route.
 export default function Index() {
   const params = useParams();
   const navigate = useNavigate();
@@ -51,7 +49,7 @@ export default function Index() {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
     } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeChain(params.chain);
+      ethereumContext?.changeNetwork(params.chain);
     }
   });
 
@@ -85,35 +83,18 @@ export default function Index() {
     };
   }, [article]);
 
-  async function sendTransaction(unsignedTx) {
-    return await notifyWithToast(
-      ethereumContext.ethersProvider
-        .getSigner()
-        .sendTransaction(unsignedTx)
-        .then((tx) => tx.wait()),
-      MESSAGE_TYPE.transaction
-    );
-  }
 
   async function handleInitiateWithdrawal() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initiateWithdrawal(
-      article.storageAddress
-    );
-    await sendTransaction(unsignedTx);
+    await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
   }
 
   async function handleChallenge() {
-    const fee = await ethereumContext.contractInstance.challengeFee(article.storageAddress);
-
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.challenge(article.storageAddress, {
-      value: fee,
-    });
-    await sendTransaction(unsignedTx);
+    const fee = await ethereumContext.invokeCall('challengeFee', [article?.storageAddress])
+    await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
   }
 
   async function handleExecuteWithdrawal() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.withdraw(article.storageAddress);
-    await sendTransaction(unsignedTx);
+    await ethereumContext.invokeTransaction("withdraw", [article?.storageAddress]);
   }
 
   let reRenderInMs = 1000;
