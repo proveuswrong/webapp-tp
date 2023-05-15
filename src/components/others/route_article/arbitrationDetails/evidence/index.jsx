@@ -4,12 +4,12 @@ import * as styles from "./index.module.scss";
 import { getLabel } from "/src/utils/account";
 import { EthereumContext } from "../../../../../data/ethereumProvider";
 
+import AttachmentIcon from "jsx:/src/assets/attachment.svg";
+
 const IPFS_GATEWAY = "https://ipfs.kleros.io";
 
 export default function EvidencePeriod({ evidenceEvents }) {
-  console.log({ evidenceEvents });
   const { accounts } = useContext(EthereumContext);
-
   const [fetchedData, setFetchedData] = useState([]);
 
   useEffect(() => {
@@ -35,15 +35,19 @@ export default function EvidencePeriod({ evidenceEvents }) {
         evidenceEvents.map((evidence, index) => {
           return (
             <div key={index} className={styles.evidenceCard}>
-              <h4>{fetchedData[index]?.name}</h4>
+              <div className={styles.header}>
+                <h4 className={styles.title}>{fetchedData[index]?.name}</h4>
+                <a href={IPFS_GATEWAY + fetchedData[index]?.fileURI} target="_blank" rel="noreferrer noopener">
+                  <AttachmentIcon />
+                </a>
+              </div>
+              <div className={styles.description}>
+                <TruncateText text={fetchedData[index]?.description} />
+              </div>
               <div className={styles.timestamp}>
                 Submitted on <span>{new Date(evidence.timestamp * 1000).toUTCString()}</span> by{" "}
                 <span>{getLabel(evidence.from, accounts[0])}</span>
               </div>
-              <p className={styles.description}>{fetchedData[index]?.description}</p>
-              <a href={IPFS_GATEWAY + fetchedData[index]?.fileURI} target="_blank" rel="noreferrer noopener">
-                View Evidence
-              </a>
             </div>
           );
         })
@@ -51,5 +55,24 @@ export default function EvidencePeriod({ evidenceEvents }) {
         <div>No Evidence</div>
       )}
     </div>
+  );
+}
+
+function TruncateText({ text, maxLength = 200 }) {
+  const [showFullText, setShowFullText] = useState(false);
+  const truncatedText = text?.slice(0, maxLength);
+
+  if (text?.length < maxLength) return <p>{text}</p>;
+  return (
+    <>
+      {showFullText ? (
+        <p>{text}</p>
+      ) : (
+        <p>
+          {truncatedText + " ... "}
+          <a onClick={() => setShowFullText(true)}>read more</a>
+        </p>
+      )}
+    </>
   );
 }
