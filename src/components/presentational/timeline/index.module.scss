@@ -18,20 +18,36 @@
 :global(.ant-steps-item-tail) {
   top: spacings.$s-4;
 }
+:global(.ant-steps-label-vertical .ant-steps-item-tail) {
+  margin-left: 3.5rem;
+  padding: 5px 28px;
+}
 
 .timelineSteps :global {
   .ant-steps-item-wait > .ant-steps-item-container {
     .ant-steps-item-icon {
-      border: 1px solid hsl(var(--english-breakfast-400));
+      border: 2px solid hsl(var(--english-breakfast-400));
     }
     svg {
-      opacity: 0.6;
+      [class$="cls-1"],
+      [class$="cls-2"] {
+        stroke: hsl(var(--english-breakfast-500)) !important;
+      }
+      [class$="cls-3"] {
+        fill: hsl(var(--english-breakfast-500)) !important;
+      }
+    }
+    .ant-steps-item-title {
+      color: hsl(var(--english-breakfast-500));
     }
   }
 
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-item-icon {
-      border: 1px solid hsl(var(--english-breakfast-800));
+      border: 2px solid hsl(var(--english-breakfast-400));
+    }
+    .ant-steps-item-title {
+      color: hsl(var(--english-breakfast-500));
     }
   }
 
@@ -39,10 +55,22 @@
     .ant-steps-item-icon {
       background: hsl(var(--english-breakfast-800));
       border-color: hsl(var(--english-breakfast-800));
+      .ant-steps-icon {
+        svg {
+          [class$="cls-1"],
+          [class$="cls-2"] {
+            stroke: hsl(var(--starbright-600)) !important;
+          }
+        }
+      }
     }
 
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-300));
+      background-color: hsl(var(--english-breakfast-500));
+    }
+
+    .ant-steps-item-title {
+      color: hsl(var(--english-breakfast-800));
     }
   }
 
@@ -50,12 +78,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: spacings.$s-10;
-    height: spacings.$s-10;
-
-    .ant-steps-icon {
-      top: 2px;
-    }
+    width: spacings.$s-12;
+    height: spacings.$s-12;
   }
 
   .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
@@ -73,13 +97,13 @@
 
   .ant-steps-item-wait > .ant-steps-item-container {
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-300));
+      background-color: hsl(var(--english-breakfast-500));
     }
   }
 
   .ant-steps-item-finish > .ant-steps-item-container {
     .ant-steps-item-tail:after {
-      background-color: hsl(var(--english-breakfast-600));
+      background-color: hsl(var(--english-breakfast-500));
     }
   }
 }
