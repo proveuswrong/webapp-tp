@@ -24,6 +24,10 @@
       0rem 0.25rem 0.5rem 0 hsl(var(--starbright-700), 0.25);
     color: hsl(var(--english-breakfast-600));
 
+    a {
+      text-decoration: underline;
+    }
+
     > span {
       b {
         margin-right: spacings.$s-2;
