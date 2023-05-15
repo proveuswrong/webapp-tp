@@ -1,12 +1,13 @@
 @use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
 
 .tag {
-  padding: 0.25rem;
+  padding: spacings.$s-1 spacings.$s-5 spacings.$s-2 spacings.$s-5;
   border-width: 1px;
   font-size: typo.$xs;
   border-color: hsl(var(--smooth-coffee-600));
   color: hsl(var(--smooth-coffee-600));
   border-style: solid;
   border-radius: 4px;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
