@@ -83,13 +83,12 @@ export default function Index() {
     };
   }, [article]);
 
-
   async function handleInitiateWithdrawal() {
     await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
   }
 
   async function handleChallenge() {
-    const fee = await ethereumContext.invokeCall('challengeFee', [article?.storageAddress])
+    const fee = await ethereumContext.invokeCall("challengeFee", [article?.storageAddress]);
     await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
   }
 
@@ -103,10 +102,7 @@ export default function Index() {
       <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
-      <Breadcrumb items={[
-        { label: "Browse", linkTo: ethereumContext?.chainId },
-        { label: articleContent?.title },
-      ]} />
+      <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent?.title }]} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
@@ -151,7 +147,6 @@ export default function Index() {
             )}
           </CustomButton>
         )}
-        {article?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
       <SyncStatus
         syncedBlock={ethereumContext?.graphMetadata?.block?.number}
