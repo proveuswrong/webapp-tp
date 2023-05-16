@@ -7,7 +7,6 @@ import ButtonSelectNetwork from "/src/components/others/buttonSelectNetwork";
 import BurgerMenu from "../../presentational/burgerMenu";
 
 import { EthereumContext } from "/src/data/ethereumProvider";
-import useScrollLock from "/src/hooks/useScrollLock";
 import NotificationCenter from "../notificationCenter";
 
 import TruthPost from "jsx:/src/assets/tp.svg";
@@ -28,7 +27,9 @@ export default function Header() {
   return (
     <>
       <header className={`${styles.header} ${isSticky && styles.sticky}`}>
-        <TruthPost />
+        <div className={styles.logoContainer}>
+          <TruthPost  />
+        </div>
         <div className={styles.subtitleContainer}>
           <div className={styles.subtitle}>Accurate and Relevant News</div>
           <hr className={styles.hrBelowSubtitle} />
