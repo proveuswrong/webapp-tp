@@ -27,6 +27,12 @@ header {
   padding-right: 2.5rem;
 }
 
+header+nav {
+  padding: 0 2.5rem;
+  position: sticky;
+  top:0 // Go sticky when top distance is zero
+}
+
 main {
   padding: 0 2.5rem;
 
