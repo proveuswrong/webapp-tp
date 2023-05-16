@@ -10,14 +10,12 @@ import { EthereumContext } from "/src/data/ethereumProvider";
 import useScrollLock from "/src/hooks/useScrollLock";
 import NotificationCenter from "../notificationCenter";
 
-const BREAKPOINT_TABLET = 768;
-const STICKY_THRESHOLD = 130;
+import TruthPost from "jsx:/src/assets/tp.svg";
 
 const DISABLED = true;
 
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
-  const [lockScroll, unlockScroll] = useScrollLock();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
@@ -26,58 +24,17 @@ export default function Header() {
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
-  useEffect(() => {
-    isMenuOpen ? lockScroll() : unlockScroll();
-    return () => {
-      unlockScroll();
-    };
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const navWrapper = navWrapperRef.current;
-      const scrollTop = window.pageYOffset;
-
-      if (navWrapper) {
-        const navWrapperTop = navWrapper.getBoundingClientRect().top;
-        setIsSticky(scrollTop >= navWrapperTop + STICKY_THRESHOLD);
-      }
-    };
-
-    function handlePositionOverlay() {
-      const navWrapper = navWrapperRef.current;
-      const overlay = overlayRef.current;
-
-      const topOffset = navWrapper.offsetTop + navWrapper.offsetHeight;
-      const borderOffset = 0.5;
-      overlay.style.top = `${topOffset + borderOffset}px`;
-    }
-
-    function handleResize() {
-      if (window.innerWidth >= BREAKPOINT_TABLET) {
-        setMenuOpen(false);
-      }
-      handlePositionOverlay();
-    }
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("scroll", handlePositionOverlay);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("scroll", handlePositionOverlay);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
-    <header className={`${styles.header} ${isSticky && styles.sticky}`}>
-      {/*<Logo className={styles.logo}/>*/}
-      <h1 className={styles.title}>The Truth Post</h1>
-      <hr className={styles.hrBelowLogo} />
-      <div className={styles.subtitle}>Accurate and Relevant News</div>
-      <hr className={styles.hrBelowSubtitle} />
-
+    <>
+      <header className={`${styles.header} ${isSticky && styles.sticky}`}>
+        <TruthPost />
+        <div className={styles.subtitleContainer}>
+          <div className={styles.subtitle}>Accurate and Relevant News</div>
+          <hr className={styles.hrBelowSubtitle} />
+          <div className={styles.subtitleDate}>{new Date().toUTCString().slice(0, 16)}</div>
+        </div>
+      </header>
       <nav className={`withBackground ${styles.navWrapper}`} ref={navWrapperRef}>
         <BurgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
         <div className={styles.nav}>
@@ -96,8 +53,7 @@ export default function Header() {
       </nav>
 
       <OverlayNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} customRef={overlayRef} />
-      <hr />
-    </header>
+    </>
   );
 }
 
