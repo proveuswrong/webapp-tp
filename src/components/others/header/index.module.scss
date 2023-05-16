@@ -1,198 +1,25 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
 
-$breakpoint-tablet: 780px;
-$breakpoint-mobile: 480px;
-$breakpoint-desktop: 1200px;
-$body-margin: 2.5rem;
-
-@mixin hide-for-tablet {
-  @media only screen and (max-width: $breakpoint-tablet) {
-    display: none;
-  }
-}
-.stickyNavWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  z-index: 1000;
-}
-
 .header {
-  position: relative;
-  .logo {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 30rem;
-  }
+  margin: spacings.$s-6 spacings.$s-7 spacings.$s-5;
 
-  .hrBelowLogo {
-    width: 21rem;
-  }
+  text-align: center;
 
-  .hrBelowSubtitle {
-    margin-top: 1.5rem;
+  .subtitleContainer {
+    margin-top: spacings.$s-4;
+    width: fit-content;
+    margin: auto;
   }
 
   .subtitle {
-    text-align: center;
-    font-family: "Texturina", serif;
-
+    padding: 0 1rem;
     font-size: typo.$l;
+    margin-bottom: spacings.$s-2
   }
 
-  .title {
-    text-align: center;
-    font-size: typo.$xxl * 2;
-    font-weight: 500;
-    margin-bottom: 0;
-  }
-
-  .navEthereum {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-
-    > button + button {
-      margin-left: 1.25rem;
-    }
-  }
-
-  &.sticky .navWrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: calc(100vw - (2 * $body-margin));
-    border-bottom: 1px solid black;
-    padding-bottom: 2px;
-    margin: 0 auto;
-    background-color: hsl(var(--starbright-600));
-    z-index: 999;
-  }
-
-  .navWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 3.5rem;
-
-    .nav {
-      @include hide-for-tablet();
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-
-      a {
-        color: #333;
-        text-decoration: none;
-        margin-right: 20px;
-        font-size: typo.$s;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-
-      h2 {
-        display: none;
-      }
-    }
-  }
-
-  .overlay {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 100%;
-    max-height: 100vh;
-    background-color: hsl(var(--starbright-600));
-    background-repeat: repeat;
-    z-index: 999;
-    transition: opacity 0.4s ease-out;
-    opacity: 0;
-    visibility: hidden;
-
-    @media screen and (max-width: $breakpoint-tablet) {
-      top: 260px;
-    }
-
-    @media screen and (max-width: $breakpoint-mobile) {
-      top: 320px;
-    }
-
-    &.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    100% {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  .overlayNav {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    height: 100%;
-    margin-top: spacings.$s-12;
-
-    a {
-      visibility: hidden;
-    }
-
-    &.visible {
-      a {
-        color: #333;
-        text-decoration: none;
-        margin-bottom: 20px;
-        font-size: typo.$l;
-
-        animation: fadeIn 0.3s ease-out;
-        animation-fill-mode: forwards;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-      a:nth-child(1) {
-        animation-delay: 0.2s;
-      }
-      a:nth-child(2) {
-        animation-delay: 0.3s;
-      }
-      a:nth-child(3) {
-        animation-delay: 0.4s;
-      }
-      a:nth-child(4) {
-        animation-delay: 0.5s;
-      }
-      a:nth-child(5) {
-        animation-delay: 0.6s;
-      }
-      a:nth-child(6) {
-        animation-delay: 0.7s;
-      }
-    }
-
-    h2 {
-      font-size: typo.$l;
-      font-weight: bold;
-      margin: 0 0 20px;
-    }
+  .subtitleDate {
+    margin-top: spacings.$s-2;
+    font-size: typo.$s;
   }
 }
