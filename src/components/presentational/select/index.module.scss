@@ -1,0 +1,34 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+
+:global(.ant-select:not(.ant-select-customize-input) .ant-select-selector) {
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding: spacings.$s-2 spacings.$s-4;
+}
+
+:global(.ant-select-single .ant-select-selector .ant-select-selection-item) {
+  padding-right: spacings.$s-8;
+  line-height: inherit;
+}
+
+:global(.ant-select-arrow) {
+  display: block;
+  top: 50%;
+  right: spacings.$s-4;
+  margin-top: -2px;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  font-size: typo.$s;
+  border-radius: 4px;
+  border: 1px solid hsl(var(--english-breakfast-600));
+  background-color: transparent;
+  color: hsl(var(--dark-orchestra-600));
+  box-shadow: shadowTemplate(var(--english-breakfast-900));
+}
