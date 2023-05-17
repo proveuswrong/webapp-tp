@@ -35,11 +35,7 @@ export default function Select({ options, placeholder, onChange }) {
       {isOpen && (
         <ul className={styles.optionList}>
           {options.map((option) => (
-            <li
-              key={option.value}
-              className={`${styles.option} ${option.value === selectedOption?.value ? styles.selected : ""}`}
-              onClick={() => handleOptionSelect(option)}
-            >
+            <li key={option.value} className={styles.option} onClick={() => handleOptionSelect(option)}>
               {option.label}
             </li>
           ))}
