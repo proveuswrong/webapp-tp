@@ -57,21 +57,10 @@
       color: hsl(var(--dark-orchestra-600));
       cursor: pointer;
 
-      &.selected {
-        background-color: hsl(var(--english-breakfast-600));
-        color: hsl(var(--starbright-600));
-      }
-
       &:hover {
         background-color: hsl(var(--english-breakfast-800));
         color: hsl(var(--starbright-600));
       }
     }
   }
-
-  /*   &.open {
-    .selectedOption {
-      background-color: #40a9ff;
-    }
-  } */
 }
