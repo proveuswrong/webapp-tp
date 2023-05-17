@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: space-between;
 
-    font-size: typo.$s;
+    font-size: typo.$xs;
     padding: spacings.$s-2 spacings.$s-4;
     white-space: nowrap;
     background-color: transparent;
@@ -28,6 +28,11 @@
 
     svg {
       margin-top: 4px;
+      transition: transform 0.3s ease;
+
+      &.rotate {
+        transform: rotate(180deg);
+      }
     }
 
     &:hover {
@@ -60,6 +65,14 @@
       &:hover {
         background-color: hsl(var(--english-breakfast-800));
         color: hsl(var(--starbright-600));
+      }
+    }
+  }
+
+  &.open {
+    .selectedOption {
+      svg {
+        transform: rotate(180deg);
       }
     }
   }
