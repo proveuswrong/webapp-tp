@@ -8,9 +8,16 @@ import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
 
 export const networkMap = {
   "0x5": {
-    name: "Ethereum Testnet Görli", shortname: "Görli", explorerURL(address) {
-      return `https://goerli.etherscan.io/address/${address}`;
-    }, contractInstances: environment.networkMap["0x5"].contractInstances
+    name: "Ethereum Testnet Görli", 
+    shortname: "Görli", 
+    explorerURL: (address)=> `https://goerli.etherscan.io/address/${address}`,
+    contractInstances: environment.networkMap["0x5"].contractInstances
+  },
+  "0x1":{
+    name: "Ethereum Mainnet", 
+    shortname:"Mainnet", 
+    explorerURL: (address)=> `https://etherscan.io/address/${address}`, 
+    contractInstances: environment.networkMap["0x5"].contractInstances //TODO: update map key
   }
 };
 
