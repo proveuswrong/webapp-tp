@@ -14,7 +14,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
     }));
   }
 
-  function handleOnSelect(value) {
+  function handleOnChange(value) {
     updateControlsState((prevState) => ({
       ...prevState,
       categoryNo: value,
@@ -82,7 +82,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
             value={controlsState.bounty}
           />
         </div>
-        <Select defaultValue="Curation Pool" options={selectOptions} onSelect={handleOnSelect} />
+        <Select placeholder="Curation Pool" options={selectOptions} onChange={handleOnChange} />
       </div>
 
       <div className={styles.buttons}>
