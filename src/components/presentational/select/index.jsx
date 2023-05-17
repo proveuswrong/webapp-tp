@@ -30,7 +30,8 @@ export default function Select({ options, placeholder, onChange }) {
   return (
     <div ref={selectRef} className={`${styles.select} ${isOpen ? "open" : ""}`}>
       <div className={styles.selectedOption} onClick={() => setIsOpen((prevState) => !prevState)}>
-        <span> {selectedOption?.label ?? placeholder}</span> <CaretDownOutlined />
+        <span> {selectedOption?.label ?? placeholder}</span>{" "}
+        <CaretDownOutlined className={`${isOpen ? styles.rotate : ""}`} />
       </div>
       {isOpen && (
         <ul className={styles.optionList}>
