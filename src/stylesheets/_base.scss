@@ -90,10 +90,11 @@ small {
   overflow: hidden;
   display: inline-block;
   word-break: break-word;
+
+  &:hover{
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+  }
 }
 
-.ellipsis:hover {
-  text-overflow: clip;
-  white-space: normal;
-  word-break: break-all;
-}
