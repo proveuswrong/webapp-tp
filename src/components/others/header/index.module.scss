@@ -6,7 +6,7 @@
 
   text-align: center;
 
-  .logoContainer{
+  .logoContainer {
     margin: auto;
     max-width: min(43rem, 90vw);
 
@@ -16,21 +16,19 @@
   }
 
   .subtitleContainer {
+    margin: auto;
     margin-top: spacings.$s-4;
     width: fit-content;
-    margin: auto;
   }
-
 
   .subtitle {
     padding: 0 1rem;
     font-size: typo.$l;
-    margin-bottom: spacings.$s-2
+    margin-bottom: spacings.$s-2;
   }
 
   .subtitleDate {
     margin-top: spacings.$s-2;
     font-size: typo.$s;
   }
-
 }
