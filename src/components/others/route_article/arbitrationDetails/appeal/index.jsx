@@ -8,14 +8,13 @@ import CrowdfundingCard from "./croudfundingCard";
 
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
 import { formatToEther } from "/src/components/presentational/EtherValue";
 
 const RULING_OPTIONS = ["Refused to Rule", "Challenge Failed", "Debunked"];
 const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound }) {
-  const { chainId, accounts, invokeTransaction, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
+  const { chainId, accounts, invokeTransaction, metaEvidenceContents } = useContext(EthereumContext);
 
   const [supportedRuling, setSupportedRuling] = useState(1);
   const { totalToBeRaised, raisedSoFar } = currentRound;
