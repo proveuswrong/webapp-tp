@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
@@ -13,13 +13,10 @@ import useScrollLock from "../../../hooks/useScrollLock";
 
 const DISABLED = true;
 
-export default function Header() {
+export default function Navigation() {
   const ethereumContext = useContext(EthereumContext);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [lockScroll, unlockScroll] = useScrollLock();
-
-  const navWrapperRef = useRef(null);
-  const overlayRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -30,10 +27,9 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-
   return (
     <>
-      <nav className={`withBackground ${styles.navWrapper}`} ref={navWrapperRef}>
+      <nav className={`withBackground ${styles.navWrapper} ${isMenuOpen ? styles.fixedAtTop : ""} `}>
         <BurgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
         <div className={styles.nav}>
           <h2 hide="">Navigation</h2>
@@ -50,15 +46,15 @@ export default function Header() {
         </div>
       </nav>
 
-      <OverlayNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} customRef={overlayRef} />
+      <OverlayNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
     </>
   );
 }
 
-function OverlayNav({ isMenuOpen, toggleMenu, customRef }) {
+function OverlayNav({ isMenuOpen, toggleMenu }) {
   const ethereumContext = useContext(EthereumContext);
   return (
-    <div className={`withBackground ${styles.overlay} ${isMenuOpen && styles.visible}`} ref={customRef}>
+    <div className={`withBackground ${styles.overlay} ${isMenuOpen && styles.visible}`}>
       <nav className={`${styles.overlayNav} ${isMenuOpen && styles.visible}`}>
         <h2>Navigation</h2>
         <NavLink to={`${ethereumContext?.chainId}/`} onClick={toggleMenu}>
