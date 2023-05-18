@@ -15,13 +15,13 @@ const RULING_OPTIONS = ["Refused to Rule", "Challenge Failed", "Debunked"];
 const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound }) {
-  const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
+  const { chainId, accounts, invokeTransaction, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
 
   const [supportedRuling, setSupportedRuling] = useState(1);
   const { totalToBeRaised, raisedSoFar } = currentRound;
   const remainingFunding = totalToBeRaised[supportedRuling] - raisedSoFar[supportedRuling];
 
-  const formattedRemainingFunding = formatToEther(remainingFunding.toString(), 3);
+  const formattedRemainingFunding = formatToEther(remainingFunding.toString());
   const actualRemainingFunding = formatToEther(remainingFunding.toString(), ETH_DECIMALS);
 
   const [amount, setAmount] = useState(formattedRemainingFunding);
@@ -52,24 +52,16 @@ export default function AppealPeriod({ currentRound }) {
   const handleFundAppeal = async () => {
     console.log("handleFundAppeal/actualAmount", actualAmount);
     try {
-      const unsignedTx = await contractInstance.populateTransaction.fundAppeal(
-        currentRound?.dispute?.id,
-        supportedRuling,
-        {
-          value: utils.parseEther(actualAmount?.toString()),
-        }
-      );
-      await notifyWithToast(
-        ethersProvider
-          .getSigner()
-          .sendTransaction(unsignedTx)
-          .then((tx) => tx.wait()),
-        MESSAGE_TYPE.transaction
+      await invokeTransaction(
+        "fundAppeal",
+        [currentRound?.dispute?.id, supportedRuling],
+        utils.parseEther(actualAmount?.toString())
       );
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <div className={styles.appealPeriod}>
       <div className={styles.crowdFundingPanel}>
