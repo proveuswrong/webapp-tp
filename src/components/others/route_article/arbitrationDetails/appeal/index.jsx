@@ -16,7 +16,6 @@ export default function AppealPeriod({ currentRound }) {
   const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
   const { totalToBeRaised, raisedSoFar } = currentRound;
 
-  console.log({ metaEvidenceContents });
   const fetchData = useCallback(() => {
     return getAllContributors(chainId);
   }, [chainId]);
@@ -24,7 +23,6 @@ export default function AppealPeriod({ currentRound }) {
   const { data: contributors, isFetching } = useGraphFetcher(fetchData);
 
   const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
-  console.log({ connectedAccount });
   const onChange = (e) => setSupportedRuling(e.target.value);
   const onInputeChange = (e) => setAmount(e.target.value);
 
@@ -48,7 +46,6 @@ export default function AppealPeriod({ currentRound }) {
       console.error(error);
     }
   };
-  console.log({ currentRound });
   return (
     <div className={styles.appealPeriod}>
       <div className={styles.crowdFundingPanel}>
@@ -104,6 +101,5 @@ const getContributionByRuling = (contributor, roundID, ruling) => {
 
   const contributionId = `${roundID}-${contributor?.id}-${ruling}`;
   const contribution = contributor?.contributions?.find((contribution) => contribution.id === contributionId);
-  console.log(`amount for ruling ${ruling} is ${contribution?.amount}`);
   return contribution?.amount ?? 0;
 };

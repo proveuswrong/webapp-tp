@@ -17,7 +17,10 @@ export default function useCountdown(deadline) {
 };
 
 function getTimeLeft(deadline) {
+    console.log({ deadline });
+    console.log('now', Date.now())
     const totalInSeconds = Math.max(Math.floor((deadline - Date.now() / 1000)), 0);
+    console.log({ totalInSeconds })
     const days = Math.floor(totalInSeconds / (3600 * 24));
     const hours = Math.floor(totalInSeconds % (3600 * 24) / 3600);
     const minutes = Math.floor((totalInSeconds % 3600) / 60);
