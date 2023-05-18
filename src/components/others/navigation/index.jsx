@@ -39,11 +39,13 @@ export default function Navigation() {
           <NavLink to="about/">About</NavLink>
           <NavLink to={`${ethereumContext?.chainId}/account/${ethereumContext?.accounts[0]}`}>Account</NavLink>
         </div>
-        <div className={styles.navEthereum}>
-          {!DISABLED && <NotificationCenter />} {/* TODO: unlock when UI design is ready */}
-          {ethereumContext?.isProviderDetected && <ButtonConnect />}
-          <ButtonSelectNetwork />
-        </div>
+        {!isMenuOpen && (
+          <div className={styles.navEthereum}>
+            {!DISABLED && <NotificationCenter />} {/* TODO: unlock when UI design is ready */}
+            {ethereumContext?.isProviderDetected && <ButtonConnect />}
+            <ButtonSelectNetwork />
+          </div>
+        )}
       </nav>
 
       <OverlayNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
