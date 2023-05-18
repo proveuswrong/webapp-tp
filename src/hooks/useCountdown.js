@@ -4,23 +4,21 @@ export default function useCountdown(deadline) {
     const [timeLeft, setTimeLeft] = useState(getTimeLeft(deadline));
 
     useEffect(() => {
-        if (timeLeft.totalInSeconds === 0) return;
-
         const interval = setInterval(() => {
-            setTimeLeft(getTimeLeft(deadline));
-        }, 1000);
+            const remainingTime = getTimeLeft(deadline);
+            setTimeLeft(remainingTime);
 
+            if (remainingTime.totalInSeconds <= 0)
+                clearInterval(interval);
+        }, 1000);
         return () => clearInterval(interval);
-    }, [deadline, timeLeft.totalInSeconds]);
+    }, [deadline]);
 
     return timeLeft;
 };
 
 function getTimeLeft(deadline) {
-    console.log({ deadline });
-    console.log('now', Date.now())
     const totalInSeconds = Math.max(Math.floor((deadline - Date.now() / 1000)), 0);
-    console.log({ totalInSeconds })
     const days = Math.floor(totalInSeconds / (3600 * 24));
     const hours = Math.floor(totalInSeconds % (3600 * 24) / 3600);
     const minutes = Math.floor((totalInSeconds % 3600) / 60);
