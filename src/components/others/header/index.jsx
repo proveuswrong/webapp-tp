@@ -40,7 +40,7 @@ export default function Header() {
         </div>
         <div className={styles.subtitleContainer}>
           <div className={styles.subtitle}>Accurate and Relevant News</div>
-          <hr className={styles.hrBelowSubtitle} />
+          <hr />
           <div className={styles.subtitleDate}>{new Date().toUTCString().slice(0, 16)}</div>
         </div>
       </header>
