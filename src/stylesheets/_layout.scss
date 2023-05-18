@@ -28,7 +28,7 @@ header {
 }
 
 header+nav:first-of-type {
-  padding: 0 2.5rem;
+  margin: 0 2.5rem;
   position: sticky;
   top:0 // Go sticky when top distance is zero
 }
