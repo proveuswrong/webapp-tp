@@ -4,37 +4,59 @@ import { Radio } from "antd";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
+import CrowdfundingCard from "./croudfundingCard";
 
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
-import CrowdfundingCard from "./croudfundingCard";
+import { formatToEther } from "/src/components/presentational/EtherValue";
 
 const RULING_OPTIONS = ["Refused to Rule", "Challenge Failed", "Debunked"];
+const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound }) {
-  const [amount, setAmount] = useState(0.01);
-  const [supportedRuling, setSupportedRuling] = useState(1);
   const { chainId, accounts, contractInstance, ethersProvider, metaEvidenceContents } = useContext(EthereumContext);
+
+  const [supportedRuling, setSupportedRuling] = useState(1);
   const { totalToBeRaised, raisedSoFar } = currentRound;
+  const remainingFunding = totalToBeRaised[supportedRuling] - raisedSoFar[supportedRuling];
+
+  const formattedRemainingFunding = formatToEther(remainingFunding.toString(), 3);
+  const actualRemainingFunding = formatToEther(remainingFunding.toString(), ETH_DECIMALS);
+
+  const [amount, setAmount] = useState(formattedRemainingFunding);
+  const [actualAmount, setActualAmount] = useState(actualRemainingFunding);
 
   const fetchData = useCallback(() => {
     return getAllContributors(chainId);
   }, [chainId]);
 
   const { data: contributors } = useGraphFetcher(fetchData);
-
   const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
-  const onChange = (e) => setSupportedRuling(e.target.value);
-  const onInputeChange = (e) => setAmount(e.target.value);
+
+  const handleRulingOptionChange = (e) => {
+    const ruling = e.target.value;
+    setSupportedRuling(ruling);
+
+    const remained = totalToBeRaised[ruling] - raisedSoFar[ruling];
+    setAmount(formatToEther(remained.toString()));
+  };
+
+  const handleInputChange = (e) => {
+    setAmount(e.target.value);
+    setActualAmount(
+      Number(e.target.value) === Number(formattedRemainingFunding) ? actualRemainingFunding : e.target.value
+    );
+  };
 
   const handleFundAppeal = async () => {
+    console.log("handleFundAppeal/actualAmount", actualAmount);
     try {
       const unsignedTx = await contractInstance.populateTransaction.fundAppeal(
         currentRound?.dispute?.id,
         supportedRuling,
         {
-          value: utils.parseEther(amount?.toString()),
+          value: utils.parseEther(actualAmount?.toString()),
         }
       );
       await notifyWithToast(
@@ -52,7 +74,7 @@ export default function AppealPeriod({ currentRound }) {
     <div className={styles.appealPeriod}>
       <div className={styles.crowdFundingPanel}>
         <h3 className={styles.title}>Appeal Crowdfunding Status</h3>
-        <Radio.Group name="radiogroup" onChange={onChange} value={supportedRuling}>
+        <Radio.Group name="radiogroup" onChange={handleRulingOptionChange} value={supportedRuling}>
           <div className={styles.appealOptions}>
             {metaEvidenceContents[0]?.rulingOptions?.titles?.map((title, index) => {
               const rulingOption = index + 1;
@@ -83,9 +105,9 @@ export default function AppealPeriod({ currentRound }) {
                 id="contribution"
                 name="contribution"
                 min="0.001"
-                max={totalToBeRaised - raisedSoFar}
+                max={formattedRemainingFunding}
                 step="0.001"
-                onChange={onInputeChange}
+                onChange={handleInputChange}
                 value={amount}
               />
             </div>
