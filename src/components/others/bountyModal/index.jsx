@@ -5,7 +5,6 @@ import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import { useContext, useState } from "react";
 import { EthereumContext } from "/src/data/ethereumProvider";
 import { constants, utils } from "ethers";
-import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
 
 export default function BountyModal({ articleStorageAddress, currentBounty, visible, onCancel }) {
   const ethereumContext = useContext(EthereumContext);
@@ -19,7 +18,11 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
   async function handleIncreaseBounty() {
     setIsSubmitting(true);
     try {
-      await ethereumContext.invokeTransaction("increaseBounty", [articleStorageAddress], utils.parseEther(amount.toString()));
+      await ethereumContext.invokeTransaction(
+        "increaseBounty",
+        [articleStorageAddress],
+        utils.parseEther(amount.toString())
+      );
       onCancel();
     } catch (error) {
       console.error(error);
