@@ -28,8 +28,6 @@ export default function EventLog({ visible, onCancel, events }) {
     setExpandedRows(updatedRows);
   };
 
-  console.log({ events });
-
   useEffect(() => {
     async function fetchEvidences(ipfsPaths) {
       try {

@@ -75,9 +75,6 @@ export default function Index() {
         .catch(console.error)
         .then(setFetchingArticleContent(false));
 
-    console.debug(article && article);
-    console.debug(articleContent && articleContent);
-
     return () => {
       didCancel = true;
     };

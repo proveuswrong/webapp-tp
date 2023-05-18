@@ -15,7 +15,6 @@ const VOTE_DATA = [
 export default function VotingPeriod({ currentRound, isHiddenVotes }) {
   const { jurySize, votesPerChoice } = currentRound;
   console.log({ currentRound: currentRound });
-  console.log({ isHiddenVotes });
 
   if (isHiddenVotes)
     return (
