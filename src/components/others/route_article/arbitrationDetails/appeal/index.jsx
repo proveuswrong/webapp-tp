@@ -57,6 +57,7 @@ export default function AppealPeriod({ currentRound }) {
               const contributedByAccount = getContributionByRuling(connectedAccount, currentRound?.id, rulingOption);
               return (
                 <CrowdfundingCard
+                  key={rulingOption}
                   title={title}
                   rulingOption={rulingOption}
                   amount={contributedByAccount}
