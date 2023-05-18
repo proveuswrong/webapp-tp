@@ -48,6 +48,17 @@
     width: 100%;
   }
 
+  .juryDecision {
+    display: flex;
+    justify-content: center;
+    margin-bottom: spacings.$s-12;
+
+    span {
+      margin-left: spacings.$s-2;
+      color: hsl(var(--red-reign-600));
+    }
+  }
+
   .crowdFundingPanel :global {
     .ant-progress {
       .ant-progress-text {
