@@ -10,7 +10,7 @@ import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
 import CrowdfundingCard from "./croudfundingCard";
 
-const RULING_OPTIONS = ["Refused to Rule", "Debunked", "Challenge Failed"];
+const RULING_OPTIONS = ["Refused to Rule", "Challenge Failed", "Debunked"];
 
 export default function AppealPeriod({ currentRound }) {
   const [amount, setAmount] = useState(0.01);
