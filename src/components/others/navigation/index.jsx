@@ -47,7 +47,6 @@ export default function Navigation() {
           </div>
         )}
       </nav>
-
       <OverlayNav isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
     </>
   );
