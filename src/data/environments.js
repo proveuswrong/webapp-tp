@@ -42,6 +42,7 @@ const articleFragment = `
             hasPaid
             dispute{
               id
+              ruling
             }
         }
 

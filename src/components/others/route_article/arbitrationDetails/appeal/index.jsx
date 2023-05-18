@@ -10,6 +10,8 @@ import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
 import CrowdfundingCard from "./croudfundingCard";
 
+const RULING_OPTIONS = ["Refused to Rule", "Debunked", "Challenge Failed"];
+
 export default function AppealPeriod({ currentRound }) {
   const [amount, setAmount] = useState(0.01);
   const [supportedRuling, setSupportedRuling] = useState(1);
@@ -20,7 +22,7 @@ export default function AppealPeriod({ currentRound }) {
     return getAllContributors(chainId);
   }, [chainId]);
 
-  const { data: contributors, isFetching } = useGraphFetcher(fetchData);
+  const { data: contributors } = useGraphFetcher(fetchData);
 
   const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
   const onChange = (e) => setSupportedRuling(e.target.value);
@@ -92,6 +94,9 @@ export default function AppealPeriod({ currentRound }) {
             </CustomButton>
           </div>
         </div>
+      </div>
+      <div className={styles.juryDecision}>
+        Jury decision: <span>{RULING_OPTIONS[currentRound?.dispute?.ruling]}</span>
       </div>
     </div>
   );
