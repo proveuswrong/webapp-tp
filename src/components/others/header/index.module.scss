@@ -32,6 +32,7 @@
     margin-top: spacings.$s-2;
     font-size: typo.$s;
   }
+
 }
 
 $breakpoint-tablet: 780px;
@@ -73,6 +74,11 @@ $body-margin: 2.5rem;
     h2 {
       display: none;
     }
+  }
+
+  .navEthereum {
+    display: flex;
+    flex-direction: row;
   }
 }
 

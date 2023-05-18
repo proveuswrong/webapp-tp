@@ -10,23 +10,31 @@ import { EthereumContext } from "/src/data/ethereumProvider";
 import NotificationCenter from "../notificationCenter";
 
 import TruthPost from "jsx:/src/assets/tp.svg";
+import useScrollLock from "../../../hooks/useScrollLock";
 
 const DISABLED = true;
 
 export default function Header() {
   const ethereumContext = useContext(EthereumContext);
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
+  const [lockScroll, unlockScroll] = useScrollLock();
 
   const navWrapperRef = useRef(null);
   const overlayRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  useEffect(() => {
+    isMenuOpen ? lockScroll() : unlockScroll();
+    return () => {
+      unlockScroll();
+    };
+  }, [isMenuOpen]);
+
 
   return (
     <>
-      <header className={`${styles.header} ${isSticky && styles.sticky}`}>
+      <header className={`${styles.header}`}>
         <div className={styles.logoContainer}>
           <TruthPost  />
         </div>
