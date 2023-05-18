@@ -89,12 +89,11 @@ small {
   width: 100%;
   overflow: hidden;
   display: inline-block;
-  word-break: break-word;
 
   &:hover{
     text-overflow: clip;
     white-space: normal;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
