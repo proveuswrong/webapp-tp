@@ -6,18 +6,13 @@
 
   text-align: center;
 
-  .logoContainer {
-    margin: auto;
-    max-width: min(43rem, 90vw);
-
-    & > svg {
-      width: 100%;
-    }
+  h1{
+    font-size: calc(typo.$xxl + 3vw);
+    margin-bottom: 0;
   }
 
   .subtitleContainer {
     margin: auto;
-    margin-top: spacings.$s-4;
     width: fit-content;
   }
 
