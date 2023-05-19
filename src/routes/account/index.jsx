@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import LazyLoader from "/src/components/others/lazyLoader";
+import Loader from "/src/components/others/loader";
 import ListArticles from "/src/components/others/listArticles";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
@@ -22,8 +22,7 @@ export default function Account() {
   const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
-    if(accounts[0])
-    navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
+    if (accounts[0]) navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
   }, [chainId, accounts[0]]);
 
   useEffect(() => {
@@ -34,7 +33,8 @@ export default function Account() {
     }
   });
 
-  return (<div className={styles.account}>
+  return (
+    <div className={styles.account}>
       <div className={styles.author}>
         Author: <span>{accounts[0]}</span>
       </div>
@@ -44,9 +44,10 @@ export default function Account() {
       <div className={styles.articles}>
         <h3>My Articles</h3>
         <hr />
-        <LazyLoader fallback={<LoadingSpinner />} isLoading={isFetching}>
+        <Loader fallback={<LoadingSpinner />} isLoading={isFetching}>
           <ListArticles articles={data} isFetching={isFetching} />
-        </LazyLoader>
+        </Loader>
       </div>
-    </div>);
+    </div>
+  );
 }
