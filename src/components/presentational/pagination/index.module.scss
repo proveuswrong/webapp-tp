@@ -10,23 +10,27 @@
 :global(.ant-pagination-item) {
   background-color: transparent;
   border-color: hsl(var(--english-breakfast-400));
+  border-radius: 4px;
   a {
     padding-top: 3px;
     color: hsl(var(--dark-orchestra-500));
   }
   &:hover {
-    border-color: hsl(var(--english-breakfast-800));
+    border-color: hsl(var(--english-breakfast-700));
+    background-color: hsl(var(--english-breakfast-700));
+
     a {
-      color: hsl(var(--english-breakfast-800));
+      color: hsl(var(--starbright-600));
     }
   }
 }
 
 :global(.ant-pagination-item-active) {
   border-color: hsl(var(--english-breakfast-800));
+  background-color: hsl(var(--english-breakfast-800));
 
   a {
-    color: hsl(var(--english-breakfast-800));
+    color: hsl(var(--starbright-600));
   }
 }
 
@@ -34,23 +38,11 @@
 :global(.ant-pagination-next .ant-pagination-item-link) {
   background-color: transparent;
   border-color: hsl(var(--english-breakfast-400));
-
-  > svg {
-    color: red;
-  }
-
-  .ant-pagination-disabled {
-    border-color: red;
-  }
+  border-radius: 4px;
 }
 
 :global(.ant-pagination-next button) {
   color: hsl(var(--english-breakfast-800));
-}
-
-:global(.ant-pagination-disabled .ant-pagination-item-link) {
-  color: gray;
-  border-color: gray;
 }
 
 :global(.ant-pagination-next:hover .ant-pagination-item-link),
