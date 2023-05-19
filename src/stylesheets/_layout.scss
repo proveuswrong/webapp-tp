@@ -25,20 +25,23 @@ header {
   padding-top: 2.5rem;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
 
-  > nav {
-    padding: 0 1.75rem;
-  }
+header+nav:first-of-type {
+  margin: 0 2.5rem;
+  position: sticky;
+  top:0 // Go sticky when top distance is zero
 }
 
 main {
   padding: 0 2.5rem;
 
   > section {
-    padding: 3rem 1.75rem 3rem;
+    padding: 3rem 0;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+
   }
 }
 

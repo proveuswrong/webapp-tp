@@ -3,9 +3,12 @@ import { EthereumContext } from "/src/data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
-import Modal from "../../presentational/modal";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
-import addToIPFS from "../../../utils/addToIPFS";
+import Modal from "/src/components/presentational/modal";
+
+import addToIPFS from "/src/utils/addToIPFS";
+import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
+
 import UploadIcon from "jsx:/src/assets/upload.svg";
 
 const INITIAL_STATE = { title: "", description: "", file: null };
@@ -17,7 +20,6 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [sumbitSuccess, setSumbitSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   useEffect(() => {
     if (sumbitSuccess) {
       setControlsState(INITIAL_STATE);
@@ -72,29 +74,28 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
     let ipfsPathOfNewEvidence;
     setIsSubmitting(true);
     try {
-      const data = await controlsState.file.arrayBuffer();
-      const ipfsImageResponse = await addToIPFS(IPFS_ENDPOINT, "evidence.json", data);
-      const ipfsFileUri = `/ipfs/${ipfsImageResponse[0].hash}`;
+      const fileBuffer = await controlsState.file.arrayBuffer();
 
-      const ipfsResponse = await addToIPFS(
-        IPFS_ENDPOINT,
-        "evidence.json",
-        JSON.stringify({
-          name: controlsState.title,
-          description: controlsState.description,
-          fileURI: ipfsFileUri,
-        })
+      const ipfsResponse = await notifyWithToast(
+        addToIPFS(IPFS_ENDPOINT, "evidence-file", fileBuffer).then((res) =>
+          addToIPFS(
+            IPFS_ENDPOINT,
+            "evidence.json",
+            JSON.stringify({
+              name: controlsState.title,
+              description: controlsState.description,
+              fileURI: `/ipfs/${res[0].hash}`,
+            })
+          )
+        ),
+        MESSAGE_TYPE.ipfs
       );
 
-      ipfsPathOfNewEvidence = ipfsResponse[0].hash;
-      const unsignedTx = await ethereumContext.contractInstance.populateTransaction.submitEvidence(
-        disputeID,
-        `/ipfs/${ipfsPathOfNewEvidence}`
-      );
-      const tx = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
-      await tx.wait();
+      await ethereumContext.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`])
+
       setIsSubmitting(false);
       setSumbitSuccess(true);
+      onCancel();
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);
@@ -104,12 +105,12 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
 
   return (
     <Modal visible={visible} className={styles.evidenceModal} onCancel={onCancel} footer={null}>
-      <h1>Submit Evidence</h1>
+      <div className={styles.title}>Submit Evidence</div>
       <label htmlFor="title" className={styles.label}>
         Title
       </label>
       <input
-        className={`displayBlock ${styles.title}`}
+        className={`displayBlock ${styles.evidenceTitle}`}
         type="text"
         id="title"
         name="title"
@@ -124,7 +125,7 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         Description
       </label>
       <textarea
-        className={`displayBlock ${styles.description}`}
+        className={`displayBlock ${styles.evidenceDescription}`}
         id="description"
         name="description"
         rows="5"

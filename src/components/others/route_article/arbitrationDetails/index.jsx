@@ -1,30 +1,31 @@
 import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import DisputeTimeline from "/src/components/others/disputeTimeline";
 
-import { getCourtIdAndJurySize, currentJurySize } from "/src/utils/getCourtIdAndJurorSize";
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
 
+import EvidencePeriod from "./evidence";
+import VotingPeriod from "./vote";
 import AppealPeriod from "./appeal";
+import ExecutionPeriod from "./execution";
+
 import { ethers } from "ethers";
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
-import VotingPeriod from "./vote";
-import EvidencePeriod from "./evidence";
+import { EthereumContext } from "/src/data/ethereumProvider";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
+  const currentPeriodIndex = Periods[currentDispute?.period] ?? 0;
 
   const ethereumContext = useContext(EthereumContext);
 
-  const [current, setCurrent] = useState(0);
-  const [currentPeriodIndex, setCurrentPeriodIndex] = useState(currentDispute?.period ?? 0);
+  const [current, setCurrent] = useState(currentPeriodIndex);
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
   const [mined, setMined] = useState(true);
-
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
@@ -122,11 +123,21 @@ export default function ArbitrationDetails({ article }) {
   }, [ethereumContext?.ethersProvider, article]);
 
   useEffect(() => {
-    const updatedCurrent = currentPeriodToItemIndex(currentPeriodIndex);
-    setCurrent(updatedCurrent);
+    setCurrent(currentPeriodIndex);
   }, [currentPeriodIndex]);
 
-  const components = [<EvidencePeriod />, <VotingPeriod />, <AppealPeriod />];
+  console.log({ currentDispute });
+  const components = [
+    <EvidencePeriod evidenceEvents={article?.events.filter((event) => event.name === "Evidence")} />,
+    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
+    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
+    <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
+    <ExecutionPeriod
+      currentRound={currentDispute?.rounds.at(-1)}
+      executed={!!currentDispute?.ruled}
+      arbitratorInstance={arbitratorInstance}
+    />,
+  ];
   return (
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
@@ -141,23 +152,19 @@ export default function ArbitrationDetails({ article }) {
         roundNumber={currentDispute?.rounds?.length}
         jurySize={currentDispute?.rounds?.at(-1).jurySize}
       />
-      <DisputeTimeline dispute={currentDispute} currentPeriodIndex={currentPeriodIndex} current={current} />
+      <DisputeTimeline dispute={currentDispute} current={current} />
       {components[current]}
     </section>
   );
 }
 
-function currentPeriodToItemIndex(currentPeriodIndex) {
-  if ([Periods.vote, Periods.appeal, Periods.execution].includes(currentPeriodIndex)) return currentPeriodIndex - 1;
-  return currentPeriodIndex;
-}
-
 function Overview(props) {
+  const { contract } = useParams();
   return (
     <div className={styles.detailsContainer}>
       <span>
         <b>Arbitrator:</b>
-        {props.courtName}
+        <Link to={`/0x5/${contract}/court/0`}>{props.courtName}</Link>
       </span>
       <span>
         <b>DisputeID:</b>
@@ -165,11 +172,15 @@ function Overview(props) {
       </span>
       <span>
         <b>Round Number:</b>
-        {props.roundNumber}
+        <span key={props.roundNumber} className="blink">
+          {props.roundNumber}
+        </span>
       </span>
       <span>
         <b>Jury Size:</b>
-        {`${props.jurySize} ${props.jurySize > 1 ? "votes" : "vote"}`}
+        <span key={props.jurySize} className="blink">{`${props.jurySize} ${
+          props.jurySize > 1 ? "votes" : "vote"
+        }`}</span>
       </span>
     </div>
   );

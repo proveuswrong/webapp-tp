@@ -1,0 +1,75 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+:root {
+  --toastify-icon-color-error: hsl(var(--red-reign-600));
+  --toastify-icon-color-success: hsl(var(--army-green-600));
+  --toastify-icon-color-info: hsl(var(--smooth-coffee-600));
+  --toastify-icon-color-warning: hsl(var(--gryphonne-sepia-wash-600));
+}
+
+:global(.Toastify__toast) {
+  min-height: spacings.$s-18;
+}
+
+:global(.Toastify__toast-body) {
+  padding: spacings.$s-3 spacings.$s-2;
+  a {
+    color: hsl(var(--english-breakfast-700));
+    text-decoration: underline;
+    font-size: typo.$xs;
+  }
+}
+
+:global(.Toastify__toast-icon) {
+  margin-inline-end: spacings.$s-3;
+  align-self: flex-start;
+  margin-top: spacings.$s-1;
+}
+
+:global(.Toastify__toast--error) {
+  background-color: hsl(var(--red-reign-100));
+  border: 1px solid;
+  border-color: hsl(var(--red-reign-400));
+  color: hsl(var(--red-reign-600));
+}
+
+:global(.Toastify__toast--success) {
+  background-color: hsl(var(--starbright-200));
+  border: 1px solid;
+  border-color: hsl(var(--army-green-400));
+  color: hsl(var(--army-green-600));
+}
+
+:global(.Toastify__toast--warning) {
+  background-color: hsl(var(--gryphonne-sepia-wash-100));
+  border: 1px solid;
+  border-color: hsl(var(--gryphonne-sepia-wash-400));
+  color: hsl(var(--gryphonne-sepia-wash-600));
+}
+
+:global(.Toastify__toast--info .Toastify__toast--default) {
+  background-color: hsl(var(--smooth-coffee-100));
+  border: 1px solid;
+  border-color: hsl(var(--smooth-coffee-400));
+  color: hsl(var(--smooth-coffee-600));
+}
+
+:global(.Toastify__progress-bar) {
+  height: spacings.$s-2;
+}
+
+:global(.Toastify__progress-bar--error) {
+  background-color: hsl(var(--red-reign-500));
+}
+
+:global(.Toastify__progress-bar--success) {
+  background-color: hsl(var(--army-green-500));
+}
+
+:global(.Toastify__progress-bar--info) {
+  background-color: hsl(var(--smooth-coffee-500));
+}
+:global(.Toastify__progress-bar--warning) {
+  background-color: hsl(var(--gryphonne-sepia-wash-500));
+}

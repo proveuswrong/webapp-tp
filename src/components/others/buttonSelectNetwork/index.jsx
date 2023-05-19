@@ -1,47 +1,30 @@
-import React from "react";
-import {EthereumContext, networkMap} from "../../../data/ethereumProvider";
-import {DownOutlined} from "@ant-design/icons";
-import {Button, Menu} from "antd";
-import CustomDropdown from "/src/components/presentational/dropdown";
-import MenuItem from "/src/components/presentational/menuItem";
-import {useNavigate} from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-
-const handleMenuClick = (e, ethereumContext, navigate) => {
-  console.log(ethereumContext);
-  navigate('/' + e.key + '/')
-  if (ethereumContext?.isProviderDetected)
-    ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{chainId: e.key}]
-    });
-
-
-};
-
-const menu = (ethereumContext, navigate) => (
-  <Menu onClick={(e) => handleMenuClick(e, ethereumContext, navigate)}>
-    {Object.entries(networkMap).map(([key, value], _index) => {
-      return <MenuItem key={key}>{value?.name}</MenuItem>;
-    })}
-  </Menu>
-);
+import Select from "/src/components/presentational/select";
+import { EthereumContext, networkMap } from "../../../data/ethereumProvider";
 
 export default function ButtonSelectNetwork() {
   const navigate = useNavigate();
+  const ethereumContext = useContext(EthereumContext);
 
+  const selectOptions = Object.entries(networkMap).map(([chainId, props], index) => ({
+    value: chainId,
+    label: props.shortname,
+  }));
+
+  function handleOnChange(chainId) {
+    console.log({ chainId });
+    navigate("/" + chainId + "/");
+    if (ethereumContext?.isProviderDetected)
+      ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId }],
+      });
+  }
   return (
-    <EthereumContext.Consumer>
-      {(ethereumContext) => (
-        <CustomDropdown modifiers="small secondary" overlay={menu(ethereumContext, navigate)}>
-          <Button id="buttonSelectNetwork">
-            <span style={{color: 'inherit'}} key={ethereumContext?.chainId} className="blink">
-              {networkMap[ethereumContext?.chainId]?.shortname || "Unsupported Network"}
-            </span>
-            <DownOutlined/>
-          </Button>
-        </CustomDropdown>
-      )}
-    </EthereumContext.Consumer>
+    <div style={{ marginLeft: "10px" }}>
+      <Select options={selectOptions} placeholder={selectOptions[0].label} onChange={handleOnChange} />
+    </div>
   );
 }

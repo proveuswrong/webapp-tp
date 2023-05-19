@@ -1,6 +1,4 @@
 @use 'src/stylesheets/variables/typo';
-@use 'src/stylesheets/variables/colors';
-
 
 .dropdown {
   height: auto !important;
@@ -11,15 +9,11 @@
   font-size: typo.$s;
   outline: none;
 
-  color: map-get(colors.$colorButton, 'primary', 'text');
-  background-color: map-get(colors.$colorButton, 'primary', 'fill');
-  border-color: map-get(colors.$colorButton, 'primary', 'stroke');
 
-  &:global(.secondary) {
-    color: map-get(colors.$colorButton, 'secondary', 'text');
-    background-color: map-get(colors.$colorButton, 'secondary', 'fill');
-    border-color: map-get(colors.$colorButton, 'secondary', 'stroke');
-  }
+  background-color: hsl(var(--english-breakfast-600));
+  border-color: hsl(var(--english-breakfast-600));
+  color: hsl(var(--starbright-600));
+  box-shadow: shadowTemplate(var(--english-breakfast-700));
 
   &:global(.small) {
     padding: 0.5rem 0.75rem;
@@ -27,19 +21,26 @@
     min-width: unset;
   }
 
-
-  &:hover {
-    color: map-get(colors.$colorButton, 'hover', 'text') !important;
-    background-color: map-get(colors.$colorButton, 'hover', 'fill') !important;
-    border-color: map-get(colors.$colorButton, 'hover', 'stroke') !important;
+  &:global(.secondary) {
+    background-color: transparent;
+    border-color: hsl(var(--english-breakfast-800));
+    color: hsl(var(--dark-orchestra-600));
+    box-shadow: none;
   }
 
-
-  &:active {
-    color: map-get(colors.$colorButton, 'pressed', 'text');
-    background-color: map-get(colors.$colorButton, 'pressed', 'fill');
-    border-color: map-get(colors.$colorButton, 'pressed', 'stroke');
+  &:hover, &:active, &:focus {
+    background-color: hsl(var(--english-breakfast-700));
+    border-color: hsl(var(--english-breakfast-700));
+    color: hsl(var(--starbright-600));
+    box-shadow: shadowTemplate(var(--english-breakfast-800));
   }
-  
+
+  &[disabled], &[disabled]:hover {
+    background-color: hsl(var(--smooth-coffee-200));
+    border-color: hsl(var(--smooth-coffee-200));
+    color: hsl(var(--smooth-coffee-500));
+    box-shadow: shadowTemplate(var(--smooth-coffee-300));
+  }
+
 }
 

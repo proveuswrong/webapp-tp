@@ -4,68 +4,71 @@ import * as styles from "./index.module.scss";
 import ListArticlesItem from "/src/components/presentational/listArticlesItem";
 import Pill from "/src/components/presentational/pill";
 
-import { EthereumContext, getAllArticles } from "/src/data/ethereumProvider";
+import { EthereumContext } from "/src/data/ethereumProvider";
 import getTrustScore from "/src/businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 import { ipfsGateway } from "/src/utils/addToIPFS";
+import Pagination from "../../presentational/pagination";
 
-export default function ListArticles() {
-  const [articles, setArticles] = useState();
-  const [articleContents, setArticleContents] = useState();
+const PAGE_SIZE = 8;
+
+export default function ListArticles({ articles, isFetching }) {
   const ethereumContext = useContext(EthereumContext);
-
-  const [fetchingArticles, setFetchingArticles] = useState(true);
+  const [articleContents, setArticleContents] = useState();
   const [loadingFetchingContents, setFetchingArticlesContents] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (!ethereumContext?.isDeployedOnThisChain) return;
-
-    console.log("Fetching articles...");
     let didCancel = false;
 
-    async function fetchFromGraph() {
-      if (!didCancel) {
-        let data = await getAllArticles(ethereumContext?.chainId);
-        setArticles(data);
-        setFetchingArticles(false);
-      }
+    if (!articles) {
+      setFetchingArticlesContents(false);
+      return;
     }
-
-    fetchFromGraph();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [ethereumContext?.chainId, ethereumContext?.graphMetadata?.block?.number]);
-
-  useEffect(() => {
-    let didCancel = false;
-    if (!didCancel && articles) {
-      articles
-        .filter((a) => a != null)
-        .map((article) =>
-          fetch(ipfsGateway + article?.articleID).then(
-            (response) => {
+    const fetchArticleData = async () => {
+      try {
+        const fetchPromises = articles
+          .filter((a) => a != null)
+          .map(async (article) => {
+            try {
+              const response = await fetch(ipfsGateway + article?.articleID);
               if (!response.ok) {
                 throw new Error("Network response was not OK");
               }
-              response.json().then((data) => {
-                setArticleContents((prevState) => ({
-                  ...prevState,
-                  [article.articleID]: { title: data.title, description: data.description },
-                }));
-
-                setFetchingArticlesContents(false);
-              });
-            },
-            (err) => {
-              console.error(err);
+              const data = await response.json();
+              return {
+                articleID: article.articleID,
+                title: data.title,
+                description: data.description,
+              };
+            } catch (error) {
+              console.error(error);
+              return null;
             }
-          )
+          });
+
+        const articleData = await Promise.all(fetchPromises);
+        const fetchedArticleContents = articleData.reduce(
+          (prevState, data) => ({
+            ...prevState,
+            [data.articleID]: { title: data.title, description: data.description },
+          }),
+          {}
         );
-    } else {
-      setFetchingArticlesContents(false);
-    }
+
+        if (!didCancel) {
+          setArticleContents(fetchedArticleContents);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!didCancel) {
+          setFetchingArticlesContents(false);
+        }
+      }
+    };
+
+    fetchArticleData();
     return () => {
       didCancel = true;
     };
@@ -77,6 +80,7 @@ export default function ListArticles() {
         {articles &&
           Object.entries(articles.filter((c) => c != null))
             .sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext))
+            .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
             .map(([_key, value], index) => (
               <ListArticlesItem
                 key={value?.id}
@@ -85,7 +89,7 @@ export default function ListArticles() {
                   (!loadingFetchingContents && `Unable to fetch article data from ${value?.articleID}`)
                 }
                 description={articleContents?.[value?.articleID]?.description}
-                linkTo={`${value?.contractAddress}/${value?.id}/`}
+                linkTo={`/${ethereumContext?.chainId}/${value?.contractAddress}/${value?.id}/`}
                 score={getTrustScore(
                   value,
                   getTimePastSinceLastBountyUpdate(
@@ -100,11 +104,16 @@ export default function ListArticles() {
               </ListArticlesItem>
             ))}
       </div>
-      {!articles && fetchingArticles && "Fetching news..."}
-      {!fetchingArticles &&
+      {!isFetching &&
         (articles == null || (articles && articles.filter((a) => a != null).length == 0)) &&
         "No news articles."}
       {articles && loadingFetchingContents && "Fetching article details."}
+      <Pagination
+        current={currentPage}
+        pageSize={PAGE_SIZE}
+        total={articles?.length}
+        onChange={(pageIndex) => setCurrentPage(pageIndex)}
+      />
     </>
   );
 }

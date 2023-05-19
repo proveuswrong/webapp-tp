@@ -1,0 +1,52 @@
+@use "src/stylesheets/variables/spacings";
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: spacings.$s-6 0;
+}
+
+:global(.ant-pagination-item) {
+  background-color: transparent;
+  border-color: hsl(var(--english-breakfast-400));
+  border-radius: 4px;
+  a {
+    padding-top: 3px;
+    color: hsl(var(--dark-orchestra-500));
+  }
+  &:hover {
+    border-color: hsl(var(--english-breakfast-700));
+    background-color: hsl(var(--english-breakfast-700));
+
+    a {
+      color: hsl(var(--starbright-600));
+    }
+  }
+}
+
+:global(.ant-pagination-item-active) {
+  border-color: hsl(var(--english-breakfast-800));
+  background-color: hsl(var(--english-breakfast-800));
+
+  a {
+    color: hsl(var(--starbright-600));
+  }
+}
+
+:global(.ant-pagination-prev .ant-pagination-item-link),
+:global(.ant-pagination-next .ant-pagination-item-link) {
+  background-color: transparent;
+  border-color: hsl(var(--english-breakfast-400));
+  border-radius: 4px;
+}
+
+:global(.ant-pagination-next button) {
+  color: hsl(var(--english-breakfast-800));
+}
+
+:global(.ant-pagination-next:hover .ant-pagination-item-link),
+:global(.ant-pagination-prev:hover .ant-pagination-item-link) {
+  color: hsl(var(--english-breakfast-800));
+  border-color: hsl(var(--english-breakfast-800));
+}

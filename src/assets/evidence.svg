@@ -1,0 +1,12 @@
+<svg id="Layer_4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.43 22.07">
+<defs>
+<style>.cls-1{stroke-width:1.3px;}.cls-1,.cls-2{fill:none;stroke:#000;stroke-miterlimit:10;}.cls-2{stroke-width:1.25px;}
+</style>
+</defs>
+<circle class="cls-1" cx="7.26" cy="8.2" r="4.88"/>
+<line class="cls-1" x1="4.48" y1="11.94" x2="3.26" y2="14.77"/>
+<line class="cls-1" x1="6.4" y1="13" x2="5.12" y2="15.77"/>
+<path class="cls-1" d="M8.24,3.42V1.21c0-.17,.13-.3,.3-.3h12.02c.17,0,.3,.13,.3,.3V18.48c0,.17-.14,.3-.3,.3H8.57c-.18,0-.32-.15-.32-.32v-5.48"/>
+<path class="cls-1" d="M11.62,.77l.66,1.85c.04,.12,.16,.2,.28,.2h8.3"/>
+<path class="cls-1" d="M1.56,15h3.13c.19,0,.34,.15,.34,.34v2.76c0,1.05-.85,1.9-1.9,1.9h0c-1.05,0-1.9-.85-1.9-1.9v-2.76c0-.19,.15-.34,.34-.34Z" transform="translate(7.19 .19) rotate(23.35)"/>
+</svg>

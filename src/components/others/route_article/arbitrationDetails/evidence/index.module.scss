@@ -1,0 +1,42 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.evidencePeriod {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: spacings.$s-5;
+
+  .evidenceCard {
+    margin: spacings.$s-4 spacings.$s-1;
+
+    .header {
+      display: flex;
+      align-items: center;
+      .title {
+        text-transform: capitalize;
+        margin-right: spacings.$s-4;
+      }
+      a {
+        text-decoration: underline;
+      }
+    }
+
+    .description {
+      margin-top: spacings.$s-3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .timestamp {
+      color: hsl(var(--smooth-coffee-600));
+      font-size: typo.$xs;
+      span {
+        color: black;
+      }
+    }
+
+    h4 {
+      margin-bottom: spacings.$s-1;
+    }
+  }
+}

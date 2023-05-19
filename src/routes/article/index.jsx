@@ -2,8 +2,8 @@ import * as styles from "./index.module.scss";
 
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
-import addToIPFS, { ipfsGateway } from "/src/utils/addToIPFS";
+import { EthereumContext, getArticleByID, networkMap } from "/src/data/ethereumProvider";
+import { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
 
@@ -14,9 +14,10 @@ import SyncStatus from "/src/components/presentational/syncStatus";
 import KeyMetrics from "/src/components/others/route_article/keyMetrics";
 import Metadata from "/src/components/others/route_article/metadata";
 import Content from "/src/components/others/route_article/content";
+import Breadcrumb from "/src/components/presentational/breadcrumb";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
+import BountyModal from "../../components/others/bountyModal";
 
-// TODO Refactor out components from this route.
 export default function Index() {
   const params = useParams();
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function Index() {
   const [fetchingArticleContent, setFetchingArticleContent] = useState(true);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
+  const [isBountyModalOpen, setBountyModalOpen] = useState(false);
   useEffect(() => {
     let didCancel = false;
 
@@ -42,6 +44,14 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
+
+  useEffect(() => {
+    if (!params.chain) {
+      navigate("/" + Object.keys(networkMap)[0] + "/");
+    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
+      ethereumContext?.changeNetwork(params.chain);
+    }
+  });
 
   useEffect(() => {
     let didCancel = false;
@@ -65,74 +75,35 @@ export default function Index() {
         .catch(console.error)
         .then(setFetchingArticleContent(false));
 
-    console.debug(article && article);
-    console.debug(articleContent && articleContent);
-
     return () => {
       didCancel = true;
     };
   }, [article]);
 
   async function handleInitiateWithdrawal() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initiateWithdrawal(
-      article.storageAddress
-    );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
-  }
-
-  async function handleIncreaseBounty() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.increaseBounty(
-      article.storageAddress,
-      {
-        value: article.bounty,
-      }
-    );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
   }
 
   async function handleChallenge() {
-    const fee = await ethereumContext.contractInstance.challengeFee(article.storageAddress);
-
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.challenge(article.storageAddress, {
-      value: fee,
-    });
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    const fee = await ethereumContext.invokeCall("challengeFee", [article?.storageAddress]);
+    await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
   }
 
   async function handleExecuteWithdrawal() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.withdraw(article.storageAddress);
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
-  }
-
-  async function handleRevamp() {
-    const unsignedTx = await ethereumContext.contractInstance.populateTransaction.initializeArticle(
-      article.articleID,
-      article.category,
-      article.storageAddress,
-      { value: "12312312311111" }
-    );
-    ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx).then(console.log);
+    await ethereumContext.invokeTransaction("withdraw", [article?.storageAddress]);
   }
 
   let reRenderInMs = 1000;
-
   return (
     <section>
       <KeyMetrics {...{ fetchingArticle, article }} />
       {/*<img className={styles.image}/>*/}
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
+      <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent?.title }]} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
-        <CustomButton
-          modifiers="secondary"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Go back
-        </CustomButton>
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
           <CustomButton
             key={`InitiateWithdrawal${article?.status}`}
@@ -142,9 +113,14 @@ export default function Index() {
             Initiate Withdrawal
           </CustomButton>
         )}
+
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
-          <CustomButton key={`DoubleBounty${article?.status}`} modifiers="blink" onClick={handleIncreaseBounty}>
-            Double the Bounty
+          <CustomButton
+            key={`DoubleBounty${article?.status}`}
+            modifiers="blink"
+            onClick={() => setBountyModalOpen(true)}
+          >
+            Increase Bounty
           </CustomButton>
         )}
         {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
@@ -168,7 +144,6 @@ export default function Index() {
             )}
           </CustomButton>
         )}
-        {article?.status == "Withdrawn" && <CustomButton onClick={handleRevamp}>Revamp</CustomButton>}
       </div>
       <SyncStatus
         syncedBlock={ethereumContext?.graphMetadata?.block?.number}
@@ -182,13 +157,18 @@ export default function Index() {
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
           events={[...article?.events]?.reverse()}
-          activeAddress={ethereumContext?.accounts[0]}
         ></EventLog>
       )}
       <EvidenceModal
         disputeID={article?.disputes?.at(-1)?.id}
         visible={isEvidenceModalOpen}
         onCancel={() => setEvidenceModalOpen(false)}
+      />
+      <BountyModal
+        articleStorageAddress={article?.storageAddress}
+        currentBounty={article?.bounty}
+        visible={isBountyModalOpen}
+        onCancel={() => setBountyModalOpen(false)}
       />
     </section>
   );

@@ -1,0 +1,61 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+@use "sass:color";
+
+$borderRadius: spacings.$s-1;
+$brownDarken20: hsl(var(--english-breakfast-700), 0.6);
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &.right {
+    flex-direction: row-reverse;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+
+    &:checked + .switchArea .switchAreaInner {
+      margin-left: 0;
+      background-color: $brownDarken20;
+    }
+
+    &:checked + .switchArea .switchBtn {
+      right: 0;
+      background-color: #fff;
+    }
+  }
+  .switchArea {
+    width: 50px;
+    height: 28px;
+    border-radius: $borderRadius;
+    border: 2px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    .switchAreaInner {
+      display: block;
+      width: 100%;
+      margin-left: 0%;
+      transition: margin 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      background-color: #ccc;
+      height: 24px;
+      border-radius: $borderRadius;
+    }
+
+    .switchBtn {
+      display: block;
+      width: 24px;
+      height: 24px;
+      border-radius: $borderRadius;
+      background-color: white;
+      position: absolute;
+      top: 0px;
+      right: 22px;
+      transition: right 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    }
+  }
+}

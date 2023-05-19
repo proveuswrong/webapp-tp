@@ -5,9 +5,12 @@ export default function useCountdown(deadline) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setTimeLeft(getTimeLeft(deadline));
-        }, 1000);
+            const remainingTime = getTimeLeft(deadline);
+            setTimeLeft(remainingTime);
 
+            if (remainingTime.totalInSeconds <= 0)
+                clearInterval(interval);
+        }, 1000);
         return () => clearInterval(interval);
     }, [deadline]);
 
@@ -15,13 +18,13 @@ export default function useCountdown(deadline) {
 };
 
 function getTimeLeft(deadline) {
-    const totalSeconds = Math.max(Math.floor((deadline - Date.now() / 1000)), 0);
-    const days = Math.floor(totalSeconds / (3600 * 24));
-    const hours = Math.floor(totalSeconds % (3600 * 24) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+    const totalInSeconds = Math.max(Math.floor((deadline - Date.now() / 1000)), 0);
+    const days = Math.floor(totalInSeconds / (3600 * 24));
+    const hours = Math.floor(totalInSeconds % (3600 * 24) / 3600);
+    const minutes = Math.floor((totalInSeconds % 3600) / 60);
+    const seconds = totalInSeconds % 60;
 
-    return { days, hours, minutes, seconds };
+    return { days, hours, minutes, seconds, totalInSeconds };
 };
 
 

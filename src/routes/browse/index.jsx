@@ -1,28 +1,42 @@
+import { useCallback, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ListArticles from "/src/components/others/listArticles";
+import * as styles from "./index.module.scss";
+
 import EthereumProviderErrors from "/src/components/others/ethereumProviderErrors";
-import { useContext, useEffect } from "react";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
+import Loader from "/src/components/others/loader";
+import ListArticles from "/src/components/others/listArticles";
+
+import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
-import * as styles from "./index.module.scss";
+import { EthereumContext, networkMap, getAllArticles } from "/src/data/ethereumProvider";
+import useGraphFetcher from "/src/hooks/useGraphFetcher";
 
 export default function Browse() {
   const params = useParams();
   const navigate = useNavigate();
   const ethereumContext = useContext(EthereumContext);
 
+  const fetchData = useCallback(() => {
+    return getAllArticles(params.chain);
+  }, [params.chain]);
+
+  const { data, isFetching } = useGraphFetcher(fetchData);
+
   useEffect(() => {
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain)
-      ethereumContext?.changeChain(params.chain);
+    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
+      ethereumContext?.changeNetwork(params.chain);
+    }
   });
 
   if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
     return (
       <section className={styles.browse}>
-        <ListArticles />
+        <Loader fallback={<LoadingSpinner />} isLoading={isFetching}>
+          <ListArticles articles={data} isFetching={isFetching} />
+        </Loader>
         <SyncStatus
           syncedBlock={ethereumContext?.graphMetadata?.block?.number}
           latestBlock={parseInt(ethereumContext?.blockNumber, 16)}

@@ -6,7 +6,7 @@ import * as styles from "./index.module.scss";
 export default function Index() {
   return (
     <footer className={styles.footer}>
-      <span className={styles.containerText}>Work-in-progress. Expect missing or broken functionality and bugs.</span>
+      <span className={`ellipsis ${styles.containerText}`}>Work-in-progress. Expect missing or broken functionality and bugs.</span>
       <div className={styles.containerSocialAndCopyright}>
       <span className={styles.social}>
         <a href="https://github.com/proveuswrong" target="_blank" rel="noopener noreferrer" title="GitHub Organization">

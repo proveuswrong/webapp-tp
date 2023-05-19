@@ -1,16 +1,117 @@
-@use "src/stylesheets/variables/colors";
 @use "src/stylesheets/variables/spacings";
 
 
-body {
-  background-color: map-get(colors.$palette, primary);
+:root {
+  /* Gryphonne Sepia Wash CSS Vars */
+  --gryphonne-sepia-wash-100: 25, 33%, 93%;
+  --gryphonne-sepia-wash-200: 25, 36%, 86%;
+  --gryphonne-sepia-wash-300: 25, 35%, 72%;
+  --gryphonne-sepia-wash-400: 25, 35%, 57%;
+  --gryphonne-sepia-wash-500: 25, 46%, 43%;
+  --gryphonne-sepia-wash-600: 25, 86%, 29%;
+  --gryphonne-sepia-wash-700: 25, 86%, 23%;
+  --gryphonne-sepia-wash-800: 25, 87%, 17%;
+  --gryphonne-sepia-wash-900: 25, 86%, 12%;
+  --gryphonne-sepia-wash-1000: 25, 87%, 6%;
+  /* Red Reign CSS Vars */
+  --red-reign-100: 0, 32%, 93%;
+  --red-reign-200: 0, 31%, 85%;
+  --red-reign-300: 0, 31%, 70%;
+  --red-reign-400: 0, 31%, 56%;
+  --red-reign-500: 0, 45%, 41%;
+  --red-reign-600: 0, 88%, 26%;
+  --red-reign-700: 0, 89%, 21%;
+  --red-reign-800: 0, 88%, 16%;
+  --red-reign-900: 0, 89%, 10%;
+  --red-reign-1000: 0, 85%, 5%;
+  /* Schiava Blue CSS Vars */
+  --schiava-blue-100: 225, 21%, 93%;
+  --schiava-blue-200: 228, 20%, 85%;
+  --schiava-blue-300: 230, 19%, 70%;
+  --schiava-blue-400: 228, 20%, 55%;
+  --schiava-blue-500: 229, 29%, 41%;
+  --schiava-blue-600: 229, 56%, 26%;
+  --schiava-blue-700: 229, 56%, 21%;
+  --schiava-blue-800: 228, 57%, 15%;
+  --schiava-blue-900: 230, 55%, 10%;
+  --schiava-blue-1000: 228, 56%, 5%;
+  /* Army Green CSS Vars */
+  --army-green-100: 72, 13%, 92%;
+  --army-green-200: 66, 13%, 85%;
+  --army-green-300: 69, 13%, 69%;
+  --army-green-400: 66, 13%, 54%;
+  --army-green-500: 67, 21%, 38%;
+  --army-green-600: 67, 44%, 23%;
+  --army-green-700: 67, 44%, 18%;
+  --army-green-800: 66, 43%, 14%;
+  --army-green-900: 69, 45%, 9%;
+  --army-green-1000: 66, 42%, 5%;
+  /* Dark Eclipse CSS Vars */
+  --dark-eclipse-100: 216, 12%, 92%;
+  --dark-eclipse-200: 213, 13%, 83%;
+  --dark-eclipse-300: 217, 12%, 66%;
+  --dark-eclipse-400: 215, 12%, 49%;
+  --dark-eclipse-500: 217, 25%, 32%;
+  --dark-eclipse-600: 216, 68%, 15%;
+  --dark-eclipse-700: 217, 67%, 12%;
+  --dark-eclipse-800: 215, 69%, 9%;
+  --dark-eclipse-900: 217, 68%, 6%;
+  --dark-eclipse-1000: 213, 73%, 3%;
+  /* Smooth Coffee CSS Vars */
+  --smooth-coffee-100: 0, 6%, 93%;
+  --smooth-coffee-200: 0, 4%, 86%;
+  --smooth-coffee-300: 0, 4%, 73%;
+  --smooth-coffee-400: 0, 4%, 60%;
+  --smooth-coffee-500: 0, 5%, 47%;
+  --smooth-coffee-600: 0, 9%, 33%;
+  --smooth-coffee-700: 0, 9%, 27%;
+  --smooth-coffee-800: 0, 9%, 20%;
+  --smooth-coffee-900: 0, 9%, 13%;
+  --smooth-coffee-1000: 0, 9%, 6%;
+  /* English Breakfast CSS Vars */
+  --english-breakfast-100: 12, 12%, 92%;
+  --english-breakfast-200: 6, 12%, 83%;
+  --english-breakfast-300: 9, 12%, 66%;
+  --english-breakfast-400: 6, 12%, 50%;
+  --english-breakfast-500: 7, 24%, 33%;
+  --english-breakfast-600: 7, 61%, 16%;
+  --english-breakfast-700: 8, 61%, 13%;
+  --english-breakfast-800: 6, 60%, 10%;
+  --english-breakfast-900: 9, 63%, 6%;
+  --english-breakfast-1000: 6, 63%, 3%;
+  /* Dark Orchestra CSS Vars */
+  --dark-orchestra-100: 0, 2%, 91%;
+  --dark-orchestra-200: 0, 2%, 82%;
+  --dark-orchestra-300: 0, 2%, 65%;
+  --dark-orchestra-400: 0, 2%, 47%;
+  --dark-orchestra-500: 0, 4%, 30%;
+  --dark-orchestra-600: 0, 13%, 12%;
+  --dark-orchestra-700: 0, 12%, 10%;
+  --dark-orchestra-800: 0, 14%, 7%;
+  --dark-orchestra-900: 0, 12%, 5%;
+  --dark-orchestra-1000: 0, 17%, 2%;
+  /* Starbright CSS Vars */
+  --starbright-100: 45, 67%, 99%;
+  --starbright-200: 47, 69%, 97%;
+  --starbright-300: 49, 63%, 95%;
+  --starbright-400: 50, 64%, 92%;
+  --starbright-500: 51, 62%, 90%;
+  --starbright-600: 50, 64%, 87%;
+  --starbright-700: 51, 21%, 70%;
+  --starbright-800: 50, 10%, 52%;
+  --starbright-900: 49, 10%, 35%;
+  --starbright-1000: 47, 10%, 17%;
+
+}
+
+body, .withBackground{
+  background-color: hsl(var(--starbright-600));
   position: relative;
 }
 
-body::after {
+body::after, .withBackground::after {
   height: inherit;
   content: "";
-  //background: url("../assets/background_paper.jpg") repeat;
   background: url("../assets/paper-texture-surface-texture-small.jpg");
   background-repeat: repeat;
   background-size: initial;
@@ -20,19 +121,19 @@ body::after {
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;
+  z-index: -9;
 }
 
 footer {
   h1, h2, h3, h4, h5, h6, p, a, span {
-    color: map-get(colors.$palette, primary);
+    color: hsl(var(--starbright-600));
   }
 
-  background-color: map-get(colors.$palette, secondary);
+  background-color: hsl(var(--dark-orchestra-600));
 
   svg {
     path, circle, rect {
-      fill: map-get(colors.$palette, primary);
+      fill: hsl(var(--starbright-600));
 
     }
   }
@@ -41,26 +142,29 @@ footer {
 }
 
 a {
-  color: map-get(colors.$palette, secondary)
+  color: hsl(var(--dark-orchestra-600))
 }
 
 a:hover {
-  color: map-get(colors.$palette, 'helper', 'blueLight');
+  color: hsl(var(--schiava-blue-600));
 }
 
 a:hover svg circle, a:hover svg path, a:hover svg rect {
-  fill: map-get(colors.$palette, 'helper', 'blueLight');
+  fill: hsl(var(--schiava-blue-600));
+}
+
+hr {
+  background: hsl(var(--dark-orchestra-600));
 }
 
 
 input, textarea, select {
   margin-top: spacings.$s-1;
-  border: 1px solid map-get(colors.$palette, 'grey', 'alpha');
+  border: 1px solid hsl(var(--smooth-coffee-600));
   border-radius: 4px;
   padding: spacings.$s-2;
   background-color: transparent;
-  color: map-get(colors.$palette, 'grey', 'alpha');
+  color: hsl(var(--smooth-coffee-600));
 }
-
 
 
