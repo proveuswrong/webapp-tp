@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import EthereumProviderErrors from "/src/components/others/ethereumProviderErrors";
-import LazyLoader from "/src/components/others/lazyLoader";
+import Loader from "/src/components/others/loader";
 import ListArticles from "/src/components/others/listArticles";
 
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
@@ -34,9 +34,9 @@ export default function Browse() {
   if (networkMap[ethereumContext?.chainId]?.contractInstances || ethereumContext?.isDeployedOnThisChain) {
     return (
       <section className={styles.browse}>
-        <LazyLoader fallback={<LoadingSpinner />} isLoading={isFetching}>
+        <Loader fallback={<LoadingSpinner />} isLoading={isFetching}>
           <ListArticles articles={data} isFetching={isFetching} />
-        </LazyLoader>
+        </Loader>
         <SyncStatus
           syncedBlock={ethereumContext?.graphMetadata?.block?.number}
           latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
