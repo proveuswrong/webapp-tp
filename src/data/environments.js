@@ -147,7 +147,7 @@ const environments = {
         contractInstances: {
           "0xA5002f1f0D0f7c4477d11137f9dDc0F1cEE38Ed3": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/gratestas/thetruthpost-test-goerli",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
               queries: {
                 getArticleByID: (id) => `{
                     articles(where: {id: "${id}"}) {
