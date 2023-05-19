@@ -1,0 +1,36 @@
+# .github/workflows/tag-on-release-merge.yml
+name: Auto Tag Releases
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get merge commit message
+        id: vars
+        run: echo ::set-output name=MERGE_MSG::$(git log --format=%B -n 1 HEAD)
+
+      - name: Tag new version
+        run: |
+          COMMIT_MSG=${{ steps.vars.outputs.MERGE_MSG }}
+          RELEASE_BRANCH_PREFIX="Merge branch 'release/"
+          if [[ "$COMMIT_MSG" == "$RELEASE_BRANCH_PREFIX"* ]]; then
+            VERSION=$(echo $COMMIT_MSG | sed -e "s/$RELEASE_BRANCH_PREFIX//" | sed -e "s/' into main//")
+            git tag $VERSION
+            git push origin $VERSION
+          fi
