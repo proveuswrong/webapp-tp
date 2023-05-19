@@ -48,9 +48,21 @@ const messageTemplates = {
             render({ data }) {
                 console.log({ data });
                 if (data.code === 4001) return "User denied transaction";
+                if (data?.error?.code === -32603) return <TxRevertMessage errorMessage={data.error.message} />;
                 return "Failed to execute transaction";
             },
         },
     },
     // add more message types here as needed
 };
+
+const TxRevertMessage = ({ errorMessage }) => {
+    const [title, reason] = errorMessage.split(":");
+    console.log({ title, reason });
+    return (
+        <>
+            <div style={{ fontSize: "20px", textTransform: "capitalize" }}>{title}</div>
+            <div style={{ fontSize: "16px" }}>{reason}</div>
+        </>
+    )
+}
