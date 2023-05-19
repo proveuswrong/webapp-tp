@@ -110,7 +110,6 @@ export default function ListArticles({ articles, isFetching }) {
       {articles && loadingFetchingContents && "Fetching article details."}
       <Pagination
         current={currentPage}
-        defaultCurrent={1}
         pageSize={PAGE_SIZE}
         total={articles?.length}
         onChange={(pageIndex) => setCurrentPage(pageIndex)}
