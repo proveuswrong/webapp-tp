@@ -8,12 +8,15 @@ import { EthereumContext } from "/src/data/ethereumProvider";
 import getTrustScore from "/src/businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 import { ipfsGateway } from "/src/utils/addToIPFS";
+import Pagination from "../../presentational/pagination";
+
+const PAGE_SIZE = 8;
 
 export default function ListArticles({ articles, isFetching }) {
-  const [articleContents, setArticleContents] = useState();
   const ethereumContext = useContext(EthereumContext);
-
+  const [articleContents, setArticleContents] = useState();
   const [loadingFetchingContents, setFetchingArticlesContents] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     let didCancel = false;
@@ -77,6 +80,7 @@ export default function ListArticles({ articles, isFetching }) {
         {articles &&
           Object.entries(articles.filter((c) => c != null))
             .sort(([, item1], [, item2]) => sortAccordingToTrustScore(item1, item2, ethereumContext))
+            .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
             .map(([_key, value], index) => (
               <ListArticlesItem
                 key={value?.id}
@@ -104,6 +108,13 @@ export default function ListArticles({ articles, isFetching }) {
         (articles == null || (articles && articles.filter((a) => a != null).length == 0)) &&
         "No news articles."}
       {articles && loadingFetchingContents && "Fetching article details."}
+      <Pagination
+        current={currentPage}
+        defaultCurrent={1}
+        pageSize={PAGE_SIZE}
+        total={articles?.length}
+        onChange={(pageIndex) => setCurrentPage(pageIndex)}
+      />
     </>
   );
 }

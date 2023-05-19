@@ -1,0 +1,60 @@
+@use "src/stylesheets/variables/spacings";
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: spacings.$s-6 0;
+}
+
+:global(.ant-pagination-item) {
+  background-color: transparent;
+  border-color: hsl(var(--english-breakfast-400));
+  a {
+    padding-top: 3px;
+    color: hsl(var(--dark-orchestra-500));
+  }
+  &:hover {
+    border-color: hsl(var(--english-breakfast-800));
+    a {
+      color: hsl(var(--english-breakfast-800));
+    }
+  }
+}
+
+:global(.ant-pagination-item-active) {
+  border-color: hsl(var(--english-breakfast-800));
+
+  a {
+    color: hsl(var(--english-breakfast-800));
+  }
+}
+
+:global(.ant-pagination-prev .ant-pagination-item-link),
+:global(.ant-pagination-next .ant-pagination-item-link) {
+  background-color: transparent;
+  border-color: hsl(var(--english-breakfast-400));
+
+  > svg {
+    color: red;
+  }
+
+  .ant-pagination-disabled {
+    border-color: red;
+  }
+}
+
+:global(.ant-pagination-next button) {
+  color: hsl(var(--english-breakfast-800));
+}
+
+:global(.ant-pagination-disabled .ant-pagination-item-link) {
+  color: gray;
+  border-color: gray;
+}
+
+:global(.ant-pagination-next:hover .ant-pagination-item-link),
+:global(.ant-pagination-prev:hover .ant-pagination-item-link) {
+  color: hsl(var(--english-breakfast-800));
+  border-color: hsl(var(--english-breakfast-800));
+}
