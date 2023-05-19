@@ -40,6 +40,7 @@ export default function EventLog({ visible, onCancel, events }) {
         console.error("Failed to fetch event evidences from IPFS", error);
       }
     }
+    console.log({ events });
 
     const ipfsPaths = events.filter((event) => event.name === "Evidence").map((event) => event.details);
     if (ipfsPaths.length) fetchEvidences(ipfsPaths);
@@ -162,7 +163,7 @@ function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
       return `${
         extraData == 0
           ? "Jury was absent, refused to arbitrate, or it was a tie. Challenge failed."
-          : metaEvidenceContents[0]?.rulingOptions.titles[extraData]
+          : metaEvidenceContents[0]?.rulingOptions.titles[extraData - 1]
       }`;
     case "RulingFunded":
       return metaEvidenceContents[0]?.rulingOptions.titles[extraData - 1];
