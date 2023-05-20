@@ -37,7 +37,7 @@ ReactDOM.render(
               <Route path=":chain/" element={<Browse />} />
               <Route
                 path=":chain/report/"
-                element={networkMap?.[value.chainId]?.contractInstances ? <Create /> : <EthereumProviderErrors />}
+                element={networkMap?.[value.chainId]?.contractInstances || !value.chainId ? <Create /> : <EthereumProviderErrors />}
               />
               <Route path=":chain/:contract/:id/" element={<Article />} />
               <Route path=":chain/:contract/court/:id" element={<Court />} />
