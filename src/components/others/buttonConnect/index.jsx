@@ -7,6 +7,7 @@ export default function ButtonConnect() {
   return (
     <EthereumContext.Consumer>
       {(ethereumContext) => {
+        console.log(ethereumContext);
         return (
           <CustomButton
             modifiers="small secondary"
