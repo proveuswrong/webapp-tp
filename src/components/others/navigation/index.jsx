@@ -27,11 +27,11 @@ export default function Navigation() {
     };
   }, [isMenuOpen]);
 
-  const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`},
-    {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`},
-    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`},
-    {name:"F.A.Q.", to: `faq/`},
-    {name:"About", to: `about/`}];
+  const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`, display: true},
+    {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`, display: ethereumContext.accounts[0]},
+    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`, display: ethereumContext.accounts[0]},
+    {name:"F.A.Q.", to: `faq/`, display: true},
+    {name:"About", to: `about/`, display: true}];
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Navigation() {
         <BurgerMenu isOpen={isMenuOpen} onClick={toggleMenu} />
         <div className={styles.nav}>
           <h2 hide="">Navigation</h2>
-          {links.map(link => (
+          {links.filter(link => link.display).map(link => (
             <NavLink key={link.to} to={link.to}>
               {link.name}
             </NavLink>
@@ -61,17 +61,17 @@ export default function Navigation() {
 function OverlayNav({ isMenuOpen, toggleMenu }) {
   const ethereumContext = useContext(EthereumContext);
 
-  const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`},
-    {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`},
-    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`},
-    {name:"F.A.Q.", to: `faq/`},
-    {name:"About", to: `about/`}]; // TODO Remove duplication. (Had to duplicate because of Ethereum context dependency.)
+  const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`, display: true},
+    {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`, display: ethereumContext.accounts[0]},
+    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`, display: ethereumContext.accounts[0]},
+    {name:"F.A.Q.", to: `faq/`, display: true},
+    {name:"About", to: `about/`, display: true}]; // TODO Remove duplication. (Had to duplicate because of Ethereum context dependency.)
 
   return (
     <div className={`withBackground ${styles.overlay} ${isMenuOpen && styles.visible}`}>
       <nav className={`${styles.overlayNav} ${isMenuOpen && styles.visible}`}>
         <h2>Navigation</h2>
-        {links.map(link => (
+        {links.filter(link => link.display).map(link => (
           <NavLink key={link.to} to={link.to} onClick={toggleMenu}>
             {link.name}
           </NavLink>
