@@ -184,7 +184,7 @@ export default class EthereumProvider extends Component {
   }
 
   async invokeCall(methodName, args) {
-    const { contractInstance, chainId, metamaskChainId } = this.state;
+    const { contractInstance, chainId, metamaskChainId, ethersProvider } = this.state;
 
     if (chainId != metamaskChainId) {
       await ethereum.request({
@@ -193,12 +193,14 @@ export default class EthereumProvider extends Component {
       });
       return null;
     } else {
-      return await contractInstance[methodName](...args);
+      return await contractInstance.connect(ethersProvider)[methodName](...args);
     }
   }
 
   async invokeTransaction(methodName, args, value) {
-    const { contractInstance, chainId, metamaskChainId } = this.state;
+    const { contractInstance, chainId, metamaskChainId, accounts } = this.state;
+
+    if (!accounts[0]) await this.requestAccounts();
 
     if (chainId != metamaskChainId) {
       await ethereum.request({
