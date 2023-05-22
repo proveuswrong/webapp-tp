@@ -29,7 +29,7 @@ export default function Navigation() {
 
   const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`},
     {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`},
-    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}}`},
+    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`},
     {name:"F.A.Q.", to: `faq/`},
     {name:"About", to: `about/`}];
 
@@ -63,7 +63,7 @@ function OverlayNav({ isMenuOpen, toggleMenu }) {
 
   const links = [{name:"Front Page", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/`},
     {name:"Report", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/report`},
-    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}}`},
+    {name:"Account", to: `${ethereumContext?.chainId || Object.keys(networkMap)[0]}/account/${ethereumContext?.accounts[0]}`},
     {name:"F.A.Q.", to: `faq/`},
     {name:"About", to: `about/`}]; // TODO Remove duplication. (Had to duplicate because of Ethereum context dependency.)
 
