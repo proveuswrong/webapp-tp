@@ -24,6 +24,7 @@ export default function Browse() {
   const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
+    // TODO Otherwise, on page load chainId won't be set. This is overly complicated, should be refactored. See issue #156.
     if (!params.chain) {
       navigate("/" + Object.keys(networkMap)[0] + "/");
     } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
