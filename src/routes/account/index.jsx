@@ -22,12 +22,16 @@ export default function Account() {
   const { data, isFetching } = useGraphFetcher(fetchData);
 
   useEffect(() => {
-    if (accounts[0]) navigate(`/${chainId}/account/${accounts[0]}`, { replace: true });
+    if (accounts[0]) {
+      navigate(`/${chainId}/account/${accounts[0]}`);
+    }
+
   }, [chainId, accounts[0]]);
 
   useEffect(() => {
+    // TODO Otherwise, on page load chainId won't be set. This is overly complicated, should be refactored. See issue #156.
     if (!params.chain) {
-      navigate("/" + Object.keys(networkMap)[0] + "/");
+      navigate("/" + Object.keys(networkMap)[0] + "/account/" + accounts[0]);
     } else if (networkMap[params.chain]?.contractInstances && chainId != params.chain) {
       changeNetwork(params.chain);
     }
