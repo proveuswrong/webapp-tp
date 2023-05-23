@@ -55,6 +55,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
       description: controlsState.description === "" ? ERROR_MSG : "",
       categoryNo: controlsState.categoryNo < 0 ? "Please select a curation pool" : "",
     };
+    console.log({ newErrors });
     setErrors(newErrors);
 
     if (Object.values(newErrors).some((error) => error !== "")) {
@@ -106,7 +107,9 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
           onBlur={() => handleBlur("description")}
           value={controlsState.description}
         />
-        {(!focusedFields.description || controlsState.description !== "") && <ErrorDisplay message={errors.title} />}
+        {(!focusedFields.description || controlsState.description !== "") && (
+          <ErrorDisplay message={errors.description} />
+        )}
       </div>
       <div className={styles.formInput}>
         <label htmlFor="tags">Tags</label>
