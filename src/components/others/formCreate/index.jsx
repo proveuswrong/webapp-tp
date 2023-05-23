@@ -1,18 +1,35 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { EthereumContext } from "../../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
+
 import CustomButton from "/src/components/presentational/button";
 import Select from "../../presentational/select";
+import ErrorIcon from "jsx:/src/assets/error.svg";
+
+const ERROR_MSG = "Please fill up this field";
 
 export default function FormCreate({ handleSave, controlsState, updateControlsState }) {
   const ethereumContext = useContext(EthereumContext);
+  const [focusedFields, setFocusedFields] = useState({});
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    categoryNo: "",
+  });
 
-  function handleControlChange(e) {
-    updateControlsState((prevState) => ({
+  const handleFocus = (field) => {
+    setFocusedFields((prevState) => ({
       ...prevState,
-      [e.target.id]: e.target.value,
+      [field]: true,
     }));
-  }
+  };
+
+  const handleBlur = (field) => {
+    setFocusedFields((prevState) => ({
+      ...prevState,
+      [field]: false,
+    }));
+  };
 
   function handleOnChange(value) {
     updateControlsState((prevState) => ({
@@ -20,6 +37,31 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
       categoryNo: value,
     }));
   }
+
+  const handleControlChange = (e) => {
+    updateControlsState((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+    setErrors((prevState) => ({
+      ...prevState,
+      [e.target.id]: "",
+    }));
+  };
+
+  const handleSaveAndReview = () => {
+    const newErrors = {
+      title: controlsState.title === "" ? ERROR_MSG : "",
+      description: controlsState.description === "" ? ERROR_MSG : "",
+      categoryNo: controlsState.categoryNo < 0 ? "Please select a curation pool" : "",
+    };
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error !== "")) {
+      return;
+    }
+    handleSave();
+  };
 
   const selectOptions = ethereumContext.metaEvidenceContents?.map((item, index) => ({
     value: index,
@@ -32,41 +74,53 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         <h1>Report a news</h1>
         <small>Fill up the form to</small>
       </div>
-      <label htmlFor="title">Title</label>
-      <input
-        className={`displayBlock ${styles.title}`}
-        type="text"
-        id="title"
-        name="title"
-        required
-        minLength="4"
-        placeholder="A Flashy Title"
-        onChange={handleControlChange}
-        value={controlsState.title}
-      />
-      <label htmlFor="description">Body</label>
-      <textarea
-        className={`displayBlock ${styles.description}`}
-        id="description"
-        name="description"
-        rows="5"
-        cols="33"
-        placeholder="A juicy content..."
-        onChange={handleControlChange}
-        value={controlsState.description}
-      />
-      <label htmlFor="tags">Tags</label>
-      <input
-        className={`displayBlock ${styles.tags}`}
-        type="text"
-        id="tags"
-        name="tags"
-        required
-        minLength="4"
-        placeholder="Optionally, add tags and separate them with whitespace."
-        onChange={handleControlChange}
-        value={controlsState.tags}
-      />
+      <div className={styles.formInput}>
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          className={styles.title}
+          required
+          minLength="6"
+          placeholder="A Flashy Title"
+          onChange={handleControlChange}
+          onFocus={() => handleFocus("title")}
+          onBlur={() => handleBlur("title")}
+          value={controlsState.title}
+        />
+        {(!focusedFields.title || controlsState.title !== "") && <ErrorDisplay message={errors.title} />}
+      </div>
+      <div className={styles.formInput}>
+        <label htmlFor="description">Body</label>
+        <textarea
+          className={styles.description}
+          id="description"
+          name="description"
+          rows="5"
+          cols="33"
+          placeholder="A juicy content..."
+          required
+          onChange={handleControlChange}
+          onFocus={() => handleFocus("description")}
+          onBlur={() => handleBlur("description")}
+          value={controlsState.description}
+        />
+        {(!focusedFields.description || controlsState.description !== "") && <ErrorDisplay message={errors.title} />}
+      </div>
+      <div className={styles.formInput}>
+        <label htmlFor="tags">Tags</label>
+        <input
+          className={`displayBlock ${styles.tags}`}
+          type="text"
+          id="tags"
+          name="tags"
+          minLength="4"
+          placeholder="Optionally, add tags and separate them with whitespace."
+          onChange={handleControlChange}
+          value={controlsState.tags}
+        />
+      </div>
       <div className={styles.others}>
         <div>
           <label htmlFor="bounty">Bounty Amount in ETH: </label>
@@ -74,6 +128,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
             type="number"
             id="bounty"
             name="bounty"
+            className={styles.bounty}
             min="0.001"
             max="100.000"
             step="0.001"
@@ -82,12 +137,23 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
             value={controlsState.bounty}
           />
         </div>
-        <Select placeholder="Curation Pool" options={selectOptions} onChange={handleOnChange} />
+        <div className={styles.formSelect}>
+          {controlsState.categoryNo < 0 && <ErrorDisplay message={errors.categoryNo} />}
+          <Select placeholder="Curation Pool" options={selectOptions} onChange={handleOnChange} />
+        </div>
       </div>
-
-      <div className={styles.buttons}>
-        <CustomButton onClick={handleSave}>Save and Review</CustomButton>
+      <div className={styles.button}>
+        <CustomButton onClick={handleSaveAndReview}>Save and Review</CustomButton>
       </div>
     </>
   );
 }
+
+const ErrorDisplay = ({ message }) => {
+  return (
+    <div className={styles.errorMessage}>
+      {message && <ErrorIcon />}
+      {message}
+    </div>
+  );
+};
