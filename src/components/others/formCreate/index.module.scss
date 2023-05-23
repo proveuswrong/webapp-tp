@@ -1,6 +1,17 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
 
+@mixin errorMessageMixin {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  font-size: typo.$xs;
+  color: hsl(var(--red-reign-600));
+  svg {
+    margin-right: spacings.$s-1;
+  }
+}
+
 .h1 {
   h1 {
     margin-bottom: 0px;
@@ -12,6 +23,29 @@
   }
 
   margin-bottom: spacings.$s-6;
+}
+
+.formInput {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: spacings.$s-2;
+
+  .errorMessage {
+    @include errorMessageMixin;
+    bottom: 0;
+  }
+}
+
+.formSelect {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  .errorMessage {
+    @include errorMessageMixin;
+    top: -30;
+    white-space: nowrap;
+  }
 }
 
 .title {
@@ -28,14 +62,18 @@
   width: 100%;
   margin-bottom: spacings.$s-8;
 }
+.bounty {
+  margin-top: 0;
+}
 
 .others {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: spacings.$s-4;
 }
 
-
-.buttons {
+.button {
   margin-top: spacings.$s-18;
   width: fit-content;
   margin-left: auto;
