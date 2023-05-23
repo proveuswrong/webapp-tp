@@ -5,21 +5,22 @@ $maxVW: 1200px;
 $minFS: 15px;
 $maxFS: 18px;
 
-@import url('https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100;0,12..72,200;0,12..72,300;0,12..72,400;0,12..72,500;0,12..72,600;0,12..72,700;0,12..72,800;0,12..72,900;1,12..72,100;1,12..72,200;1,12..72,300;1,12..72,400;1,12..72,500;1,12..72,600;1,12..72,700;1,12..72,800;1,12..72,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100;0,12..72,200;0,12..72,300;0,12..72,400;0,12..72,500;0,12..72,600;0,12..72,700;0,12..72,800;0,12..72,900;1,12..72,100;1,12..72,200;1,12..72,300;1,12..72,400;1,12..72,500;1,12..72,600;1,12..72,700;1,12..72,800;1,12..72,900&display=swap");
 
 @font-face {
   font-family: "EdwardianScriptITC";
   src: url("../assets/fonts/EdwardianScriptITC.woff2") format("woff2");
 }
 
-html, body {
+html,
+body {
   @include typo.fluid-type($minVW, $maxVW, $minFS, $maxFS);
 }
 
-*:not(input) {
+/* *:not(input) {
   caret-color: transparent;
 }
-
+ */
 .displayBlock {
   display: block;
 }
@@ -53,7 +54,7 @@ footer svg {
 }
 
 * {
-  font-family: 'Texturina', serif;
+  font-family: "Texturina", serif;
 
   font-weight: normal;
   line-height: 1.4;
@@ -90,10 +91,9 @@ small {
   overflow: hidden;
   display: inline-block;
 
-  &:hover{
+  &:hover {
     text-overflow: clip;
     white-space: normal;
     word-break: break-word;
   }
 }
-
