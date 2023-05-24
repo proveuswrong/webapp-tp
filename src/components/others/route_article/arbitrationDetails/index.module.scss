@@ -34,5 +34,19 @@
         color: hsl(var(--dark-orchestra-600));
       }
     }
+
+    @media (max-width: 780px) {
+      flex-flow: column wrap;
+      margin-top: spacings.$s-6;
+      padding-top: spacings.$s-4;
+      padding-bottom: spacings.$s-3;
+      span {
+        display: flex;
+        justify-content: space-between;
+        b {
+          margin-bottom: spacings.$s-2;
+        }
+      }
+    }
   }
 }
