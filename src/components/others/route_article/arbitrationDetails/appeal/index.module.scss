@@ -18,13 +18,16 @@
 
     .appealOptions {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: spacings.$s-4;
     }
 
     .footer {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      align-items: center;
 
       .label {
         display: flex;

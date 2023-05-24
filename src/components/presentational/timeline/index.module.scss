@@ -106,4 +106,13 @@
       background-color: hsl(var(--english-breakfast-500));
     }
   }
+
+  .ant-steps-vertical > .ant-steps-item > .ant-steps-item-container > .ant-steps-item-tail {
+    left: spacings.$s-5;
+    top: spacings.$s-4;
+    padding: 27px 0 1px;
+  }
+  .ant-steps-vertical > .ant-steps-item {
+    margin-bottom: 20px;
+  }
 }
