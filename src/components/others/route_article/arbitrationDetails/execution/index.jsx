@@ -17,6 +17,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   }, [chainId, accounts[0]]);
 
   const { data: contributor, isFetching } = useGraphFetcher(fetchData);
+  const hasContrubuted = contributor?.contributions.some((c) => c.id.split("-")[0] === currentRound?.dispute?.id);
 
   const sendTransaction = async (unsignedTx) =>
     await notifyWithToast(
@@ -60,14 +61,14 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
       {executed ? (
         <>
           {accounts[0] &&
-            (contributor === null ? (
+            (!hasContrubuted ? (
               <InformationBox>You have not contributed to the dispute</InformationBox>
             ) : contributor?.withdrew ? (
               <InformationBox>You have already withdrawn your rewards</InformationBox>
             ) : (
               rewardField
             ))}
-          <CustomButton disabled={!contributor || contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
+          <CustomButton disabled={!hasContrubuted || contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
             Withdraw Crowdfunding
           </CustomButton>
         </>
