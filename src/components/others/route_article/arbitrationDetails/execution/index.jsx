@@ -4,7 +4,7 @@ import * as styles from "./index.module.scss";
 import CustomButton from "/src/components/presentational/button";
 import EtherValue from "../../../../presentational/EtherValue";
 
-import { EthereumContext, getContributorByID } from "/src/data/ethereumProvider";
+import { EthereumContext, getRewardsByID } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
 import InformationBox from "../../../../presentational/informationBox";
@@ -13,11 +13,12 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   const { chainId, accounts, contractInstance, ethersProvider } = useContext(EthereumContext);
 
   const fetchData = useCallback(() => {
-    return getContributorByID(chainId, accounts[0]);
+    const rewardId = `${currentRound?.dispute?.id}-${accounts[0]}`;
+    return getRewardsByID(chainId, rewardId);
   }, [chainId, accounts[0]]);
 
-  const { data: contributor, isFetching } = useGraphFetcher(fetchData);
-  const hasContrubuted = contributor?.contributions.some((c) => c.id.split("-")[0] === currentRound?.dispute?.id);
+  const { data: rewards, isFetching } = useGraphFetcher(fetchData);
+  console.log({ rewards });
 
   const sendTransaction = async (unsignedTx) =>
     await notifyWithToast(
@@ -52,7 +53,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   const rewardField = (
     <div className={styles.reward}>
       <div className={styles.label}>Total rewards:</div>
-      {!isFetching && <EtherValue value={contributor?.totalWithdrawableAmount ?? 0} />}
+      {!isFetching && <EtherValue value={rewards?.totalWithdrawableAmount ?? 0} />}
     </div>
   );
 
@@ -61,14 +62,14 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
       {executed ? (
         <>
           {accounts[0] &&
-            (!hasContrubuted ? (
+            (!rewards ? (
               <InformationBox>You have not contributed to the dispute</InformationBox>
-            ) : contributor?.withdrew ? (
+            ) : rewards?.withdrew ? (
               <InformationBox>You have already withdrawn your rewards</InformationBox>
             ) : (
               rewardField
             ))}
-          <CustomButton disabled={!hasContrubuted || contributor?.withdrew} onClick={handleWithdrawCrowdfunding}>
+          <CustomButton disabled={!rewards || rewards?.withdrew} onClick={handleWithdrawCrowdfunding}>
             Withdraw Crowdfunding
           </CustomButton>
         </>

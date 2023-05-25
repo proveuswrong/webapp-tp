@@ -354,6 +354,19 @@ export const getAllContributors = (chainID) => {
     .catch(console.error);
 };
 
+export const getRewardsByID = (chainID, id) => {
+  return Promise.allSettled(
+    Object.entries(networkMap[chainID].contractInstances || {}).map(([_, value]) => {
+      return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getRewardsByID(id)).then((data) => {
+        console.log("rewards by ID", data);
+        return data.rewardEntity;
+      });
+    })
+  )
+    .then((r) => r[0]?.value)
+    .catch(console.error);
+};
+
 export const getContributorByID = (chainID, walletAddress) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {

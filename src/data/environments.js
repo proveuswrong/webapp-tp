@@ -113,6 +113,13 @@ const environments = {
                     }
                   }
                 }`,
+                getRewardsByID: (id) => `{
+                  rewardEntity(id:"${id}"){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
+                  }
+                }`,
                 getContributorByID: (id) => `{
                   user(id:"${id}"){
                     id
@@ -194,6 +201,13 @@ const environments = {
                       id
                       amount
                     }
+                  }
+                }`,
+                getRewardsByID: (id) => `{
+                  rewardEntity(id:"${id}"){
+                    id
+                    totalWithdrawableAmount
+                    withdrew
                   }
                 }`,
                 getContributorByID: (id) => `{
