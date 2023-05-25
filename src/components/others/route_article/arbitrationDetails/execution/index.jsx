@@ -10,7 +10,7 @@ import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTo
 import InformationBox from "../../../../presentational/informationBox";
 
 export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance }) {
-  const { chainId, accounts, contractInstance, ethersProvider } = useContext(EthereumContext);
+  const { chainId, accounts, invokeTransaction } = useContext(EthereumContext);
 
   const fetchData = useCallback(() => {
     const rewardId = `${currentRound?.dispute?.id}-${accounts[0]}`;
@@ -39,15 +39,10 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   };
 
   const handleWithdrawCrowdfunding = async () => {
-    try {
-      const unsignedTx = await contractInstance.populateTransaction.withdrawFeesAndRewardsForAllRoundsAndAllRulings(
-        currentRound?.dispute?.id,
-        accounts[0]
-      );
-      sendTransaction(unsignedTx);
-    } catch (error) {
-      console.error(error);
-    }
+    await invokeTransaction("withdrawFeesAndRewardsForAllRoundsAndAllRulings", [
+      currentRound?.dispute?.id,
+      accounts[0],
+    ]);
   };
 
   const rewardField = (
