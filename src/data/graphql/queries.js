@@ -1,7 +1,21 @@
 import { articleFragment } from "./fragments";
 
+const gql = (strings, ...values) => {
+    let query = '';
+
+    // Interpolate the strings and values
+    for (let i = 0; i < strings.length; i++) {
+        query += strings[i];
+        if (i < values.length) {
+            query += values[i];
+        }
+    }
+
+    return query.trim();
+};
+
 export const commonQueries = {
-    getArticleByID: (id) => `{
+    getArticleByID: (id) => gql`{
       articles(where: {id: "${id}"}) {
         ${articleFragment}
       }
@@ -10,35 +24,35 @@ export const commonQueries = {
         articleEntityID
       }
     }`,
-    getArticlesByAuthor: (address) => `{
+    getArticlesByAuthor: (address) => gql`{
       articles(where: {owner: "${address}"}){
         ${articleFragment}
       }
     }`,
-    getLastArticleByAuthor: (address) => `{
+    getLastArticleByAuthor: (address) => gql`{
       articles(first: 1, orderBy: createdAtBlock, orderDirection: desc, where: {owner: "${address}"}){
         id
       }
     }`,
-    getAllArticles: `{
+    getAllArticles: gql`{
       articles(orderBy: id, orderDirection: asc) {
         ${articleFragment}
       }
     }`,
-    getCourtByID: (id) => `{
+    getCourtByID: (id) => gql`{
       courtEntity(id: ${id}){
         policyURI
         timesPerPeriod
         hiddenVotes
       }
     }`,
-    getAllMetaevidences: `{
+    getAllMetaevidences: gql`{
       metaEvidenceEntities(orderBy: id, orderDirection: asc){
         id
         uri
       }
     }`,
-    getAllContributors: `{
+    getAllContributors: gql`{
       users(orderBy: id){
         id
         totalWithdrawableAmount
@@ -49,14 +63,14 @@ export const commonQueries = {
         }
       }
     }`,
-    getRewardsByID: (id) => `{
+    getRewardsByID: (id) => gql`{
       rewardEntity(id:"${id}"){
         id
         totalWithdrawableAmount
         withdrew
       }
     }`,
-    getContributorByID: (id) => `{
+    getContributorByID: (id) => gql`{
       user(id:"${id}"){
         id
         totalWithdrawableAmount
@@ -67,7 +81,7 @@ export const commonQueries = {
         }
       }
     }`,
-    getGraphMetadata: `{
+    getGraphMetadata: gql`{
       _meta {
         deployment
         hasIndexingErrors
