@@ -5,6 +5,8 @@
   display: flex;
   justify-content: center;
 
+  margin-bottom: spacings.$s-20;
+
   button + button {
     margin-left: 1rem;
   }
