@@ -57,7 +57,8 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
     <div className={styles.executionPeriod}>
       {executed ? (
         <>
-          <CardCrowdfundingWithdrawal contributed={!!rewards} amount={rewards?.totalWithdrawableAmount} withdrew={rewards?.withdrew} handleWithdrawRewards={handleWithdrawCrowdfunding}/>
+          {accounts[0] &&
+          <CardCrowdfundingWithdrawal contributed={!!rewards} amount={rewards?.totalWithdrawableAmount} withdrew={rewards?.withdrew} handleWithdrawRewards={handleWithdrawCrowdfunding}/>}
         </>
       ) : (
         <CustomButton onClick={handleExecuteRuling}>Execute Ruling</CustomButton>
