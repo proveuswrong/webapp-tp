@@ -9,7 +9,7 @@ export default function CardCrowdfundingWithdrawal(props) {
   return <div className={`${styles.cardCrowdfundingWithdrawal}`}>
     <RewardSymbol/>
     {props.contributed && props.withdrew && <span>You already withdrew.</span>}
-    {props.contributed && !props.withdrew && <span className={styles.amount}>Total Rewards: {props.amount || 0} {ethers.constants.EtherSymbol}</span>}
+    {props.contributed && !props.withdrew && <span>Total Rewards: {props.amount || 0} {ethers.constants.EtherSymbol}</span>}
     {!props.contributed && <span>You did not contribute the crowdfunding of the last dispute.</span>}
 
     <hr/>
