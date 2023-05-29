@@ -1,0 +1,41 @@
+@use 'src/stylesheets/variables/spacings';
+@use 'src/stylesheets/variables/typo';
+
+.cardCrowdfundingWithdrawal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: spacings.$s-4 spacings.$s-7 spacings.$s-7 spacings.$s-7;
+
+
+  background: transparent;
+  border: 1px solid hsl(var(--dark-orchestra-600));
+  border-radius: spacings.$s-1;
+  color: hsl(var(--dark-orchestra-600));
+
+  box-shadow: 0rem 0.5rem 1rem 0rem hsl(var(--english-breakfast-600), 0.5);
+
+
+  svg{
+    path, circle, line {
+      stroke: hsl(var(--dark-orchestra-600));
+    }
+
+    margin-bottom: spacings.$s-4;
+  }
+
+  hr {
+    margin-top: spacings.$s-7;
+    margin-bottom: spacings.$s-7;
+
+    background-color: hsl(var(--dark-orchestra-600));
+    height: 1px;
+    width: 60%;
+  }
+
+  span{
+    font-size: small;
+  }
+
+}
