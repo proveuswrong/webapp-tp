@@ -13,7 +13,7 @@ export default function CardCrowdfundingWithdrawal(props) {
     {!props.contributed && <span>You did not contribute the crowdfunding of the last dispute.</span>}
 
     <hr/>
-    <CustomButton modifiers="small" disabled={true || props.withdrew} onClick={props.handleWithdrawRewards}>
+    <CustomButton modifiers="small" disabled={props.withdrew} onClick={props.handleWithdrawRewards}>
       Withdraw Crowdfunding
     </CustomButton>
   </div>;
