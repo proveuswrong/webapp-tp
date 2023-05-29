@@ -8,9 +8,10 @@ import { EthereumContext, getRewardsByID } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
 import InformationBox from "../../../../presentational/informationBox";
+import CardCrowdfundingWithdrawal from "../../../../presentational/cardCrowdfundingWithdrawal";
 
 export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance }) {
-  const { chainId, accounts, invokeTransaction } = useContext(EthereumContext);
+  const { chainId, accounts, invokeTransaction, ethersProvider } = useContext(EthereumContext);
 
   const fetchData = useCallback(() => {
     const rewardId = `${currentRound?.dispute?.id}-${accounts[0]}`;
@@ -56,17 +57,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
     <div className={styles.executionPeriod}>
       {executed ? (
         <>
-          {accounts[0] &&
-            (!rewards ? (
-              <InformationBox>You have not contributed to the dispute</InformationBox>
-            ) : rewards?.withdrew ? (
-              <InformationBox>You have already withdrawn your rewards</InformationBox>
-            ) : (
-              rewardField
-            ))}
-          <CustomButton disabled={!rewards || rewards?.withdrew} onClick={handleWithdrawCrowdfunding}>
-            Withdraw Crowdfunding
-          </CustomButton>
+          <CardCrowdfundingWithdrawal contributed={!!rewards} amount={rewards?.totalWithdrawableAmount} withdrew={rewards?.withdrew} handleWithdrawRewards={handleWithdrawCrowdfunding}/>
         </>
       ) : (
         <CustomButton onClick={handleExecuteRuling}>Execute Ruling</CustomButton>

@@ -101,6 +101,13 @@ export default function Index() {
       <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
       <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent?.title }]} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
+      <div className={styles.containerButtons}>
+      {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
+        <CustomButton key={`ProveItWrong${article?.status}`} modifiers="blink" onClick={handleChallenge}>
+          Prove it Wrong
+        </CustomButton>
+      )}
+      </div>
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
       <div className={styles.containerButtons}>
@@ -123,11 +130,7 @@ export default function Index() {
             Increase Bounty
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
-          <CustomButton key={`ProveItWrong${article?.status}`} modifiers="blink" onClick={handleChallenge}>
-            Prove it Wrong
-          </CustomButton>
-        )}
+
         {article?.status == "Challenged" && (
           <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
         )}
