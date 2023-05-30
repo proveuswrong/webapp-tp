@@ -1,13 +1,11 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
-$breakpoint-tablet: 780px;
-$breakpoint-mobile: 480px;
-$breakpoint-desktop: 1200px;
 $body-margin: 2.5rem;
 
 @mixin hideBelowTabletSize {
-  @media only screen and (max-width: $breakpoint-tablet) {
+  @media only screen and (max-width: breakpoints.$md) {
     display: none;
   }
 }
