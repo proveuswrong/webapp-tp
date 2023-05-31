@@ -21,7 +21,7 @@ const environments = {
         contractInstances: {
           "0x5218fCAc7479E60903DADcb1c31FFe879796cDde": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/gratestas/thetruthpost-goerli",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-goerli",
               queries: commonQueries
             }
           },
