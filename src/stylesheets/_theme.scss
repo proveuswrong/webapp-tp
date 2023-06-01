@@ -104,11 +104,6 @@
 
 body,
 .withBackground {
-  position: relative;
-}
-
-body,
-.withBackground {
   content: "";
   background: url("../assets/background_paper_color.jpg");
   background-repeat: repeat;
