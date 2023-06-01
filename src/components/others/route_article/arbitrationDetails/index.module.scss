@@ -2,7 +2,6 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/breakpoints";
 
-
 .arbitrationDetails {
   .titleWrapper {
     display: flex;
@@ -18,12 +17,8 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    padding: spacings.$s-3 spacings.$s-4;
+    padding: spacings.$s-3 0;
     margin-bottom: spacings.$s-12;
-    border: 1px solid hsl(var(--english-breakfast-900));
-    border-radius: 4px;
-    box-shadow: inset 0.125rem 0.125rem 0.5rem 0 hsl(var(--starbright-700), 0.25),
-      0rem 0.25rem 0.5rem 0 hsl(var(--starbright-700), 0.25);
     color: hsl(var(--english-breakfast-600));
 
     a {

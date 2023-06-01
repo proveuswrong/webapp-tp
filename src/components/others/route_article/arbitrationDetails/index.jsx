@@ -1,28 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ethers } from "ethers";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import DisputeTimeline from "/src/components/others/disputeTimeline";
-
-import usePolicy from "/src/hooks/usePolicy";
-import { Periods } from "/src/constants/enums";
+import EvidenceModal from "/src/components/others/evidenceModal";
 
 import EvidencePeriod from "./evidence";
 import VotingPeriod from "./vote";
 import AppealPeriod from "./appeal";
 import ExecutionPeriod from "./execution";
 
-import { ethers } from "ethers";
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
 import { EthereumContext } from "/src/data/ethereumProvider";
+import usePolicy from "/src/hooks/usePolicy";
+import { Periods } from "/src/constants/enums";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
   const currentPeriodIndex = Periods[currentDispute?.period] ?? 0;
 
   const ethereumContext = useContext(EthereumContext);
-
+  const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
   const [current, setCurrent] = useState(currentPeriodIndex);
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
   const [mined, setMined] = useState(true);
@@ -128,14 +128,26 @@ export default function ArbitrationDetails({ article }) {
 
   console.log({ currentDispute });
   const components = [
-    <EvidencePeriod evidenceEvents={article?.events.filter((event) => event.name === "Evidence")} />,
-    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
-    <VotingPeriod currentRound={currentDispute?.rounds.at(-1)} isHiddenVotes={currentDispute?.court.hiddenVotes} />,
-    <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} />,
+    <EvidencePeriod
+      evidenceEvents={article?.events.filter((event) => event.name === "Evidence")}
+      setEvidenceModalOpen={setEvidenceModalOpen}
+    />,
+    <VotingPeriod
+      currentRound={currentDispute?.rounds.at(-1)}
+      isHiddenVotes={currentDispute?.court.hiddenVotes}
+      setEvidenceModalOpen={setEvidenceModalOpen}
+    />,
+    <VotingPeriod
+      currentRound={currentDispute?.rounds.at(-1)}
+      isHiddenVotes={currentDispute?.court.hiddenVotes}
+      setEvidenceModalOpen={setEvidenceModalOpen}
+    />,
+    <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} setEvidenceModalOpen={setEvidenceModalOpen} />,
     <ExecutionPeriod
       currentRound={currentDispute?.rounds.at(-1)}
       executed={!!currentDispute?.ruled}
       arbitratorInstance={arbitratorInstance}
+      setEvidenceModalOpen={setEvidenceModalOpen}
     />,
   ];
   return (
@@ -154,6 +166,11 @@ export default function ArbitrationDetails({ article }) {
       />
       <DisputeTimeline dispute={currentDispute} current={current} />
       {components[current]}
+      <EvidenceModal
+        disputeID={article?.disputes?.at(-1)?.id}
+        visible={isEvidenceModalOpen}
+        onCancel={() => setEvidenceModalOpen(false)}
+      />
     </section>
   );
 }

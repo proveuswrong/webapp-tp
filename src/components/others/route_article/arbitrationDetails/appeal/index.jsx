@@ -12,7 +12,7 @@ import { formatToEther } from "/src/components/presentational/EtherValue";
 
 const ETH_DECIMALS = 18;
 
-export default function AppealPeriod({ currentRound }) {
+export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
   const { chainId, accounts, invokeTransaction, metaEvidenceContents } = useContext(EthereumContext);
 
 
@@ -114,6 +114,9 @@ export default function AppealPeriod({ currentRound }) {
       </div>
       <div className={styles.juryDecision}>
         Jury decision: <span>{rulingOptionTitles[currentRound?.dispute?.ruling]}</span>
+      </div>
+      <div>
+        <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
       </div>
     </div>
   );

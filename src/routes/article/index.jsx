@@ -9,7 +9,6 @@ import { useEffect, useState, useContext } from "react";
 
 import CustomButton from "/src/components/presentational/button";
 import EventLog from "/src/components/others/eventLog";
-import EvidenceModal from "/src/components/others/evidenceModal";
 import SyncStatus from "/src/components/presentational/syncStatus";
 import KeyMetrics from "/src/components/others/route_article/keyMetrics";
 import Metadata from "/src/components/others/route_article/metadata";
@@ -102,11 +101,11 @@ export default function Index() {
       <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent?.title }]} />
       <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
       <div className={styles.containerButtons}>
-      {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
-        <CustomButton key={`ProveItWrong${article?.status}`} modifiers="blink" onClick={handleChallenge}>
-          Prove it Wrong
-        </CustomButton>
-      )}
+        {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
+          <CustomButton key={`ProveItWrong${article?.status}`} modifiers="blink" onClick={handleChallenge}>
+            Prove it Wrong
+          </CustomButton>
+        )}
       </div>
       {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
 
@@ -131,10 +130,6 @@ export default function Index() {
           </CustomButton>
         )}
 
-        {article?.status == "Challenged" && (
-          <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
-        )}
-
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "TimelockStarted" && (
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
@@ -155,17 +150,11 @@ export default function Index() {
       />
       {article?.events && (
         <EventLog
-          style={{ background: "red" }}
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
           events={[...article?.events]?.reverse()}
         ></EventLog>
       )}
-      <EvidenceModal
-        disputeID={article?.disputes?.at(-1)?.id}
-        visible={isEvidenceModalOpen}
-        onCancel={() => setEvidenceModalOpen(false)}
-      />
       <BountyModal
         articleStorageAddress={article?.storageAddress}
         currentBounty={article?.bounty}

@@ -9,8 +9,7 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
   color: hsl(var(--dark-orchestra-600));
   border-radius: 20px;
 
-  background: hsl(var(--starbright-600)) url("/src/assets/paper-texture-surface-texture-small.jpg");
-  box-shadow: inset 20px 20px 250px 0px $colorShadow1, 0px 5px 30px 0px $colorShadow2, 0px 10px 30px 0px $colorShadow3;
+  background: hsl(var(--starbright-600)) url("/src/assets/background_paper_color.jpg");
 }
 
 :global(.ant-modal-body) {
@@ -18,5 +17,11 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
 }
 
 :global(.ant-modal-mask) {
-  background-color: hsl(var(--english-breakfast-500), 0.15);
+  background-color: hsl(var(--english-breakfast-900), 0.8);
+}
+
+:global(.anticon svg) {
+  width: spacings.$s-6;
+  height: spacings.$s-6;
+  margin-top: spacings.$s-4;
 }
