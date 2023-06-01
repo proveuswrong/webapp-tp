@@ -19,7 +19,7 @@ const environments = {
     networkMap: {
       "0x5": {
         contractInstances: {
-          "0x0b98f9824A4A7783d7C9c7fc58B416D2bB665646": {
+          "0xcA97Bdcca0a07940A4306adc5f8575219293E0dD": {
             subgraph: {
               endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-goerli",
               queries: commonQueries
