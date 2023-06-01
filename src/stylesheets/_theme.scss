@@ -1,6 +1,5 @@
 @use "src/stylesheets/variables/spacings";
 
-
 :root {
   /* Gryphonne Sepia Wash CSS Vars */
   --gryphonne-sepia-wash-100: 25, 33%, 93%;
@@ -101,21 +100,19 @@
   --starbright-800: 50, 10%, 52%;
   --starbright-900: 49, 10%, 35%;
   --starbright-1000: 47, 10%, 17%;
-
 }
 
-body, .withBackground{
-  background-color: hsl(var(--starbright-600));
+body,
+.withBackground {
   position: relative;
 }
 
-body::after, .withBackground::after {
-  height: inherit;
+body,
+.withBackground {
   content: "";
-  background: url("../assets/paper-texture-surface-texture-small.jpg");
+  background: url("../assets/background_paper_color.jpg");
   background-repeat: repeat;
   background-size: initial;
-  opacity: 0.6;
   top: 0;
   left: 0;
   bottom: 0;
@@ -125,31 +122,40 @@ body::after, .withBackground::after {
 }
 
 footer {
-  h1, h2, h3, h4, h5, h6, p, a, span {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  span {
     color: hsl(var(--starbright-600));
   }
 
   background-color: hsl(var(--dark-orchestra-600));
 
   svg {
-    path, circle, rect {
+    path,
+    circle,
+    rect {
       fill: hsl(var(--starbright-600));
-
     }
   }
-
-
 }
 
 a {
-  color: hsl(var(--dark-orchestra-600))
+  color: hsl(var(--dark-orchestra-600));
 }
 
 a:hover {
   color: hsl(var(--schiava-blue-600));
 }
 
-a:hover svg circle, a:hover svg path, a:hover svg rect {
+a:hover svg circle,
+a:hover svg path,
+a:hover svg rect {
   fill: hsl(var(--schiava-blue-600));
 }
 
@@ -157,8 +163,9 @@ hr {
   background: hsl(var(--dark-orchestra-600));
 }
 
-
-input, textarea, select {
+input,
+textarea,
+select {
   margin-top: spacings.$s-1;
   border: 1px solid hsl(var(--smooth-coffee-600));
   border-radius: 4px;
@@ -166,5 +173,3 @@ input, textarea, select {
   background-color: transparent;
   color: hsl(var(--smooth-coffee-600));
 }
-
-

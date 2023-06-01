@@ -39,4 +39,10 @@
       margin-bottom: spacings.$s-1;
     }
   }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    margin-top: spacings.$s-6;
+  }
 }

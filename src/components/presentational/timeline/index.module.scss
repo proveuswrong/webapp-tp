@@ -61,6 +61,7 @@
           [class$="cls-2"] {
             stroke: hsl(var(--starbright-600)) !important;
           }
+          stroke: hsl(var(--starbright-600)) !important;
         }
       }
     }
@@ -78,8 +79,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: spacings.$s-12;
-    height: spacings.$s-12;
+    width: spacings.$s-10;
+    height: spacings.$s-10;
+
+    .ant-steps-icon {
+      width: spacings.$s-6;
+      height: spacings.$s-6;
+    }
   }
 
   .ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {

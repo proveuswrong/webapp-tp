@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import * as styles from "./index.module.scss";
 
+import CustomButton from "/src/components/presentational/button";
+
 import { getLabel } from "/src/utils/account";
 import { EthereumContext } from "../../../../../data/ethereumProvider";
 
@@ -8,7 +10,7 @@ import AttachmentIcon from "jsx:/src/assets/attachment.svg";
 
 const IPFS_GATEWAY = "https://ipfs.kleros.io";
 
-export default function EvidencePeriod({ evidenceEvents }) {
+export default function EvidencePeriod({ evidenceEvents, setEvidenceModalOpen }) {
   const { accounts } = useContext(EthereumContext);
   const [fetchedData, setFetchedData] = useState([]);
 
@@ -30,7 +32,7 @@ export default function EvidencePeriod({ evidenceEvents }) {
 
   return (
     <div className={styles.evidencePeriod}>
-      <h3>Evidences</h3>
+      <h3>Evidence</h3>
       {evidenceEvents.length > 0 ? (
         evidenceEvents.map((evidence, index) => {
           return (
@@ -54,6 +56,9 @@ export default function EvidencePeriod({ evidenceEvents }) {
       ) : (
         <div>No Evidence</div>
       )}
+      <div className={styles.button}>
+        <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
+      </div>
     </div>
   );
 }

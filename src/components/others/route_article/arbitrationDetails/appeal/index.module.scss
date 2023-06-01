@@ -4,8 +4,10 @@
 .appealPeriod {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   .crowdFundingPanel {
+    width: 100%;
     padding: spacings.$s-4 spacings.$s-7;
     margin-bottom: spacings.$s-18;
     border: 1px solid hsl(var(--english-breakfast-800));

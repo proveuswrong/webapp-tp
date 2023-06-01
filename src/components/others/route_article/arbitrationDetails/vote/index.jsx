@@ -1,4 +1,7 @@
 import * as styles from "./index.module.scss";
+
+import CustomButton from "/src/components/presentational/button";
+
 import VoteYesIcon from "jsx:/src/assets/voteYes.svg";
 import VoteNoIcon from "jsx:/src/assets/voteNo.svg";
 import VoteRefusedIcon from "jsx:/src/assets/voteRefused.svg";
@@ -12,7 +15,7 @@ const VOTE_DATA = [
   { option: "Remaining", icon: <VoteRemainingIcon /> },
 ];
 
-export default function VotingPeriod({ currentRound, isHiddenVotes }) {
+export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceModalOpen }) {
   const { jurySize, votesPerChoice } = currentRound;
   console.log({ currentRound: currentRound });
 
@@ -38,6 +41,7 @@ export default function VotingPeriod({ currentRound, isHiddenVotes }) {
           </div>
         ))}
       </div>
+      <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
     </div>
   );
 }

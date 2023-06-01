@@ -2,15 +2,13 @@ import { useCallback, useContext } from "react";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
-import EtherValue from "../../../../presentational/EtherValue";
 
 import { EthereumContext, getRewardsByID } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
-import InformationBox from "../../../../presentational/informationBox";
 import CardCrowdfundingWithdrawal from "../../../../presentational/cardCrowdfundingWithdrawal";
 
-export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance }) {
+export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance, setEvidenceModalOpen }) {
   const { chainId, accounts, invokeTransaction, ethersProvider } = useContext(EthereumContext);
 
   const fetchData = useCallback(() => {
@@ -46,22 +44,24 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
     ]);
   };
 
-  const rewardField = (
-    <div className={styles.reward}>
-      <div className={styles.label}>Total rewards:</div>
-      {!isFetching && <EtherValue value={rewards?.totalWithdrawableAmount ?? 0} />}
-    </div>
-  );
-
   return (
     <div className={styles.executionPeriod}>
       {executed ? (
         <>
-          {accounts[0] &&
-          <CardCrowdfundingWithdrawal contributed={!!rewards} amount={rewards?.totalWithdrawableAmount} withdrew={rewards?.withdrew} handleWithdrawRewards={handleWithdrawCrowdfunding}/>}
+          {accounts[0] && (
+            <CardCrowdfundingWithdrawal
+              contributed={!!rewards}
+              amount={rewards?.totalWithdrawableAmount}
+              withdrew={rewards?.withdrew}
+              handleWithdrawRewards={handleWithdrawCrowdfunding}
+            />
+          )}
         </>
       ) : (
-        <CustomButton onClick={handleExecuteRuling}>Execute Ruling</CustomButton>
+        <div className={styles.buttons}>
+          <CustomButton onClick={() => setEvidenceModalOpen(true)}>Submit Evidence</CustomButton>
+          <CustomButton onClick={handleExecuteRuling}>Execute Ruling</CustomButton>
+        </div>
       )}
     </div>
   );

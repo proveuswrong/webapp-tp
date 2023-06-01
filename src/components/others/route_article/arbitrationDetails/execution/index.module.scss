@@ -20,4 +20,9 @@
       margin-right: spacings.$s-2;
     }
   }
+
+  .buttons {
+    display: flex;
+    gap: spacings.$s-6;
+  }
 }
