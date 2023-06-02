@@ -3,7 +3,7 @@ import * as styles from "./index.module.scss";
 
 export default function EtherValue({ value, digits = 3, modifiers }) {
   return (
-    <div className={`${styles.container} ${modifiers}`}>{`${formatToEther(value, digits)} ${
+    <div className={`${modifiers}`}>{`${formatToEther(value, digits)} ${
       constants.EtherSymbol
     }`}</div>
   );
