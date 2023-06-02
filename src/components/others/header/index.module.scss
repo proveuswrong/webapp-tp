@@ -1,7 +1,13 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
 .header {
+
+  .logo{
+    height: calc(9vw + 2rem);
+  }
+
   margin-bottom: spacings.$s-5;
 
   text-align: center;
@@ -18,7 +24,7 @@
 
   .subtitle {
     padding: 0 1rem;
-    font-size: typo.$l;
+    font-size: typo.$m;
     margin-bottom: spacings.$s-2;
   }
 
@@ -26,4 +32,11 @@
     margin-top: spacings.$s-2;
     font-size: typo.$s;
   }
+
+  @media (min-width: breakpoints.$md) {
+    .subtitle {
+      font-size: typo.$l;
+    }
+  }
+
 }

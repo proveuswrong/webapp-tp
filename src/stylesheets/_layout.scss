@@ -37,6 +37,9 @@ nav{
 }
 
 header {
+  padding-top: spacings.$s-6;
+  padding-bottom: spacings.$s-5;
+
 }
 
 header + nav:first-of-type {
