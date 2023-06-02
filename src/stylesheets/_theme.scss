@@ -102,19 +102,25 @@
   --starbright-1000: 47, 10%, 17%;
 }
 
-body,
-.withBackground {
-  content: "";
-  background: url("../assets/background_paper_color.jpg");
-  background-repeat: repeat;
-  background-size: initial;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -9;
+body, .withBackground{
+  background-color: hsl(38, 58%, 96%);
+  position: relative;
 }
+
+//body::after, .withBackground::after {
+//  height: inherit;
+//  content: "";
+//  background: url("../assets/paper-texture-surface-texture-small.jpg");
+//  background-repeat: repeat;
+//  background-size: initial;
+//  opacity: 0.6;
+//  top: 0;
+//  left: 0;
+//  bottom: 0;
+//  right: 0;
+//  position: absolute;
+//  z-index: -9;
+//}
 
 footer {
   h1,
@@ -167,4 +173,18 @@ select {
   padding: spacings.$s-2;
   background-color: transparent;
   color: hsl(var(--smooth-coffee-600));
+}
+
+body::-webkit-scrollbar {
+  width: 1em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px hsl(var(--english-breakfast-600), 0.3)
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: hsl(38, 58%, 96%);
+  outline: 1px solid hsl(var(--english-breakfast-300));
+  border-radius: 1px;
 }
