@@ -141,6 +141,7 @@ export default function ArbitrationDetails({ article }) {
       currentRound={currentDispute?.rounds.at(-1)}
       isHiddenVotes={currentDispute?.court.hiddenVotes}
       setEvidenceModalOpen={setEvidenceModalOpen}
+      question={ethereumContext?.metaEvidenceContents[article?.category]?.question}
     />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} setEvidenceModalOpen={setEvidenceModalOpen} />,
     <ExecutionPeriod

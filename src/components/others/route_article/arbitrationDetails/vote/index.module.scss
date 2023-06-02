@@ -11,9 +11,9 @@
     margin-top: spacings.$s-2;
   }
   .cardWrapper {
-    width: 60%;
     margin: spacings.$s-4 auto spacings.$s-10;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: spacings.$s-10;
 
@@ -34,5 +34,10 @@
         font-size: typo.$xs;
       }
     }
+  }
+
+  .question {
+    margin-top: spacings.$s-4;
+    margin-bottom: spacings.$s-7;
   }
 }

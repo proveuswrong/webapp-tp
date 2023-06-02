@@ -15,7 +15,7 @@ const VOTE_DATA = [
   { option: "Remaining", icon: <VoteRemainingIcon /> },
 ];
 
-export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceModalOpen }) {
+export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceModalOpen, question }) {
   const { jurySize, votesPerChoice } = currentRound;
   console.log({ currentRound: currentRound });
 
@@ -30,6 +30,7 @@ export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceM
   return (
     <div className={styles.votingPeriod}>
       <h4>Current Votes</h4>
+      <div className={styles.question}>{`Jury was asked: ${question}`}</div>
       <div className={styles.cardWrapper}>
         {VOTE_DATA.map((vote, _index) => (
           <div key={_index} className={styles.voteCard}>
