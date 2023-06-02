@@ -1,5 +1,6 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
 .notificationCenter {
   h4 {
@@ -25,15 +26,15 @@
 .notificationModal {
   width: 90%;
 
-  @media (min-width: 480px) {
+  @media (min-width: breakpoints.$sm) {
     width: 70%;
   }
 
-  @media (min-width: 780px) {
+  @media (min-width: breakpoints.$md) {
     width: 60%;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: breakpoints.$xl) {
     width: 35%;
   }
 
@@ -52,7 +53,7 @@
       overflow-x: hidden;
       overflow-y: scroll;
 
-      @media (min-width: 780px) {
+      @media (min-width: breakpoints.$md) {
         height: 500px;
       }
 

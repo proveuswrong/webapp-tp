@@ -1,3 +1,6 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
+
 html {
   height: auto;
 }
@@ -17,27 +20,36 @@ body {
   flex: 1;
 }
 
-nav > *[hide] {
-  display: none;
+
+
+header, main, footer {
+  padding-left: spacings.$s-10;
+  padding-right: spacings.$s-10;
+}
+
+nav{
+  margin-left: spacings.$s-10;
+  margin-right: spacings.$s-10;
+
+  & > *[hide] {
+    display: none;
+  }
 }
 
 header {
-  padding-top: 2.5rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
 }
 
 header + nav:first-of-type {
-  margin: 0 1.75rem;
   position: sticky;
   top: 0; // Go sticky when top distance is zero
 }
 
 main {
-  padding: 0 1.75rem;
+
+  padding-top: spacings.$s-10;
+  padding-bottom: spacings.$s-18;
 
   > section {
-    padding: 3rem 0;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -45,6 +57,14 @@ main {
 }
 
 footer {
+
   margin-top: auto;
-  padding: 0 2.5rem;
+}
+
+@media (min-width: breakpoints.$md) {
+  nav, main>section{
+    padding-right: spacings.$s-7;
+    padding-left: spacings.$s-7;
+  }
+
 }

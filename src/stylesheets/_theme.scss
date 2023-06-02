@@ -100,10 +100,13 @@
   --starbright-800: 50, 10%, 52%;
   --starbright-900: 49, 10%, 35%;
   --starbright-1000: 47, 10%, 17%;
+
+  --background: 38, 58%, 96%;
 }
 
+
 body, .withBackground{
-  background-color: hsl(38, 58%, 96%);
+  background-color: hsl(var(--background));
   position: relative;
 }
 

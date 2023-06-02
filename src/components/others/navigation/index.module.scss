@@ -16,8 +16,8 @@ $body-margin: 2.5rem;
   align-items: center;
   height: 3.5rem;
   z-index: 1000;
-  border-bottom: 1px solid hsl(var(--english-breakfast-600));
-  border-top: 1px solid hsl(var(--english-breakfast-600));
+  border-bottom: 2px solid hsl(var(--english-breakfast-600));
+  border-top: 2px solid hsl(var(--english-breakfast-600));
 
 
 
@@ -62,7 +62,7 @@ $body-margin: 2.5rem;
   top: 0;
   height: 100%;
   max-height: 100vh;
-  background-color: hsl(var(--starbright-600));
+  background-color: hsl(var(--background));
   background-repeat: repeat;
   z-index: 999;
   opacity: 0;

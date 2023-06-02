@@ -1,12 +1,13 @@
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
 .containerItems {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(1fr, 100%));
-  column-gap: spacings.$s-8;
-  row-gap: spacings.$s-8;
+  column-gap: spacings.$s-6;
+  row-gap: spacings.$s-6;
 
-  @media (min-width: 1200px) {
+  @media (min-width: breakpoints.$xl) {
     grid-template-columns: repeat(4, minmax(160px, 1fr));
     //grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
 
