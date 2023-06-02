@@ -5,7 +5,7 @@ const environments = {
     networkMap: {
       "0x5": {
         contractInstances: {
-          "0xA5002f1f0D0f7c4477d11137f9dDc0F1cEE38Ed3": {
+          "0x4FE73e57343931E713728d5dc334F7298666E980": {
             subgraph: {
               endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
               queries: commonQueries
