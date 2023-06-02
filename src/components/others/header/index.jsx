@@ -6,6 +6,7 @@ export default function Header() {
   return (
       <header className={`${styles.header}`}>
         <TruthPost className={styles.logo}/>
+        <h1>The Truth Post</h1>
         <div className={styles.subtitleContainer}>
           <div className={styles.subtitle}>Accurate and Relevant News</div>
           <hr />

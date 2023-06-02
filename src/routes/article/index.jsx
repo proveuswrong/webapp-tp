@@ -106,20 +106,6 @@ export default function Index() {
             Prove it Wrong
           </CustomButton>
         )}
-      </div>
-      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
-
-      <div className={styles.containerButtons}>
-        {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
-          <CustomButton
-            key={`InitiateWithdrawal${article?.status}`}
-            modifiers="blink"
-            onClick={handleInitiateWithdrawal}
-          >
-            Initiate Withdrawal
-          </CustomButton>
-        )}
-
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
           <CustomButton
             key={`DoubleBounty${article?.status}`}
@@ -129,7 +115,6 @@ export default function Index() {
             Increase Bounty
           </CustomButton>
         )}
-
         {ethereumContext?.accounts[0] == article?.owner && article?.status == "TimelockStarted" && (
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
@@ -141,7 +126,18 @@ export default function Index() {
             )}
           </CustomButton>
         )}
+        {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
+          <CustomButton
+            key={`InitiateWithdrawal${article?.status}`}
+            modifiers="blink"
+            onClick={handleInitiateWithdrawal}
+          >
+            Initiate Withdrawal
+          </CustomButton>
+        )}
       </div>
+      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
+
       <SyncStatus
         syncedBlock={ethereumContext?.graphMetadata?.block?.number}
         latestBlock={parseInt(ethereumContext?.blockNumber, 16)}

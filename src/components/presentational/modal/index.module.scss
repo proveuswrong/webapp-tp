@@ -9,7 +9,7 @@ $colorShadow3: hsl(var(--english-breakfast-600), 0.25);
   color: hsl(var(--dark-orchestra-600));
   border-radius: 20px;
 
-  background: hsl(var(--starbright-600)) url("/src/assets/background_paper_color.jpg");
+  background: hsl(var(--background));
 }
 
 :global(.ant-modal-body) {

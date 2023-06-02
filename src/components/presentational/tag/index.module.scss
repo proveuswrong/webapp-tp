@@ -2,7 +2,7 @@
 @use "src/stylesheets/variables/spacings";
 
 .tag {
-  padding: spacings.$s-1 spacings.$s-5 spacings.$s-2 spacings.$s-5;
+  padding: spacings.$s-1 spacings.$s-2 spacings.$s-2 spacings.$s-2;
   border-width: 1px;
   font-size: typo.$xs;
   border-color: hsl(var(--smooth-coffee-600));
