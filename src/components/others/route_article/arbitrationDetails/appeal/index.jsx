@@ -10,11 +10,14 @@ import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider"
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import { formatToEther } from "/src/components/presentational/EtherValue";
 
-const RULING_OPTIONS = ["Refused to Rule", "Challenge Failed", "Debunked"];
 const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound }) {
   const { chainId, accounts, invokeTransaction, metaEvidenceContents } = useContext(EthereumContext);
+
+
+  const rulingOptionTitles = { 0: "Tie", 1: metaEvidenceContents[0]?.rulingOptions?.titles[0], 2: metaEvidenceContents[0]?.rulingOptions?.titles[1]
+  }
 
   const [supportedRuling, setSupportedRuling] = useState(1);
   const { totalToBeRaised, raisedSoFar } = currentRound;
@@ -110,7 +113,7 @@ export default function AppealPeriod({ currentRound }) {
         </div>
       </div>
       <div className={styles.juryDecision}>
-        Jury decision: <span>{RULING_OPTIONS[currentRound?.dispute?.ruling]}</span>
+        Jury decision: <span>{rulingOptionTitles[currentRound?.dispute?.ruling]}</span>
       </div>
     </div>
   );
