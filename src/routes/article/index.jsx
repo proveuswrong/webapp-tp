@@ -139,8 +139,7 @@ export default function Index() {
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
-                You can execute withdrawal in
-                <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(article)}</Interval> seconds
+                You can execute withdrawal in <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(article)}</Interval> seconds
               </span>
             ) : (
               "Execute Withdrawal"
