@@ -23,13 +23,13 @@ body {
 
 
 header, main, footer {
-  padding-left: spacings.$s-10;
-  padding-right: spacings.$s-10;
+  padding-left: spacings.$s-8;
+  padding-right: spacings.$s-8;
 }
 
 nav{
-  margin-left: spacings.$s-10;
-  margin-right: spacings.$s-10;
+  margin-left: spacings.$s-8;
+  margin-right: spacings.$s-8;
 
   & > *[hide] {
     display: none;
