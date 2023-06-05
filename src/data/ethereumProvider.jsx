@@ -1,17 +1,25 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ipfsGateway } from "../utils/addToIPFS";
 import { ethers } from "ethers";
+
 import ABI from "./ABI.json";
 import { environment } from "./environments";
+
 import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
+import { ipfsGateway } from "../utils/addToIPFS";
 
 export const networkMap = {
+  "0x5": {
+    name: "Ethereum Testnet Görli",
+    shortname: "Görli",
+    explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
+    deployments: environment.networkMap["0x5"].contractInstances,
+  },
   "0x1": {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
-    contractInstances: environment.networkMap["0x1"].contractInstances,
+    deployments: environment.networkMap["0x1"].contractInstances,
   },
   "0x5": {
     name: "Ethereum Testnet Görli",
@@ -21,215 +29,167 @@ export const networkMap = {
   },
 };
 
-export default class EthereumProvider extends Component {
-  static constants = {
-    LONGPOLLING_PERIOD_MS: 20000,
-  };
+const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
+const LONGPOLLING_PERIOD_MS = 20000;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      accounts: [],
-      chainId: "",
-      metamaskChainId: "",
-      isConnected: false,
-      isProviderDetected: false,
-      isDeployedOnThisChain: false,
-      metaEvidenceContents: [],
-      blockNumber: 0,
-      ethersProvider: null,
-      awaitingUserPermission: false,
+const initializeContract = (_chainId) => new ethers.Contract(Object.keys(networkMap[_chainId].deployments)[0], ABI);
+const DEFAULT_CHAIN_ID = "0x5";
+
+const EthereumProvider = ({ children }) => {
+  const [metamaskChainId, setMetamaskChainId] = useState(null);
+  const [chainId, setChainId] = useState(DEFAULT_CHAIN_ID);
+  const [accounts, setAccounts] = useState([]);
+  const [isProviderDetected, setProviderDetected] = useState(false);
+  const [isDeployedOnThisChain, setDeployedOnThisChain] = useState(isDeployedOn(chainId));
+  const [awaitingUserPermission, setAwaitingUserPermission] = useState(false);
+  const [graphMetadata, setGraphMetadata] = useState({});
+  const [blockNumber, setBlockNumber] = useState(0);
+  const [ethersProvider, setEthersProvider] = useState(null);
+  const [pollingInterval, setPollingInterval] = useState(0);
+  const [contractInstance, setContractInstance] = useState(initializeContract(chainId));
+  const [metaEvidenceContents, setMetaEvidenceContents] = useState([]);
+
+  useEffect(() => {
+    const initializeProvider = async () => {
+      const provider = await detectEthereumProvider();
+      if (provider) {
+        setProviderDetected(true);
+        handleChainChange(await provider.request({ method: "eth_chainId" }));
+        handleAccountsChange(await provider.request({ method: "eth_accounts" }));
+        setBlockNumber(await provider.request({ method: "eth_blockNumber" }));
+        setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+        provider.request({ method: "eth_subscribe", params: ["newHeads"] });
+
+        fetchGraphMetadata();
+        setPollingInterval(setInterval(fetchGraphMetadata, LONGPOLLING_PERIOD_MS));
+
+        provider.on("chainChanged", handleChainChange);
+        provider.on("accountsChanged", handleAccountsChange);
+        provider.on("message", handleMessage);
+      } else {
+        console.error("No Ethereum provider found.");
+      }
     };
 
-    this.changeNetwork = this.changeNetwork.bind(this);
-    this.handleChainChanged = this.handleChainChanged.bind(this);
-    this.handleAccountsChanged = this.handleAccountsChanged.bind(this);
-    this.handleConnected = this.handleConnected.bind(this);
-    this.handleDisconnected = this.handleDisconnected.bind(this);
-    this.fetchMetaEvidenceContents = this.fetchMetaEvidenceContents.bind(this);
-    this.handleMessage = this.handleMessage.bind(this);
-    this.requestAccounts = this.requestAccounts.bind(this);
-    this.invokeTransaction = this.invokeTransaction.bind(this);
-    this.invokeCall = this.invokeCall.bind(this);
+    const fetchGraphMetadata = async () => {
+      const res = await getGraphMetadata(chainId, Object.keys(networkMap[chainId].deployments)[0]);
+      setGraphMetadata(res);
+    };
 
-    this.setState = this.setState.bind(this);
-  }
+    initializeProvider();
 
-  componentDidMount() {
-    detectEthereumProvider({ silent: true }).then((provider) => {
-      if (provider) this.initializeProvider();
-    });
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("chainChanged", handleChainChange);
+        window.ethereum.removeListener("accountsChanged", handleAccountsChange);
+        window.ethereum.removeListener("message", handleMessage);
+      }
+      clearInterval(pollingInterval);
+    };
+  }, [chainId]);
 
-    this.setState({
-      interval: setInterval(() => {
-        if (this.state.chainId)
-          getGraphMetadata(
-            this.state?.chainId,
-            Object.keys(networkMap[this.state?.chainId]?.contractInstances)[0]
-          ).then((r) => this.setState({ graphMetadata: r }));
-      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
-    });
-  }
+  const handleMessage = (message) => setBlockNumber(message.data.result.number);
+  const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
+  const handleChainChange = (targetChainId) => {
+    setMetamaskChainId(targetChainId);
+    if (!chainId) {
+      switchAppChain(targetChainId);
+    }
+  };
 
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
-  }
+  const switchAppChain = (targetChainId) => {
+    setChainId(targetChainId);
+    setDeployedOnThisChain(isDeployedOn(targetChainId));
+    if (ethersProvider && isDeployedOn(targetChainId))
+      setContractInstance(new ethers.Contract(Object.keys(networkMap[targetChainId].deployments)[0], ABI));
+  };
 
-  initializeProvider() {
-    this.setState({ isProviderDetected: true });
-    ethereum.request({ method: "eth_chainId" }).then(this.handleChainChanged);
-    ethereum.request({ method: "eth_accounts" }).then(this.handleAccountsChanged);
-    ethereum.request({ method: "eth_subscribe", params: ["newHeads"] });
-    ethereum.request({ method: "eth_blockNumber" }).then((result) => this.setState({ blockNumber: result }));
-
-    ethereum.on("accountsChanged", this.handleAccountsChanged);
-    ethereum.on("chainChanged", this.handleChainChanged);
-    ethereum.on("connect", this.handleConnected);
-    ethereum.on("disconnect", this.handleDisconnected);
-    ethereum.on("message", this.handleMessage);
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    this.setState({
-      ethersProvider: provider,
-    });
-  }
-
-  // Public Functions //
-  async requestAccounts() {
-    await this.setState({ awaitingUserPermission: true });
+  const requestAccounts = async () => {
+    setAwaitingUserPermission(true);
     console.debug("Asking users permission to connect.");
     await ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
         console.log("User rejected connecting to Ethereum.");
-        this.setState({ awaitingUserPermission: false });
+        setAwaitingUserPermission(false);
       } else if (error.code === -32002) {
         // Handle it
       }
     });
-  }
+    setAwaitingUserPermission(false);
+  };
 
-  changeNetwork(chainId) {
-    console.log(`chain ID set to ${chainId}`);
-    this.setState({
-      chainId: chainId,
-      isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
-    });
-    getGraphMetadata(chainId, Object.keys(networkMap[chainId]?.contractInstances)[0]).then((r) =>
-      this.setState({ graphMetadata: r })
-    );
-    this.fetchMetaEvidenceContents(chainId);
-    if (this.state?.contractInstance?.address != networkMap[chainId]?.contractInstances[0])
-      window.location.reload(false);
-  }
-
-  handleChainChanged(chainId) {
-    const { metamaskChainId } = this.state;
-    console.log("Metamask network changed.");
-    if (metamaskChainId != "") window.location.reload();
-    else
-      this.setState({
-        metamaskChainId: chainId,
-      });
-  }
-
-  handleAccountsChanged(accounts) {
-    const { ethersProvider, chainId } = this.state;
-
-    if (accounts.length == 0) {
-      console.log("Wallet locked.");
-    } else {
-      console.log("Accounts changed.");
-      this.setState({ awaitingUserPermission: false });
-    }
-    this.setState({
-      accounts: accounts,
-      contractInstance:
-        ethersProvider && networkMap[chainId]?.contractInstances
-          ? new ethers.Contract(Object.keys(networkMap[chainId].contractInstances)[0], ABI, ethersProvider.getSigner())
-          : null,
-    });
-  }
-
-  handleConnected() {
-    console.log("Connected to Ethereum.");
-    this.setState({ isConnected: true });
-  }
-
-  handleDisconnected() {
-    console.log("Disconnect to Ethereum.");
-    this.setState({ isConnected: false });
-  }
-
-  handleMessage(message) {
-    this.setState({ blockNumber: message.data.result.number, timestamp: message.data.result.timestamp });
-  }
-
-  async fetchMetaEvidenceContents(chainId) {
+  // TODO: unsed
+  const fetchMetaEvidenceContents = async (chainId) => {
     const rawMetaEvidenceList = (await getAllMetaEvidences(chainId))?.map((item) => item.uri);
     if (!rawMetaEvidenceList) return;
     const result = await Promise.allSettled(
       rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json()))
     );
-    this.setState({ metaEvidenceContents: result.map((item) => item.value) });
-  }
+    setMetaEvidenceContents(result.map((item) => item.value));
+  };
 
-  async sendTransaction(unsignedTx) {
-    const { ethersProvider } = this.state;
-    return await notifyWithToast(
+  const sendTransaction = async (unsignedTx) =>
+    await notifyWithToast(
       ethersProvider
         .getSigner()
         .sendTransaction(unsignedTx)
         .then((tx) => tx.wait()),
       MESSAGE_TYPE.transaction
     );
-  }
 
-  async invokeCall(methodName, args) {
-    const { contractInstance, chainId, metamaskChainId, ethersProvider } = this.state;
-
-    if (chainId != metamaskChainId) {
+  const invokeCall = async (methodName, args) => {
+    if (chainId !== metamaskChainId) {
       await ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainId }],
+        params: [{ chainId }],
       });
       return null;
     } else {
       return await contractInstance.connect(ethersProvider)[methodName](...args);
     }
-  }
+  };
 
-  async invokeTransaction(methodName, args, value) {
-    const { contractInstance, chainId, metamaskChainId, accounts } = this.state;
+  const invokeTransaction = async (methodName, args, value) => {
+    if (!accounts[0]) await requestAccounts();
 
-    if (!accounts[0]) await this.requestAccounts();
-
-    if (chainId != metamaskChainId) {
+    if (chainId !== metamaskChainId) {
       await ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainId }],
+        params: [{ chainId }],
       });
     } else {
       const unsignedTx = await contractInstance.populateTransaction[methodName](...args, { value });
-      await this.sendTransaction(unsignedTx);
+      await sendTransaction(unsignedTx);
     }
-  }
+  };
 
-  render = () => (
+  console.log({ isDeployedOnThisChain });
+  return (
     <EthereumContext.Provider
       value={{
-        ...this.state,
-        requestAccounts: this.requestAccounts,
-        changeNetwork: this.changeNetwork,
-        invokeTransaction: this.invokeTransaction,
-        invokeCall: this.invokeCall,
+        accounts,
+        awaitingUserPermission,
+        blockNumber,
+        chainId,
+        ethersProvider,
+        graphMetadata,
+        invokeCall,
+        invokeTransaction,
+        metaEvidenceContents,
+        isDeployedOnThisChain,
+        isProviderDetected,
+        metamaskChainId,
+        requestAccounts,
+        switchAppChain,
       }}
     >
-      {this.props.children}
+      {children}
     </EthereumContext.Provider>
   );
-}
+};
+
+export default EthereumProvider;
 export const EthereumContext = React.createContext();
 
 const queryTemplate = (endpoint, query) =>
@@ -249,8 +209,8 @@ const queryTemplate = (endpoint, query) =>
 
 export const getCourtById = async (chainId, contractAddress, id) => {
   return queryTemplate(
-    networkMap[chainId].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainId].contractInstances[contractAddress].subgraph.queries.getCourtByID(id)
+    networkMap[chainId].deployments[contractAddress].subgraph.endpoint,
+    networkMap[chainId].deployments[contractAddress].subgraph.queries.getCourtByID(id)
   ).then((data) => {
     console.log({ data });
     return data?.courtEntity;
@@ -259,8 +219,8 @@ export const getCourtById = async (chainId, contractAddress, id) => {
 
 export const getArticleByID = (chainID, contractAddress, id) => {
   return queryTemplate(
-    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getArticleByID(id)
+    networkMap[chainID].deployments[contractAddress].subgraph.endpoint,
+    networkMap[chainID].deployments[contractAddress].subgraph.queries.getArticleByID(id)
   )
     .then((data) => {
       console.log(data);
@@ -275,8 +235,8 @@ export const getArticleByID = (chainID, contractAddress, id) => {
 export const getGraphMetadata = (chainID, contractAddress) => {
   // if(!chainID || !contractAddress) return;
   return queryTemplate(
-    networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
-    networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata
+    networkMap[chainID].deployments[contractAddress].subgraph.endpoint,
+    networkMap[chainID].deployments[contractAddress].subgraph.queries.getGraphMetadata
   )
     .then((r) => r._meta)
     .catch(console.error);
@@ -284,7 +244,7 @@ export const getGraphMetadata = (chainID, contractAddress) => {
 
 export const getAllArticles = (chainID) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllArticles).then((data) => {
         console.log(data);
         if (data && data.articles && data.articles.length > 0) {
@@ -303,7 +263,7 @@ export const getAllArticles = (chainID) => {
 
 export const getArticlesByAuthor = (chainID, walletAddress) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getArticlesByAuthor(walletAddress)).then(
         (data) => {
           console.log("articles by author", data);
@@ -325,7 +285,7 @@ export const getArticlesByAuthor = (chainID, walletAddress) => {
 
 export const getLastArticleByAuthor = (chainID, walletAddress) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getLastArticleByAuthor(walletAddress)).then(
         (data) => {
           console.log("last article by author", data);
@@ -347,7 +307,7 @@ export const getLastArticleByAuthor = (chainID, walletAddress) => {
 
 export const getAllContributors = (chainID) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllContributors).then((data) => {
         console.log("contributors", data);
         return data.users;
@@ -360,7 +320,7 @@ export const getAllContributors = (chainID) => {
 
 export const getRewardsByID = (chainID, id) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([_, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([_, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getRewardsByID(id)).then((data) => {
         console.log("rewards by ID", data);
         return data.rewardEntity;
@@ -373,7 +333,7 @@ export const getRewardsByID = (chainID, id) => {
 
 export const getContributorByID = (chainID, walletAddress) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID].contractInstances || {}).map(([key, value]) => {
+    Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getContributorByID(walletAddress)).then(
         (data) => {
           console.log("contributor by ID", data);
@@ -388,7 +348,7 @@ export const getContributorByID = (chainID, walletAddress) => {
 
 export const getAllMetaEvidences = (chainID) => {
   return Promise.allSettled(
-    Object.entries(networkMap[chainID]?.contractInstances || {}).map(([, value]) => {
+    Object.entries(networkMap[chainID]?.deployments || {}).map(([, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllMetaevidences).then(
         (data) => data.metaEvidenceEntities
       );
