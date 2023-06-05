@@ -13,13 +13,13 @@ export const networkMap = {
     name: "Ethereum Testnet Görli",
     shortname: "Görli",
     explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
-    deployments: environment.networkMap["0x5"].contractInstances,
+    deployments: environment.networkMap["0x5"].deployments,
   },
   "0x1": {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
-    deployments: environment.networkMap["0x1"].contractInstances,
+    deployments: environment.networkMap["0x1"].deployments,
   },
 };
 

@@ -10,6 +10,9 @@ export default function Metadata(props) {
   const { article, fetchingarticle, setEventLogOpen } = props;
   const ethereumContext = useContext(EthereumContext);
 
+  console.log(ethereumContext.metaEvidenceContents);
+  console.log({ article });
+
   return (
     <div className={styles.containerMetadata}>
       <div>
@@ -41,17 +44,17 @@ export default function Metadata(props) {
           </span>
         )}
 
-        {article?.disputeID && (
+        {article?.disputes.length > 0 && (
           <span>
             Latest {article?.disputes && `(out of ${article?.disputes?.length})`} dispute ID:{" "}
             <a
-              key={article?.disputeID}
+              key={article?.disputes.at(-1).id}
               className="blink"
-              href={`https://resolve.kleros.io/cases/${article.disputeID}`}
+              href={`https://resolve.kleros.io/cases/${article.disputes.at(-1).id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {article?.disputeID}
+              {article?.disputes.at(-1).id}
             </a>
           </span>
         )}
