@@ -1,12 +1,12 @@
-import { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { utils } from "ethers";
 
 import FormCreate from "/src/components/others/formCreate";
 import ConfirmCreate from "/src/components/others/confirmCreate";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
-import { EthereumContext, getLastArticleByAuthor, networkMap } from "../../data/ethereumProvider";
+import { EthereumContext, getLastArticleByAuthor } from "../../data/ethereumProvider";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 import addToIPFS from "../../utils/addToIPFS";
 import { useMergeState } from "../../hooks/useMergeState";
@@ -14,7 +14,6 @@ import { useMergeState } from "../../hooks/useMergeState";
 export default function Create() {
   const ethereumContext = useContext(EthereumContext);
   const navigate = useNavigate();
-  const params = useParams();
 
   const [createFlowProgress, setCreateFlowProgress] = useState(0);
   const [controlsState, setControlsState] = useMergeState({
@@ -24,16 +23,6 @@ export default function Create() {
     bounty: "0.001",
     categoryNo: -1,
     format: "plaintext"
-  });
-
-
-  useEffect(() => {
-    // TODO Otherwise, on page load chainId won't be set. This is overly complicated, should be refactored. See issue #156.
-    if (!params.chain) {
-      navigate("/" + Object.keys(networkMap)[0] + "/report");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeNetwork(params.chain);
-    }
   });
 
   function handleSave() {
@@ -62,7 +51,11 @@ export default function Create() {
 
       const formattedBounty = utils.parseEther(controlsState.bounty);
 
-      await ethereumContext.invokeTransaction("initializeArticle", [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, 0], formattedBounty); // TODO: Replace 0 with a better guess.
+      await ethereumContext.invokeTransaction(
+        "initializeArticle",
+        [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, 0],
+        formattedBounty
+      ); // TODO: Replace 0 with a better guess.
 
       const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]); // TODO: You can use article
       // storage

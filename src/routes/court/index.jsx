@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import { getCourtById, networkMap } from "/src/data/ethereumProvider";
+import { getCourtById } from "/src/data/ethereumProvider";
 import usePolicy from "/src/hooks/usePolicy";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 
 const PERIODS = ["Evidence", "Vote", "Appeal", "Execution"];
 
@@ -17,14 +17,6 @@ export default function Court() {
 
   const { data: court } = useGraphFetcher(fetchData);
   const policy = usePolicy(court?.policyURI);
-
-  useEffect(() => {
-    if (!params.chain) {
-      navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain){
-      ethereumContext?.changeChain(params.chain);
-    }
-  });
 
   return (
     <div className={styles.court}>
