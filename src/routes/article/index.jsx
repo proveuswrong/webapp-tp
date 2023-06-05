@@ -1,9 +1,9 @@
 import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Interval from "react-interval-rerender";
-import { EthereumContext, getArticleByID, networkMap } from "/src/data/ethereumProvider";
+import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
 
 import { useEffect, useState, useContext } from "react";
@@ -20,7 +20,6 @@ import BountyModal from "../../components/others/bountyModal";
 
 export default function Index() {
   const params = useParams();
-  const navigate = useNavigate();
 
   const ethereumContext = useContext(EthereumContext);
   const [article, setArticle] = useState();
@@ -44,14 +43,6 @@ export default function Index() {
       didCancel = true;
     };
   }, [ethereumContext?.graphMetadata?.block?.number]);
-
-  useEffect(() => {
-    if (!params.chain) {
-      navigate("/" + Object.keys(networkMap)[0] + "/");
-    } else if (networkMap[params.chain]?.contractInstances && ethereumContext?.chainId != params.chain) {
-      ethereumContext?.changeNetwork(params.chain);
-    }
-  });
 
   useEffect(() => {
     let didCancel = false;
@@ -122,9 +113,13 @@ export default function Index() {
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
                 You can unpublish the article in{" "}
-                  <Interval delay={reRenderInMs}>
-                    {() => <span className="blink" key={getTimeLeft(article.withdrawalPermittedAt)}>{formatTime(getTimeLeft(article.withdrawalPermittedAt))}</span>}
-                  </Interval>
+                <Interval delay={reRenderInMs}>
+                  {() => (
+                    <span className="blink" key={getTimeLeft(article.withdrawalPermittedAt)}>
+                      {formatTime(getTimeLeft(article.withdrawalPermittedAt))}
+                    </span>
+                  )}
+                </Interval>
               </span>
             ) : (
               "Unpublish Article"
