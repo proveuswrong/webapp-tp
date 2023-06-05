@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom";
 
 import Layout from "./layout";
 import Home from "./routes/home";
@@ -12,20 +12,32 @@ import Account from "./routes/account";
 import Court from "./routes/court";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
-import EthereumProvider from "./data/ethereumProvider.jsx";
+import EthereumProvider, { EthereumContext } from "./data/ethereumProvider.jsx";
+import RouteRedirect from "./components/RouteRedirect";
+import AuthRequired from "./components/AuthRequired";
+
+function IndexRedirect() {
+  const { chainId } = useContext(EthereumContext);
+  return <Navigate to={chainId} />;
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Browse />} />
+      <Route element={<RouteRedirect />}>
+        <Route index element={<IndexRedirect />} />
+
+        <Route path=":chain" element={<Browse />} />
+        <Route path=":chain/:contract/:id" element={<Article />} />
+        <Route path=":chain/:contract/court/:id" element={<Court />} />
+
+        <Route element={<AuthRequired />}>
+          <Route path=":chain/account/:id" element={<Account />} />
+          <Route path=":chain/report" element={<Create />} />
+        </Route>
+      </Route>
       <Route path="about" element={<Home />} />
       <Route path="faq" element={<FAQ />} />
-
-      <Route path=":chain" element={<Browse />} />
-      <Route path=":chain/:contract/:id" element={<Article />} />
-      <Route path=":chain/report" element={<Create />} />
-      <Route path=":chain/:contract/court/:id" element={<Court />} />
-      <Route path=":chain/account/:id" element={<Account />} />
       <Route
         path="*"
         element={
