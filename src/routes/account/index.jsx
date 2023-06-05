@@ -13,7 +13,7 @@ import { EthereumContext } from "../../data/ethereumProvider";
 export default function Account() {
   const params = useParams();
   const navigate = useNavigate();
-  const { accounts, chainId, changeNetwork } = useContext(EthereumContext);
+  const { accounts, chainId } = useContext(EthereumContext);
 
   const fetchData = useCallback(async () => {
     return getArticlesByAuthor(chainId, accounts[0]);
@@ -21,21 +21,11 @@ export default function Account() {
 
   const { data, isFetching } = useGraphFetcher(fetchData);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (accounts[0]) {
       navigate(`/${chainId}/account/${accounts[0]}`);
     }
-
-  }, [chainId, accounts[0]]);
-
-  useEffect(() => {
-    // TODO Otherwise, on page load chainId won't be set. This is overly complicated, should be refactored. See issue #156.
-    if (!params.chain) {
-      navigate("/" + Object.keys(networkMap)[0] + "/account/" + accounts[0]);
-    } else if (networkMap[params.chain]?.contractInstances && chainId != params.chain) {
-      changeNetwork(params.chain);
-    }
-  });
+  }, [chainId, accounts[0]]); */
 
   return (
     <div className={styles.account}>
