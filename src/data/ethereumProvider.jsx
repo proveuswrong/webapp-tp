@@ -17,7 +17,7 @@ export const networkMap = {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
-    contractInstances: environment.networkMap["0x5"].contractInstances, //TODO: update map key
+    contractInstances: environment.networkMap["0x1"].contractInstances,
   },
 };
 
