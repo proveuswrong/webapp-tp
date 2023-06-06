@@ -7,7 +7,7 @@ const environments = {
         contractInstances: {
           "0x87aade1067ed0276ec9bef6db8e17abe27a6b454": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-ethereum",
               queries: commonQueries
             }
           },
@@ -31,7 +31,7 @@ const environments = {
         contractInstances: {
           "0x87aade1067ed0276ec9bef6db8e17abe27a6b454": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-ethereum",
               queries: commonQueries
             }
           },
