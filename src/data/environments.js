@@ -17,7 +17,7 @@ const environments = {
         contractInstances: {
           "0x1B6B1381781fB6BA1ee271CCD9Fad9a1bb70fA24": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-goerli",
               queries: commonQueries
             }
           },
@@ -31,7 +31,7 @@ const environments = {
         contractInstances: {
           "0x1B6B1381781fB6BA1ee271CCD9Fad9a1bb70fA24": {
             subgraph: {
-              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-goerli",
+              endpoint: "https://api.thegraph.com/subgraphs/name/proveuswrong/thetruthpost-goerli-dev",
               queries: commonQueries
             }
           },
