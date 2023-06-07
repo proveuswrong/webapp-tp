@@ -1,12 +1,11 @@
+import { useState, useContext } from "react";
+import { useLoaderData } from "react-router-dom";
+import Interval from "react-interval-rerender";
 import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
-import { useParams } from "react-router-dom";
-import Interval from "react-interval-rerender";
 import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
-
-import { useEffect, useState, useContext } from "react";
 
 import CustomButton from "/src/components/presentational/button";
 import EventLog from "/src/components/others/eventLog";
@@ -16,61 +15,27 @@ import Metadata from "/src/components/others/route_article/metadata";
 import Content from "/src/components/others/route_article/content";
 import Breadcrumb from "/src/components/presentational/breadcrumb";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
-import BountyModal from "../../components/others/bountyModal";
+import BountyModal from "/src/components/others/bountyModal";
+
+export async function loader({ params }) {
+  const article = await getArticleByID(params.chain, params.contract, params.id);
+  console.log({ article });
+  let articleContent = {};
+  try {
+    const response = await fetch(ipfsGateway + article.articleID);
+    if (!response.ok) throw new Error("Network response was not OK");
+    articleContent = await response.json();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+  return { article, articleContent };
+}
 
 export default function Index() {
-  const params = useParams();
-
+  const { article, articleContent } = useLoaderData();
   const ethereumContext = useContext(EthereumContext);
-  const [article, setArticle] = useState();
-  const [articleContent, setArticleContent] = useState();
-  const [fetchingArticle, setFetchingArticle] = useState(true);
-  const [fetchingArticleContent, setFetchingArticleContent] = useState(true);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
-  const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
   const [isBountyModalOpen, setBountyModalOpen] = useState(false);
-  useEffect(() => {
-    let didCancel = false;
-
-    if (!didCancel) {
-      getArticleByID(params.chain, params.contract, params.id).then((data) => {
-        setArticle(data);
-        setFetchingArticle(false);
-      });
-    }
-
-    return () => {
-      didCancel = true;
-    };
-  }, [ethereumContext?.graphMetadata?.block?.number]);
-
-  useEffect(() => {
-    let didCancel = false;
-
-    if (!didCancel && article)
-      fetch(ipfsGateway + article.articleID)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not OK");
-          }
-
-          return response.json().then((data) =>
-            setArticleContent((prevState) => ({
-              ...prevState,
-              title: data.title,
-              description: data.description,
-              tags: data.tags,
-              format: data.format,
-            }))
-          );
-        })
-        .catch(console.error)
-        .then(setFetchingArticleContent(false));
-
-    return () => {
-      didCancel = true;
-    };
-  }, [article]);
 
   async function handleInitiateWithdrawal() {
     await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
@@ -88,27 +53,28 @@ export default function Index() {
   let reRenderInMs = 1000;
   return (
     <section>
-      <KeyMetrics {...{ fetchingArticle, article }} />
+      <KeyMetrics article={article} />
       {/*<img className={styles.image}/>*/}
-      <Metadata {...{ fetchingArticle, article, setEventLogOpen }} />
-      <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent?.title }]} />
-      <Content {...{ articleContent, fetchingArticleContent, articleStatus: article?.status }} />
+      <Metadata article={article} setEventLogOpen={setEventLogOpen} />
+      <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent.title }]} />
+      <Content articleContent={articleContent} articleStatus={article.status} />
+
       <div className={styles.containerButtons}>
-        {ethereumContext?.accounts[0] != article?.owner && article?.status == "Live" && (
-          <CustomButton key={`ProveItWrong${article?.status}`} modifiers="blink" onClick={handleChallenge}>
+        {ethereumContext?.accounts[0] != article.owner && article.status == "Live" && (
+          <CustomButton key={`ProveItWrong${article.status}`} modifiers="blink" onClick={handleChallenge}>
             Prove it Wrong
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
+        {ethereumContext?.accounts[0] == article.owner && article.status == "Live" && (
           <CustomButton
-            key={`DoubleBounty${article?.status}`}
+            key={`DoubleBounty${article.status}`}
             modifiers="blink"
             onClick={() => setBountyModalOpen(true)}
           >
             Increase Bounty
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article?.owner && article?.status == "TimelockStarted" && (
+        {ethereumContext?.accounts[0] == article.owner && article.status == "TimelockStarted" && (
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
@@ -126,9 +92,9 @@ export default function Index() {
             )}
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article?.owner && article?.status == "Live" && (
+        {ethereumContext?.accounts[0] == article.owner && article.status == "Live" && (
           <CustomButton
-            key={`InitiateWithdrawal${article?.status}`}
+            key={`InitiateWithdrawal${article.status}`}
             modifiers="blink"
             onClick={handleInitiateWithdrawal}
           >
@@ -136,7 +102,7 @@ export default function Index() {
           </CustomButton>
         )}
       </div>
-      {article?.disputes?.length > 0 && <ArbitrationDetails article={article} />}
+      {article.disputes.length > 0 && <ArbitrationDetails article={article} />}
 
       <SyncStatus
         syncedBlock={ethereumContext?.graphMetadata?.block?.number}
@@ -144,16 +110,16 @@ export default function Index() {
         subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
         providerURL={ethereumContext?.ethersProvider?.connection?.url}
       />
-      {article?.events && (
+      {article.events && (
         <EventLog
           visible={isEventLogOpen}
           onCancel={() => setEventLogOpen(false)}
-          events={[...article?.events]?.reverse()}
+          events={[...article.events]?.reverse()}
         ></EventLog>
       )}
       <BountyModal
-        articleStorageAddress={article?.storageAddress}
-        currentBounty={article?.bounty}
+        articleStorageAddress={article.storageAddress}
+        currentBounty={article.bounty}
         visible={isBountyModalOpen}
         onCancel={() => setBountyModalOpen(false)}
       />

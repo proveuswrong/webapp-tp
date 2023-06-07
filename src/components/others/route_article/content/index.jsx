@@ -7,12 +7,7 @@ import rehypeKatex from "rehype-katex";
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 
 export default function Content(props) {
-  const { articleContent, articleStatus, fetchingArticleContent } = props;
-
-  if (fetchingArticleContent) return <h1>Fetching...</h1>;
-  if (!(articleContent?.title && articleContent?.description) && !fetchingArticleContent)
-    return <h1>Failed to fetch article content</h1>;
-
+  const { articleContent, articleStatus } = props;
   return (
     <>
       <div>
