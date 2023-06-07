@@ -9,8 +9,7 @@ import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinc
 import getTrustScore from "/src/businessLogic/getTrustScore";
 import { EthereumContext } from "/src/data/ethereumProvider";
 
-export default function KeyMetrics(props) {
-  const { article, fetchingArticle } = props;
+export default function KeyMetrics({ article }) {
   const ethereumContext = useContext(EthereumContext);
   let reRenderInMs = 1000;
 
@@ -18,30 +17,18 @@ export default function KeyMetrics(props) {
     <div className={styles.containerKeyMetrics}>
       {article && (
         <span className={styles.trustScore}>
-          {" "}
           Trust Score:{" "}
-          {fetchingArticle ? (
-            "Fetching article"
-          ) : (
-            <span
-              key={getTrustScore(
+          <Interval delay={reRenderInMs}>
+            {() =>
+              getTrustScore(
                 article,
                 getTimePastSinceLastBountyUpdate(
                   article?.lastBalanceUpdate,
                   ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
                 )
-              )}
-              className="blink"
-            >
-              {getTrustScore(
-                article,
-                getTimePastSinceLastBountyUpdate(
-                  article?.lastBalanceUpdate,
-                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-                )
-              )}
-            </span>
-          )}
+              )
+            }
+          </Interval>
         </span>
       )}
       <Tooltip
@@ -52,14 +39,7 @@ export default function KeyMetrics(props) {
         )} blocks ago.`}
       >
         <span className={styles.bountyAmount}>
-          Bounty:{" "}
-          {fetchingArticle ? (
-            "fetching"
-          ) : (
-            <span key={article?.bounty} className="blink">
-              {parseFloat(utils.formatUnits(article?.bounty)).toFixed(3)} {constants.EtherSymbol}
-            </span>
-          )}
+          Bounty: {parseFloat(utils.formatUnits(article.bounty)).toFixed(3)} {constants.EtherSymbol}
         </span>
       </Tooltip>
     </div>
