@@ -7,7 +7,7 @@ import Home from "./routes/home";
 import FAQ from "./routes/faq";
 import Create from "./routes/create";
 import Browse from "./routes/browse";
-import Article from "./routes/article";
+import Article, { loader as ArticleLoader } from "./routes/article";
 import Account from "./routes/account";
 import Court from "./routes/court";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
         <Route index element={<IndexRedirect />} />
 
         <Route path=":chain" element={<Browse />} />
-        <Route path=":chain/:contract/:id" element={<Article />} />
+        <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
         <Route path=":chain/:contract/court/:id" element={<Court />} />
 
         <Route element={<AuthRequired />}>
