@@ -7,17 +7,17 @@ import { environment } from "./environments";
 import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
 
 export const networkMap = {
+  "0x1": {
+    name: "Ethereum Mainnet",
+    shortname: "Mainnet",
+    explorerURL: (address) => `https://etherscan.io/address/${address}`,
+    contractInstances: environment.networkMap["0x1"].contractInstances,
+  },
   "0x5": {
     name: "Ethereum Testnet Görli",
     shortname: "Görli",
     explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
     contractInstances: environment.networkMap["0x5"].contractInstances,
-  },
-  "0x1": {
-    name: "Ethereum Mainnet",
-    shortname: "Mainnet",
-    explorerURL: (address) => `https://etherscan.io/address/${address}`,
-    contractInstances: environment.networkMap["0x5"].contractInstances, //TODO: update map key
   },
 };
 
@@ -59,16 +59,12 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({ silent: true }).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    getGraphMetadata(
-      Object.keys(networkMap)[0],
-      Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
-    ).then((r) => this.setState({ graphMetadata: r }));
+    const { chainId } = this.state;
     this.setState({
       interval: setInterval(() => {
-        getGraphMetadata(
-          Object.keys(networkMap)[0],
-          Object.keys(networkMap[Object.keys(networkMap)[0]].contractInstances)[0]
-        ).then((r) => this.setState({ graphMetadata: r }));
+        getGraphMetadata(chainId, Object.keys(networkMap[chainId]?.contractInstances)[0]).then((r) =>
+          this.setState({ graphMetadata: r })
+        );
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
     });
   }
@@ -113,11 +109,14 @@ export default class EthereumProvider extends Component {
   }
 
   changeNetwork(chainId) {
+    console.log(`chain ID set to ${chainId}`);
     this.setState({
       chainId: chainId,
       isDeployedOnThisChain: networkMap[chainId]?.contractInstances != null,
     });
-
+    getGraphMetadata(chainId, Object.keys(networkMap[chainId]?.contractInstances)[0]).then((r) =>
+      this.setState({ graphMetadata: r })
+    );
     this.fetchMetaEvidenceContents(chainId);
   }
 
@@ -270,6 +269,7 @@ export const getArticleByID = (chainID, contractAddress, id) => {
 };
 
 export const getGraphMetadata = (chainID, contractAddress) => {
+  // if(!chainID || !contractAddress) return;
   return queryTemplate(
     networkMap[chainID].contractInstances[contractAddress].subgraph.endpoint,
     networkMap[chainID].contractInstances[contractAddress].subgraph.queries.getGraphMetadata
