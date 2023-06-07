@@ -24,7 +24,7 @@ export default function ButtonSelectNetwork() {
   }
   return (
     <div style={{ marginLeft: "10px" }}>
-      <Select options={selectOptions} placeholder={selectOptions[0].label} onChange={handleOnChange} />
+      <Select options={selectOptions} placeholder={networkMap[ethereumContext?.chainId]?.shortname} onChange={handleOnChange} />
     </div>
   );
 }
