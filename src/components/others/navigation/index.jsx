@@ -32,7 +32,7 @@ export default function Navigation() {
     { name: "Report", to: `${ethereumContext?.chainId}/report`, display: ethereumContext.accounts[0] },
     {
       name: "Account",
-      to: `${ethereumContext}/account/${ethereumContext?.accounts[0]}`,
+      to: `${ethereumContext.chainId}/account/${ethereumContext?.accounts[0]}`,
       display: ethereumContext.accounts[0],
     },
     { name: "F.A.Q.", to: `faq`, display: true },
