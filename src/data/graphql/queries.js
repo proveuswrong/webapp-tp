@@ -55,8 +55,6 @@ export const commonQueries = {
     getAllContributors: gql`{
       users(orderBy: id){
         id
-        totalWithdrawableAmount
-        withdrew
         contributions{
           id
           amount
