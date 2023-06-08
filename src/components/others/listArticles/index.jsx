@@ -40,6 +40,8 @@ export default function ListArticles({ articles, isFetching }) {
                 articleID: article.articleID,
                 title: data.title,
                 description: data.description,
+                tags: data.tags,
+                format: data.format
               };
             } catch (error) {
               console.error(error);
@@ -51,7 +53,7 @@ export default function ListArticles({ articles, isFetching }) {
         const fetchedArticleContents = articleData.reduce(
           (prevState, data) => ({
             ...prevState,
-            [data.articleID]: { title: data.title, description: data.description },
+            [data.articleID]: { title: data.title, description: data.description, tags: data.tags, format: data.format },
           }),
           {}
         );
@@ -89,6 +91,7 @@ export default function ListArticles({ articles, isFetching }) {
                   (!loadingFetchingContents && `Unable to fetch article data from ${value?.articleID}`)
                 }
                 description={articleContents?.[value?.articleID]?.description}
+                format={articleContents?.[value?.articleID]?.format}
                 linkTo={`/${ethereumContext?.chainId}/${value?.contractAddress}/${value?.id}/`}
                 score={getTrustScore(
                   value,
