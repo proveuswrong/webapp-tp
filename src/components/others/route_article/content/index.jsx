@@ -2,6 +2,7 @@ import * as styles from "./index.module.scss";
 
 import Tag from "/src/components/presentational/tag";
 import Pill from "/src/components/presentational/pill";
+import ReactMarkdown from "react-markdown";
 
 export default function Content(props) {
   const { articleContent, articleStatus, fetchingArticleContent } = props;
@@ -17,7 +18,7 @@ export default function Content(props) {
         <Pill>{articleStatus}</Pill>
       </div>
 
-      <p className={styles.description}> {articleContent?.description}</p>
+      {articleContent?.format == "markdown" ? <ReactMarkdown className={styles.description}>{articleContent?.description}</ReactMarkdown> : <p className={styles.description}>{articleContent?.description}</p>}
       <div className={styles.containerTag}>
         {articleContent?.tags?.split(" ").map((tag, index) => (
           <Tag key={index}>{tag}</Tag>

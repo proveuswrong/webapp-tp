@@ -68,6 +68,7 @@ export default function Index() {
               title: data.title,
               description: data.description,
               tags: data.tags,
+              format: data.format
             }))
           );
         })
