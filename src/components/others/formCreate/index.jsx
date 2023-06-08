@@ -39,7 +39,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
   };
 
   const handleControlChange = (e) => {
-    updateControlsState({ [e.target.id]: [e.target.value] });
+    updateControlsState({ [e.target.id]: e.target.value });
     setErrors({
       [e.target.id]: "",
     });
