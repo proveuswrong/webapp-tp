@@ -5,48 +5,40 @@ import * as styles from "./index.module.scss";
 import CustomButton from "/src/components/presentational/button";
 import Select from "../../presentational/select";
 import ErrorIcon from "jsx:/src/assets/error.svg";
+import { useMergeState } from "../../../hooks/useMergeState";
 
 const ERROR_MSG = "Please fill up this field";
 
 export default function FormCreate({ handleSave, controlsState, updateControlsState }) {
   const ethereumContext = useContext(EthereumContext);
-  const [focusedFields, setFocusedFields] = useState({});
-  const [errors, setErrors] = useState({
+  const [focusedFields, setFocusedFields] = useMergeState({});
+  const [errors, setErrors] = useMergeState({
     title: "",
     description: "",
     categoryNo: "",
   });
 
   const handleFocus = (field) => {
-    setFocusedFields((prevState) => ({
-      ...prevState,
+    setFocusedFields({
       [field]: true,
-    }));
+    });
   };
 
   const handleBlur = (field) => {
-    setFocusedFields((prevState) => ({
-      ...prevState,
+    setFocusedFields({
       [field]: false,
-    }));
+    });
   };
 
   function handleOnChange(value) {
-    updateControlsState((prevState) => ({
-      ...prevState,
-      categoryNo: value,
-    }));
+    updateControlsState({ categoryNo: value });
   }
 
   const handleControlChange = (e) => {
-    updateControlsState((prevState) => ({
-      ...prevState,
-      [e.target.id]: e.target.value,
-    }));
-    setErrors((prevState) => ({
-      ...prevState,
+    updateControlsState({ [e.target.id]: [e.target.value] });
+    setErrors({
       [e.target.id]: "",
-    }));
+    });
   };
 
   const handleSaveAndReview = () => {
