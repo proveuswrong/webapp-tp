@@ -9,6 +9,7 @@ import SyncStatus from "/src/components/presentational/syncStatus";
 import { EthereumContext, getLastArticleByAuthor, networkMap } from "../../data/ethereumProvider";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 import addToIPFS from "../../utils/addToIPFS";
+import { useMergeState } from "../../hooks/useMergeState";
 
 export default function Create() {
   const ethereumContext = useContext(EthereumContext);
@@ -16,7 +17,7 @@ export default function Create() {
   const params = useParams();
 
   const [createFlowProgress, setCreateFlowProgress] = useState(0);
-  const [controlsState, setControlsState] = useState({
+  const [controlsState, setControlsState] = useMergeState({
     title: "",
     description: "",
     tags: "",
