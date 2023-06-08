@@ -15,7 +15,7 @@ export default function ConfirmCreate({ title, description, tags, bounty, catego
       {format == "markdown" ? <ReactMarkdown className={styles.description}>{description.toString()}</ReactMarkdown> : <p className={styles.description}>{description}</p>}
 
       <div className={styles.containerTag}>
-        {tags.split(" ").filter((tag) => tag !="").map((tag, index) => (
+        {tags.toString().split(" ").filter((tag) => tag !="").map((tag, index) => (
           <Tag key={"tag" + index}>{tag}</Tag>
         ))}
       </div>
