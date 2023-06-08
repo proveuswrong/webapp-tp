@@ -51,6 +51,7 @@ export default function Create() {
             title: controlsState.title,
             description: controlsState.description,
             tags: controlsState.tags,
+            format: controlsState.format
           })
         ),
         MESSAGE_TYPE.ipfs
