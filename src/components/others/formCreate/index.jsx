@@ -35,7 +35,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
   }
 
   const handleRadioChange = (e) => {
-    updateControlsState({ [e.target.name]: [e.target.value] });
+    updateControlsState({ [e.target.name]: e.target.value });
   };
 
   const handleControlChange = (e) => {
