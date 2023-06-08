@@ -12,10 +12,10 @@ export default function ConfirmCreate({ title, description, tags, bounty, catego
         Bounty: {bounty} {constants.EtherSymbol}
       </div>
       <h1>{title}</h1>
-      {format == "markdown" ? <ReactMarkdown className={styles.description}>{description.toString()}</ReactMarkdown> : <p className={styles.description}>{description}</p>}
+      {format == "markdown" ? <ReactMarkdown className={styles.description}>{description}</ReactMarkdown> : <p className={styles.description}>{description}</p>}
 
       <div className={styles.containerTag}>
-        {tags.toString().split(" ").filter((tag) => tag !="").map((tag, index) => (
+        {tags.split(" ").filter((tag) => tag !="").map((tag, index) => (
           <Tag key={"tag" + index}>{tag}</Tag>
         ))}
       </div>
