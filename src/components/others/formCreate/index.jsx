@@ -91,7 +91,6 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
 
       <form>
         <fieldset>
-          <legend>Chosen input type:{controlsState.format}</legend>
 
           <input type="radio" id="plaintext" name="format" value="plaintext" onChange={handleRadioChange} checked={controlsState.format == "plaintext"}/>
           <label htmlFor="plaintext">Plaintext</label>
