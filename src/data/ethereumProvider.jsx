@@ -59,10 +59,9 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({ silent: true }).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    const { chainId } = this.state;
     this.setState({
       interval: setInterval(() => {
-        getGraphMetadata(chainId, Object.keys(networkMap[chainId]?.contractInstances)[0]).then((r) =>
+        getGraphMetadata(this.state.chainId, Object.keys(networkMap[this.state.chainId]?.contractInstances)[0]).then((r) =>
           this.setState({ graphMetadata: r })
         );
       }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
