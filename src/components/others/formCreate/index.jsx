@@ -34,6 +34,10 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
     updateControlsState({ categoryNo: value });
   }
 
+  const handleRadioChange = (e) => {
+    updateControlsState({ [e.target.name]: [e.target.value] });
+  };
+
   const handleControlChange = (e) => {
     updateControlsState({ [e.target.id]: [e.target.value] });
     setErrors({
@@ -84,6 +88,22 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         />
         {(!focusedFields.title || controlsState.title !== "") && <ErrorDisplay message={errors.title} />}
       </div>
+
+      <form>
+        <fieldset>
+          <legend>Chosen input type:{controlsState.format}</legend>
+
+          <input type="radio" id="plaintext" name="format" value="plaintext" onChange={handleRadioChange} checked={controlsState.format == "plaintext"}/>
+          <label htmlFor="plaintext">Plaintext</label>
+          <br />
+
+          <input type="radio" id="markdown" name="format" value="markdown" onChange={handleRadioChange} checked={controlsState.format == "markdown"}/>
+          <label htmlFor="markdown">Markdown</label>
+          <br />
+
+        </fieldset>
+      </form>
+
       <div className={styles.formInput}>
         <label htmlFor="description">Body</label>
         <textarea
@@ -99,6 +119,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
           onBlur={() => handleBlur("description")}
           value={controlsState.description}
         />
+
         {(!focusedFields.description || controlsState.description !== "") && (
           <ErrorDisplay message={errors.description} />
         )}

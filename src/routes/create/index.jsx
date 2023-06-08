@@ -23,6 +23,7 @@ export default function Create() {
     tags: "",
     bounty: "0.001",
     categoryNo: -1,
+    format: "plaintext"
   });
 
 
@@ -87,6 +88,7 @@ export default function Create() {
           tags={controlsState.tags}
           bounty={controlsState.bounty}
           categoryNo={controlsState.categoryNo}
+          format={controlsState.format}
           handleCreate={handleCreate}
           handleGoBack={handleGoBack}
         />
