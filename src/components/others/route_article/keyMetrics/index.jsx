@@ -23,17 +23,24 @@ export default function KeyMetrics(props) {
           {fetchingArticle ? (
             "Fetching article"
           ) : (
-            <Interval delay={reRenderInMs}>
-              {() =>
-                getTrustScore(
-                  article,
-                  getTimePastSinceLastBountyUpdate(
-                    article?.lastBalanceUpdate,
-                    ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-                  )
+            <span
+              key={getTrustScore(
+                article,
+                getTimePastSinceLastBountyUpdate(
+                  article?.lastBalanceUpdate,
+                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
                 )
-              }
-            </Interval>
+              )}
+              className="blink"
+            >
+              {getTrustScore(
+                article,
+                getTimePastSinceLastBountyUpdate(
+                  article?.lastBalanceUpdate,
+                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
+                )
+              )}
+            </span>
           )}
         </span>
       )}
@@ -46,9 +53,13 @@ export default function KeyMetrics(props) {
       >
         <span className={styles.bountyAmount}>
           Bounty:{" "}
-          {fetchingArticle
-            ? "fetching"
-            : `${parseFloat(utils.formatUnits(article?.bounty)).toFixed(3)} ${constants.EtherSymbol}`}{" "}
+          {fetchingArticle ? (
+            "fetching"
+          ) : (
+            <span key={article?.bounty} className="blink">
+              {parseFloat(utils.formatUnits(article?.bounty)).toFixed(3)} {constants.EtherSymbol}
+            </span>
+          )}
         </span>
       </Tooltip>
     </div>
