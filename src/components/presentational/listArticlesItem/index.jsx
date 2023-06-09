@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import * as styles from "./index.module.scss";
 import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 
 export default function ListArticlesItem({
   title,
@@ -28,7 +31,7 @@ export default function ListArticlesItem({
       <div className={styles.title}>{title}</div>
 
       {format == "markdown" ? (
-        <ReactMarkdown className={styles.description}>
+        <ReactMarkdown className={styles.description} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
           {description
             ?.split(" ")
             .slice(0, 20 * excerptSize)
