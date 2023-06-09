@@ -1,5 +1,4 @@
 import * as styles from "./index.module.scss";
-
 import Tag from "/src/components/presentational/tag";
 import Pill from "/src/components/presentational/pill";
 import ReactMarkdown from "react-markdown";

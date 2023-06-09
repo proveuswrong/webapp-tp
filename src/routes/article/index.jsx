@@ -1,4 +1,5 @@
 import * as styles from "./index.module.scss";
+import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
 import { useParams, useNavigate } from "react-router-dom";
 import Interval from "react-interval-rerender";
@@ -68,7 +69,7 @@ export default function Index() {
               title: data.title,
               description: data.description,
               tags: data.tags,
-              format: data.format
+              format: data.format,
             }))
           );
         })
@@ -120,10 +121,13 @@ export default function Index() {
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
-                You can execute withdrawal in <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(article)}</Interval> seconds
+                You can unpublish the article in{" "}
+                  <Interval delay={reRenderInMs}>
+                    {() => <span className="blink" key={getTimeLeft(article.withdrawalPermittedAt)}>{formatTime(getTimeLeft(article.withdrawalPermittedAt))}</span>}
+                  </Interval>
               </span>
             ) : (
-              "Execute Withdrawal"
+              "Unpublish Article"
             )}
           </CustomButton>
         )}

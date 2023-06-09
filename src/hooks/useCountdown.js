@@ -17,7 +17,7 @@ export default function useCountdown(deadline) {
     return timeLeft;
 };
 
-function getTimeLeft(deadline) {
+export function getTimeLeft(deadline) {
     const totalInSeconds = Math.max(Math.floor((deadline - Date.now() / 1000)), 0);
     const days = Math.floor(totalInSeconds / (3600 * 24));
     const hours = Math.floor(totalInSeconds % (3600 * 24) / 3600);
