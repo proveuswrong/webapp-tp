@@ -117,6 +117,8 @@ export default class EthereumProvider extends Component {
       this.setState({ graphMetadata: r })
     );
     this.fetchMetaEvidenceContents(chainId);
+    if(this.state?.contractInstance?.address != networkMap[chainId]?.contractInstances[0])
+      window.location.reload(false);
   }
 
   handleChainChanged(chainId) {
