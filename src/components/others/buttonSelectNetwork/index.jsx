@@ -16,14 +16,15 @@ export default function ButtonSelectNetwork() {
   function handleOnChange(chainId) {
     console.log({ chainId });
     navigate("/" + chainId + "/");
-    if (ethereumContext?.isProviderDetected)
-      ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId }],
-      });
+    // if (ethereumContext?.isProviderDetected)
+    //   ethereum.request({
+    //     method: "wallet_switchEthereumChain",
+    //     params: [{ chainId }],
+    //   });
   }
   return (
     <div style={{ marginLeft: "10px" }}>
+      {ethereumContext?.contractInstance?.address}
       <Select options={selectOptions} placeholder={networkMap[ethereumContext?.chainId]?.shortname} onChange={handleOnChange} />
     </div>
   );
