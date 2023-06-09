@@ -16,8 +16,8 @@ export default function Content(props) {
   return (
     <>
       <div>
-        <h1 className={styles.title}>{articleContent?.title}</h1>
         <Pill>{articleStatus}</Pill>
+        <h1 className={styles.title}>{articleContent?.title}</h1>
       </div>
 
       {articleContent?.format == "markdown" ? (
