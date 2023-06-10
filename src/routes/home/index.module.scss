@@ -1,6 +1,114 @@
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/breakpoints";
 
-.home {
-  padding-top: 2rem;
+.container {
+  margin: spacings.$s-8;
+
+  @media (min-width: breakpoints.$md) {
+    padding: 0 spacings.$s-7;
+    margin-top: spacings.$s-18;
+  }
 }
 
+.home {
+  .banner {
+    width: 100%;
+    height: fit-content;
+
+    img {
+      border: 4px solid hsl(var(--english-breakfast-900));
+      border-radius: spacings.$s-1;
+    }
+  }
+
+  img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: spacings.$s-8;
+    color: hsl(var(--dark-orchestra-600));
+
+    h1 {
+      font-size: typo.$xl;
+      font-weight: bold;
+    }
+
+    .slogan {
+      font-size: typo.$m;
+      text-align: center;
+    }
+  }
+
+  .hero {
+    width: 100%;
+    margin-top: spacings.$s-8;
+  }
+
+  .section {
+    width: 100%;
+    padding: spacings.$s-7 0;
+
+    .title {
+      font-size: 3rem;
+      margin-bottom: spacings.$s-2;
+    }
+
+    .contentWrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: spacings.$s-10;
+      margin-top: spacings.$s-10;
+
+      .content {
+        grid-column: span 1;
+      }
+
+      @media (min-width: breakpoints.$md) {
+        gap: spacings.$s-16;
+      }
+    }
+
+    &.reverse {
+      .title {
+        text-align: right;
+      }
+      .contentWrapper {
+        direction: rtl;
+        p {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  @media (min-width: breakpoints.$md) {
+    .intro {
+      margin-top: spacings.$s-18;
+
+      h1 {
+        font-size: typo.$xxl;
+      }
+
+      p {
+        width: 60%;
+      }
+    }
+
+    .hero {
+      margin: spacings.$s-18 0;
+    }
+
+    .section {
+      .title {
+        font-size: 5rem;
+      }
+    }
+  }
+}

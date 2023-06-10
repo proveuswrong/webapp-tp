@@ -52,6 +52,11 @@ main {
   padding-top: spacings.$s-10;
   padding-bottom: spacings.$s-18;
 
+  &.zero-padding{
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   > section {
     max-width: 1200px;
     margin-left: auto;
