@@ -37,16 +37,15 @@ const DEFAULT_CHAIN_ID = "0x5";
 
 const EthereumProvider = ({ children }) => {
   const [metamaskChainId, setMetamaskChainId] = useState(null);
-  const [chainId, setChainId] = useState(DEFAULT_CHAIN_ID);
+  const [chainId, setChainId] = useState();
   const [accounts, setAccounts] = useState([]);
   const [isProviderDetected, setProviderDetected] = useState(false);
-  const [isDeployedOnThisChain, setDeployedOnThisChain] = useState(isDeployedOn(chainId));
+  const [isDeployedOnThisChain, setDeployedOnThisChain] = useState();
   const [awaitingUserPermission, setAwaitingUserPermission] = useState(false);
   const [graphMetadata, setGraphMetadata] = useState({});
   const [blockNumber, setBlockNumber] = useState(0);
   const [ethersProvider, setEthersProvider] = useState(null);
-  const [pollingInterval, setPollingInterval] = useState(0);
-  const [contractInstance, setContractInstance] = useState(initializeContract(chainId));
+  const [contractInstance, setContractInstance] = useState();
   const [metaEvidenceContents, setMetaEvidenceContents] = useState([]);
 
   useEffect(() => {
@@ -58,22 +57,14 @@ const EthereumProvider = ({ children }) => {
         handleAccountsChange(await provider.request({ method: "eth_accounts" }));
         setBlockNumber(await provider.request({ method: "eth_blockNumber" }));
         setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+
         provider.request({ method: "eth_subscribe", params: ["newHeads"] });
-
-        fetchGraphMetadata();
-        setPollingInterval(setInterval(fetchGraphMetadata, LONGPOLLING_PERIOD_MS));
-
         provider.on("chainChanged", handleChainChange);
         provider.on("accountsChanged", handleAccountsChange);
         provider.on("message", handleMessage);
       } else {
         console.error("No Ethereum provider found.");
       }
-    };
-
-    const fetchGraphMetadata = async () => {
-      const res = await getGraphMetadata(chainId, Object.keys(networkMap[chainId].deployments)[0]);
-      setGraphMetadata(res);
     };
 
     initializeProvider();
@@ -84,10 +75,31 @@ const EthereumProvider = ({ children }) => {
         window.ethereum.removeListener("accountsChanged", handleAccountsChange);
         window.ethereum.removeListener("message", handleMessage);
       }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!chainId) return;
+    const fetchGraphMetadata = async (targetChainId) => {
+      const res = await getGraphMetadata(targetChainId, Object.keys(networkMap[targetChainId].deployments)[0]);
+      setGraphMetadata(res);
+    };
+
+    fetchGraphMetadata(chainId);
+    const pollingInterval = setInterval(() => {
+      fetchGraphMetadata(chainId);
+    }, LONGPOLLING_PERIOD_MS);
+
+    console.log({ chainId });
+    setDeployedOnThisChain(isDeployedOn(chainId));
+    setContractInstance(initializeContract(chainId));
+
+    return () => {
       clearInterval(pollingInterval);
     };
   }, [chainId]);
 
+  console.log({ contractInstance });
   const handleMessage = (message) => setBlockNumber(message.data.result.number);
   const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
   const handleChainChange = (targetChainId) => {
@@ -164,7 +176,6 @@ const EthereumProvider = ({ children }) => {
     }
   };
 
-  console.log({ isDeployedOnThisChain });
   return (
     <EthereumContext.Provider
       value={{
@@ -246,7 +257,6 @@ export const getAllArticles = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllArticles).then((data) => {
-        console.log(data);
         if (data && data.articles && data.articles.length > 0) {
           data.articles.map((article) => {
             article.contractAddress = key;
