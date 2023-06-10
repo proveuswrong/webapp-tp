@@ -257,7 +257,7 @@ export const getAllArticles = (chainID) => {
       });
     })
   )
-    .then((r) => r[0]?.value)
+    .then((r) => r[0]?.value ?? [])
     .catch(console.error);
 };
 
