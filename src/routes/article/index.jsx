@@ -19,7 +19,6 @@ import BountyModal from "/src/components/others/bountyModal";
 
 export async function loader({ params }) {
   const article = await getArticleByID(params.chain, params.contract, params.id);
-  console.log({ article });
   let articleContent = {};
   try {
     const response = await fetch(ipfsGateway + article.articleID);

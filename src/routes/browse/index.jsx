@@ -36,7 +36,6 @@ export default function Browse() {
   const ethereumContext = useContext(EthereumContext);
 
   const articles = useLoaderData();
-  console.log({ articles });
 
   if (networkMap[ethereumContext?.chainId]?.deployments || ethereumContext?.isDeployedOnThisChain) {
     return (
