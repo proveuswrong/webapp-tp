@@ -279,7 +279,7 @@ export const getArticlesByAuthor = (chainID, walletAddress) => {
       );
     })
   )
-    .then((r) => r[0]?.value)
+    .then((r) => r[0]?.value ?? [])
     .catch(console.error);
 };
 
