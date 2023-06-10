@@ -14,7 +14,7 @@ const ITEMS_PER_PAGE = 8;
 export default function ListArticles({ articles }) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { blockNumber, graphMetadata } = useContext(EthereumContext);
+  const { blockNumber, chainId, graphMetadata } = useContext(EthereumContext);
   const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
 
   if (articles.length === 0) return <div>No news articles</div>;
@@ -26,7 +26,7 @@ export default function ListArticles({ articles }) {
           .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
           .map((article, index) => {
             const { id, title, description, contractAddress, status, lastBalanceUpdate } = article;
-            const linkTo = `${contractAddress}/${id}`;
+            const linkTo = `/${chainId}/${contractAddress}/${id}`;
             const score = getTrustScore(
               article,
               getTimePastSinceLastBountyUpdate(lastBalanceUpdate, currentBlockNumber)
