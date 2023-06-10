@@ -6,7 +6,7 @@ import Layout from "./layout";
 import Home from "./routes/home";
 import FAQ from "./routes/faq";
 import Create from "./routes/create";
-import Browse from "./routes/browse";
+import Browse, { loader as BrowseLoader } from "./routes/browse";
 import Article, { loader as ArticleLoader } from "./routes/article";
 import Account, { loader as AccountLoader } from "./routes/account";
 import Court from "./routes/court";
@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route element={<RouteRedirect />}>
         <Route index element={<IndexRedirect />} />
 
-        <Route path=":chain" element={<Browse />} />
+        <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
         <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
         <Route path=":chain/:contract/court/:id" element={<Court />} />
 
