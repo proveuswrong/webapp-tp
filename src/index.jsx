@@ -9,7 +9,7 @@ import Create from "./routes/create";
 import Browse, { loader as BrowseLoader } from "./routes/browse";
 import Article, { loader as ArticleLoader } from "./routes/article";
 import Account, { loader as AccountLoader } from "./routes/account";
-import Court from "./routes/court";
+import Court, { loader as CourtLoader } from "./routes/court";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
 import EthereumProvider, { EthereumContext } from "./data/ethereumProvider.jsx";
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
 
         <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
         <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
-        <Route path=":chain/:contract/court/:id" element={<Court />} />
+        <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
 
         <Route element={<AuthRequired />}>
           <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
