@@ -4,7 +4,7 @@ import Select from "/src/components/presentational/select";
 import { EthereumContext, networkMap } from "../../../data/ethereumProvider";
 
 export default function ButtonSelectNetwork() {
-  const { switchAppChain } = useContext(EthereumContext);
+  const { chainId, switchAppChain } = useContext(EthereumContext);
 
   const selectOptions = Object.entries(networkMap).map(([chainId, props]) => ({
     value: chainId,
@@ -13,7 +13,7 @@ export default function ButtonSelectNetwork() {
 
   return (
     <div style={{ marginLeft: "10px" }}>
-      <Select options={selectOptions} placeholder={selectOptions[0].label} onChange={switchAppChain} />
+      <Select options={selectOptions} placeholder={networkMap[chainId].shortname} onChange={switchAppChain} />
     </div>
   );
 }
