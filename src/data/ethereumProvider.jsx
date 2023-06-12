@@ -29,15 +29,15 @@ export const networkMap = {
   },
 };
 
-const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
 const LONGPOLLING_PERIOD_MS = 20000;
 
-const initializeContract = (_chainId) => new ethers.Contract(Object.keys(networkMap[_chainId].deployments)[0], ABI);
-const DEFAULT_CHAIN_ID = "0x5";
+const isSupportedChain = (chainId) => Object.keys(networkMap).includes(chainId);
+const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
+const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
 
 const EthereumProvider = ({ children }) => {
   const [metamaskChainId, setMetamaskChainId] = useState(null);
-  const [chainId, setChainId] = useState();
+  const [chainId, setChainId] = useState("0x5");
   const [accounts, setAccounts] = useState([]);
   const [isProviderDetected, setProviderDetected] = useState(false);
   const [isDeployedOnThisChain, setDeployedOnThisChain] = useState();
@@ -80,45 +80,39 @@ const EthereumProvider = ({ children }) => {
 
   useEffect(() => {
     if (!chainId) return;
+
+    const isDeployed = isDeployedOn(chainId);
+    setDeployedOnThisChain(isDeployed);
+    if (isDeployed) setContractInstance(initializeContract(chainId));
+
     const fetchGraphMetadata = async (targetChainId) => {
       const res = await getGraphMetadata(targetChainId, Object.keys(networkMap[targetChainId].deployments)[0]);
       setGraphMetadata(res);
     };
 
     fetchGraphMetadata(chainId);
-    const pollingInterval = setInterval(() => {
-      fetchGraphMetadata(chainId);
-    }, LONGPOLLING_PERIOD_MS);
-
-    console.log({ chainId });
-    setDeployedOnThisChain(isDeployedOn(chainId));
-    setContractInstance(initializeContract(chainId));
+    const pollingInterval = setInterval(() => fetchGraphMetadata(chainId), LONGPOLLING_PERIOD_MS);
 
     return () => {
       clearInterval(pollingInterval);
     };
   }, [chainId]);
 
-  console.log({ contractInstance });
   const handleMessage = (message) => setBlockNumber(message.data.result.number);
   const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
   const handleChainChange = (targetChainId) => {
     setMetamaskChainId(targetChainId);
-    if (!chainId) {
-      switchAppChain(targetChainId);
-    }
+    if (!chainId) switchAppChain(targetChainId);
+    if (isSupportedChain(targetChainId)) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
   };
 
   const switchAppChain = (targetChainId) => {
+    console.log("swithcing app chain");
     setChainId(targetChainId);
-    setDeployedOnThisChain(isDeployedOn(targetChainId));
-    if (ethersProvider && isDeployedOn(targetChainId))
-      setContractInstance(new ethers.Contract(Object.keys(networkMap[targetChainId].deployments)[0], ABI));
   };
 
   const requestAccounts = async () => {
     setAwaitingUserPermission(true);
-    console.debug("Asking users permission to connect.");
     await ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
@@ -141,7 +135,8 @@ const EthereumProvider = ({ children }) => {
     setMetaEvidenceContents(result.map((item) => item.value));
   };
 
-  const sendTransaction = async (unsignedTx) =>
+  const sendTransaction = async (unsignedTx) => {
+    console.log({ ethersProvider });
     await notifyWithToast(
       ethersProvider
         .getSigner()
@@ -149,6 +144,7 @@ const EthereumProvider = ({ children }) => {
         .then((tx) => tx.wait()),
       MESSAGE_TYPE.transaction
     );
+  };
 
   const invokeCall = async (methodName, args) => {
     if (chainId !== metamaskChainId) {
