@@ -1,22 +1,24 @@
 import { useCallback, useContext } from "react";
+import { useRevalidator } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
+import CardCrowdfundingWithdrawal from "/src/components/presentational/cardCrowdfundingWithdrawal";
 
 import { EthereumContext, getRewardsByID } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
-import notifyWithToast, { MESSAGE_TYPE } from "../../../../../utils/notifyWithTost";
-import CardCrowdfundingWithdrawal from "../../../../presentational/cardCrowdfundingWithdrawal";
+import notifyWithToast, { MESSAGE_TYPE } from "/src/utils/notifyWithTost";
 
 export default function ExecutionPeriod({ currentRound, executed, arbitratorInstance, setEvidenceModalOpen }) {
   const { chainId, accounts, invokeTransaction, ethersProvider } = useContext(EthereumContext);
+  const revalidator = useRevalidator();
 
   const fetchData = useCallback(() => {
     const rewardId = `${currentRound?.dispute?.id}-${accounts[0]}`;
     return getRewardsByID(chainId, rewardId);
   }, [chainId, accounts[0]]);
 
-  const { data: rewards, isFetching } = useGraphFetcher(fetchData);
+  const { data: rewards } = useGraphFetcher(fetchData);
   console.log({ rewards });
 
   const sendTransaction = async (unsignedTx) =>
@@ -31,7 +33,8 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
   const handleExecuteRuling = async () => {
     try {
       const unsignedTx = await arbitratorInstance.populateTransaction.executeRuling(currentRound?.dispute?.id);
-      sendTransaction(unsignedTx);
+      await sendTransaction(unsignedTx);
+      revalidator.revalidate();
     } catch (error) {
       console.error(error);
     }
@@ -42,6 +45,7 @@ export default function ExecutionPeriod({ currentRound, executed, arbitratorInst
       currentRound?.dispute?.id,
       accounts[0],
     ]);
+    revalidator.revalidate();
   };
 
   return (
