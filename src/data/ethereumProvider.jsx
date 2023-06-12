@@ -60,14 +60,15 @@ export default class EthereumProvider extends Component {
       if (provider) this.initializeProvider();
     });
 
-    if (this.state.chainId)
-      this.setState({
-        interval: setInterval(() => {
-          getGraphMetadata(this.state?.chainId, Object.keys(networkMap[this.state?.chainId]?.contractInstances)[0]).then(
-            (r) => this.setState({ graphMetadata: r })
-          );
-        }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
-      });
+    this.setState({
+      interval: setInterval(() => {
+        if (this.state.chainId)
+          getGraphMetadata(
+            this.state?.chainId,
+            Object.keys(networkMap[this.state?.chainId]?.contractInstances)[0]
+          ).then((r) => this.setState({ graphMetadata: r }));
+      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
+    });
   }
 
   componentWillUnmount() {
