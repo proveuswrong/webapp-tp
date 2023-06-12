@@ -9,15 +9,18 @@ import CrowdfundingCard from "./croudfundingCard";
 import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import { formatToEther } from "/src/components/presentational/EtherValue";
+import { useRevalidator } from "react-router-dom";
 
 const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
   const { chainId, accounts, invokeTransaction, metaEvidenceContents } = useContext(EthereumContext);
 
-
-  const rulingOptionTitles = { 0: "Tie", 1: metaEvidenceContents[0]?.rulingOptions?.titles[0], 2: metaEvidenceContents[0]?.rulingOptions?.titles[1]
-  }
+  const rulingOptionTitles = {
+    0: "Tie",
+    1: metaEvidenceContents[0]?.rulingOptions?.titles[0],
+    2: metaEvidenceContents[0]?.rulingOptions?.titles[1],
+  };
 
   const [supportedRuling, setSupportedRuling] = useState(1);
   const { totalToBeRaised, raisedSoFar } = currentRound;
@@ -28,6 +31,7 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
 
   const [amount, setAmount] = useState(formattedRemainingFunding);
   const [actualAmount, setActualAmount] = useState(actualRemainingFunding);
+  const revalidator = useRevalidator();
 
   const fetchData = useCallback(() => {
     return getAllContributors(chainId);
@@ -59,6 +63,7 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
         [currentRound?.dispute?.id, supportedRuling],
         utils.parseEther(actualAmount?.toString())
       );
+      revalidator.revalidate();
     } catch (error) {
       console.error(error);
     }
