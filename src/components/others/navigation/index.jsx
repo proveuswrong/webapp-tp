@@ -48,8 +48,8 @@ export default function Navigation() {
         {!isMenuOpen && (
           <div className={styles.navEthereum}>
             {!DISABLED && <NotificationCenter />} {/* TODO: unlock when UI design is ready */}
-            {ethereumContext?.isProviderDetected && <ButtonConnect />}
-            <ButtonSelectNetwork />
+            {ethereumContext?.chainId && ethereumContext?.isProviderDetected && <ButtonConnect />}
+            {ethereumContext?.chainId && <ButtonSelectNetwork />}
           </div>
         )}
       </nav>
