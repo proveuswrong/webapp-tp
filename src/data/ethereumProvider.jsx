@@ -100,6 +100,7 @@ const EthereumProvider = ({ children }) => {
       setGraphMetadata(res);
     };
 
+    fetchMetaEvidenceContents(chainId);
     fetchGraphMetadata(chainId);
     const pollingInterval = setInterval(() => fetchGraphMetadata(chainId), LONGPOLLING_PERIOD_MS);
 
@@ -135,7 +136,6 @@ const EthereumProvider = ({ children }) => {
     setAwaitingUserPermission(false);
   };
 
-  // TODO: unsed
   const fetchMetaEvidenceContents = async (chainId) => {
     const rawMetaEvidenceList = (await getAllMetaEvidences(chainId))?.map((item) => item.uri);
     if (!rawMetaEvidenceList) return;
