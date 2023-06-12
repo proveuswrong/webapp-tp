@@ -23,18 +23,11 @@ export const networkMap = {
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
     deployments: environment.networkMap["0x1"].deployments,
   },
-  "0x5": {
-    name: "Ethereum Testnet Görli",
-    shortname: "Görli",
-    explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
-    contractInstances: environment.networkMap["0x5"].contractInstances,
-  },
 };
 
 const LONGPOLLING_PERIOD_MS = 20000;
 
 const isSupportedChain = (chainId) => Object.keys(networkMap).includes(chainId);
-const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
 const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
 const getDefaultNetwork = () => {
   const defaultNetworkKeys = Object.keys(networkMap).filter((key) => networkMap[key].default);
@@ -91,7 +84,7 @@ const EthereumProvider = ({ children }) => {
   useEffect(() => {
     if (!chainId) return;
 
-    const isDeployed = isDeployedOn(chainId);
+    const isDeployed = networkMap[chainId].deployments !== null;
     setDeployedOnThisChain(isDeployed);
     if (isDeployed) setContractInstance(initializeContract(chainId));
 
@@ -111,14 +104,15 @@ const EthereumProvider = ({ children }) => {
 
   const handleMessage = (message) => setBlockNumber(message.data.result.number);
   const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
+
   const handleChainChange = (targetChainId) => {
     setMetamaskChainId(targetChainId);
     if (!chainId) switchAppChain(targetChainId);
-    if (isSupportedChain(targetChainId)) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+    if (Object.keys(networkMap).includes(targetChainId))
+      setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
   };
 
   const switchAppChain = (targetChainId) => {
-    console.log("swithcing app chain");
     setChainId(targetChainId);
   };
 
