@@ -27,7 +27,6 @@ export const networkMap = {
 
 const LONGPOLLING_PERIOD_MS = 20000;
 
-const isSupportedChain = (chainId) => Object.keys(networkMap).includes(chainId);
 const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
 const getDefaultNetwork = () => {
   const defaultNetworkKeys = Object.keys(networkMap).filter((key) => networkMap[key].default);
