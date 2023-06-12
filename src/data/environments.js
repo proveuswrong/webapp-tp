@@ -4,6 +4,7 @@ const environments = {
   prod: {
     networkMap: {
       "0x1": {
+        default: true,
         deployments: {
           "0x87aade1067ed0276ec9bef6db8e17abe27a6b454": {
             subgraph: {
@@ -14,6 +15,7 @@ const environments = {
         },
       },
       "0x5": {
+        default: false,
         deployments: {
           "0x1B6B1381781fB6BA1ee271CCD9Fad9a1bb70fA24": {
             subgraph: {
@@ -28,6 +30,7 @@ const environments = {
   dev: {
     networkMap: {
       "0x1": {
+        default: false,
         deployments: {
           "0x87aade1067ed0276ec9bef6db8e17abe27a6b454": {
             subgraph: {
@@ -38,6 +41,7 @@ const environments = {
         },
       },
       "0x5": {
+        default: true,
         deployments: {
           "0x1B6B1381781fB6BA1ee271CCD9Fad9a1bb70fA24": {
             subgraph: {

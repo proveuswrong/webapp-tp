@@ -12,12 +12,14 @@ export const networkMap = {
   "0x5": {
     name: "Ethereum Testnet Görli",
     shortname: "Görli",
+    default: environment.networkMap["0x5"].default,
     explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
     deployments: environment.networkMap["0x5"].deployments,
   },
   "0x1": {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
+    default: environment.networkMap["0x1"].default,
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
     deployments: environment.networkMap["0x1"].deployments,
   },
@@ -34,10 +36,18 @@ const LONGPOLLING_PERIOD_MS = 20000;
 const isSupportedChain = (chainId) => Object.keys(networkMap).includes(chainId);
 const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
 const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
+const getDefaultNetwork = () => {
+  const defaultNetworkKeys = Object.keys(networkMap).filter((key) => networkMap[key].default);
+
+  if (defaultNetworkKeys.length !== 1)
+    throw new Error("There must be exactly one default network defined in the network map.");
+
+  return defaultNetworkKeys[0];
+};
 
 const EthereumProvider = ({ children }) => {
   const [metamaskChainId, setMetamaskChainId] = useState(null);
-  const [chainId, setChainId] = useState("0x5");
+  const [chainId, setChainId] = useState(getDefaultNetwork());
   const [accounts, setAccounts] = useState([]);
   const [isProviderDetected, setProviderDetected] = useState(false);
   const [isDeployedOnThisChain, setDeployedOnThisChain] = useState();
