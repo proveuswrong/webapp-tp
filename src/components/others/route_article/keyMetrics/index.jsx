@@ -23,24 +23,28 @@ export default function KeyMetrics(props) {
           {fetchingArticle ? (
             "Fetching article"
           ) : (
-            <span
-              key={getTrustScore(
-                article,
-                getTimePastSinceLastBountyUpdate(
-                  article?.lastBalanceUpdate,
-                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-                )
+            <Interval delay={reRenderInMs}>
+              {() => (
+                <span
+                  key={getTrustScore(
+                    article,
+                    getTimePastSinceLastBountyUpdate(
+                      article?.lastBalanceUpdate,
+                      ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
+                    )
+                  )}
+                  className="blink"
+                >
+                  {getTrustScore(
+                    article,
+                    getTimePastSinceLastBountyUpdate(
+                      article?.lastBalanceUpdate,
+                      ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
+                    )
+                  )}
+                </span>
               )}
-              className="blink"
-            >
-              {getTrustScore(
-                article,
-                getTimePastSinceLastBountyUpdate(
-                  article?.lastBalanceUpdate,
-                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-                )
-              )}
-            </span>
+            </Interval>
           )}
         </span>
       )}
