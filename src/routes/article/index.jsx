@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import Interval from "react-interval-rerender";
 import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
@@ -35,18 +35,22 @@ export default function Index() {
   const ethereumContext = useContext(EthereumContext);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isBountyModalOpen, setBountyModalOpen] = useState(false);
+  const revalidator = useRevalidator();
 
   async function handleInitiateWithdrawal() {
     await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
+    revalidator.revalidate();
   }
 
   async function handleChallenge() {
     const fee = await ethereumContext.invokeCall("challengeFee", [article?.storageAddress]);
     await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
+    revalidator.revalidate();
   }
 
   async function handleExecuteWithdrawal() {
     await ethereumContext.invokeTransaction("withdraw", [article?.storageAddress]);
+    revalidator.revalidate();
   }
 
   let reRenderInMs = 1000;
