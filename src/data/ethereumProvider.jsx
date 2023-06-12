@@ -59,13 +59,15 @@ export default class EthereumProvider extends Component {
     detectEthereumProvider({ silent: true }).then((provider) => {
       if (provider) this.initializeProvider();
     });
-    this.setState({
-      interval: setInterval(() => {
-        getGraphMetadata(this.state.chainId, Object.keys(networkMap[this.state.chainId]?.contractInstances)[0]).then((r) =>
-          this.setState({ graphMetadata: r })
-        );
-      }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
-    });
+
+    if (this.state.chainId)
+      this.setState({
+        interval: setInterval(() => {
+          getGraphMetadata(this.state?.chainId, Object.keys(networkMap[this.state?.chainId]?.contractInstances)[0]).then(
+            (r) => this.setState({ graphMetadata: r })
+          );
+        }, EthereumProvider.constants.LONGPOLLING_PERIOD_MS),
+      });
   }
 
   componentWillUnmount() {
@@ -117,7 +119,7 @@ export default class EthereumProvider extends Component {
       this.setState({ graphMetadata: r })
     );
     this.fetchMetaEvidenceContents(chainId);
-    if(this.state?.contractInstance?.address != networkMap[chainId]?.contractInstances[0])
+    if (this.state?.contractInstance?.address != networkMap[chainId]?.contractInstances[0])
       window.location.reload(false);
   }
 

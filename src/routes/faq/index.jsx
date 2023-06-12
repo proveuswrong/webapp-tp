@@ -1,4 +1,9 @@
+import { EthereumContext, networkMap } from "../../data/ethereumProvider";
+import { useContext, useEffect } from "react";
+
 export default function FAQ() {
+  const ethereumContext = useContext(EthereumContext);
+
   return (<section>
     <ol>
       <li>
