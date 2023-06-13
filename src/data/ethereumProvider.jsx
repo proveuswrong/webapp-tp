@@ -37,9 +37,9 @@ const getDefaultNetwork = () => {
   return defaultNetworkKeys[0];
 };
 
-const EthereumProvider = ({ children }) => {
+const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   const [metamaskChainId, setMetamaskChainId] = useState(null);
-  const [chainId, setChainId] = useState(getDefaultNetwork());
+  const [chainId, setChainId] = useState(chainIdFromUrl);
   const [accounts, setAccounts] = useState([]);
   const [isProviderDetected, setProviderDetected] = useState(false);
   const [isDeployedOnThisChain, setDeployedOnThisChain] = useState();
@@ -106,9 +106,9 @@ const EthereumProvider = ({ children }) => {
 
   const handleChainChange = (targetChainId) => {
     setMetamaskChainId(targetChainId);
-    if (!chainId) switchAppChain(targetChainId);
-    if (Object.keys(networkMap).includes(targetChainId))
-      setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+    const isSupported = Object.keys(networkMap).includes(targetChainId);
+    if (!chainId) switchAppChain(isSupported ? targetChainId : getDefaultNetwork());
+    if (isSupported) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
   };
 
   const switchAppChain = (targetChainId) => {
