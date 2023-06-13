@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import { useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import ListArticlesItem from "/src/components/presentational/listArticlesItem";
@@ -12,7 +13,8 @@ import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinc
 const ITEMS_PER_PAGE = 8;
 
 export default function ListArticles({ articles }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get("page") || 1;
 
   const { blockNumber, chainId, graphMetadata } = useContext(EthereumContext);
   const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
@@ -45,7 +47,7 @@ export default function ListArticles({ articles }) {
         current={currentPage}
         pageSize={ITEMS_PER_PAGE}
         total={articles.length}
-        onChange={(pageIndex) => setCurrentPage(pageIndex)}
+        onChange={(pageIndex) => setSearchParams({ page: pageIndex })}
       />
     </>
   );

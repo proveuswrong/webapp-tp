@@ -14,7 +14,7 @@ import useScrollLock from "../../../hooks/useScrollLock";
 const DISABLED = true;
 
 const getLinks = (chainId, account) => [
-  { name: "Front Page", to: `${chainId}/`, display: true },
+  { name: "Front Page", to: `${chainId}`, display: true },
   { name: "Report", to: `${chainId}/report`, display: account },
   { name: "Account", to: `${chainId}/account/${account}`, display: account },
   { name: "F.A.Q.", to: `faq`, display: true },
