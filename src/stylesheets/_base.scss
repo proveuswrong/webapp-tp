@@ -45,9 +45,9 @@ hr {
   margin-block: 0;
 }
 
-a:first-child:nth-last-child(1) {
-  text-decoration: underline;
-}
+//a:first-child:nth-last-child(1) {
+//  text-decoration: underline;
+//} This did not work as expected.
 
 footer svg {
   height: 1rem;
