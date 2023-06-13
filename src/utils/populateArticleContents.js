@@ -8,9 +8,10 @@ export default async function populateArticleContents(articles) {
             if (!response.ok) {
                 throw new Error("Network response was not OK");
             }
-            const { title, description } = await response.json();
+            const { title, description, format } = await response.json();
             article.title = title;
             article.description = description;
+            article.format = format;
         } catch (error) {
             console.error(error);
             throw new Error(error.message);

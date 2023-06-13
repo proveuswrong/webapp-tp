@@ -27,7 +27,7 @@ export default function ListArticles({ articles }) {
           .sort((item1, item2) => sortAccordingToTrustScore(item1, item2, currentBlockNumber))
           .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
           .map((article, index) => {
-            const { id, title, description, contractAddress, status, lastBalanceUpdate } = article;
+            const { id, title, format, description, contractAddress, status, lastBalanceUpdate } = article;
             const linkTo = `/${chainId}/${contractAddress}/${id}`;
             const score = getTrustScore(
               article,
@@ -36,7 +36,7 @@ export default function ListArticles({ articles }) {
             const createdAt = article.createdAtTimestamp;
             const excerptSize = index % 2 === 1 ? 3 : 1;
             return (
-              <ListArticlesItem {...{ key: id, title, description, linkTo, score, createdAt, excerptSize }}>
+              <ListArticlesItem {...{ key: id, title, format, description, linkTo, score, createdAt, excerptSize }}>
                 <Pill modifiers="small">{status}</Pill>
               </ListArticlesItem>
             );
