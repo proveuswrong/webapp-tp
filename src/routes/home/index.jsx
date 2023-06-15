@@ -29,7 +29,7 @@ export default function Home() {
       <section className={styles.sectionIntro}>
         <div className={styles.sectionGrid}>
           <div className={styles.banner}>
-            <img src={bannerImage} alt="puw-banner" />
+            <img src={bannerImage} alt="truthpost-banner" />
           </div>
           <div className={styles.text}>
             Imagine a world where you can effortlessly consume distilled information, perfectly tailored to your
@@ -54,8 +54,8 @@ export default function Home() {
             dImagine a world where you can effortlessly consume distilled information, perfectly tailored to your
             interests.
           </div>
-          <div className={styles.image}>
-            <img src={WhatSectionImage} alt="puw-what-section" />
+          <div className={styles.imageWrapper}>
+            <img src={WhatSectionImage} alt="truthpost-what-section" />
           </div>
           <div className={styles.secondParagraph}>
             Imagine a world where you can effortlessly consume distilled information, perfectly tailored to your
@@ -78,8 +78,8 @@ export default function Home() {
             dImagine a world where you can effortlessly consume distilled information, perfectly tailored to your
             interests.
           </div>
-          <div className={styles.image}>
-            <img src={WhySectionImage} alt="puw-what-section" />
+          <div className={styles.imageWrapper}>
+            <img src={WhySectionImage} alt="truthpost-why-section" />
           </div>
           <div className={styles.secondParagraph}>
             Imagine a world where you can effortlessly consume distilled information, perfectly tailored to your
@@ -103,8 +103,8 @@ export default function Home() {
             reality. Imagine a world where you can effortlessly consume distilled information, perfectly tailored to
             your interests. With our decentralized newspaper, that dream becomes a reality.
           </div>
-          <div className={styles.image}>
-            <img src={HowSectionImage} alt="puw-what-section" />
+          <div className={styles.imageWrapper}>
+            <img src={HowSectionImage} alt="truthpost-how-section" />
           </div>
         </div>
       </section>

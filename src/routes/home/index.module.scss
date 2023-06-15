@@ -2,12 +2,14 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/breakpoints";
 
+$spacing_1fr: 50px;
+
 .sectionGrid {
   display: grid;
   grid-template-columns: 1fr;
   margin-bottom: spacings.$s-16;
   @media only screen and (min-width: 780px) {
-    grid-template-columns: [col1-start]5fr [col1-end col2-start]1fr [col2-end col3-start]2fr [col3-end col4-start]0fr [col4-end col5-start]2fr [col5-end col6-start]1fr [col7]5fr;
+    grid-template-columns: 5fr 1fr 2fr 0fr 2fr 1fr 5fr;
     grid-auto-rows: auto;
     gap: 0px 25px;
     margin-bottom: 10rem;
@@ -18,9 +20,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: spacings.$s-16;
-  /*  @media only screen and (min-width: 780px) {
-    padding: 0 spacings.$s-16;
-  } */
 }
 
 .home {
@@ -105,7 +104,7 @@
       margin-top: spacings.$s-6;
       @media only screen and (min-width: 780px) {
         column-count: 2;
-        column-gap: 32px;
+        column-gap: $spacing_1fr;
       }
     }
   }
@@ -125,7 +124,7 @@
       margin-top: spacings.$s-6;
       @media only screen and (min-width: 780px) {
         column-count: 2;
-        column-gap: 50px;
+        column-gap: $spacing_1fr;
       }
       @media only screen and (min-width: 980px) {
         column-count: 3;
@@ -162,17 +161,18 @@
       margin-top: spacings.$s-6;
       @media only screen and (min-width: 780px) {
         grid-column: 1 / -1;
+        margin-top: 0;
       }
       @media only screen and (min-width: 980px) {
         grid-column: 1 / span 3;
         grid-row: 2;
       }
     }
-    .image {
+    .imageWrapper {
       img {
         width: 100%;
         height: 100%;
-        max-height: 400px;
+        max-height: 25rem;
         object-fit: cover;
       }
       @media only screen and (min-width: 780px) {
@@ -244,7 +244,7 @@
         margin-top: spacings.$s-6;
       }
     }
-    .image {
+    .imageWrapper {
       img {
         width: 100%;
         height: 100%;
@@ -284,16 +284,16 @@
 
       @media only screen and (min-width: 480px) {
         column-count: 2;
-        column-gap: 55px;
+        column-gap: $spacing_1fr;
       }
     }
-    .image {
+    .imageWrapper {
       grid-column: 1 /-1;
       grid-row: 4;
       img {
         width: 100%;
         height: 100%;
-        max-height: 400px;
+        max-height: 25rem;
         object-fit: cover;
       }
     }
