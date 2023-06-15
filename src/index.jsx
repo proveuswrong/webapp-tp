@@ -24,8 +24,9 @@ function IndexRedirect() {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
+      <Route index element={<Home />} />
       <Route element={<RouteRedirect />}>
-        <Route index element={<IndexRedirect />} />
+        <Route element={<IndexRedirect />} />
 
         <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
         <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
@@ -36,7 +37,6 @@ const router = createBrowserRouter(
           <Route path=":chain/report" element={<Create />} />
         </Route>
       </Route>
-      <Route path="about" element={<Home />} />
       <Route path="faq" element={<FAQ />} />
       <Route
         path="*"
@@ -52,7 +52,8 @@ const router = createBrowserRouter(
 
 function App() {
   const { pathname } = window.location;
-  const chainId = pathname.split("/")[1];
+  const pathSegment = pathname.split("/")[1];
+  const chainId = pathSegment.startsWith("0x") && pathSegment;
   return (
     <EthereumProvider chainId={chainId}>
       <RouterProvider router={router} />
