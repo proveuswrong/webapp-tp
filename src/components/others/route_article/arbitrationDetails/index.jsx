@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useRevalidator } from "react-router-dom";
 import { ethers } from "ethers";
 import * as styles from "./index.module.scss";
 
@@ -27,6 +27,7 @@ export default function ArbitrationDetails({ article }) {
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
   const [mined, setMined] = useState(true);
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
+  const revalidator = useRevalidator();
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
@@ -61,6 +62,7 @@ export default function ArbitrationDetails({ article }) {
       await txResponse.wait();
       setMined(true);
       setButtonAdvanceStateDisabled(false);
+      revalidator.revalidate();
     } catch (error) {
       await drawJury();
     }

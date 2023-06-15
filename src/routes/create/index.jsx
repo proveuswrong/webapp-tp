@@ -9,18 +9,20 @@ import SyncStatus from "/src/components/presentational/syncStatus";
 import { EthereumContext, getLastArticleByAuthor } from "../../data/ethereumProvider";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 import addToIPFS from "../../utils/addToIPFS";
+import { useMergeState } from "../../hooks/useMergeState";
 
 export default function Create() {
   const ethereumContext = useContext(EthereumContext);
   const navigate = useNavigate();
 
   const [createFlowProgress, setCreateFlowProgress] = useState(0);
-  const [controlsState, setControlsState] = useState({
+  const [controlsState, setControlsState] = useMergeState({
     title: "",
     description: "",
     tags: "",
     bounty: "0.001",
     categoryNo: -1,
+    format: "plaintext",
   });
 
   function handleSave() {
@@ -38,6 +40,7 @@ export default function Create() {
             title: controlsState.title,
             description: controlsState.description,
             tags: controlsState.tags,
+            format: controlsState.format,
           })
         ),
         MESSAGE_TYPE.ipfs
@@ -79,6 +82,7 @@ export default function Create() {
           tags={controlsState.tags}
           bounty={controlsState.bounty}
           categoryNo={controlsState.categoryNo}
+          format={controlsState.format}
           handleCreate={handleCreate}
           handleGoBack={handleGoBack}
         />

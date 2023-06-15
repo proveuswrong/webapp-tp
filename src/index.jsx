@@ -6,10 +6,10 @@ import Layout from "./layout";
 import Home from "./routes/home";
 import FAQ from "./routes/faq";
 import Create from "./routes/create";
-import Browse from "./routes/browse";
+import Browse, { loader as BrowseLoader } from "./routes/browse";
 import Article, { loader as ArticleLoader } from "./routes/article";
-import Account from "./routes/account";
-import Court from "./routes/court";
+import Account, { loader as AccountLoader } from "./routes/account";
+import Court, { loader as CourtLoader } from "./routes/court";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
 import EthereumProvider, { EthereumContext } from "./data/ethereumProvider.jsx";
@@ -27,12 +27,12 @@ const router = createBrowserRouter(
       <Route element={<RouteRedirect />}>
         <Route index element={<IndexRedirect />} />
 
-        <Route path=":chain" element={<Browse />} />
+        <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
         <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
-        <Route path=":chain/:contract/court/:id" element={<Court />} />
+        <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
 
         <Route element={<AuthRequired />}>
-          <Route path=":chain/account/:id" element={<Account />} />
+          <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
           <Route path=":chain/report" element={<Create />} />
         </Route>
       </Route>
@@ -51,8 +51,10 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const { pathname } = window.location;
+  const chainId = pathname.split("/")[1];
   return (
-    <EthereumProvider>
+    <EthereumProvider chainId={chainId}>
       <RouterProvider router={router} />
     </EthereumProvider>
   );

@@ -9,44 +9,45 @@ import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
 import { ipfsGateway } from "../utils/addToIPFS";
 
 export const networkMap = {
-  "0x1": {
-    name: "Ethereum Mainnet",
-    shortname: "Mainnet",
-    explorerURL: (address) => `https://etherscan.io/address/${address}`,
-    contractInstances: environment.networkMap["0x1"].contractInstances,
-  },
   "0x5": {
     name: "Ethereum Testnet Görli",
     shortname: "Görli",
+    default: environment.networkMap["0x5"].default,
     explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
     deployments: environment.networkMap["0x5"].deployments,
   },
   "0x1": {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
+    default: environment.networkMap["0x1"].default,
     explorerURL: (address) => `https://etherscan.io/address/${address}`,
     deployments: environment.networkMap["0x1"].deployments,
   },
 };
 
-const isDeployedOn = (chainId) => networkMap[chainId].deployments !== null;
 const LONGPOLLING_PERIOD_MS = 20000;
 
-const initializeContract = (_chainId) => new ethers.Contract(Object.keys(networkMap[_chainId].deployments)[0], ABI);
-const DEFAULT_CHAIN_ID = "0x5";
+const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
+const getDefaultNetwork = () => {
+  const defaultNetworkKeys = Object.keys(networkMap).filter((key) => networkMap[key].default);
 
-const EthereumProvider = ({ children }) => {
+  if (defaultNetworkKeys.length !== 1)
+    throw new Error("There must be exactly one default network defined in the network map.");
+
+  return defaultNetworkKeys[0];
+};
+
+const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   const [metamaskChainId, setMetamaskChainId] = useState(null);
-  const [chainId, setChainId] = useState(DEFAULT_CHAIN_ID);
+  const [chainId, setChainId] = useState(chainIdFromUrl);
   const [accounts, setAccounts] = useState([]);
   const [isProviderDetected, setProviderDetected] = useState(false);
-  const [isDeployedOnThisChain, setDeployedOnThisChain] = useState(isDeployedOn(chainId));
+  const [isDeployedOnThisChain, setDeployedOnThisChain] = useState();
   const [awaitingUserPermission, setAwaitingUserPermission] = useState(false);
   const [graphMetadata, setGraphMetadata] = useState({});
   const [blockNumber, setBlockNumber] = useState(0);
   const [ethersProvider, setEthersProvider] = useState(null);
-  const [pollingInterval, setPollingInterval] = useState(0);
-  const [contractInstance, setContractInstance] = useState(initializeContract(chainId));
+  const [contractInstance, setContractInstance] = useState();
   const [metaEvidenceContents, setMetaEvidenceContents] = useState([]);
 
   useEffect(() => {
@@ -58,22 +59,14 @@ const EthereumProvider = ({ children }) => {
         handleAccountsChange(await provider.request({ method: "eth_accounts" }));
         setBlockNumber(await provider.request({ method: "eth_blockNumber" }));
         setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+
         provider.request({ method: "eth_subscribe", params: ["newHeads"] });
-
-        fetchGraphMetadata();
-        setPollingInterval(setInterval(fetchGraphMetadata, LONGPOLLING_PERIOD_MS));
-
         provider.on("chainChanged", handleChainChange);
         provider.on("accountsChanged", handleAccountsChange);
         provider.on("message", handleMessage);
       } else {
         console.error("No Ethereum provider found.");
       }
-    };
-
-    const fetchGraphMetadata = async () => {
-      const res = await getGraphMetadata(chainId, Object.keys(networkMap[chainId].deployments)[0]);
-      setGraphMetadata(res);
     };
 
     initializeProvider();
@@ -84,29 +77,46 @@ const EthereumProvider = ({ children }) => {
         window.ethereum.removeListener("accountsChanged", handleAccountsChange);
         window.ethereum.removeListener("message", handleMessage);
       }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!chainId) return;
+
+    const isDeployed = networkMap[chainId].deployments !== null;
+    setDeployedOnThisChain(isDeployed);
+    if (isDeployed) setContractInstance(initializeContract(chainId));
+
+    const fetchGraphMetadata = async (targetChainId) => {
+      const res = await getGraphMetadata(targetChainId, Object.keys(networkMap[targetChainId].deployments)[0]);
+      setGraphMetadata(res);
+    };
+
+    fetchMetaEvidenceContents(chainId);
+    fetchGraphMetadata(chainId);
+    const pollingInterval = setInterval(() => fetchGraphMetadata(chainId), LONGPOLLING_PERIOD_MS);
+
+    return () => {
       clearInterval(pollingInterval);
     };
   }, [chainId]);
 
   const handleMessage = (message) => setBlockNumber(message.data.result.number);
   const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
+
   const handleChainChange = (targetChainId) => {
     setMetamaskChainId(targetChainId);
-    if (!chainId) {
-      switchAppChain(targetChainId);
-    }
+    const isSupported = Object.keys(networkMap).includes(targetChainId);
+    if (!chainId) switchAppChain(isSupported ? targetChainId : getDefaultNetwork());
+    if (isSupported) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
   };
 
   const switchAppChain = (targetChainId) => {
     setChainId(targetChainId);
-    setDeployedOnThisChain(isDeployedOn(targetChainId));
-    if (ethersProvider && isDeployedOn(targetChainId))
-      setContractInstance(new ethers.Contract(Object.keys(networkMap[targetChainId].deployments)[0], ABI));
   };
 
   const requestAccounts = async () => {
     setAwaitingUserPermission(true);
-    console.debug("Asking users permission to connect.");
     await ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
       if (error.code === 4001) {
         // EIP-1193 userRejectedRequest error
@@ -119,7 +129,6 @@ const EthereumProvider = ({ children }) => {
     setAwaitingUserPermission(false);
   };
 
-  // TODO: unsed
   const fetchMetaEvidenceContents = async (chainId) => {
     const rawMetaEvidenceList = (await getAllMetaEvidences(chainId))?.map((item) => item.uri);
     if (!rawMetaEvidenceList) return;
@@ -129,7 +138,8 @@ const EthereumProvider = ({ children }) => {
     setMetaEvidenceContents(result.map((item) => item.value));
   };
 
-  const sendTransaction = async (unsignedTx) =>
+  const sendTransaction = async (unsignedTx) => {
+    console.log({ ethersProvider });
     await notifyWithToast(
       ethersProvider
         .getSigner()
@@ -137,6 +147,7 @@ const EthereumProvider = ({ children }) => {
         .then((tx) => tx.wait()),
       MESSAGE_TYPE.transaction
     );
+  };
 
   const invokeCall = async (methodName, args) => {
     if (chainId !== metamaskChainId) {
@@ -164,7 +175,6 @@ const EthereumProvider = ({ children }) => {
     }
   };
 
-  console.log({ isDeployedOnThisChain });
   return (
     <EthereumContext.Provider
       value={{
@@ -246,7 +256,6 @@ export const getAllArticles = (chainID) => {
   return Promise.allSettled(
     Object.entries(networkMap[chainID].deployments || {}).map(([key, value]) => {
       return queryTemplate(value.subgraph.endpoint, value.subgraph.queries.getAllArticles).then((data) => {
-        console.log(data);
         if (data && data.articles && data.articles.length > 0) {
           data.articles.map((article) => {
             article.contractAddress = key;
@@ -257,7 +266,7 @@ export const getAllArticles = (chainID) => {
       });
     })
   )
-    .then((r) => r[0]?.value)
+    .then((r) => r[0]?.value ?? [])
     .catch(console.error);
 };
 
@@ -279,7 +288,7 @@ export const getArticlesByAuthor = (chainID, walletAddress) => {
       );
     })
   )
-    .then((r) => r[0]?.value)
+    .then((r) => r[0]?.value ?? [])
     .catch(console.error);
 };
 

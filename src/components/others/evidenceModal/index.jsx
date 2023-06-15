@@ -10,6 +10,7 @@ import addToIPFS from "/src/utils/addToIPFS";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
 
 import UploadIcon from "jsx:/src/assets/upload.svg";
+import { useRevalidator } from "react-router-dom";
 
 const INITIAL_STATE = { title: "", description: "", file: null };
 const IPFS_ENDPOINT = "https://ipfs.kleros.io/add";
@@ -20,6 +21,8 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [sumbitSuccess, setSumbitSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const revalidator = useRevalidator();
+
   useEffect(() => {
     if (sumbitSuccess) {
       setControlsState(INITIAL_STATE);
@@ -91,11 +94,12 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         MESSAGE_TYPE.ipfs
       );
 
-      await ethereumContext.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`])
+      await ethereumContext.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`]);
 
       setIsSubmitting(false);
       setSumbitSuccess(true);
       onCancel();
+      revalidator.revalidate();
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);

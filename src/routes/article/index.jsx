@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import Interval from "react-interval-rerender";
 import * as styles from "./index.module.scss";
+import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
 import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
@@ -18,7 +19,6 @@ import BountyModal from "/src/components/others/bountyModal";
 
 export async function loader({ params }) {
   const article = await getArticleByID(params.chain, params.contract, params.id);
-  console.log({ article });
   let articleContent = {};
   try {
     const response = await fetch(ipfsGateway + article.articleID);
@@ -35,18 +35,22 @@ export default function Index() {
   const ethereumContext = useContext(EthereumContext);
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isBountyModalOpen, setBountyModalOpen] = useState(false);
+  const revalidator = useRevalidator();
 
   async function handleInitiateWithdrawal() {
     await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
+    revalidator.revalidate();
   }
 
   async function handleChallenge() {
     const fee = await ethereumContext.invokeCall("challengeFee", [article?.storageAddress]);
     await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
+    revalidator.revalidate();
   }
 
   async function handleExecuteWithdrawal() {
     await ethereumContext.invokeTransaction("withdraw", [article?.storageAddress]);
+    revalidator.revalidate();
   }
 
   let reRenderInMs = 1000;
@@ -77,11 +81,17 @@ export default function Index() {
           <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
-                You can execute withdrawal in{" "}
-                <Interval delay={reRenderInMs}>{() => getWithdrawalCountdown(article)}</Interval> seconds
+                You can unpublish the article in{" "}
+                <Interval delay={reRenderInMs}>
+                  {() => (
+                    <span className="blink" key={getTimeLeft(article.withdrawalPermittedAt)}>
+                      {formatTime(getTimeLeft(article.withdrawalPermittedAt))}
+                    </span>
+                  )}
+                </Interval>
               </span>
             ) : (
-              "Execute Withdrawal"
+              "Unpublish Article"
             )}
           </CustomButton>
         )}
