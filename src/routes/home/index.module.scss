@@ -11,7 +11,7 @@ $spacing_1fr: 50px;
   @media only screen and (min-width: 780px) {
     grid-template-columns: 5fr 1fr 2fr 0fr 2fr 1fr 5fr;
     grid-auto-rows: auto;
-    gap: 0px 25px;
+    gap: 0px spacings.$s-6;
     margin-bottom: 10rem;
   }
 }
