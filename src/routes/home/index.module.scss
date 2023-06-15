@@ -255,7 +255,7 @@ $spacing_1fr: 50px;
         grid-row: 3 / span 2;
       }
       @media only screen and (min-width: 980px) {
-        grid-column: col2-end / span 4;
+        grid-column: 3 / span 4;
         grid-row: 2;
         img {
           object-fit: cover;
