@@ -52,7 +52,8 @@ const router = createBrowserRouter(
 
 function App() {
   const { pathname } = window.location;
-  const chainId = pathname.split("/")[1];
+  const pathSegment = pathname.split("/")[1];
+  const chainId = pathSegment.startsWith("0x") && pathSegment;
   return (
     <EthereumProvider chainId={chainId}>
       <RouterProvider router={router} />
