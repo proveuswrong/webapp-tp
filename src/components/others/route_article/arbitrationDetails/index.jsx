@@ -29,6 +29,8 @@ export default function ArbitrationDetails({ article }) {
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
   const revalidator = useRevalidator();
 
+  console.log(ethereumContext.metaEvidenceContents);
+
   const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
     // Blindly iterates, since we don't know the state of arbitrator yet. To be upgraded when Subgraph provides those info.
@@ -144,6 +146,7 @@ export default function ArbitrationDetails({ article }) {
       isHiddenVotes={currentDispute?.court.hiddenVotes}
       setEvidenceModalOpen={setEvidenceModalOpen}
       question={ethereumContext?.metaEvidenceContents[article?.category]?.question}
+      voteOptions={ethereumContext.metaEvidenceContents[article.category].rulingOptions.titles}
     />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} setEvidenceModalOpen={setEvidenceModalOpen} />,
     <ExecutionPeriod
