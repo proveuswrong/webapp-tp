@@ -1,301 +1,91 @@
 @use "src/stylesheets/variables/spacings";
-@use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/breakpoints";
 
-$spacing_1fr: 50px;
-
-.sectionGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin-bottom: spacings.$s-16;
-  @media only screen and (min-width: 780px) {
-    grid-template-columns: 5fr 1fr 2fr 0fr 2fr 1fr 5fr;
-    grid-auto-rows: auto;
-    gap: 0px spacings.$s-6;
-    margin-bottom: 10rem;
-  }
-}
-
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: spacings.$s-16;
-}
-
+// Layout
 .home {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 100vh;
-
-  @media only screen and (min-width: 980px) {
-    padding: 0 spacings.$s-16;
+  display: none;
+  @media (min-width: breakpoints.$md) {
+    display:none;
   }
 
-  .sectionHero {
-    .heroContainer {
-      position: relative;
-      padding: spacings.$s-6 spacings.$s-6;
-      @media only screen and (min-width: 480px) {
-        margin: 0 2rem;
-        padding: spacings.$s-16 spacings.$s-6;
-      }
+  @media (min-width: breakpoints.$lg) {
+    display: block;
+    background-color: tomato;
 
-      @media only screen and (min-width: 980px) {
-        margin: 0 6rem;
-        padding: spacings.$s-16 spacings.$s-6;
-      }
+    section.twoColumn {
+      background-color: blue;
+      column-count: 2;
+    }
 
-      grid-column: 1 / -1;
+    section.threeColumn {
+      background-color: green;
+      column-count: 3;
+    }
+
+    section.leftFloating,
+    section.rightFloating {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        width: 80%;
-        height: 1px;
-        background-color: black;
-      }
-      &::after {
-        top: 0;
-        left: 10%;
-      }
-      &::before {
-        bottom: 0;
-        left: 10%;
+
+      h1 {
+        flex: 1;
       }
 
-      .content {
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          height: 80%;
-          width: 1px;
-          background-color: black;
-        }
-        &::after {
-          top: 10%;
-          left: 0;
-        }
-        &::before {
-          top: 10%;
-          right: 0;
-        }
-        .title {
-          font-size: typo.$xl;
-          text-align: center;
-          @media only screen and (min-width: 780px) {
-            font-size: typo.$xxl;
-          }
-        }
-        .subTitle {
-          margin-top: spacings.$s-4;
-          text-align: center;
-          font-style: italic;
-        }
+      p {
+        flex: 2;
       }
     }
-    .text {
-      grid-column: 1/-1;
-      text-align: justify;
-      margin-top: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        column-count: 2;
-        column-gap: $spacing_1fr;
+
+    section.rightFloating {
+      background-color: gray;
+
+      img {
+        margin-left: spacings.$s-8;
+        margin-bottom: spacings.$s-8;
+        float: right;
+      }
+    }
+
+    section.leftFloating {
+      background-color: gray;
+
+      img {
+        margin-right: spacings.$s-8;
+        margin-bottom: spacings.$s-8;
+        float: left;
+      }
+    }
+
+    section.twoColumnsMerging {
+      background-color: pink;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      & > p {
+        grid-column: span 2;
       }
     }
   }
-
-  .sectionIntro {
-    .banner {
-      grid-column: 1 / -1;
-      img {
-        width: 100%;
-        object-fit: contain;
-      }
-    }
-
-    .text {
-      grid-column: 1 / -1;
-      text-align: justify;
-      margin-top: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        column-count: 2;
-        column-gap: $spacing_1fr;
-      }
-      @media only screen and (min-width: 980px) {
-        column-count: 3;
-      }
-    }
+}
+// Styling
+.home {
+  img {
+    max-width: 100%;
   }
 
-  .sectionWhat {
-    .title {
-      font-size: typo.$l;
-      margin-bottom: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / span 3;
-        text-align: left;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 1;
-        text-align: left;
-      }
-    }
-    .firstParagraph {
-      text-align: justify;
-      margin-bottom: spacings.$s-6;
+  background-color: tomato;
 
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / span 3;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 2 / span 2;
-      }
-    }
-    .secondParagraph {
-      text-align: justify;
-      margin-top: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / -1;
-        margin-top: 0;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 1 / span 3;
-        grid-row: 2;
-      }
-    }
-    .imageWrapper {
-      img {
-        width: 100%;
-        height: 100%;
-        max-height: 25rem;
-        object-fit: cover;
-      }
-      @media only screen and (min-width: 780px) {
-        grid-column: 5 /-1;
-        grid-row: 1 / span 2;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 5 /-1;
-        grid-row: 1;
-      }
-    }
+  header {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .sectionWhy {
-    .title {
-      grid-row: 1;
-      font-size: typo.$xxl;
-      margin-bottom: spacings.$s-10;
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / span 5;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 3 / -1;
-      }
+  section.leftFloating,
+  section.rightFloating {
+    img {
+      max-width: 50%;
     }
-    .secondTitle {
-      grid-column: 1;
-      grid-row: 2;
-      width: 70%;
-      text-align: left;
-      font-size: typo.$l;
-      margin-bottom: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / span 4;
-        width: 100%;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 1;
-        text-align: right;
-      }
-    }
-    .firstParagraph {
+    p {
       text-align: justify;
-      grid-row: 3;
-      margin-bottom: spacings.$s-6;
-
-      @media only screen and (min-width: 780px) {
-        grid-column: 5 / -1;
-        grid-row: 3;
-      }
-
-      @media only screen and (min-width: 980px) {
-        grid-row: 2;
-        grid-column: 7;
-        padding-left: spacings.$s-6;
-      }
-    }
-    .secondParagraph {
-      text-align: justify;
-      margin-top: spacings.$s-6;
-      @media only screen and (min-width: 780px) {
-        grid-column: 5 / -1;
-        grid-row: 4;
-        margin-top: 0;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 3 / -1;
-        grid-row: 3;
-        margin-top: spacings.$s-6;
-      }
-    }
-    .imageWrapper {
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      @media only screen and (min-width: 780px) {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 2;
-      }
-      @media only screen and (min-width: 980px) {
-        grid-column: 3 / span 4;
-        grid-row: 2;
-        img {
-          object-fit: cover;
-        }
-      }
-    }
-  }
-
-  .sectionHow {
-    .title {
-      grid-column: 1 / span 3;
-      grid-row: 1;
-      font-size: typo.$xxl;
-    }
-    .subtitle {
-      grid-column: 1 / span 3;
-      grid-row: 2;
-      margin-bottom: spacings.$s-10;
-      font-style: italic;
-    }
-    .text {
-      grid-column: 1 / -1;
-      grid-row: 3;
-      text-align: justify;
-      margin-bottom: spacings.$s-6;
-
-      @media only screen and (min-width: 480px) {
-        column-count: 2;
-        column-gap: $spacing_1fr;
-      }
-    }
-    .imageWrapper {
-      grid-column: 1 /-1;
-      grid-row: 4;
-      img {
-        width: 100%;
-        height: 100%;
-        max-height: 25rem;
-        object-fit: cover;
-      }
     }
   }
 }
