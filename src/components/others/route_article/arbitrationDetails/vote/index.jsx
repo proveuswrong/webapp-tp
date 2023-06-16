@@ -40,7 +40,7 @@ export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceM
         {voteData.map((vote, _index) => (
           <div key={_index} className={styles.voteCard}>
             <div>{vote.icon}</div>
-            <div key={_index} className={`blink ${styles.voteCount}`}>
+            <div key={vote.voteSize} className={`blink ${styles.voteCount}`}>
               {vote.voteSize}
             </div>
             <div className={styles.voteOption}>{vote.option}</div>
