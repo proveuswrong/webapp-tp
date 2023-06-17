@@ -16,32 +16,27 @@ export default function Home() {
           Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
           journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
           in journalism!Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
-          innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
-          groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in journalism! Get ready for
-          a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready
-          for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in journalism! Get
           ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism!
           Get ready for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in
-          journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a or a groundbreaking innovation in journalism!
-          Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-          journalis
-          in journalism! Get ready for a groundbreaking innovation in journalism!
+          journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a or a groundbreaking
+          innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
+          groundbreaking innovation in journalis in journalism! Get ready for a groundbreaking innovation in journalism!
         </p>
       </section>
-      <figure>
-        <img src={WhatSectionImage} alt="truthpost-what-section" />
-      </figure>
+      <section>
+        <figure>
+          <img src={WhatSectionImage} alt="truthpost-what-section" />
+        </figure>
+      </section>
       <section className={styles.threeColumn}>
         <p>
           Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
           journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
-          in journalism!
-          Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-          journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
-          in journalism!
-          Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-          journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
-          in journalism!
+          in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
+          innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
+          groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready
+          for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get
+          ready for a groundbreaking innovation in journalism!
         </p>
       </section>
       <section className={styles.rightFloating}>
@@ -49,15 +44,15 @@ export default function Home() {
           <b>Right Floating:</b> Notice the right column has a floating image
         </h1>
         <p>
-          <figure>
-            <img src={WhatSectionImage} alt="truthpost-what-section" />
-          </figure>
           Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
           journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
           in journalism!Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
           innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
           groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in journalism! Get ready for
           a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready
+          <figure>
+            <img src={WhatSectionImage} alt="truthpost-what-section" />
+          </figure>
           for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in journalism! Get
           ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism!
           Get ready for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in
@@ -90,20 +85,28 @@ export default function Home() {
         </figure>
         <p>
           Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-          journalism!
+          journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
+          in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
+          innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
+          groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready
+          for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get
+          ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism!
+          Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
+          journalism! Get ready for a groundbreaking innovation in journalism!
         </p>
+        <button>call to action</button>
       </section>
-      <figure>
-        <img src={WhatSectionImage} alt="truthpost-what-section" />
-      </figure>
+      <section>
+        <figure>
+          <img src={WhatSectionImage} alt="truthpost-what-section" />
+        </figure>
+      </section>
       <section className={styles.leftFloating}>
         <h1>
-          <b>Left Floating:</b> Notice the right column has a floating image
+          <b>Left Floating:</b> Notice the left column has a floating image
         </h1>
         <p>
-          <figure>
-            <img src={WhatSectionImage} alt="truthpost-what-section" />
-          </figure>
+
           Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
           journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
           in journalism!Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
@@ -112,6 +115,9 @@ export default function Home() {
           a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready
           for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in journalism! Get
           ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism!
+          <figure>
+            <img src={WhatSectionImage} alt="truthpost-what-section" />
+          </figure>
           Get ready for a groundbreaking innovation in journalism!Get ready for a groundbreaking innovation in
           journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation
           in journalism! Get ready for a groundbreaking innovation in journalism!Get ready for a groundbreaking

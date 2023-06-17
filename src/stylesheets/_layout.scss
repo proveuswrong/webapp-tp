@@ -29,7 +29,7 @@ nav {
   }
 }
 
-header:not(article > header),
+header:not(article > header):not(section > header),
 main,
 footer {
   padding-left: spacings.$s-8;
@@ -44,7 +44,7 @@ footer {
   }
 }
 
-header:not(article > header) {
+header:not(article > header):not(section > header) {
   padding-top: spacings.$s-20;
   padding-bottom: spacings.$s-5;
 }

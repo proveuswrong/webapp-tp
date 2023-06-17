@@ -3,28 +3,37 @@
 
 // Layout
 .home {
-  display: none;
-  @media (min-width: breakpoints.$md) {
-    display:none;
+  display: block;
+
+  section.leftFloating,
+  section.rightFloating {
+    display: flex;
+    flex-direction: column;
+
+    figure {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
-  @media (min-width: breakpoints.$lg) {
-    display: block;
-    background-color: tomato;
+  section.twoColumnsMerging {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
+  @media (min-width: breakpoints.$md) {
     section.twoColumn {
-      background-color: blue;
       column-count: 2;
     }
 
     section.threeColumn {
-      background-color: green;
-      column-count: 3;
+      column-count: 2;
     }
 
     section.leftFloating,
     section.rightFloating {
       display: flex;
+      flex-direction: column;
 
       h1 {
         flex: 1;
@@ -36,9 +45,7 @@
     }
 
     section.rightFloating {
-      background-color: gray;
-
-      img {
+      figure {
         margin-left: spacings.$s-8;
         margin-bottom: spacings.$s-8;
         float: right;
@@ -46,9 +53,7 @@
     }
 
     section.leftFloating {
-      background-color: gray;
-
-      img {
+      figure {
         margin-right: spacings.$s-8;
         margin-bottom: spacings.$s-8;
         float: left;
@@ -56,13 +61,27 @@
     }
 
     section.twoColumnsMerging {
-      background-color: pink;
-      display: grid;
       grid-template-columns: 1fr 1fr;
 
       & > p {
         grid-column: span 2;
       }
+    }
+  }
+
+  @media (min-width: breakpoints.$xl) {
+    section.twoColumn {
+      column-count: 2;
+    }
+
+    section.threeColumn {
+      column-count: 3;
+    }
+
+    section.leftFloating,
+    section.rightFloating {
+      display: flex;
+      flex-direction: row;
     }
   }
 }
@@ -72,8 +91,6 @@
     max-width: 100%;
   }
 
-  background-color: tomato;
-
   header {
     margin-left: auto;
     margin-right: auto;
@@ -81,7 +98,7 @@
 
   section.leftFloating,
   section.rightFloating {
-    img {
+    figure {
       max-width: 50%;
     }
     p {
