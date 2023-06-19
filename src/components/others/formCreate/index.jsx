@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { EthereumContext } from "../../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
@@ -52,9 +52,8 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
       description: controlsState.description === "" ? ERROR_MSG : "",
       categoryNo: controlsState.categoryNo < 0 ? "Please select a curation pool" : "",
     };
-    console.log({ newErrors });
+    console.debug({ newErrors });
     setErrors(newErrors);
-    console.log({ controlsState });
 
     if (Object.values(newErrors).some((error) => error !== "")) {
       return;
