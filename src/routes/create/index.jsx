@@ -39,7 +39,7 @@ export default function Create() {
           JSON.stringify({
             title: controlsState.title,
             description: controlsState.description,
-            tags: controlsState.tags,
+            tags: controlsState.tags.trim(),
             format: controlsState.format,
           })
         ),
