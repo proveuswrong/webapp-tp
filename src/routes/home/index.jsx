@@ -9,7 +9,7 @@ export default function Home() {
     <article className={styles.home}>
       <header>
         <h1>Ushering in a New Era of Trust and Transparency</h1>
-        <p>Get ready for a groundbreaking innovation in journalism!</p>
+        <p><i>Get ready for a groundbreaking innovation in journalism!</i></p>
       </header>
       <section className={styles.twoColumn}>
         <p>

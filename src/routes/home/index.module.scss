@@ -1,5 +1,6 @@
 @use "src/stylesheets/variables/spacings";
 @use "src/stylesheets/variables/breakpoints";
+@use "src/stylesheets/variables/typo";
 
 // Layout
 .home {
@@ -13,6 +14,8 @@
     figure {
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: spacings.$s-8;
+      margin-top: spacings.$s-8;
     }
   }
 
@@ -22,6 +25,11 @@
   }
 
   @media (min-width: breakpoints.$md) {
+    section.twoColumn,
+    section.threeColumn {
+      column-gap: 2rem;
+      text-align: justify;
+    }
     section.twoColumn {
       column-count: 2;
     }
@@ -47,7 +55,6 @@
     section.rightFloating {
       figure {
         margin-left: spacings.$s-8;
-        margin-bottom: spacings.$s-8;
         float: right;
       }
     }
@@ -55,7 +62,6 @@
     section.leftFloating {
       figure {
         margin-right: spacings.$s-8;
-        margin-bottom: spacings.$s-8;
         float: left;
       }
     }
@@ -87,13 +93,88 @@
 }
 // Styling
 .home {
-  img {
-    max-width: 100%;
+  section {
+    margin-top: 14 * spacings.$spacing;
   }
 
-  header {
+  img {
+    max-width: 100%;
+
+  }
+
+  & > header {
+    padding: min(3vw, 14 * spacings.$spacing) min(6vw, 28 * spacings.$spacing);
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+    position: relative;
+
+    //background: linear-gradient(black 0 0) bottom / 80% 1px, linear-gradient(black 0 0) top / 80% 1px,
+    //  linear-gradient(black 0 0) left / 1px 80%, linear-gradient(black 0 0) right / 1px 80%;
+    //background-repeat: no-repeat;
+
+    background: linear-gradient(
+          to right,
+          transparent 10%,
+          black 10%,
+          black 45%,
+          transparent 45%,
+          transparent 55%,
+          black 55%,
+          black 90%,
+          transparent 90%
+        )
+        0 100%,
+      linear-gradient(
+          to right,
+          transparent 10%,
+          black 10%,
+          black 45%,
+          transparent 45%,
+          transparent 55%,
+          black 55%,
+          black 90%,
+          transparent 90%
+        )
+        0 0,
+      linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 100% 0,
+      linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
+    background-repeat: no-repeat;
+    background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+
+    $iconSize: calc(1rem + 1vw);
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: url(../../assets/eye.svg);
+      content: "";
+      display: block;
+      height: $iconSize;
+      width: $iconSize;
+      background-size: $iconSize $iconSize;
+      background-image: url(../../assets/eye.svg);
+      background-repeat: no-repeat;
+    }
+
+    &::before {
+      top: calc(-1 * $iconSize/2);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &::after {
+      bottom: calc(-1 * $iconSize/2);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+    p {
+      font-size: typo.$s;
+    }
   }
 
   section.leftFloating,

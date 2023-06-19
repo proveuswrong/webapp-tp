@@ -1,35 +1,23 @@
-/*
-@use "sass:map";
+$spacing: 0.25rem;
 
-$spacings;
-@mixin spacings {
-  @for $i from 1 through 40 {
-    map.set($spacings, i, $i * 0.25rem);
-  }
-}
-
-@debug $prefixes-by-browser;*/
-
-$interval: 0.25rem;
-
-$s-1: 1 * $interval;
-$s-2: 2 * $interval;
-$s-3: 3 * $interval;
-$s-4: 4 * $interval;
-$s-5: 5 * $interval;
-$s-6: 6 * $interval;
-$s-7: 7 * $interval;
-$s-8: 8 * $interval;
-$s-9: 9 * $interval;
-$s-10: 10 * $interval;
-$s-11: 11 * $interval;
-$s-12: 12 * $interval;
-$s-13: 13 * $interval;
-$s-14: 14 * $interval;
-$s-15: 15 * $interval;
-$s-16: 16 * $interval;
-$s-17: 17 * $interval;
-$s-18: 18 * $interval;
-$s-19: 19 * $interval;
-$s-20: 20 * $interval;
+$s-1: 1 * $spacing;
+$s-2: 2 * $spacing;
+$s-3: 3 * $spacing;
+$s-4: 4 * $spacing;
+$s-5: 5 * $spacing;
+$s-6: 6 * $spacing;
+$s-7: 7 * $spacing;
+$s-8: 8 * $spacing;
+$s-9: 9 * $spacing;
+$s-10: 10 * $spacing;
+$s-11: 11 * $spacing;
+$s-12: 12 * $spacing;
+$s-13: 13 * $spacing;
+$s-14: 14 * $spacing;
+$s-15: 15 * $spacing;
+$s-16: 16 * $spacing;
+$s-17: 17 * $spacing;
+$s-18: 18 * $spacing;
+$s-19: 19 * $spacing;
+$s-20: 20 * $spacing;
 
