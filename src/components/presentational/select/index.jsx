@@ -3,9 +3,9 @@ import * as styles from "./index.module.scss";
 
 import CaretDownOutlined from "jsx:/src/assets/caretDownOutlined.svg";
 
-export default function Select({ options, placeholder, onChange }) {
+export default function Select({ options, defaultOption, placeholder, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(defaultOption);
   const selectRef = useRef(null);
 
   const handleOptionSelect = (option) => {

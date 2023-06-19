@@ -164,7 +164,12 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         </div>
         <div className={styles.formSelect}>
           {controlsState.categoryNo < 0 && <ErrorDisplay message={errors.categoryNo} />}
-          <Select placeholder="Curation Pool" options={selectOptions} onChange={handleOnChange} />
+          <Select
+            placeholder="Curation Pool"
+            options={selectOptions}
+            defaultOption={selectOptions.find((item) => item.value === controlsState.categoryNo)}
+            onChange={handleOnChange}
+          />
         </div>
       </div>
       <div className={styles.button}>
