@@ -23,29 +23,31 @@ function IndexRedirect() {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/">
       <Route index element={<Home />} />
-      <Route element={<RouteRedirect />}>
-        <Route element={<IndexRedirect />} />
+      <Route element={<Layout />}>
+        <Route element={<RouteRedirect />}>
+          <Route element={<IndexRedirect />} />
 
-        <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
-        <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
-        <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
+          <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
+          <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
+          <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
 
-        <Route element={<AuthRequired />}>
-          <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
-          <Route path=":chain/report" element={<Create />} />
+          <Route element={<AuthRequired />}>
+            <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
+            <Route path=":chain/report" element={<Create />} />
+          </Route>
         </Route>
+        <Route path="faq" element={<FAQ />} />
+        <Route
+          path="*"
+          element={
+            <section>
+              <h1>There's nothing here!</h1>
+            </section>
+          }
+        />
       </Route>
-      <Route path="faq" element={<FAQ />} />
-      <Route
-        path="*"
-        element={
-          <section>
-            <h1>There's nothing here!</h1>
-          </section>
-        }
-      />
     </Route>
   )
 );
