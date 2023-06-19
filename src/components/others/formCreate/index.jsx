@@ -39,9 +39,10 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
   };
 
   const handleControlChange = (e) => {
-    updateControlsState({ [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    updateControlsState({ [id]: id === "tags" ? value.toLowerCase() : value });
     setErrors({
-      [e.target.id]: "",
+      [id]: "",
     });
   };
 
@@ -53,6 +54,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
     };
     console.log({ newErrors });
     setErrors(newErrors);
+    console.log({ controlsState });
 
     if (Object.values(newErrors).some((error) => error !== "")) {
       return;
@@ -88,8 +90,6 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         />
         {(!focusedFields.title || controlsState.title !== "") && <ErrorDisplay message={errors.title} />}
       </div>
-
-
 
       <div className={styles.formInput}>
         <label htmlFor="description">Body</label>
