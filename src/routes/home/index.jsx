@@ -29,71 +29,6 @@ export default function Home() {
               <i>Get ready for a groundbreaking innovation in journalism!</i>
             </p>
           </header>
-          <section className={styles.principles}>
-            <div>
-              <figure>
-                <img src={Decentralized} />
-              </figure>
-              <h1>Decentralized</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Pseudonymous} />
-              </figure>
-              <h1>Pseudonymous</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Permissionless} />
-              </figure>
-              <h1>Permissionless</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Transparent} />
-              </figure>
-              <h1>Transparent</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Fair} />
-              </figure>
-              <h1>Fair</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Trustless} />
-              </figure>
-              <h1>Trustless</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Autonomous} />
-              </figure>
-              <h1>Autonomous</h1>
-              <p>
-                <i>Get ready for a groundbreaking innovation in journalism!</i>
-              </p>
-            </div>
-          </section>
           <section className={styles.twoColumn}>
             <p>
               Once upon a time, news was a trusted friend. It told us stories about our world, shared the triumphs and
@@ -136,6 +71,72 @@ export default function Home() {
               innovation in journalism! Get ready for a groundbreaking innovation in journalism!
             </p>
           </section>
+          <section className={styles.principles}>
+            <div>
+              <figure>
+                <img src={Decentralized} />
+              </figure>
+              <h1>Decentralized</h1>
+              <p>
+                <i>There's no privileged user group.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Pseudonymous} />
+              </figure>
+              <h1>Pseudonymous</h1>
+              <p>
+                <i>Allows for reputation building while preventing retaliation.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Permissionless} />
+              </figure>
+              <h1>Permissionless</h1>
+              <p>
+                <i>Any user can adopt any role within the system.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Transparent} />
+              </figure>
+              <h1>Transparent</h1>
+              <p>
+                <i>Every aspect of the system can be verified by any user.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Fair} />
+              </figure>
+              <h1>Fair</h1>
+              <p>
+                <i>Users are rewarded in line with the quality and impact of their contributions.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Trustless} />
+              </figure>
+              <h1>Trustless</h1>
+              <p>
+                <i>No need to trust any other user.</i>
+              </p>
+            </div>
+            <div>
+              <figure>
+                <img src={Autonomous} />
+              </figure>
+              <h1>Autonomous</h1>
+              <p>
+                <i>The system functions as programmed, indefinitely.</i>
+              </p>
+            </div>
+          </section>
+
           <section className={styles.rightFloating}>
             <h1>
               <b>Right Floating:</b> Notice the right column has a floating image
