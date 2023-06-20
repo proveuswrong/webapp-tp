@@ -91,6 +91,7 @@
     }
   }
 }
+
 // Styling
 .home {
   .logo{
@@ -100,7 +101,6 @@
     padding: 3rem;
   }
 
-
   section {
     margin-top: 14 * spacings.$spacing;
   }
@@ -109,6 +109,12 @@
     max-width: 100%;
 
   }
+
+
+  section > p::first-letter{
+      initial-letter: 2;
+      margin-right: 0.5rem;
+    }
 
   & > header {
     padding: min(3vw, 14 * spacings.$spacing) min(6vw, 28 * spacings.$spacing);
