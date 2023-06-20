@@ -6,6 +6,7 @@ import CustomButton from "/src/components/presentational/button";
 import Select from "../../presentational/select";
 import ErrorIcon from "jsx:/src/assets/error.svg";
 import { useMergeState } from "../../../hooks/useMergeState";
+import Tabs from "../../presentational/tabs";
 
 const ERROR_MSG = "Please fill up this field";
 
@@ -90,26 +91,28 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         {(!focusedFields.title || controlsState.title !== "") && <ErrorDisplay message={errors.title} />}
       </div>
 
-      <div className={styles.formInput}>
-        <label htmlFor="description">Body</label>
-        <textarea
-          className={styles.description}
-          id="description"
-          name="description"
-          rows="5"
-          cols="33"
-          placeholder="A juicy content..."
-          required
-          onChange={handleControlChange}
-          onFocus={() => handleFocus("description")}
-          onBlur={() => handleBlur("description")}
-          value={controlsState.description}
-        />
+      <div>
+        <div className={styles.formInput}>
+          <label htmlFor="description">Body</label>
+          <textarea
+            className={styles.description}
+            id="description"
+            name="description"
+            rows="5"
+            cols="33"
+            placeholder="A juicy content..."
+            required
+            onChange={handleControlChange}
+            onFocus={() => handleFocus("description")}
+            onBlur={() => handleBlur("description")}
+            value={controlsState.description}
+          />
+        </div>
         {(!focusedFields.description || controlsState.description !== "") && (
           <ErrorDisplay message={errors.description} />
         )}
       </div>
-      <fieldset className={styles.textFormat}>
+      {/*    <fieldset className={styles.textFormat}>
         <input
           type="radio"
           id="plaintext"
@@ -131,7 +134,18 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         />
         <label htmlFor="markdown">Markdown</label>
         <br />
-      </fieldset>
+      </fieldset> */}
+      {
+        <Tabs
+          options={[
+            { label: "plaintext", value: "plaintext" },
+            { label: "markdown", value: "markdown" },
+          ]}
+          defaultValue={controlsState.format}
+          onChange={handleRadioChange}
+          name="format"
+        />
+      }
 
       <div className={styles.formInput}>
         <label htmlFor="tags">Tags</label>
