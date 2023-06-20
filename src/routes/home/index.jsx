@@ -3,9 +3,19 @@ import bannerImage from "/src/assets/images/landing-1.jpg";
 import WhatSectionImage from "/src/assets/images/landing-3.jpg";
 import WhySectionImage from "/src/assets/images/landing-4.jpg";
 import HowSectionImage from "/src/assets/images/landing-5.jpg";
+import InSearchOfTruth from "/src/assets/images/inSearchOfTruth.jpg";
+
+import Permissionless from "jsx:/src/assets/permissionless.svg";
+import Decentralized from "jsx:/src/assets/decentralized.svg";
+import Fair from "jsx:/src/assets/fair.svg";
+import Pseudonymous from "jsx:/src/assets/pseudonymous.svg";
+import Autonomous from "jsx:/src/assets/autonomous.svg";
+import Transparent from "jsx:/src/assets/transparent.svg";
+import Trustless from "jsx:/src/assets/pseudonymous2.svg";
+
+
 import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
 import FigureDecoration from "jsx:/src/assets/figureDecoration.svg";
-
 
 export default function Home() {
   return (
@@ -18,6 +28,70 @@ export default function Home() {
             <i>Get ready for a groundbreaking innovation in journalism!</i>
           </p>
         </header>
+        <section className={styles.principles}>
+          <div>
+            <figure>
+              <Decentralized />
+            </figure>
+            <h1>Decentralized</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure>
+              <Pseudonymous />
+            </figure>
+            <h1>Pseudonymous</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure>
+              <Permissionless />
+            </figure>
+            <h1>Permissionless</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure><Transparent/></figure>
+            <h1>Transparent</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure>
+              <Fair />
+            </figure>
+            <h1>Fair</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure>
+              <Trustless/>
+            </figure>
+            <h1>Trustless</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+          <div>
+            <figure>
+              <Autonomous/>
+            </figure>
+            <h1>Autonomous</h1>
+            <p>
+              <i>Get ready for a groundbreaking innovation in journalism!</i>
+            </p>
+          </div>
+
+        </section>
         <section className={styles.twoColumn}>
           <p>
             Once upon a time, news was a trusted friend. It told us stories about our world, shared the triumphs and
@@ -35,16 +109,18 @@ export default function Home() {
           <p>
             And then, the dawn broke over the horizon. An innovation, sparked in the bustling, borderless world of the
             Ethereum blockchain, came to life. A phoenix born from the ashes of mistrust and disinformation, "The Truth
-            Post" ascended, heralding a new age of news curation. Gone were the gatekeepers, the centralized authorities that held the keys to information. Justice and transparency took precedence, propelled by the gears of decentralization. For the first time, we could publish, curate, and
-            engage with the news in a completely transparent environment. The Truth Post created an arena where accuracy
-            was not just valued but rewarded, where relevant content found its rightful place in the spotlight. The
-            allure of pseudonymous publishing freed us from the shackles of fear and retaliation, encouraging bold
-            voices to echo through the corridors of information.
+            Post" ascended, heralding a new age of news curation. Gone were the gatekeepers, the centralized authorities
+            that held the keys to information. Justice and transparency took precedence, propelled by the gears of
+            decentralization. For the first time, we could publish, curate, and engage with the news in a completely
+            transparent environment. The Truth Post created an arena where accuracy was not just valued but rewarded,
+            where relevant content found its rightful place in the spotlight. The allure of pseudonymous publishing
+            freed us from the shackles of fear and retaliation, encouraging bold voices to echo through the corridors of
+            information.
           </p>
         </section>
         <section>
           <figure>
-            <img src={WhatSectionImage} alt="truthpost-what-section" />
+            <img src={InSearchOfTruth} alt="illustration" />
           </figure>
         </section>
         <section className={styles.threeColumn}>

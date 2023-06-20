@@ -2,6 +2,9 @@
 @use "src/stylesheets/variables/breakpoints";
 @use "src/stylesheets/variables/typo";
 
+$iconSize: calc(1rem + 1vw);
+$uri: url(../../assets/eye.svg);
+
 // Layout
 .home {
   display: block;
@@ -94,7 +97,9 @@
 
 // Styling
 .home {
-  .logo{
+  word-break: break-word;
+
+  .logo {
     height: calc(100vh - 5rem);
     width: 100%;
     margin-bottom: 2.28rem;
@@ -102,19 +107,48 @@
   }
 
   section {
-    margin-top: 14 * spacings.$spacing;
+    margin-top: 20 * spacings.$spacing;
   }
 
   img {
     max-width: 100%;
-
   }
 
+  section > p:first-of-type::first-letter {
+    initial-letter: 2;
+    margin-right: 0.5rem;
+  }
 
-  section > p:first-of-type::first-letter{
-      initial-letter: 2;
-      margin-right: 0.5rem;
+  section.principles {
+    text-align: center;
+    display: grid;
+    grid-gap: 16 * spacings.$spacing;
+    grid-template-columns: 1fr;
+
+
+    @media (min-width: breakpoints.$md) {
+      grid-template-columns: 1fr 1fr;
+
+      & > div:first-of-type {
+        grid-column: span 2;
+      }
     }
+
+
+    & > div:not(:first-of-type) {
+
+    }
+    & > div:not(:first-of-type):nth-of-type(2n) {
+
+
+    }
+    & > div:not(:first-of-type):nth-of-type(2n+1) {
+
+
+    }
+
+
+  }
 
   & > header {
     padding: min(3vw, 14 * spacings.$spacing) min(6vw, 28 * spacings.$spacing);
@@ -122,10 +156,6 @@
     margin-right: auto;
     text-align: center;
     position: relative;
-
-    //background: linear-gradient(black 0 0) bottom / 80% 1px, linear-gradient(black 0 0) top / 80% 1px,
-    //  linear-gradient(black 0 0) left / 1px 80%, linear-gradient(black 0 0) right / 1px 80%;
-    //background-repeat: no-repeat;
 
     background: linear-gradient(
           to right,
@@ -156,18 +186,16 @@
     background-repeat: no-repeat;
     background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
 
-    $iconSize: calc(1rem + 1vw);
-
     &::before,
     &::after {
       position: absolute;
-      content: url(../../assets/eye.svg);
+      content: $uri;
       content: "";
       display: block;
       height: $iconSize;
       width: $iconSize;
       background-size: $iconSize $iconSize;
-      background-image: url(../../assets/eye.svg);
+      background-image: $uri;
       background-repeat: no-repeat;
     }
 
