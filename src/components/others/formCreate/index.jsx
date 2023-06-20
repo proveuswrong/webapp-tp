@@ -112,40 +112,16 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
           <ErrorDisplay message={errors.description} />
         )}
       </div>
-      {/*    <fieldset className={styles.textFormat}>
-        <input
-          type="radio"
-          id="plaintext"
-          name="format"
-          value="plaintext"
-          onChange={handleRadioChange}
-          checked={controlsState.format == "plaintext"}
-        />
-        <label htmlFor="plaintext">Plaintext</label>
-        <br />
 
-        <input
-          type="radio"
-          id="markdown"
-          name="format"
-          value="markdown"
-          onChange={handleRadioChange}
-          checked={controlsState.format == "markdown"}
-        />
-        <label htmlFor="markdown">Markdown</label>
-        <br />
-      </fieldset> */}
-      {
-        <Tabs
-          options={[
-            { label: "plaintext", value: "plaintext" },
-            { label: "markdown", value: "markdown" },
-          ]}
-          defaultValue={controlsState.format}
-          onChange={handleRadioChange}
-          name="format"
-        />
-      }
+      <Tabs
+        options={[
+          { label: "plaintext", value: "plaintext" },
+          { label: "markdown", value: "markdown" },
+        ]}
+        defaultValue={controlsState.format}
+        onChange={handleRadioChange}
+        name="format"
+      />
 
       <div className={styles.formInput}>
         <label htmlFor="tags">Tags</label>
