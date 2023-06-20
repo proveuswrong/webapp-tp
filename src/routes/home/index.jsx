@@ -3,10 +3,13 @@ import bannerImage from "/src/assets/images/landing-1.jpg";
 import WhatSectionImage from "/src/assets/images/landing-3.jpg";
 import WhySectionImage from "/src/assets/images/landing-4.jpg";
 import HowSectionImage from "/src/assets/images/landing-5.jpg";
+import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
 
 export default function Home() {
   return (
+    <main>
     <article className={styles.home}>
+      <TruthPost className={styles.logo}/>
       <header>
         <h1>Ushering in a New Era of Trust and Transparency</h1>
         <p><i>Get ready for a groundbreaking innovation in journalism!</i></p>
@@ -139,5 +142,6 @@ export default function Home() {
         </p>
       </section>
     </article>
+    </main>
   );
 }

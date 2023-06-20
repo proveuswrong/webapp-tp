@@ -93,6 +93,14 @@
 }
 // Styling
 .home {
+  .logo{
+    height: calc(100vh - 5rem);
+    width: 100%;
+    margin-bottom: 2.28rem;
+    padding: 3rem;
+  }
+
+
   section {
     margin-top: 14 * spacings.$spacing;
   }
