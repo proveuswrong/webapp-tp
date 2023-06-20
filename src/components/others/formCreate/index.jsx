@@ -4,9 +4,10 @@ import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import Select from "../../presentational/select";
-import ErrorIcon from "jsx:/src/assets/error.svg";
+import RadioButtons from "../../presentational/radioButtons";
+
 import { useMergeState } from "../../../hooks/useMergeState";
-import Tabs from "../../presentational/tabs";
+import ErrorIcon from "jsx:/src/assets/error.svg";
 
 const ERROR_MSG = "Please fill up this field";
 
@@ -113,7 +114,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         )}
       </div>
 
-      <Tabs
+      <RadioButtons
         options={[
           { label: "plaintext", value: "plaintext" },
           { label: "markdown", value: "markdown" },
