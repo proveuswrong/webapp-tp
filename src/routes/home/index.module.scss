@@ -4,6 +4,32 @@
 
 $iconSize: calc(1rem + 1vw);
 $uri: url(../../assets/eye.svg);
+$gappedBorders: linear-gradient(
+      to right,
+      transparent 10%,
+      black 10%,
+      black 45%,
+      transparent 45%,
+      transparent 55%,
+      black 55%,
+      black 90%,
+      transparent 90%
+    )
+    0 100%,
+  linear-gradient(
+      to right,
+      transparent 10%,
+      black 10%,
+      black 45%,
+      transparent 45%,
+      transparent 55%,
+      black 55%,
+      black 90%,
+      transparent 90%
+    )
+    0 0,
+  linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 100% 0,
+  linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
 
 // Layout
 .home {
@@ -106,6 +132,8 @@ $uri: url(../../assets/eye.svg);
     padding: 3rem;
   }
 
+  header {
+  }
   section {
     margin-top: 20 * spacings.$spacing;
   }
@@ -125,6 +153,9 @@ $uri: url(../../assets/eye.svg);
     grid-gap: 16 * spacings.$spacing;
     grid-template-columns: 1fr;
 
+    img {
+      width: 4.5rem;
+    }
 
     @media (min-width: breakpoints.$md) {
       grid-template-columns: 1fr 1fr;
@@ -134,20 +165,12 @@ $uri: url(../../assets/eye.svg);
       }
     }
 
-
     & > div:not(:first-of-type) {
-
     }
     & > div:not(:first-of-type):nth-of-type(2n) {
-
-
     }
-    & > div:not(:first-of-type):nth-of-type(2n+1) {
-
-
+    & > div:not(:first-of-type):nth-of-type(2n + 1) {
     }
-
-
   }
 
   & > header {
@@ -157,32 +180,7 @@ $uri: url(../../assets/eye.svg);
     text-align: center;
     position: relative;
 
-    background: linear-gradient(
-          to right,
-          transparent 10%,
-          black 10%,
-          black 45%,
-          transparent 45%,
-          transparent 55%,
-          black 55%,
-          black 90%,
-          transparent 90%
-        )
-        0 100%,
-      linear-gradient(
-          to right,
-          transparent 10%,
-          black 10%,
-          black 45%,
-          transparent 45%,
-          transparent 55%,
-          black 55%,
-          black 90%,
-          transparent 90%
-        )
-        0 0,
-      linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 100% 0,
-      linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
+    background: $gappedBorders;
     background-repeat: no-repeat;
     background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
 
