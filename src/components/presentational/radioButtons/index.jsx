@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as styles from "./index.module.scss";
 
-export default function Tabs({ options, defaultValue, onChange, name }) {
+export default function RadioButtons({ options, defaultValue, onChange, name }) {
   const [selectedTab, setSelectedTab] = useState(defaultValue);
 
   const handleOnChange = (e) => {
