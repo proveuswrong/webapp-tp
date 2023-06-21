@@ -14,7 +14,7 @@ import Transparent from "/src/assets/images/transparent.png";
 import Trustless from "/src/assets/images/trustless.png";
 
 import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
-import FigureDecoration from "jsx:/src/assets/figureDecoration.svg";
+import FigureDecoration from "jsx:/src/assets/marks.svg";
 import Footer from "/src/components/presentational/footer";
 
 export default function Home() {

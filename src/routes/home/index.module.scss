@@ -3,7 +3,8 @@
 @use "src/stylesheets/variables/typo";
 
 $iconSize: calc(1rem + 1vw);
-$uri: url(../../assets/eye.svg);
+$eye: url(../../assets/eye.svg);
+$marks: url(../../assets/marks.svg);
 $gappedBorders: linear-gradient(
       to right,
       transparent 10%,
@@ -123,68 +124,6 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
-  @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    10%,
-    30%,
-    50%,
-    70%,
-    90% {
-      transform: translateX(-10px);
-    }
-    20%,
-    40%,
-    60%,
-    80% {
-      transform: translateX(10px);
-    }
-  }
-  @keyframes swing {
-    20% {
-      transform: rotate(15deg);
-    }
-    40% {
-      transform: rotate(-10deg);
-    }
-    60% {
-      transform: rotate(5deg);
-    }
-    80% {
-      transform: rotate(-5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-  @keyframes rotate-in-down-left {
-    0% {
-      transform-origin: left bottom;
-      transform: rotate(-90deg);
-      opacity: 0;
-    }
-    100% {
-      transform-origin: left bottom;
-      transform: rotate(0);
-      opacity: 1;
-    }
-  }
-  @keyframes bounce-out-down {
-    0% {
-      transform: translateY(0);
-    }
-    20% {
-      opacity: 1;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-  }
-
   word-break: break-word;
 
   .logo {
@@ -194,146 +133,197 @@ $gappedBorders: linear-gradient(
     padding: 3rem;
   }
 
-  header {
-  }
   section {
-    margin-top: 20 * spacings.$spacing;
+    padding-top: 20 * spacings.$spacing;
+    padding-bottom: 20 * spacings.$spacing;
+
+    &:first-of-type {
+      padding-top: 20 * spacings.$spacing;
+    }
+
+    &.twoColumn, &.rightFloating, &.twoColumnsMerging, &:has(>figure) {
+      background: linear-gradient(
+          to right,
+          black 0%,
+          black 45%,
+          transparent 45%,
+          transparent 55%,
+          black 55%,
+          black 100%
+        )
+        0 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      position: relative;
+
+      &::after {
+        content: ""; // Required for pseudo elements
+        position: absolute;
+        display: block;
+        height: $iconSize;
+        width: $iconSize;
+        background-size: $iconSize $iconSize;
+        background-image: $eye;
+        background-repeat: no-repeat;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: calc(-1 * $iconSize/2);
+      }
+    }
+
+    &.principles {
+      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 16 * spacings.$spacing;
+
+      img {
+        width: 4.5rem;
+      }
+
+      @media (min-width: breakpoints.$md) {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 0;
+        & > div {
+          padding: 12 * spacings.$spacing 18 * spacings.$spacing;
+        }
+
+        & > div:nth-of-type(odd) {
+          background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0;
+          background-repeat: no-repeat;
+          background-size: 100% 1px, 1px 100%;
+        }
+
+        & > div:nth-of-type(odd):not(:first-of-type) {
+          position: relative;
+
+          &::before,
+          &::after {
+            content: ""; // Required for pseudo elements
+            position: absolute;
+            display: block;
+            height: $iconSize;
+            width: $iconSize;
+            background-size: $iconSize $iconSize;
+            background-image: $eye;
+            background-repeat: no-repeat;
+            left: 0%;
+            transform: translateX(-50%);
+          }
+
+          &::before {
+            top: calc(-1 * $iconSize/2);
+          }
+
+          &::after {
+            bottom: calc(-1 * $iconSize/2);
+          }
+        }
+
+        & > div:nth-of-type(even) {
+          background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
+          background-repeat: no-repeat;
+          background-size: 100% 1px, 1px 100%, 1px 100%;
+        }
+
+        & > div:nth-last-child(2) {
+          background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
+            linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
+          background-repeat: no-repeat;
+          background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+        }
+
+        & > div:last-child {
+          background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
+            linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0; /* right border */
+          background-repeat: no-repeat;
+          background-size: 100% 1px, 100% 1px, 1px 100%;
+        }
+
+        & > div:first-of-type {
+          grid-column: span 2;
+          position: relative;
+
+          background: linear-gradient(
+                to right,
+                transparent 10%,
+                black 10%,
+                black 45%,
+                transparent 45%,
+                transparent 55%,
+                black 55%,
+                black 90%,
+                transparent 90%
+              )
+              0 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
+            linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
+          background-repeat: no-repeat;
+          background-size: 100% 1px, 1px 100%, 1px 100%;
+
+          &::before,
+          &::after {
+            position: absolute;
+            content: $eye;
+            content: "";
+            display: block;
+            height: $iconSize;
+            width: $iconSize;
+            background-size: $iconSize $iconSize;
+            background-image: $eye;
+            background-repeat: no-repeat;
+          }
+
+          &::before {
+            top: calc(-1 * $iconSize/2);
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          &::after {
+            bottom: calc(-1 * $iconSize/2);
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+      }
+    }
+    &:not(.principles) {
+      figure {
+        text-align: center;
+
+        img {
+          margin-bottom: 7 * spacings.$spacing;
+        }
+
+        &::after {
+          content: $marks;
+        }
+      }
+    }
+    & > p:first-of-type::first-letter {
+      initial-letter: 2;
+      margin-right: 0.5rem;
+    }
+    &.leftFloating,
+    &.rightFloating {
+      figure {
+        max-width: 50%;
+      }
+      p {
+        text-align: justify;
+      }
+    }
   }
 
   img {
     max-width: 100%;
-  }
-
-  section > p:first-of-type::first-letter {
-    initial-letter: 2;
-    margin-right: 0.5rem;
-  }
-
-  section.principles {
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 16 * spacings.$spacing;
-
-    img {
-      width: 4.5rem;
-    }
-
-    @media (min-width: breakpoints.$md) {
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 0;
-      & > div {
-        padding: 12 * spacings.$spacing 18 * spacings.$spacing;
-      }
-
-      & > div:nth-of-type(odd) {
-        background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0;
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 1px 100%;
-      }
-
-      & > div:nth-of-type(odd):not(:first-of-type) {
-        position: relative;
-
-        &::before,
-        &::after {
-          position: absolute;
-          content: $uri;
-          content: "";
-          display: block;
-          height: $iconSize;
-          width: $iconSize;
-          background-size: $iconSize $iconSize;
-          background-image: $uri;
-          background-repeat: no-repeat;
-        }
-
-        &::before {
-          top: calc(-1 * $iconSize/2);
-          left: 0%;
-          transform: translateX(-50%);
-        }
-
-        &::after {
-          bottom: calc(-1 * $iconSize/2);
-          left: 0%;
-          transform: translateX(-50%);
-        }
-      }
-
-      & > div:nth-of-type(even) {
-        background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 1px 100%, 1px 100%;
-      }
-
-      & > div:nth-last-child(2) {
-        background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
-          linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
-      }
-
-      & > div:last-child {
-        background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
-          linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0; /* right border */
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 100% 1px, 1px 100%;
-      }
-
-      & > div:first-of-type {
-        grid-column: span 2;
-        position: relative;
-
-        background: linear-gradient(
-              to right,
-              transparent 10%,
-              black 10%,
-              black 45%,
-              transparent 45%,
-              transparent 55%,
-              black 55%,
-              black 90%,
-              transparent 90%
-            )
-            0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 1px 100%, 1px 100%;
-
-        &::before,
-        &::after {
-          position: absolute;
-          content: $uri;
-          content: "";
-          display: block;
-          height: $iconSize;
-          width: $iconSize;
-          background-size: $iconSize $iconSize;
-          background-image: $uri;
-          background-repeat: no-repeat;
-        }
-
-        &::before {
-          top: calc(-1 * $iconSize/2);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        &::after {
-          bottom: calc(-1 * $iconSize/2);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-    }
   }
 
   & > header {
@@ -350,13 +340,13 @@ $gappedBorders: linear-gradient(
     &::before,
     &::after {
       position: absolute;
-      content: $uri;
+      content: $eye;
       content: "";
       display: block;
       height: $iconSize;
       width: $iconSize;
       background-size: $iconSize $iconSize;
-      background-image: $uri;
+      background-image: $eye;
       background-repeat: no-repeat;
     }
 
@@ -377,16 +367,6 @@ $gappedBorders: linear-gradient(
     }
     p {
       font-size: typo.$s;
-    }
-  }
-
-  section.leftFloating,
-  section.rightFloating {
-    figure {
-      max-width: 50%;
-    }
-    p {
-      text-align: justify;
     }
   }
 }
