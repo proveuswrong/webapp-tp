@@ -33,7 +33,7 @@ $gappedBorders: linear-gradient(
   linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
 
 @keyframes eyeAnimation {
-  30% { transform: translateY(-5vh) rotate(-10deg) translateX(-50%) scale(1.2); }
+  30% { transform: translateY(-8vh) rotate(-10deg) translateX(-50%) scale(1.2); }
   40% { transform:  translateX(-50%) rotate(-20deg) scale(1.2); }
   50% { transform:  translateX(-50%) rotate(20deg) scale(1.2); }
   60% { transform: translateX(-50%) rotate(-20deg) scale(1.2); }
