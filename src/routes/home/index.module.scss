@@ -152,6 +152,10 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
+  .sectionOne {
+    //
+  }
+
   word-break: break-word;
   p:global(.initialize)::first-letter {
     initial-letter: 2;
