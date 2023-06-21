@@ -67,7 +67,7 @@ export default function Home() {
                 news delivery. As stories are posted, they're not just recorded; they're embedded within the blockchain,
                 visible and immutable for all to see. Decentralization provided a new level of freedom: freedom from
                 censorship, freedom from skewed narratives, freedom to seek the truth. Each story on The Truth Post
-                was put through rigorous fact-checking, made possible by a dedicated community of volunteer curators. Once a story passed these scrutiny layers, it was published on the platform.
+                was put through rigorous fact-checking, made possible by a dedicated community of volunteer curators.
                 By curating a story, curators increased the visibility of the story within the platform. In return for
                 their participation, they earned "Truth Tokens," a crypto asset built on the Ethereum blockchain. These
                 "Truth Tokens" weren't just a symbol of participation; they were an empowerment tool. They gave readers
@@ -88,12 +88,12 @@ export default function Home() {
                 how the story would unfold.
               </p>
             </div>
-            <em>Let's dive in!</em>
+            <em>Enough of stories. Let's dive in!</em>
           </section>
 
           <section className={styles.rightFloating}>
             <h1>
-              <b>Right Floating:</b> Notice the right column has a floating image
+              <b>The Trust Post:</b> Reshaping Journalism in the Blockchain Age
             </h1>
             <p className="initialize">
               Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
