@@ -49,7 +49,7 @@ export default function Home() {
               <p>
                 And then, the dawn broke over the horizon. An innovation, sparked in the bustling, borderless world of
                 the Ethereum blockchain, came to life. A phoenix born from the ashes of mistrust and disinformation,
-                "The Truth Post" ascended, heralding a new age of news curation. Gone were the gatekeepers, the
+                The Truth Post ascended, heralding a new age of news curation. Gone were the gatekeepers, the
                 centralized authorities that held the keys to information. Justice and transparency took precedence,
                 propelled by the gears of decentralization. For the first time, we could publish, curate, and engage
                 with the news in a completely transparent environment. The Truth Post created an arena where accuracy
@@ -58,23 +58,38 @@ export default function Home() {
                 voices to echo through the corridors of information.
               </p>
             </div>
-              <figure>
-                <img src={InSearchOfTruth} alt="illustration" />
-              </figure>
+            <figure>
+              <img src={InSearchOfTruth} alt="illustration" />
+            </figure>
             <div className={styles.threeColumn}>
               <p>
-                Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-                journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
-                innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
-                groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get
-                ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
-                journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
-                innovation in journalism! Get ready for a groundbreaking innovation in journalism!
+                The Truth Post utilized the trustless nature of blockchain technology to maintain the integrity of its
+                news delivery. As stories are posted, they're not just recorded; they're embedded within the blockchain,
+                visible and immutable for all to see. Decentralization provided a new level of freedom: freedom from
+                censorship, freedom from skewed narratives, freedom to seek the truth. Each story on The Truth Post
+                was put through rigorous fact-checking, made possible by a dedicated community of volunteer curators. Once a story passed these scrutiny layers, it was published on the platform.
+                By curating a story, curators increased the visibility of the story within the platform. In return for
+                their participation, they earned "Truth Tokens," a crypto asset built on the Ethereum blockchain. These
+                "Truth Tokens" weren't just a symbol of participation; they were an empowerment tool. They gave readers
+                a direct say in shaping the narrative and choosing the news they deemed important. The tokenomics model
+                made it expensive for any individual or group to manipulate the platform, preventing the system from
+                being gamed by parties with ulterior motives. The Truth Post put power back in the hands of the
+                people, making them active contributors in the global conversation, rather than passive consumers of
+                media narratives. Moreover, The Truth Post adopted a pseudonymous publishing model, offering
+                journalists the safety to write without fear of repercussions. By not requiring journalists to publish
+                under their real names, the platform allowed for the spread of crucial information, even from regions
+                with repressive governments. In an age where the echo chambers of social media perpetuated divisive
+                narratives, The Truth Post stood as a counterbalance. It provided a beacon of hope and a template for
+                future media organizations aiming to regain the public's trust. But the journey had just begun. The true
+                test of The Truth Post lay in its ability to not just survive but thrive in a world that had grown
+                accustomed to half-truths. The platform had set a new standard for information dissemination, and the
+                world was watching. With the hopes of a global community resting on its decentralized shoulders, The
+                Truth Post took its first steps into a new age of transparency, truth, and trust. Only time would tell
+                how the story would unfold.
               </p>
             </div>
             <em>Let's dive in!</em>
           </section>
-
 
           <section className={styles.rightFloating}>
             <h1>
@@ -182,9 +197,12 @@ export default function Home() {
           <section className={styles.twoColumnsMerging}>
             <header>
               <h1>Two Columns Merging into One</h1>
-              <p className="initialize">Get ready for a groundbreaking innovation in journalism!  Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
+              <p className="initialize">
+                Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
                 journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking
-                innovation in journalism! Get ready for a groundbreaking innovation </p>
+                innovation in journalism! Get ready for a groundbreaking innovation in journalism! Get ready for a
+                groundbreaking innovation{" "}
+              </p>
             </header>
             <figure>
               <img src={WhatSectionImage} alt="truthpost-what-section" />
