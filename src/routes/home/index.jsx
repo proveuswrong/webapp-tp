@@ -16,6 +16,7 @@ import Trustless from "/src/assets/images/trustless.png";
 import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
 import FigureDecoration from "jsx:/src/assets/marks.svg";
 import Footer from "/src/components/presentational/footer";
+import Button from "../../components/presentational/button";
 
 export default function Home() {
   return (
@@ -195,7 +196,7 @@ export default function Home() {
               ready for a groundbreaking innovation in journalism! Get ready for a groundbreaking innovation in
               journalism!
             </p>
-            <button>call to action</button>
+            <Button>asdasda</Button>
           </section>
           <section>
             <figure>

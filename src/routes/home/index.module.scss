@@ -32,6 +32,16 @@ $gappedBorders: linear-gradient(
   linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 100% 0,
   linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
 
+@keyframes eyeAnimation {
+  30% { transform: translateY(-2rem) translateX(-50%) scale(1.2); }
+  40% { transform:  translateX(-50%) rotate(-20deg) scale(1.2); }
+  50% { transform:  translateX(-50%) rotate(20deg) scale(1.2); }
+  60% { transform: translateX(-50%) rotate(-20deg) scale(1.2); }
+  70% { transform:  translateX(-50%) rotate(0deg) scale(1.2); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+
 // Layout
 .home {
   display: block;
@@ -124,6 +134,8 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
+
+
   word-break: break-word;
 
   .logo {
@@ -354,6 +366,8 @@ $gappedBorders: linear-gradient(
       top: calc(-1 * $iconSize/2);
       left: 50%;
       transform: translateX(-50%);
+      animation: eyeAnimation 2s ease 3;
+      transform-origin: center;
     }
 
     &::after {
