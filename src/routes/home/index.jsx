@@ -30,7 +30,7 @@ export default function Home() {
               <i>Get ready for a groundbreaking innovation in journalism!</i>
             </p>
           </header>
-          <section className={styles.sectionOne}>
+          <section>
             <div className={styles.twoColumn}>
               <p className="initialize">
                 Once upon a time, news was a trusted friend. It told us stories about our world, shared the triumphs and
