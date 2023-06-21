@@ -225,49 +225,15 @@ $gappedBorders: linear-gradient(
       & > div {
         padding: 12 * spacings.$spacing 18 * spacings.$spacing;
       }
-      & > div:first-of-type {
-        grid-column: span 2;
-        position: relative;
 
-        background: linear-gradient(to right, transparent 10%, black 10%, black 45%, transparent 45%, transparent 55%, black 55%, black 90%, transparent 90%) 0 0,
-        linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
-        linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
-        background-repeat: no-repeat;
-        background-size: 100% 1px, 1px 100%, 1px 100%;
-
-        &::before,
-        &::after {
-          position: absolute;
-          content: $uri;
-          content: "";
-          display: block;
-          height: $iconSize;
-          width: $iconSize;
-          background-size: $iconSize $iconSize;
-          background-image: $uri;
-          background-repeat: no-repeat;
-        }
-
-        &::before {
-          top: calc(-1 * $iconSize/2);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        &::after {
-          bottom: calc(-1 * $iconSize/2);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
-      & > div:nth-of-type(odd):not(:first-of-type) {
+      & > div:nth-of-type(odd) {
         background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
           linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0;
         background-repeat: no-repeat;
         background-size: 100% 1px, 1px 100%;
       }
 
-      & > div:nth-of-type(odd):not(:first-of-type){
+      & > div:nth-of-type(odd):not(:first-of-type) {
         position: relative;
 
         &::before,
@@ -295,7 +261,6 @@ $gappedBorders: linear-gradient(
           transform: translateX(-50%);
         }
       }
-
 
       & > div:nth-of-type(even) {
         background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
@@ -317,9 +282,56 @@ $gappedBorders: linear-gradient(
       & > div:last-child {
         background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
           linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
-          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0;
+          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0; /* right border */
         background-repeat: no-repeat;
         background-size: 100% 1px, 100% 1px, 1px 100%;
+      }
+
+      & > div:first-of-type {
+        grid-column: span 2;
+        position: relative;
+
+        background: linear-gradient(
+              to right,
+              transparent 10%,
+              black 10%,
+              black 45%,
+              transparent 45%,
+              transparent 55%,
+              black 55%,
+              black 90%,
+              transparent 90%
+            )
+            0 0,
+          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
+          linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
+        background-repeat: no-repeat;
+        background-size: 100% 1px, 1px 100%, 1px 100%;
+
+        &::before,
+        &::after {
+          position: absolute;
+          content: $uri;
+          content: "";
+          display: block;
+          height: $iconSize;
+          width: $iconSize;
+          background-size: $iconSize $iconSize;
+          background-image: $uri;
+          background-repeat: no-repeat;
+        }
+
+        &::before {
+          top: calc(-1 * $iconSize/2);
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        &::after {
+          bottom: calc(-1 * $iconSize/2);
+          left: 50%;
+          transform: translateX(-50%);
+        }
       }
     }
   }
