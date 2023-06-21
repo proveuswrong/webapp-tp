@@ -31,16 +31,33 @@ $gappedBorders: linear-gradient(
     0 0,
   linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 100% 0,
   linear-gradient(to bottom, transparent 10%, black 10%, black 90%, transparent 90%) 0 0;
-
+//translateY(calc(-12vh + 1rem))
 @keyframes eyeAnimation {
-  30% { transform: translateY(-8vh) rotate(-10deg) translateX(-50%) scale(1.2); }
-  40% { transform:  translateX(-50%) rotate(-20deg) scale(1.2); }
-  50% { transform:  translateX(-50%) rotate(20deg) scale(1.2); }
-  60% { transform: translateX(-50%) rotate(-20deg) scale(1.2); }
-  70% { transform:  translateX(-50%) rotate(0deg) scale(1.2); }
-  100% { transform: translateX(-50%) scale(1); }
+  10% {
+    transform: translateX(-40%)  rotate(20deg)  scale(1.2);
+  }
+  20% {
+    transform: translateX(-50%)  rotate(-20deg)  scale(1.2);
+  }
+  30% {
+    transform: translateX(-40%)  translateY(-8dvh) rotate(20deg)  scale(1.4);
+  }
+  40% {
+    transform: translateX(-50%) rotate(-20deg) scale(1.2);
+  }
+  50% {
+    transform: translateX(-40%) rotate(20deg) scale(1.2);
+  }
+  60% {
+    transform: translateX(-50%) rotate(-20deg) scale(1.2);
+  }
+  70% {
+    transform: translateX(-50%) rotate(0deg) scale(1.2);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
 }
-
 
 // Layout
 .home {
@@ -134,15 +151,13 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
-
-
   word-break: break-word;
 
   .logo {
-    height: calc(100vh - 5rem);
+    height: calc(100dvh - 5rem);
     width: 100%;
-    margin-bottom: 2.28rem;
-    padding: 3rem;
+    margin-bottom: 2.23rem;
+    padding: 8dvh;
   }
 
   section {
@@ -153,7 +168,10 @@ $gappedBorders: linear-gradient(
       padding-top: 20 * spacings.$spacing;
     }
 
-    &.twoColumn, &.rightFloating, &.twoColumnsMerging, &:has(>figure) {
+    &.twoColumn,
+    &.rightFloating,
+    &.twoColumnsMerging,
+    &:has(> figure) {
       background: linear-gradient(
           to right,
           black 0%,
@@ -366,7 +384,7 @@ $gappedBorders: linear-gradient(
       top: calc(-1 * $iconSize/2);
       left: 50%;
       transform: translateX(-50%);
-      animation: eyeAnimation 2s ease 3;
+      animation: eyeAnimation 5s normal 2;
       transform-origin: center;
     }
 
