@@ -25,9 +25,9 @@ export default function Home() {
         <article className={styles.home}>
           <TruthPost className={styles.logo} />
           <header>
-            <h1>Ushering in a New Era of Trust and Transparency</h1>
+            <h1>The Truth Post: Reshaping Journalism in the Blockchain Age</h1>
             <p>
-              <i>Get ready for a groundbreaking innovation in journalism!</i>
+              <i>Ushering in a new era of transparency and empowerment with decentralized news curation</i>
             </p>
           </header>
           <section>
