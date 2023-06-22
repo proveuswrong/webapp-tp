@@ -222,103 +222,144 @@ export default function Home() {
             </div>
           </section>
           <section className={styles.principles}>
+            <h1><strong>Embodying the Virtues</strong><br/> Key Principles of The Truth Post</h1>
             <div>
-              <figure>
-                <img src={Decentralized} />
-              </figure>
-              <h1>Decentralized</h1>
+              <div>
+                <figure>
+                  <img src={Decentralized} />
+                </figure>
+                <h2>Decentralized</h2>
+                <p>
+                  <i>There's no privileged user group.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Pseudonymous} />
+                </figure>
+                <h2>Pseudonymous</h2>
+                <p>
+                  <i>Allows for reputation building while preventing retaliation.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Permissionless} />
+                </figure>
+                <h2>Permissionless</h2>
+                <p>
+                  <i>Any user can adopt any role within the system.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Transparent} />
+                </figure>
+                <h2>Transparent</h2>
+                <p>
+                  <i>Every aspect of the system can be verified by any user.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Fair} />
+                </figure>
+                <h2>Fair</h2>
+                <p>
+                  <i>Users are rewarded in line with the quality and impact of their contributions.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Trustless} />
+                </figure>
+                <h2>Trustless</h2>
+                <p>
+                  <i>No need to trust any other user.</i>
+                </p>
+              </div>
+              <div>
+                <figure>
+                  <img src={Autonomous} />
+                </figure>
+                <h2>Autonomous</h2>
+                <p>
+                  <i>The system functions as programmed, indefinitely.</i>
+                </p>
+              </div>
+            </div>
+          </section>
+          <section className={styles.twoColumnsMerging}>
+            <div>
+              <h1>
+                <strong>Unfurl the Banners:</strong> Our Invitation to Join the Crusade as a Valiant Member of the Prove
+                Us Wrong Community
+              </h1>
+
               <p>
-                <i>There's no privileged user group.</i>
+                Ready to don your armor and embark on this noble quest with Prove Us Wrong? It's time to rally at the
+                community’s hearth! Join the vibrant conversation on Discord, where knowledge and camaraderie flow like
+                the finest mead. Stay in the loop by following the captivating chronicles on the Prove Us Wrong blog,
+                and don’t miss out on the real-time heralding on Twitter. Want to flaunt your alliance in the
+                professional arena? Link up on LinkedIn and let your banner fly high. Seize the day, for today you
+                become a guardian of truth in a community that's forging the future!
               </p>
             </div>
-            <div>
-              <figure>
-                <img src={Pseudonymous} />
-              </figure>
-              <h1>Pseudonymous</h1>
-              <p>
-                <i>Allows for reputation building while preventing retaliation.</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Permissionless} />
-              </figure>
-              <h1>Permissionless</h1>
-              <p>
-                <i>Any user can adopt any role within the system.</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Transparent} />
-              </figure>
-              <h1>Transparent</h1>
-              <p>
-                <i>Every aspect of the system can be verified by any user.</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Fair} />
-              </figure>
-              <h1>Fair</h1>
-              <p>
-                <i>Users are rewarded in line with the quality and impact of their contributions.</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Trustless} />
-              </figure>
-              <h1>Trustless</h1>
-              <p>
-                <i>No need to trust any other user.</i>
-              </p>
-            </div>
-            <div>
-              <figure>
-                <img src={Autonomous} />
-              </figure>
-              <h1>Autonomous</h1>
-              <p>
-                <i>The system functions as programmed, indefinitely.</i>
-              </p>
-            </div>
+            <a href="https://discord.gg/FvDrdDtYAV" className="button small">
+              Embark on the Crusade: Join Discord
+            </a>
           </section>
           <section className={styles.rightFloating}>
             <h1>
               <strong>Prove Us Wrong:</strong> The Vanguard Behind The Truth Post
             </h1>
             <div>
-                  <p>Have you ever wondered what would happen if the passion of cypherpunks and the wisdom of libertarians converged to redefine the way we consume information? Behold, Prove Us Wrong – the open-source organization spearheading the magnificent quest behind The Truth Post.</p>
+              <p>
+                Have you ever wondered what would happen if the passion of cypherpunks and the wisdom of libertarians
+                converged to redefine the way we consume information? Behold, Prove Us Wrong – the open-source
+                organization spearheading the magnificent quest behind The Truth Post.
+              </p>
 
-              <p>Prove Us Wrong is an assembly of individuals who trust in the power of decentralized curation. To them, curation is akin to a magical multiplier, amplifying productivity and enlightenment. However, in this day and age, traditional curation requires an unwavering belief in the honesty and competence of the curators. Prove Us Wrong dares to challenge this notion and breathe life into a realm where no such assumptions are necessary. The magicians in this order use cutting-edge crypto-economic techniques to weave their spells.</p>
+              <p>
+                Prove Us Wrong is an assembly of individuals who trust in the power of decentralized curation. To them,
+                curation is akin to a magical multiplier, amplifying productivity and enlightenment. However, in this
+                day and age, traditional curation requires an unwavering belief in the honesty and competence of the
+                curators. Prove Us Wrong dares to challenge this notion and breathe life into a realm where no such
+                assumptions are necessary. The magicians in this order use cutting-edge crypto-economic techniques to
+                weave their spells.
+              </p>
 
-              <p>Identifying as both cypherpunks and libertarians, the members of Prove Us Wrong don the armor of freedom, justice, free speech, and privacy. They envision a world where these core values are not mere words but the very essence of society. The pursuit of collective good through public interest is a lofty aim, yet it is the beating heart of this organization. Like alchemists, they see curation as the Philosopher’s Stone – a crucial element in the decision-making that shapes our world.</p>
+              <p>
+                Identifying as both cypherpunks and libertarians, the members of Prove Us Wrong don the armor of
+                freedom, justice, free speech, and privacy. They envision a world where these core values are not mere
+                words but the very essence of society. The pursuit of collective good through public interest is a lofty
+                aim, yet it is the beating heart of this organization. Like alchemists, they see curation as the
+                Philosopher’s Stone – a crucial element in the decision-making that shapes our world.
+              </p>
 
-              <p>The light that guides Prove Us Wrong through the thickets and shadows is decentralized curation. They forge paths and build bridges in their quest for sustainable and censorship-resistant solutions. The underlying principle is simple: to make accurate and relevant information not just available but easy to access for all. In their own words, they are building the next cool thing – an invitation to the skeptics and naysayers to prove them wrong.</p>
+              <p>
+                The light that guides Prove Us Wrong through the thickets and shadows is decentralized curation. They
+                forge paths and build bridges in their quest for sustainable and censorship-resistant solutions. The
+                underlying principle is simple: to make accurate and relevant information not just available but easy to
+                access for all. In their own words, they are building the next cool thing – an invitation to the
+                skeptics and naysayers to prove them wrong.
+              </p>
               <figure>
                 <img src={WhatSectionImage} alt="truthpost-what-section" />
               </figure>
-              <p>And now, dear reader, the trumpets herald your invitation. This is more than just a call to witness a revolution; this is your personal summoning to join the ranks of Prove Us Wrong. Whether you wield a quill, a ledger, or code, your skills and passions are the very sinews that can bolster this crusade. Together, as a united front, we can be the vanguard that heralds a new dawn in information curation.</p>
+              <p>
+                And now, dear reader, the trumpets herald your invitation. This is more than just a call to witness a
+                revolution; this is your personal summoning to join the ranks of Prove Us Wrong. Whether you wield a
+                quill, a ledger, or code, your skills and passions are the very sinews that can bolster this crusade.
+                Together, as a united front, we can be the vanguard that heralds a new dawn in information curation.
+              </p>
 
-              <p>Prove Us Wrong is not just an organization; it’s a movement, a community, and potentially, it’s you. Take a step towards transforming the information landscape and join us in our mission to champion freedom, truth, and decentralized curation.</p>
-
-
+              <p>
+                Prove Us Wrong is not just an organization; it’s a movement, a community, and potentially, it’s you.
+                Take a step towards transforming the information landscape and join us in our mission to champion
+                freedom, truth, and decentralized curation.
+              </p>
             </div>
-          </section>
-          <section className={styles.twoColumnsMerging}>
-            <div>
-              <h1>
-                <strong>Unfurl the Banners:</strong> Our Invitation to Join the Crusade as a Valiant Member of the Prove Us Wrong Community
-              </h1>
-
-              <p>Ready to don your armor and embark on this noble quest with Prove Us Wrong? It's time to rally at the community’s hearth! Join the vibrant conversation on Discord, where knowledge and camaraderie flow like the finest mead. Stay in the loop by following the captivating chronicles on the Prove Us Wrong blog, and don’t miss out on the real-time heralding on Twitter. Want to flaunt your alliance in the professional arena? Link up on LinkedIn and let your banner fly high. Seize the day, for today you become a guardian of truth in a community that's forging the future!</p>
-            </div>
-            <a href="https://discord.gg/FvDrdDtYAV" className="button small">
-              Embark on the Crusade: Join Discord
-            </a>
           </section>
           <section className={styles.twoColumnsMerging}>
             <div>
@@ -326,13 +367,18 @@ export default function Home() {
                 <strong>Support the Quest:</strong> Donate to the Prove Us Wrong Treasury and Fuel the Pursuit of Truth
               </h1>
 
-              <p>As we embark on this ambitious quest to reshape the information landscape, we rely on the support and generosity of kindred spirits like you. By donating to the Prove Us Wrong treasury, you become an essential patron, fueling our mission to bring truth, transparency, and decentralized curation to the world. Join us in this noble endeavor by contributing to our cause and making a lasting impact on the future of information.</p>
+              <p>
+                As we embark on this ambitious quest to reshape the information landscape, we rely on the support and
+                generosity of kindred spirits like you. By donating to the Prove Us Wrong treasury, you become an
+                essential patron, fueling our mission to bring truth, transparency, and decentralized curation to the
+                world. Join us in this noble endeavor by contributing to our cause and making a lasting impact on the
+                future of information.
+              </p>
             </div>
             <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad" className="button small">
               Contribute to the Quest: Donate Now
             </a>
           </section>
-
         </article>
       </main>
       <Footer />
