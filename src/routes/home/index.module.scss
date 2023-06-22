@@ -4,6 +4,8 @@
 
 $iconSize: calc(1rem + 1vw);
 $eye: url(../../assets/eye.svg);
+$sun: url(../../assets/sun.svg);
+
 $marks: url(../../assets/marks.svg);
 $gappedBorders: linear-gradient(
       to right,
@@ -74,8 +76,15 @@ $gappedBorders: linear-gradient(
   }
 
   section.twoColumnsMerging {
-    display: grid;
-    grid-template-columns: 1fr;
+    > div {
+      display: grid;
+      grid-template-columns: 1fr;
+
+      p{
+        margin-top: 4 * spacings.$s-4;
+        margin-bottom: 4 * spacings.$s-4;
+      }
+    }
   }
 
   @media (min-width: breakpoints.$md) {
@@ -104,7 +113,7 @@ $gappedBorders: linear-gradient(
         margin-top: -0.6rem;
       }
 
-      p {
+      & > div {
         flex: 2;
       }
     }
@@ -124,9 +133,10 @@ $gappedBorders: linear-gradient(
     }
 
     section.twoColumnsMerging {
-      grid-template-columns: 1fr 1fr;
-
-      & > p {
+      & > div {
+        grid-template-columns: 1fr 1fr;
+      }
+      & > div > p {
         grid-column: span 2;
       }
     }
@@ -151,7 +161,6 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
-
   word-break: break-word;
   p:global(.initialize)::first-letter {
     initial-letter: 2;
@@ -365,6 +374,18 @@ $gappedBorders: linear-gradient(
       }
       p {
         text-align: justify;
+      }
+    }
+
+    @media (min-width: breakpoints.$md) {
+      &.twoColumnsMerging {
+        position: relative;
+        h1::after {
+          content: $sun;
+          position: absolute;
+          top: 10%;
+          left: 70%;
+        }
       }
     }
   }
