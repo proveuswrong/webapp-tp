@@ -2,8 +2,6 @@
 @use "src/stylesheets/variables/breakpoints";
 @use "src/stylesheets/variables/typo";
 
-// TODO section separators
-
 $iconSize: calc(1rem + 1vw);
 $eye: url(../../assets/eye.svg);
 $sun: url(../../assets/sun.svg);
@@ -164,6 +162,8 @@ $gappedBorders: linear-gradient(
 
 // Styling
 .home {
+  display: flex;
+  flex-direction: column;
   word-break: break-word;
   p:global(.has-dropped-letter)::first-letter {
     float: left;
@@ -174,9 +174,16 @@ $gappedBorders: linear-gradient(
   }
   .logo {
     height: calc(70dvh - 5rem);
-    width: 100%;
     margin-bottom: 2.23rem;
+    margin-left: auto;
+    margin-right: auto;
     padding: 8dvh;
+    transition: transform 0.7s ease-in-out;
+
+    &:hover {
+      transform: rotate(360deg);
+      cursor: pointer;
+    }
   }
 
   div.twoColumn {
@@ -203,7 +210,8 @@ $gappedBorders: linear-gradient(
     }
 
     @media (max-width: breakpoints.$md) {
-      &.leftFloating, &.principles {
+      &.leftFloating,
+      &.principles {
         background: linear-gradient(
             to right,
             black 0%,

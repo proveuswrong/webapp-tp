@@ -21,13 +21,14 @@ import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
 import FigureDecoration from "jsx:/src/assets/marks.svg";
 import Footer from "/src/components/presentational/footer";
 import Button from "../../components/presentational/button";
-
+import { useNavigate } from "react-router-dom";
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <main>
         <article className={styles.home}>
-          <TruthPost className={styles.logo} />
+          <TruthPost className={styles.logo} onClick={() => navigate("/0x1/")} />
           <header>
             <h1>The Truth Post: Reshaping Journalism in the Blockchain Age</h1>
             <p>
