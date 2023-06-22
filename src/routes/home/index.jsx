@@ -3,6 +3,10 @@ import bannerImage from "/src/assets/images/landing-1.jpg";
 import WhatSectionImage from "/src/assets/images/landing-3.jpg";
 import WhySectionImage from "/src/assets/images/landing-4.jpg";
 import HowSectionImage from "/src/assets/images/landing-5.jpg";
+import VisualVertical1 from "/src/assets/images/visualVertical1.jpg";
+import VisualVertical2 from "/src/assets/images/visualVertical2.jpg";
+import VisualVertical3 from "/src/assets/images/visualVertical3.jpg";
+
 import InSearchOfTruth from "/src/assets/images/inSearchOfTruth.jpg";
 
 import Permissionless from "/src/assets/images/permissionless.png";
@@ -125,7 +129,7 @@ export default function Home() {
                 on its shoes," has never been more relevant.
               </p>
               <figure>
-                <img src={WhatSectionImage} alt="truthpost-what-section" />
+                <img src={VisualVertical1} alt="truthpost-what-section" />
               </figure>
               <p>
                 Now, let’s talk about centralized control. The majority of media is in the hands of a select few
@@ -184,7 +188,7 @@ export default function Home() {
                 yore, whose tales are etched into the annals of history (or in this case, the blockchain).
               </p>
               <figure>
-                <img src={WhatSectionImage} alt="truthpost-what-section" />
+                <img src={VisualVertical2} alt="truthpost-what-section" />
               </figure>
               <p>
                 But what about the gatekeepers? Enter the curators. These are the guardians who ensure that the content
@@ -343,7 +347,7 @@ export default function Home() {
                 weave their spells.
               </p>
               <figure>
-                <img src={WhatSectionImage} alt="truthpost-what-section" />
+                <img src={VisualVertical3} alt="truthpost-what-section" />
               </figure>
               <p>
                 Identifying as both cypherpunks and libertarians, the members of Prove Us Wrong don the armor of
@@ -375,7 +379,9 @@ export default function Home() {
                 world. Join us in this noble endeavor by contributing to our cause and making a lasting impact on the
                 future of information.
               </p>
-              <p>You can navigate to treasury by searching <em>proveuswrong.eth</em> on your favourite block explorer.</p>
+              <p>
+                You can navigate to treasury by searching <em>proveuswrong.eth</em> on your favourite block explorer.
+              </p>
             </div>
 
             <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad" className="button small">
