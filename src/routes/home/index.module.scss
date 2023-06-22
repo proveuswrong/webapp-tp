@@ -163,7 +163,10 @@ $gappedBorders: linear-gradient(
 .home {
   word-break: break-word;
   p:global(.initialize)::first-letter {
-    initial-letter: 2;
+    float: left;
+    font-size: 4rem;
+    line-height: 0.5;
+    text-transform: uppercase;
     margin-right: 0.5rem;
   }
   .logo {
