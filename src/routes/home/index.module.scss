@@ -80,7 +80,7 @@ $gappedBorders: linear-gradient(
       display: grid;
       grid-template-columns: 1fr;
 
-      p{
+      p {
         margin-top: 4 * spacings.$s-4;
         margin-bottom: 4 * spacings.$s-4;
       }
@@ -164,10 +164,10 @@ $gappedBorders: linear-gradient(
   word-break: break-word;
   p:global(.has-dropped-letter)::first-letter {
     float: left;
-    font-size: 3rem;
-    line-height: 0.65;
+    font-size: 2rem;
+    line-height: 0.6;
     text-transform: uppercase;
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
   }
   .logo {
     height: calc(70dvh - 5rem);
@@ -233,14 +233,14 @@ $gappedBorders: linear-gradient(
 
     &.principles {
       text-align: center;
-      &>div{
+      & > div {
         display: grid;
         grid-template-columns: 1fr;
         grid-gap: 16 * spacings.$spacing;
       }
 
-      h1{
-        margin-bottom: 30*spacings.$spacing;
+      h1 {
+        margin-bottom: 30 * spacings.$spacing;
       }
 
       img {
@@ -248,23 +248,23 @@ $gappedBorders: linear-gradient(
       }
 
       @media (min-width: breakpoints.$md) {
-        & > div{
+        & > div {
           grid-template-columns: 1fr 1fr;
           grid-gap: 0;
         }
 
-        & > div>div {
+        & > div > div {
           padding: 12 * spacings.$spacing 18 * spacings.$spacing;
         }
 
-        & > div>div:nth-of-type(odd) {
+        & > div > div:nth-of-type(odd) {
           background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
             linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0;
           background-repeat: no-repeat;
           background-size: 100% 1px, 1px 100%;
         }
 
-        & > div>div:nth-of-type(odd):not(:first-of-type) {
+        & > div > div:nth-of-type(odd):not(:first-of-type) {
           position: relative;
 
           &::before,
@@ -290,7 +290,7 @@ $gappedBorders: linear-gradient(
           }
         }
 
-        & > div>div:nth-of-type(even) {
+        & > div > div:nth-of-type(even) {
           background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
             linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
             linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 0 0;
@@ -298,7 +298,7 @@ $gappedBorders: linear-gradient(
           background-size: 100% 1px, 1px 100%, 1px 100%;
         }
 
-        & >div> div:nth-last-child(2) {
+        & > div > div:nth-last-child(2) {
           background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
             linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
             linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0,
@@ -307,7 +307,7 @@ $gappedBorders: linear-gradient(
           background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
         }
 
-        & >div> div:last-child {
+        & > div > div:last-child {
           background: linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 100%,
             linear-gradient(to right, transparent 10%, black 10%, black 90%, transparent 90%) 0 0,
             linear-gradient(to bottom, transparent 20%, black 20%, black 80%, transparent 80%) 100% 0; /* right border */
@@ -315,7 +315,7 @@ $gappedBorders: linear-gradient(
           background-size: 100% 1px, 100% 1px, 1px 100%;
         }
 
-        & >div> div:first-of-type {
+        & > div > div:first-of-type {
           grid-column: span 2;
           position: relative;
 
