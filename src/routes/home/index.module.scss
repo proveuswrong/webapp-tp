@@ -2,6 +2,8 @@
 @use "src/stylesheets/variables/breakpoints";
 @use "src/stylesheets/variables/typo";
 
+// TODO section separators
+
 $iconSize: calc(1rem + 1vw);
 $eye: url(../../assets/eye.svg);
 $sun: url(../../assets/sun.svg);
@@ -60,8 +62,9 @@ $gappedBorders: linear-gradient(
   }
 }
 
-// Layout
 .home {
+  // Layout
+
   display: block;
 
   section.leftFloating,
@@ -79,7 +82,7 @@ $gappedBorders: linear-gradient(
     > div {
       display: grid;
       grid-template-columns: 1fr;
-      margin-top: 4 * spacings.$s-4;
+      //margin-top: 4 * spacings.$s-4;
       margin-bottom: 4 * spacings.$s-4;
 
       p {
@@ -164,8 +167,8 @@ $gappedBorders: linear-gradient(
   word-break: break-word;
   p:global(.has-dropped-letter)::first-letter {
     float: left;
-    font-size: 2rem;
-    line-height: 0.6;
+    font-size: 3rem;
+    line-height: 0.88;
     text-transform: uppercase;
     margin-right: 0.3rem;
   }
@@ -197,6 +200,38 @@ $gappedBorders: linear-gradient(
     &:first-of-type {
       padding-top: calc(4vw + 10 * spacings.$spacing);
       padding-bottom: calc(4vw + 5 * spacings.$spacing);
+    }
+
+    @media (max-width: breakpoints.$md) {
+      &.leftFloating, &.principles {
+        background: linear-gradient(
+            to right,
+            black 0%,
+            black 45%,
+            transparent 45%,
+            transparent 55%,
+            black 55%,
+            black 100%
+          )
+          0 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 1px;
+        position: relative;
+
+        &::after {
+          content: ""; // Required for pseudo elements
+          position: absolute;
+          display: block;
+          height: $iconSize;
+          width: $iconSize;
+          background-size: $iconSize $iconSize;
+          background-image: $eye;
+          background-repeat: no-repeat;
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: calc(-1 * $iconSize/2);
+        }
+      }
     }
 
     &.rightFloating,
@@ -232,6 +267,7 @@ $gappedBorders: linear-gradient(
     }
 
     &.principles {
+      padding-top: 2vw;
       text-align: center;
       & > div {
         display: grid;
