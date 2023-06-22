@@ -106,7 +106,7 @@ export default function Home() {
               </p>
             </div>
             <a href="/0x1/" className="button small">
-              Explore The Truth Post: Unveil the Power of Truth
+              Explore The Truth Post
             </a>
           </section>
           <section className={styles.rightFloating}>
@@ -309,7 +309,7 @@ export default function Home() {
               </p>
             </div>
             <a href="https://discord.gg/FvDrdDtYAV" className="button small">
-              Embark on the Crusade: Join Discord
+              Join Discord
             </a>
           </section>
           <section className={styles.rightFloating}>
@@ -378,8 +378,9 @@ export default function Home() {
                 future of information.
               </p>
             </div>
+
             <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad" className="button small">
-              Contribute to the Quest: Donate Now
+              Donate Now
             </a>
           </section>
         </article>
