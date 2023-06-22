@@ -5,6 +5,7 @@ $maxVW: 1200px;
 $minFS: 15px;
 $maxFS: 18px;
 
+
 @import url("https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100;0,12..72,200;0,12..72,300;0,12..72,400;0,12..72,500;0,12..72,600;0,12..72,700;0,12..72,800;0,12..72,900;1,12..72,100;1,12..72,200;1,12..72,300;1,12..72,400;1,12..72,500;1,12..72,600;1,12..72,700;1,12..72,800;1,12..72,900&display=swap");
 
 @font-face {
@@ -57,7 +58,7 @@ footer svg {
   font-family: "Texturina", serif;
 
   font-weight: normal;
-  line-height: 1.4;
+  line-height: 1.5;
   border-width: 1px;
 
 }
@@ -111,5 +112,54 @@ small {
     text-overflow: clip;
     white-space: normal;
     word-break: break-word;
+  }
+}
+
+
+// TODO Refactor <a> and <button> styles which are duplicated.
+@function shadowTemplate($color) {
+  @return 0rem 0.25rem 0.5rem 0rem hsl($color, 0.25),
+  inset 0.125rem 0.125rem 0.5rem 0rem hsl($color, 0.50);
+}
+
+a.button {
+  height: auto !important;
+  border-radius: 4px;
+  min-width: 10.5rem;
+  border-width: 1px;
+  padding: 0.75rem 1.5rem;
+  font-size: typo.$s;
+  outline: none;
+
+  background-color: hsl(var(--english-breakfast-600));
+  border-color: hsl(var(--english-breakfast-600));
+  color: hsl(var(--starbright-600));
+  box-shadow: shadowTemplate(var(--english-breakfast-700));
+
+  &.small {
+    padding: 0.5rem 0.75rem;
+    font-size: typo.$xs;
+    min-width: unset;
+  }
+
+  &.secondary {
+    background-color: transparent;
+    border-color: hsl(var(--english-breakfast-800));
+    color: hsl(var(--dark-orchestra-600));
+    box-shadow: none;
+  }
+
+  &:hover, &:active, &:focus {
+    background-color: hsl(var(--english-breakfast-700));
+    border-color: hsl(var(--english-breakfast-700));
+    color: hsl(var(--starbright-600));
+    box-shadow: shadowTemplate(var(--english-breakfast-800));
+  }
+
+  &[disabled], &[disabled]:hover {
+    background-color: hsl(var(--smooth-coffee-200));
+    border-color: hsl(var(--smooth-coffee-200));
+    color: hsl(var(--smooth-coffee-500));
+    box-shadow: shadowTemplate(var(--smooth-coffee-300));
   }
 }

@@ -18,7 +18,7 @@ const getLinks = (chainId, account) => [
   { name: "Report", to: `${chainId}/report`, display: account },
   { name: "Account", to: `${chainId}/account/${account}`, display: account },
   { name: "F.A.Q.", to: `faq`, display: true },
-  { name: "About", to: `about`, display: true },
+  { name: "About", to: `/`, display: true },
 ];
 
 export default function Navigation() {

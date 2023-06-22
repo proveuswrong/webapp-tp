@@ -20,14 +20,7 @@ body {
   flex: 1;
 }
 
-
-
-header, main, footer {
-  padding-left: spacings.$s-8;
-  padding-right: spacings.$s-8;
-}
-
-nav{
+nav {
   margin-left: spacings.$s-8;
   margin-right: spacings.$s-8;
 
@@ -36,10 +29,24 @@ nav{
   }
 }
 
-header {
+header:not(article > header):not(section > header),
+main,
+footer {
+  padding-left: spacings.$s-8;
+  padding-right: spacings.$s-8;
+}
+
+@media (min-width: breakpoints.$md) {
+  nav,
+  main > section, main > article {
+    padding-right: spacings.$s-7;
+    padding-left: spacings.$s-7;
+  }
+}
+
+header:not(article > header):not(section > header) {
   padding-top: spacings.$s-20;
   padding-bottom: spacings.$s-5;
-
 }
 
 header + nav:first-of-type {
@@ -48,26 +55,25 @@ header + nav:first-of-type {
 }
 
 main {
-
   padding-top: spacings.$s-10;
   padding-bottom: spacings.$s-18;
 
-  > section {
+  &.zero-padding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+   > article, > section {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+
+     &.fullscreen {
+       max-width: 100%;
+     }
   }
 }
 
 footer {
-
   margin-top: auto;
-}
-
-@media (min-width: breakpoints.$md) {
-  nav, main>section{
-    padding-right: spacings.$s-7;
-    padding-left: spacings.$s-7;
-  }
-
 }

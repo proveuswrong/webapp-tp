@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 
 import Header from "./components/others/header";
 import Navigation from "./components/others/navigation";
-import Footer from "./components/others/footer";
+import Footer from "./components/presentational/footer";
 
 export default function Layout() {
   return (
