@@ -1,8 +1,4 @@
 import * as styles from "./index.module.scss";
-import bannerImage from "/src/assets/images/landing-1.jpg";
-import WhatSectionImage from "/src/assets/images/landing-3.jpg";
-import WhySectionImage from "/src/assets/images/landing-4.jpg";
-import HowSectionImage from "/src/assets/images/landing-5.jpg";
 import VisualVertical1 from "/src/assets/images/visualVertical1.jpg";
 import VisualVertical2 from "/src/assets/images/visualVertical2.jpg";
 import VisualVertical3 from "/src/assets/images/visualVertical3.jpg";
@@ -25,6 +21,11 @@ import Button from "../../components/presentational/button";
 export default function Home() {
   return (
     <>
+      <nav className={styles.homeNav}>
+        <a href="/0x1/" className="button small">
+          Launch App
+        </a>
+      </nav>
       <main>
         <article className={styles.home}>
           <TruthPost className={styles.logo} />

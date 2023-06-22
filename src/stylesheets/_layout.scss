@@ -38,9 +38,17 @@ footer {
 
 @media (min-width: breakpoints.$md) {
   nav,
-  main > section, main > article {
+  main > section,
+  main > article {
     padding-right: spacings.$s-7;
     padding-left: spacings.$s-7;
+  }
+
+  nav {
+    &.homeNav {
+      padding-right: spacings.$s-7;
+      padding-left: spacings.$s-7;
+    }
   }
 }
 
@@ -63,14 +71,15 @@ main {
     padding-right: 0;
   }
 
-   > article, > section {
+  > article,
+  > section {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 
-     &.fullscreen {
-       max-width: 100%;
-     }
+    &.fullscreen {
+      max-width: 100%;
+    }
   }
 }
 
