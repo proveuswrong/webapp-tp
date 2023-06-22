@@ -164,8 +164,8 @@ $gappedBorders: linear-gradient(
   word-break: break-word;
   p:global(.has-dropped-letter)::first-letter {
     float: left;
-    font-size: 4rem;
-    line-height: 0.5;
+    font-size: 3rem;
+    line-height: 0.65;
     text-transform: uppercase;
     margin-right: 0.5rem;
   }
