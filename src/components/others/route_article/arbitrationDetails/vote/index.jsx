@@ -2,22 +2,17 @@ import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 
-import VoteYesIcon from "jsx:/src/assets/voteYes.svg";
-import VoteNoIcon from "jsx:/src/assets/voteNo.svg";
+import VoteAccurateIcon from "jsx:/src/assets/voteYes.svg";
+import VoteInaccurateIcon from "jsx:/src/assets/voteNo.svg";
 import VoteRefusedIcon from "jsx:/src/assets/voteRefused.svg";
 import VoteRemainingIcon from "jsx:/src/assets/voteRemaining.svg";
 import VoteHiddenIcon from "jsx:/src/assets/voteHidden.svg";
 
-const VOTE_DATA = [
-  { option: "Refused", icon: <VoteRefusedIcon /> },
-  { option: "Yes", icon: <VoteYesIcon /> },
-  { option: "No", icon: <VoteNoIcon /> },
-  { option: "Remaining", icon: <VoteRemainingIcon /> },
-];
+const binaryVoteOptionIcons = [<VoteAccurateIcon />, <VoteInaccurateIcon />];
 
-export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceModalOpen, question }) {
+export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceModalOpen, question, voteOptions }) {
   const { jurySize, votesPerChoice } = currentRound;
-  console.log({ currentRound: currentRound });
+  console.debug({ currentRound: currentRound });
 
   if (isHiddenVotes)
     return (
@@ -27,16 +22,26 @@ export default function VotingPeriod({ currentRound, isHiddenVotes, setEvidenceM
       </div>
     );
 
+  const voteData = [
+    { option: "Refused", icon: <VoteRefusedIcon />, voteSize: votesPerChoice[0] },
+    ...voteOptions.map((option, _index) => ({
+      option,
+      icon: binaryVoteOptionIcons[_index],
+      voteSize: votesPerChoice[_index + 1],
+    })),
+    { option: "Remaining", icon: <VoteRemainingIcon />, voteSize: getRemainingVoteCount(jurySize, votesPerChoice) },
+  ];
+
   return (
     <div className={styles.votingPeriod}>
       <h4>Current Votes</h4>
       <div className={styles.question}>{`Jury was asked: ${question}`}</div>
       <div className={styles.cardWrapper}>
-        {VOTE_DATA.map((vote, _index) => (
+        {voteData.map((vote, _index) => (
           <div key={_index} className={styles.voteCard}>
             <div>{vote.icon}</div>
-            <div key={vote.option === "Remaining" ? getRemainingVoteCount(jurySize, votesPerChoice) : votesPerChoice[_index]} className={`blink ${styles.voteCount}`}>
-              {vote.option === "Remaining" ? getRemainingVoteCount(jurySize, votesPerChoice) : votesPerChoice[_index]}
+            <div key={vote.voteSize} className={`blink ${styles.voteCount}`}>
+              {vote.voteSize}
             </div>
             <div className={styles.voteOption}>{vote.option}</div>
           </div>

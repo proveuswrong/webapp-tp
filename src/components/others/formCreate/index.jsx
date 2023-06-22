@@ -1,11 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { EthereumContext } from "../../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import Select from "../../presentational/select";
-import ErrorIcon from "jsx:/src/assets/error.svg";
+import RadioButtons from "../../presentational/radioButtons";
+
 import { useMergeState } from "../../../hooks/useMergeState";
+import ErrorIcon from "jsx:/src/assets/error.svg";
 
 const ERROR_MSG = "Please fill up this field";
 
@@ -39,9 +41,10 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
   };
 
   const handleControlChange = (e) => {
-    updateControlsState({ [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    updateControlsState({ [id]: id === "tags" ? value.toLowerCase() : value });
     setErrors({
-      [e.target.id]: "",
+      [id]: "",
     });
   };
 
@@ -51,7 +54,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
       description: controlsState.description === "" ? ERROR_MSG : "",
       categoryNo: controlsState.categoryNo < 0 ? "Please select a curation pool" : "",
     };
-    console.log({ newErrors });
+    console.debug({ newErrors });
     setErrors(newErrors);
 
     if (Object.values(newErrors).some((error) => error !== "")) {
@@ -89,50 +92,37 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         {(!focusedFields.title || controlsState.title !== "") && <ErrorDisplay message={errors.title} />}
       </div>
 
-
-
-      <div className={styles.formInput}>
-        <label htmlFor="description">Body</label>
-        <textarea
-          className={styles.description}
-          id="description"
-          name="description"
-          rows="5"
-          cols="33"
-          placeholder="A juicy content..."
-          required
-          onChange={handleControlChange}
-          onFocus={() => handleFocus("description")}
-          onBlur={() => handleBlur("description")}
-          value={controlsState.description}
-        />
+      <div>
+        <div className={styles.formInput}>
+          <label htmlFor="description">Body</label>
+          <textarea
+            className={styles.description}
+            id="description"
+            name="description"
+            rows="5"
+            cols="33"
+            placeholder="A juicy content..."
+            required
+            onChange={handleControlChange}
+            onFocus={() => handleFocus("description")}
+            onBlur={() => handleBlur("description")}
+            value={controlsState.description}
+          />
+        </div>
         {(!focusedFields.description || controlsState.description !== "") && (
           <ErrorDisplay message={errors.description} />
         )}
       </div>
-      <fieldset className={styles.textFormat}>
-        <input
-          type="radio"
-          id="plaintext"
-          name="format"
-          value="plaintext"
-          onChange={handleRadioChange}
-          checked={controlsState.format == "plaintext"}
-        />
-        <label htmlFor="plaintext">Plaintext</label>
-        <br />
 
-        <input
-          type="radio"
-          id="markdown"
-          name="format"
-          value="markdown"
-          onChange={handleRadioChange}
-          checked={controlsState.format == "markdown"}
-        />
-        <label htmlFor="markdown">Markdown</label>
-        <br />
-      </fieldset>
+      <RadioButtons
+        options={[
+          { label: "plaintext", value: "plaintext" },
+          { label: "markdown", value: "markdown" },
+        ]}
+        defaultValue={controlsState.format}
+        onChange={handleRadioChange}
+        name="format"
+      />
 
       <div className={styles.formInput}>
         <label htmlFor="tags">Tags</label>
@@ -165,7 +155,12 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
         </div>
         <div className={styles.formSelect}>
           {controlsState.categoryNo < 0 && <ErrorDisplay message={errors.categoryNo} />}
-          <Select placeholder="Curation Pool" options={selectOptions} onChange={handleOnChange} />
+          <Select
+            placeholder="Curation Pool"
+            options={selectOptions}
+            defaultOption={selectOptions.find((item) => item.value === controlsState.categoryNo)}
+            onChange={handleOnChange}
+          />
         </div>
       </div>
       <div className={styles.button}>

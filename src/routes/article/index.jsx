@@ -77,11 +77,13 @@ export default function Index() {
             Increase Bounty
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article.owner && article.status == "TimelockStarted" && (
-          <CustomButton key={`ExecuteWithdrawal${article?.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
+        {article.status == "TimelockStarted" && (
+          <CustomButton key={`ExecuteWithdrawal${article.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
-                You can unpublish the article in{" "}
+                {ethereumContext?.accounts[0] == article.owner
+                  ? "You can unpublish the article in "
+                  : "Article can be unpublished in "}
                 <Interval delay={reRenderInMs}>
                   {() => (
                     <span className="blink" key={getTimeLeft(article.withdrawalPermittedAt)}>

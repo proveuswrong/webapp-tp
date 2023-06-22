@@ -12,6 +12,11 @@
   }
 }
 
+.errorMessage {
+  @include errorMessageMixin;
+  position: relative;
+}
+
 .h1 {
   h1 {
     margin-bottom: 0px;
@@ -50,7 +55,7 @@
 
 .title {
   width: 100%;
-  margin-bottom: spacings.$s-8;
+  margin-bottom: spacings.$s-7;
 }
 
 .description {
@@ -58,8 +63,7 @@
 }
 .textFormat {
   width: 100%;
-  margin-bottom: spacings.$s-8;
-
+  margin-bottom: spacings.$s-6;
 }
 
 .tags {
