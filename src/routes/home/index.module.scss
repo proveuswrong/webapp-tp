@@ -79,10 +79,10 @@ $gappedBorders: linear-gradient(
     > div {
       display: grid;
       grid-template-columns: 1fr;
+      margin-top: 4 * spacings.$s-4;
+      margin-bottom: 4 * spacings.$s-4;
 
       p {
-        margin-top: 4 * spacings.$s-4;
-        margin-bottom: 4 * spacings.$s-4;
       }
     }
   }

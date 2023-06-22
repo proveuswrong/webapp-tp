@@ -298,7 +298,18 @@ export default function Home() {
                 <strong>Unfurl the Banners:</strong> Our Invitation to Join the Crusade as a Valiant Member of the Prove
                 Us Wrong Community
               </h1>
+              <p>
+                And now, dear reader, the trumpets herald your invitation. This is more than just a call to witness a
+                revolution; this is your personal summoning to join the ranks of Prove Us Wrong. Whether you wield a
+                quill, a ledger, or code, your skills and passions are the very sinews that can bolster this crusade.
+                Together, as a united front, we can be the vanguard that heralds a new dawn in information curation.
+              </p>
 
+              <p>
+                Prove Us Wrong is not just an organization; it’s a movement, a community, and potentially, it’s you.
+                Take a step towards transforming the information landscape and join us in our mission to champion
+                freedom, truth, and decentralized curation.
+              </p>
               <p>
                 Ready to don your armor and embark on this noble quest with Prove Us Wrong? It's time to rally at the
                 community’s hearth! Join the vibrant conversation on Discord, where knowledge and camaraderie flow like
@@ -331,7 +342,9 @@ export default function Home() {
                 assumptions are necessary. The magicians in this order use cutting-edge crypto-economic techniques to
                 weave their spells.
               </p>
-
+              <figure>
+                <img src={WhatSectionImage} alt="truthpost-what-section" />
+              </figure>
               <p>
                 Identifying as both cypherpunks and libertarians, the members of Prove Us Wrong don the armor of
                 freedom, justice, free speech, and privacy. They envision a world where these core values are not mere
@@ -346,21 +359,6 @@ export default function Home() {
                 underlying principle is simple: to make accurate and relevant information not just available but easy to
                 access for all. In their own words, they are building the next cool thing – an invitation to the
                 skeptics and naysayers to prove them wrong.
-              </p>
-              <figure>
-                <img src={WhatSectionImage} alt="truthpost-what-section" />
-              </figure>
-              <p>
-                And now, dear reader, the trumpets herald your invitation. This is more than just a call to witness a
-                revolution; this is your personal summoning to join the ranks of Prove Us Wrong. Whether you wield a
-                quill, a ledger, or code, your skills and passions are the very sinews that can bolster this crusade.
-                Together, as a united front, we can be the vanguard that heralds a new dawn in information curation.
-              </p>
-
-              <p>
-                Prove Us Wrong is not just an organization; it’s a movement, a community, and potentially, it’s you.
-                Take a step towards transforming the information landscape and join us in our mission to champion
-                freedom, truth, and decentralized curation.
               </p>
             </div>
           </section>
