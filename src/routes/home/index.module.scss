@@ -162,9 +162,22 @@ $gappedBorders: linear-gradient(
   }
 }
 
+.homeNav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: hsl(var(--background));
+  z-index: 99;
+}
 // Styling
 .home {
+  position: relative;
   word-break: break-word;
+
   p:global(.has-dropped-letter)::first-letter {
     float: left;
     font-size: 3rem;
@@ -203,7 +216,8 @@ $gappedBorders: linear-gradient(
     }
 
     @media (max-width: breakpoints.$md) {
-      &.leftFloating, &.principles {
+      &.leftFloating,
+      &.principles {
         background: linear-gradient(
             to right,
             black 0%,
