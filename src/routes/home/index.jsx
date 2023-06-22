@@ -32,7 +32,7 @@ export default function Home() {
           </header>
           <section>
             <div className={styles.twoColumn}>
-              <p className="initialize">
+              <p className="has-dropped-letter">
                 Once upon a time, news was a trusted friend. It told us stories about our world, shared the triumphs and
                 tragedies of our times, and guided us through the maze of society's happenings. But as the years went
                 by, our friend changed. False narratives began to weave their way into the stories, sensational
@@ -222,7 +222,10 @@ export default function Home() {
             </div>
           </section>
           <section className={styles.principles}>
-            <h1><strong>Embodying the Virtues</strong><br/> Key Principles of The Truth Post</h1>
+            <h1>
+              <strong>Embodying the Virtues</strong>
+              <br /> Key Principles of The Truth Post
+            </h1>
             <div>
               <div>
                 <figure>
