@@ -191,12 +191,12 @@ $gappedBorders: linear-gradient(
   }
 
   & > section {
-    padding-top: 20 * spacings.$spacing;
-    padding-bottom: 20 * spacings.$spacing;
+    padding-top: calc(4vw + 10 * spacings.$spacing);
+    padding-bottom: calc(4vw + 16 * spacings.$spacing);
 
     &:first-of-type {
-      padding-top: 20 * spacings.$spacing;
-      padding-bottom: 10 * spacings.$spacing;
+      padding-top: calc(4vw + 10 * spacings.$spacing);
+      padding-bottom: calc(4vw + 5 * spacings.$spacing);
     }
 
     &.rightFloating,
