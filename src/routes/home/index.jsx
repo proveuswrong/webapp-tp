@@ -375,6 +375,7 @@ export default function Home() {
                 world. Join us in this noble endeavor by contributing to our cause and making a lasting impact on the
                 future of information.
               </p>
+              <p>You can navigate to treasury by searching <em>proveuswrong.eth</em> on your favourite block explorer.</p>
             </div>
 
             <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad" className="button small">
