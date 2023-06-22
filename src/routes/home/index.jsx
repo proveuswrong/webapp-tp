@@ -114,7 +114,7 @@ export default function Home() {
               <strong>Charting New Horizons:</strong> Why The Truth Post is the Beacon We’ve Been Searching For
             </h1>
             <div>
-              <p className="initialize">
+              <p className="has-dropped-letter">
                 Our ability to make informed decisions, whether as consumers or as citizens, is fundamental to our
                 society. However, the very fabric of this information ecosystem is fraying at an alarming rate.
               </p>
@@ -164,7 +164,7 @@ export default function Home() {
               <strong>Under the Hood:</strong> Deciphering the Ingenuity of The Truth Post’s Mechanisms
             </h1>
             <div>
-              <p className="initialize">
+              <p className="has-dropped-letter">
                 In this riveting journey through the information landscape, it's time to delve into the inner workings
                 of The Truth Post. Fasten your seatbelts, as we unpack the gears and levers that make this novel
                 solution tick.
