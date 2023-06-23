@@ -13,7 +13,7 @@ import AppealPeriod from "./appeal";
 import ExecutionPeriod from "./execution";
 
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
-import { EthereumContext } from "/src/data/ethereumProvider";
+import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
 
@@ -160,9 +160,11 @@ export default function ArbitrationDetails({ article }) {
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
         <div className={styles.title}>Arbitration Details</div>
-        <CustomButton modifiers="small" disabled={buttonAdvanceStateDisabled} onClick={() => handleAdvanceState()}>
-          {mined ? `Advance state` : `Mining...`}
-        </CustomButton>
+        {networkMap[ethereumContext.chainId].default && (
+          <CustomButton modifiers="small" disabled={buttonAdvanceStateDisabled} onClick={() => handleAdvanceState()}>
+            {mined ? `Advance state` : `Mining...`}
+          </CustomButton>
+        )}
       </div>
       <Overview
         courtName={policy.name}
