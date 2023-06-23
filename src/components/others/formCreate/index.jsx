@@ -99,7 +99,7 @@ export default function FormCreate({ handleSave, controlsState, updateControlsSt
             className={styles.description}
             id="description"
             name="description"
-            rows="5"
+            rows="10"
             cols="33"
             placeholder="A juicy content..."
             required
