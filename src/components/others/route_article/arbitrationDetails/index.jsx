@@ -13,7 +13,8 @@ import AppealPeriod from "./appeal";
 import ExecutionPeriod from "./execution";
 
 import ArbitratorABI from "/src/data/klerosLiquidABI.json";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
+import { EthereumContext } from "/src/data/ethereumProvider";
+import { selectedEnvironment } from "/src/data/environments";
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
 
@@ -28,7 +29,6 @@ export default function ArbitrationDetails({ article }) {
   const [mined, setMined] = useState(true);
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
   const revalidator = useRevalidator();
-
   console.log(ethereumContext.metaEvidenceContents);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
@@ -160,7 +160,7 @@ export default function ArbitrationDetails({ article }) {
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
         <div className={styles.title}>Arbitration Details</div>
-        {networkMap[ethereumContext.chainId].default && (
+        {selectedEnvironment !== "prod" && (
           <CustomButton modifiers="small" disabled={buttonAdvanceStateDisabled} onClick={() => handleAdvanceState()}>
             {mined ? `Advance state` : `Mining...`}
           </CustomButton>
