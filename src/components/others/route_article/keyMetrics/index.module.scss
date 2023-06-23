@@ -9,6 +9,11 @@
 
 .trustScore {
   font-size: typo.$xl;
+
+  .unit {
+    margin-left: spacings.$s-1;
+    font-size: typo.$l;
+  }
 }
 
 .bountyAmount {

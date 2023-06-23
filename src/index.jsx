@@ -23,36 +23,39 @@ function IndexRedirect() {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route element={<RouteRedirect />}>
-        <Route index element={<IndexRedirect />} />
+    <Route path="/">
+      <Route index element={<Home />} />
+      <Route element={<Layout />}>
+        <Route element={<RouteRedirect />}>
+          <Route element={<IndexRedirect />} />
 
-        <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
-        <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
-        <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
+          <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
+          <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
+          <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
 
-        <Route element={<AuthRequired />}>
-          <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
-          <Route path=":chain/report" element={<Create />} />
+          <Route element={<AuthRequired />}>
+            <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
+            <Route path=":chain/report" element={<Create />} />
+          </Route>
         </Route>
+        <Route path="faq" element={<FAQ />} />
+        <Route
+          path="*"
+          element={
+            <section>
+              <h1>There's nothing here!</h1>
+            </section>
+          }
+        />
       </Route>
-      <Route path="about" element={<Home />} />
-      <Route path="faq" element={<FAQ />} />
-      <Route
-        path="*"
-        element={
-          <section>
-            <h1>There's nothing here!</h1>
-          </section>
-        }
-      />
     </Route>
   )
 );
 
 function App() {
   const { pathname } = window.location;
-  const chainId = pathname.split("/")[1];
+  const pathSegment = pathname.split("/")[1];
+  const chainId = pathSegment.startsWith("0x") ? pathSegment : undefined;
   return (
     <EthereumProvider chainId={chainId}>
       <RouterProvider router={router} />

@@ -10,32 +10,32 @@ import getTrustScore from "/src/businessLogic/getTrustScore";
 import { EthereumContext } from "/src/data/ethereumProvider";
 
 export default function KeyMetrics({ article }) {
-  const ethereumContext = useContext(EthereumContext);
+  const { graphMetadata, blockNumber } = useContext(EthereumContext);
   let reRenderInMs = 1000;
 
+  const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
   return (
     <div className={styles.containerKeyMetrics}>
       {article && (
-        <span className={styles.trustScore}>
-          Trust Score:{" "}
-          <Interval delay={reRenderInMs}>
-            {() =>
-              getTrustScore(
-                article,
-                getTimePastSinceLastBountyUpdate(
-                  article?.lastBalanceUpdate,
-                  ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-                )
-              )
-            }
-          </Interval>
-        </span>
+        <>
+          <div className={styles.trustScore}>
+            Trust Score:{" "}
+            <Interval delay={reRenderInMs}>
+              {() =>
+                getTrustScore(article, getTimePastSinceLastBountyUpdate(article.lastBalanceUpdate, currentBlockNumber))
+              }
+            </Interval>
+            <Tooltip placement="top" title="Etherblock = Deposited Ethers x Elapsed Blocks">
+              <span className={styles.unit}>Etherblocks</span>
+            </Tooltip>
+          </div>
+        </>
       )}
       <Tooltip
         placement="topLeft"
         title={`Last changed ${getTimePastSinceLastBountyUpdate(
-          article?.lastBalanceUpdate,
-          ethereumContext?.blockNumber
+          article.lastBalanceUpdate,
+          currentBlockNumber
         )} blocks ago.`}
       >
         <span className={styles.bountyAmount}>

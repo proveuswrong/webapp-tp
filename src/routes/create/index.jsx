@@ -22,7 +22,7 @@ export default function Create() {
     tags: "",
     bounty: "0.001",
     categoryNo: -1,
-    format: "plaintext"
+    format: "plaintext",
   });
 
   function handleSave() {
@@ -39,8 +39,8 @@ export default function Create() {
           JSON.stringify({
             title: controlsState.title,
             description: controlsState.description,
-            tags: controlsState.tags,
-            format: controlsState.format
+            tags: controlsState.tags.trim(),
+            format: controlsState.format,
           })
         ),
         MESSAGE_TYPE.ipfs
@@ -50,12 +50,13 @@ export default function Create() {
       console.log(ipfsPathOfNewArticle);
 
       const formattedBounty = utils.parseEther(controlsState.bounty);
+      const vacantStorageSlot = await ethereumContext.invokeCall("findVacantStorageSlot", [0]);
 
       await ethereumContext.invokeTransaction(
         "initializeArticle",
-        [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, 0],
+        [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, vacantStorageSlot],
         formattedBounty
-      ); // TODO: Replace 0 with a better guess.
+      );
 
       const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]); // TODO: You can use article
       // storage
