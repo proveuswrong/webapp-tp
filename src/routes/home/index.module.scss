@@ -163,12 +163,11 @@ $gappedBorders: linear-gradient(
 }
 
 .homeNav {
-  position: sticky;
   top: 0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 8 * spacings.$spacing;
   padding-bottom: 10px;
   background-color: hsl(var(--background));
   z-index: 99;
