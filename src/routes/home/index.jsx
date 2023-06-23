@@ -23,6 +23,8 @@ import Footer from "/src/components/presentational/footer";
 import Button from "../../components/presentational/button";
 
 export default function Home() {
+  const location = window.location;
+  const appURL = location.protocol + "//" + "app." + location.host;
   return (
     <>
       <main>
@@ -109,7 +111,7 @@ export default function Home() {
                 left for reader is to enjoy distilled information.
               </p>
             </div>
-            <a href="/0x1/" className="button small">
+            <a href={appURL} className="button small">
               Explore The Truth Post
             </a>
           </section>
