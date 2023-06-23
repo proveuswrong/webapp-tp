@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import * as styles from "./index.module.scss";
 import VisualVertical1 from "/src/assets/images/visualVertical1.jpg";
 import VisualVertical2 from "/src/assets/images/visualVertical2.jpg";
@@ -15,15 +14,17 @@ import Transparent from "/src/assets/images/transparent.png";
 import Trustless from "/src/assets/images/trustless.png";
 
 import TruthPost from "jsx:/src/assets/logoBgTransparent.svg";
+import FigureDecoration from "jsx:/src/assets/marks.svg";
 import Footer from "/src/components/presentational/footer";
+import Button from "../../components/presentational/button";
 
 export default function Home() {
   return (
     <>
       <nav className={styles.homeNav}>
-        <Link to="/0x1" className="button secondary small" modifiers="">
+        <a href="/0x1/" className="button secondary small" modifiers="">
           Explore The Truth Post
-        </Link>
+        </a>
       </nav>
       <main>
         <article className={styles.home}>
@@ -109,9 +110,9 @@ export default function Home() {
                 left for reader is to enjoy distilled information.
               </p>
             </div>
-            <Link to="/0x1" className="button small" modifiers="">
+            <a href="/0x1/" className="button small">
               Explore The Truth Post
-            </Link>
+            </a>
           </section>
           <section className={styles.rightFloating}>
             <h1>
