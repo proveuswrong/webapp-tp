@@ -324,7 +324,7 @@ export default function Home() {
                 become a guardian of truth in a community that's forging the future!
               </p>
             </div>
-            <a href="https://discord.gg/FvDrdDtYAV" className="button small">
+            <a href="https://discord.gg/FvDrdDtYAV" target="_blank" rel="noopener noreferrer" className="button small">
               Join Discord
             </a>
           </section>
