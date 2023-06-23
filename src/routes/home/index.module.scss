@@ -174,7 +174,7 @@ $gappedBorders: linear-gradient(
   }
   .logo {
     height: calc(70dvh - 5rem);
-    width: 100%;
+    max-width: 100%;
     margin-bottom: 2.23rem;
     margin-left: auto;
     margin-right: auto;
