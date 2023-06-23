@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <nav className={styles.homeNav}>
         <a href="/0x1/" className="button secondary small" modifiers="">
-          Launch App
+          Explore The Truth Post
         </a>
       </nav>
       <main>
