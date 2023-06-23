@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <nav className={styles.homeNav}>
-        <Link to="0x1" className="button secondary small" modifiers="">
+        <Link to="/0x1" className="button secondary small" modifiers="">
           Explore The Truth Post
         </Link>
       </nav>
