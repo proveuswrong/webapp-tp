@@ -13,7 +13,7 @@ export default function ButtonSelectNetwork() {
 
   return (
     <div style={{ marginLeft: "10px" }}>
-      <Select options={selectOptions} placeholder={networkMap[chainId].shortname} onChange={switchAppChain} />
+      <Select options={selectOptions} placeholder={networkMap[chainId]?.shortname} onChange={switchAppChain} />
     </div>
   );
 }

@@ -109,7 +109,7 @@ export default function Home() {
                 left for reader is to enjoy distilled information.
               </p>
             </div>
-            <Link to="/0x1" className="button small" modifiers="">
+            <Link to="0x1" className="button small" modifiers="">
               Explore The Truth Post
             </Link>
           </section>

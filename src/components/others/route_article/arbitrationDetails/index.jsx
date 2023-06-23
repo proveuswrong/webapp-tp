@@ -159,7 +159,7 @@ export default function ArbitrationDetails({ article }) {
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
         <div className={styles.title}>Arbitration Details</div>
-        {networkMap[ethereumContext.chainId].shortname !== "Mainnet" && (
+        {networkMap[ethereumContext.chainId]?.shortname !== "Mainnet" && (
           <CustomButton modifiers="small" disabled={buttonAdvanceStateDisabled} onClick={() => handleAdvanceState()}>
             {mined ? `Advance state` : `Mining...`}
           </CustomButton>
