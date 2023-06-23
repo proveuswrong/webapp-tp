@@ -171,12 +171,22 @@ footer {
   }
 }
 
+li,
+p {
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      color: hsl(var(--chinese-red-600));
+      text-decoration: underline;
+    }
+    &:active {
+      color: hsl(var(--chinese-red-800));
+    }
+  }
+}
 a {
   color: hsl(var(--dark-orchestra-600));
-}
-
-a:hover {
-  color: hsl(var(--schiava-blue-600));
 }
 
 a:hover svg circle,
