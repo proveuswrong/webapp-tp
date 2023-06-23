@@ -381,11 +381,20 @@ export default function Home() {
                 future of information.
               </p>
               <p>
-                You can navigate to treasury by searching <em>proveuswrong.eth</em> on your favourite block explorer.
+                You can navigate to treasury by searching{" "}
+                <a href="https://etherscan.io/address/proveuswrong.eth" target="_blank" rel="noopener noreferrer">
+                  <em>proveuswrong.eth</em>
+                </a>{" "}
+                on your favourite block explorer.
               </p>
             </div>
 
-            <a href="https://etherscan.io/address/0x387e8B40e332831b7a8ad629966df3E9f969C6ad" className="button small">
+            <a
+              href="https://etherscan.io/address/proveuswrong.eth"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button small"
+            >
               Donate Now
             </a>
           </section>
