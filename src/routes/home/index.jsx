@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <>
       <nav className={styles.homeNav}>
-        <a href="/0x1/" className="button small">
+        <a href="/0x1/" className="button secondary small" modifiers="">
           Launch App
         </a>
       </nav>
