@@ -26,18 +26,18 @@ const router = createBrowserRouter(
     <Route path="/">
       <Route index element={<Home />} />
       <Route element={<Layout />}>
-        <Route element={<RouteRedirect />}>
-          <Route element={<IndexRedirect />} />
+        {/* <Route element={<RouteRedirect />}> */}
+        <Route element={<IndexRedirect />} />
 
-          <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
-          <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
-          <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
+        <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
+        <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
+        <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
 
-          <Route element={<AuthRequired />}>
-            <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
-            <Route path=":chain/report" element={<Create />} />
-          </Route>
+        <Route element={<AuthRequired />}>
+          <Route path=":chain/account/:id" element={<Account />} loader={AccountLoader} />
+          <Route path=":chain/report" element={<Create />} />
         </Route>
+        {/* </Route> */}
         <Route path="faq" element={<FAQ />} />
         <Route
           path="*"
