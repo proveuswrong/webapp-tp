@@ -1,27 +1,10 @@
-import { useContext, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useContext } from "react";
 
 import { EthereumContext, networkMap } from "../../../data/ethereumProvider";
 import CustomButton from "/src/components/presentational/button";
 
-const CONNECTION_REQUEST_MSG = (
-  <>
-    <div>Please install Metamask to connect to app</div>
-    <a href="https://metamask.io/download/" target="_blank">
-      Install
-    </a>
-  </>
-);
-
 export default function ButtonConnect() {
   const ethereumContext = useContext(EthereumContext);
-
-  /*  useEffect(() => {
-    if (!ethereumContext.isProviderDetected)
-      toast.warn(CONNECTION_REQUEST_MSG, {
-        autoClose: false,
-      });
-  }, []); */
 
   return (
     <CustomButton
@@ -31,12 +14,6 @@ export default function ButtonConnect() {
       onClick={() => {
         if (ethereumContext?.accounts.length < 1) {
           ethereumContext.requestAccounts();
-          /* ethereumContext.requestAccounts().then(() => {
-            ethereum.request({
-              method: "wallet_switchEthereumChain",
-              params: [{ chainId: ethereumContext.chainId }],
-            });
-          }); */
         } else {
           console.log("There is a connected account already.");
         }
