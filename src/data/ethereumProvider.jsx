@@ -147,7 +147,10 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
       ethersProvider
         .getSigner()
         .sendTransaction(unsignedTx)
-        .then((tx) => tx.wait()),
+        .then(async (tx) => {
+          const confirmedTx = await tx.wait();
+          return { chainId, ...confirmedTx };
+        }),
       MESSAGE_TYPE.transaction
     );
   };

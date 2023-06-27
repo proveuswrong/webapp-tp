@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./toast.module.scss";
+import blockExplorers from "../constants/blockExplorers";
 
 export const MESSAGE_TYPE = Object.freeze({
   ipfs: "ipfs",
@@ -50,7 +51,7 @@ const messageTemplates = {
         return (
           <div>
             <div>Transaction mined successfully!</div>
-            <a target="_blank" href={`https://goerli.etherscan.io/tx/${data.transactionHash}`}>
+            <a target="_blank" href={`${blockExplorers[data.chainId]}/tx/${data.transactionHash}`}>
               View on Etherscan
             </a>
           </div>
