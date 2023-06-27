@@ -16,30 +16,27 @@ const CONNECTION_REQUEST_MSG = (
 export default function ButtonConnect() {
   const ethereumContext = useContext(EthereumContext);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (!ethereumContext.isProviderDetected)
       toast.warn(CONNECTION_REQUEST_MSG, {
         autoClose: false,
       });
-  }, []);
+  }, []); */
 
   return (
     <CustomButton
       modifiers="small secondary"
       id="buttonConnect"
-      disabled={
-        !ethereumContext.isProviderDetected ||
-        ethereumContext?.awaitingUserPermission ||
-        !ethereumContext?.isDeployedOnThisChain
-      }
+      disabled={ethereumContext?.awaitingUserPermission || !ethereumContext?.isDeployedOnThisChain}
       onClick={() => {
         if (ethereumContext?.accounts.length < 1) {
-          ethereumContext.requestAccounts().then(() => {
+          ethereumContext.requestAccounts();
+          /* ethereumContext.requestAccounts().then(() => {
             ethereum.request({
               method: "wallet_switchEthereumChain",
               params: [{ chainId: ethereumContext.chainId }],
             });
-          });
+          }); */
         } else {
           console.log("There is a connected account already.");
         }

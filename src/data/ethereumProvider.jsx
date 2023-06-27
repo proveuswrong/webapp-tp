@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import ABI from "./ABI.json";
 import { environment } from "./environments";
 
-import notifyWithToast, { MESSAGE_TYPE } from "../utils/notifyWithTost";
+import notifyWithToast, { MESSAGE_TYPE, notifyProviderConnectionStatus } from "../utils/notifyWithTost";
 import { ipfsGateway } from "../utils/addToIPFS";
 
 export const networkMap = {
@@ -80,6 +80,16 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
     };
   }, []);
 
+  const handleMessage = (message) => setBlockNumber(message.data.result.number);
+  const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
+
+  const handleChainChange = (targetChainId) => {
+    setMetamaskChainId(targetChainId);
+    const isSupported = Object.keys(networkMap).includes(targetChainId);
+    if (!chainId) switchAppChain(isSupported ? targetChainId : getDefaultNetwork());
+    if (isSupported) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
+  };
+
   useEffect(() => {
     if (!chainId) return;
 
@@ -101,21 +111,15 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
     };
   }, [chainId]);
 
-  const handleMessage = (message) => setBlockNumber(message.data.result.number);
-  const handleAccountsChange = (newAccounts) => setAccounts(newAccounts);
-
-  const handleChainChange = (targetChainId) => {
-    setMetamaskChainId(targetChainId);
-    const isSupported = Object.keys(networkMap).includes(targetChainId);
-    if (!chainId) switchAppChain(isSupported ? targetChainId : getDefaultNetwork());
-    if (isSupported) setEthersProvider(new ethers.providers.Web3Provider(window.ethereum));
-  };
-
   const switchAppChain = (targetChainId) => {
     setChainId(targetChainId);
   };
 
   const requestAccounts = async () => {
+    if (!isProviderDetected) {
+      notifyProviderConnectionStatus();
+      return;
+    }
     setAwaitingUserPermission(true);
     await ethereum.request({ method: "eth_requestAccounts" }).catch((error) => {
       if (error.code === 4001) {
@@ -139,7 +143,6 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   };
 
   const sendTransaction = async (unsignedTx) => {
-    console.log({ ethersProvider });
     await notifyWithToast(
       ethersProvider
         .getSigner()
@@ -150,6 +153,8 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   };
 
   const invokeCall = async (methodName, args) => {
+    if (!isProviderDetected) return;
+
     if (chainId !== metamaskChainId) {
       await ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -162,16 +167,22 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   };
 
   const invokeTransaction = async (methodName, args, value) => {
-    if (!accounts[0]) await requestAccounts();
+    if (!accounts[0] && isProviderDetected) await requestAccounts();
 
-    if (chainId !== metamaskChainId) {
-      await ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId }],
-      });
-    } else {
-      const unsignedTx = await contractInstance.populateTransaction[methodName](...args, { value });
-      await sendTransaction(unsignedTx);
+    try {
+      if (chainId !== metamaskChainId) {
+        await ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId }],
+        });
+      } else {
+        const unsignedTx = await contractInstance.populateTransaction[methodName](...args, { value });
+        await sendTransaction(unsignedTx);
+      }
+    } catch (error) {
+      if (!isProviderDetected) {
+        notifyProviderConnectionStatus();
+      }
     }
   };
 
