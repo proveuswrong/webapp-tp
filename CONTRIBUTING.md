@@ -10,6 +10,7 @@ Please follow these guidelines to ensure a smooth collaboration and contribution
 - [Getting Started](#getting-started)
 - [Codebase Organization](#codebase-organization)
 - [Principles](#principles)
+- [Questions](#questions)
 
 ## Code of Conduct
 
@@ -69,5 +70,5 @@ Resist the urge to introduce a new library each time you implement a new feature
 ### Refactorings > New Feature
 Technical debt makes it harder to implement a new feature and each new feature creates a new technical debt. So economically speaking, paying the debt first and then spending is wiser than spending first and then paying the debt. Unless we have a very good reason, we pay the debt first.
 
-## Questions?
+## Questions
 In case your question was not covered here, please open up an issue.
