@@ -6,7 +6,6 @@ import * as styles from "./index.module.scss";
 export default function Index() {
   return (
     <footer className={styles.footer}>
-      <span className={`ellipsis ${styles.containerText}`}></span>
       <div className={styles.containerSocialAndCopyright}>
         <span className={styles.social}>
           <a
