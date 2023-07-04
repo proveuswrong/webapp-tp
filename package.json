@@ -26,6 +26,8 @@
     "@parcel/transformer-sass": "2",
     "@parcel/transformer-svg-react": "^2.6.2",
     "buffer": "^6.0.3",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "flow-bin": "0",
     "husky": "^8.0.3",
     "parcel": "2",
@@ -43,5 +45,10 @@
   "prettier": {
     "printWidth": 120,
     "tabWidth": 2
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
