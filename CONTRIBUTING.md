@@ -9,6 +9,7 @@ Please follow these guidelines to ensure a smooth collaboration and contribution
 - [Code of Conduct](https://github.com/proveuswrong/webapp-news/blob/main/CODE_OF_CONDUCT.md)
 - [Getting Started](#getting-started)
 - [Codebase Organization](#codebase-organization)
+- [Principles](#values)
 
 ## Code of Conduct
 
@@ -51,7 +52,7 @@ Try to strip away any logic from the components you create, that maximizes reusa
 contain logic, perfect, put it under `src/components/presentational` else put it under `src/components/others`.
 You can reuse a component from Ant Design or build from scratch. Prefer building from scratch if it's an easy component to minimize dependencies.
 
-## Values
+## Principles
 
 ### Less is More
 We aim to construct using the least amount of source code possible, ideally none. We view code as a liability rather than an asset. Therefore, we focus our efforts on precisely defining the problem at hand, rather than expending energy on solving an ambiguously defined issue.
