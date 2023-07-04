@@ -102,7 +102,7 @@ export default function Home() {
                 Shadows and Empowering Voices
               </h1>
 
-              <p>
+              <p className="has-dropped-letter">
                 The first decentralized newspaper with trustlessly curated articles, powered by Ethereum, Kleros and
                 crypto-economic techniques. The incentive mechanism will incentivize authors to publish articles that
                 are accurate and relevant to communities' interests. Curators will be incentivized to curate articles
@@ -303,7 +303,7 @@ export default function Home() {
                 <strong>Unfurl the Banners:</strong> Our Invitation to Join the Crusade as a Valiant Member of the Prove
                 Us Wrong Community
               </h1>
-              <p>
+              <p className="has-dropped-letter">
                 And now, dear reader, the trumpets herald your invitation. This is more than just a call to witness a
                 revolution; this is your personal summoning to join the ranks of Prove Us Wrong. Whether you wield a
                 quill, a ledger, or code, your skills and passions are the very sinews that can bolster this crusade.
@@ -333,7 +333,7 @@ export default function Home() {
               <strong>Prove Us Wrong:</strong> The Vanguard Behind The Truth Post
             </h1>
             <div>
-              <p>
+              <p className="has-dropped-letter">
                 Have you ever wondered what would happen if the passion of cypherpunks and the wisdom of libertarians
                 converged to redefine the way we consume information? Behold, Prove Us Wrong – the open-source
                 organization spearheading the magnificent quest behind The Truth Post.
@@ -373,7 +373,7 @@ export default function Home() {
                 <strong>Support the Quest:</strong> Donate to the Prove Us Wrong Treasury and Fuel the Pursuit of Truth
               </h1>
 
-              <p>
+              <p className="has-dropped-letter">
                 As we embark on this ambitious quest to reshape the information landscape, we rely on the support and
                 generosity of kindred spirits like you. By donating to the Prove Us Wrong treasury, you become an
                 essential patron, fueling our mission to bring truth, transparency, and decentralized curation to the

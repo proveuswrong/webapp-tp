@@ -192,7 +192,7 @@ a {
 a:hover svg circle,
 a:hover svg path,
 a:hover svg rect {
-  fill: hsl(var(--schiava-blue-600));
+  fill: hsl(var(--chinese-red-600));
 }
 
 hr {
@@ -226,4 +226,8 @@ textarea::-webkit-scrollbar-corner {
   background-color: hsl(38, 58%, 96%);
   outline: 1px solid hsl(var(--english-breakfast-300));
   border-radius: 1px;
+}
+
+.has-dropped-letter::first-letter {
+  color: hsl(var(--chinese-red-600));
 }
