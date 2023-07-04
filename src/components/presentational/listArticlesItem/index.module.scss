@@ -8,12 +8,14 @@ $brownDarken40: hsl(var(--english-breakfast-800), 0.8);
   display: flex;
   flex-direction: column;
   flex: 1;
+  margin: spacings.$s-6 0;
 
   @media (min-width: breakpoints.$xl) {
     border: 1px solid hsl(var(--english-breakfast-600));
     border-radius: 1rem;
     transition: border-color 0.6s ease-in-out;
     padding: spacings.$s-6;
+    margin: 0;
 
     &:hover {
       border: 1px solid hsl(var(--english-breakfast-700));
@@ -45,7 +47,6 @@ $brownDarken40: hsl(var(--english-breakfast-800), 0.8);
     vertical-align: middle;
   }
 }
-
 
 .description {
   margin: spacings.$s-4 0;
