@@ -30,13 +30,14 @@ We expect all contributors to adhere to our Code of Conduct. Please review it be
 We use [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) strictly. 
 
 Here is a lifecycle of a new feature:
-
+```bash
     git checkout develop
     git checkout -b feature_branch
     git add myChanges
-    git commit -m "nicely written message"
+    ## the repo is commitizen-friendly. just run:
+    git commit ## you will be prompted with the interactive Commitizen CLI
     new pull request onto develop
-
+```
 ### Styling
 
 Use SCSS for targeting elements in general and use CSS Modules for targeting only a single element.
