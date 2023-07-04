@@ -13,3 +13,4 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=proveuswrong_webapp-news&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=proveuswrong_webapp-news)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=proveuswrong_webapp-news&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=proveuswrong_webapp-news)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=proveuswrong_webapp-news&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=proveuswrong_webapp-news)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
