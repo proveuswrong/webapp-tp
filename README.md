@@ -15,3 +15,6 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=proveuswrong_webapp-news&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=proveuswrong_webapp-news)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
+## Contribution Guideline
+[Link to Guideline](CONTRIBUTING.md)
