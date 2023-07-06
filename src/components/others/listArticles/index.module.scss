@@ -2,7 +2,7 @@
 @use "src/stylesheets/variables/breakpoints";
 
 .containerItems {
-  @media (min-width: breakpoints.$xl) {
+  @media (min-width: breakpoints.$large) {
     display: grid;
     column-gap: spacings.$s-6;
     row-gap: spacings.$s-6;

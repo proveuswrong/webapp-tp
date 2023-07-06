@@ -3,8 +3,7 @@
 @use "src/stylesheets/variables/breakpoints";
 
 .header {
-
-  .logo{
+  .logo {
     height: calc(11vw + 2rem);
   }
 
@@ -12,7 +11,7 @@
 
   text-align: center;
 
-  h1{
+  h1 {
     font-size: calc(typo.$xxl + 3vw);
     margin-bottom: 0;
   }
@@ -33,11 +32,9 @@
     font-size: typo.$s;
   }
 
-  @media (min-width: breakpoints.$md) {
+  @media (min-width: breakpoints.$small) {
     .subtitle {
       font-size: typo.$l;
     }
   }
-
-
 }
