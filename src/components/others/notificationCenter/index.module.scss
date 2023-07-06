@@ -26,15 +26,11 @@
 .notificationModal {
   width: 90%;
 
-  @media (min-width: breakpoints.$sm) {
+  @media (min-width: breakpoints.$small) {
     width: 70%;
   }
 
-  @media (min-width: breakpoints.$md) {
-    width: 60%;
-  }
-
-  @media (min-width: breakpoints.$xl) {
+  @media (min-width: breakpoints.$large) {
     width: 35%;
   }
 
@@ -53,7 +49,7 @@
       overflow-x: hidden;
       overflow-y: scroll;
 
-      @media (min-width: breakpoints.$md) {
+      @media (min-width: breakpoints.$small) {
         height: 500px;
       }
 
