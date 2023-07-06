@@ -10,7 +10,7 @@ $brownDarken40: hsl(var(--english-breakfast-800), 0.8);
   flex: 1;
   margin: spacings.$s-6 0;
 
-  @media (min-width: breakpoints.$xl) {
+  @media (min-width: breakpoints.$large) {
     border: 1px solid hsl(var(--english-breakfast-600));
     border-radius: 1rem;
     transition: border-color 0.6s ease-in-out;

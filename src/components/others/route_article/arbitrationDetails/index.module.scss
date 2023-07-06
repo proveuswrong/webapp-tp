@@ -32,7 +32,7 @@
       }
     }
 
-    @media (max-width: breakpoints.$md) {
+    @media (max-width: breakpoints.$small) {
       flex-flow: column wrap;
       margin-top: spacings.$s-6;
       padding-top: spacings.$s-4;
@@ -46,6 +46,4 @@
       }
     }
   }
-
-
 }

@@ -62,7 +62,7 @@ $gappedBorders: linear-gradient(
     }
   }
 
-  @media (min-width: breakpoints.$md) {
+  @media (min-width: breakpoints.$small) {
     div.twoColumn,
     div.threeColumn {
       column-gap: 2rem;
@@ -117,7 +117,7 @@ $gappedBorders: linear-gradient(
     }
   }
 
-  @media (min-width: breakpoints.$xl) {
+  @media (min-width: breakpoints.$large) {
     div.twoColumn {
       column-count: 2;
     }
@@ -186,7 +186,7 @@ $gappedBorders: linear-gradient(
       padding-bottom: calc(4vw + 5 * spacings.$spacing);
     }
 
-    @media (max-width: breakpoints.$md) {
+    @media (max-width: breakpoints.$small) {
       &.leftFloating,
       &.principles {
         background: linear-gradient(
@@ -267,7 +267,7 @@ $gappedBorders: linear-gradient(
         width: 4.5rem;
       }
 
-      @media (min-width: breakpoints.$md) {
+      @media (min-width: breakpoints.$small) {
         & > div {
           grid-template-columns: 1fr 1fr;
           grid-gap: 0;
@@ -409,7 +409,7 @@ $gappedBorders: linear-gradient(
       }
     }
 
-    @media (min-width: breakpoints.$md) {
+    @media (min-width: breakpoints.$small) {
       &.twoColumnsMerging {
         position: relative;
         h1::after {

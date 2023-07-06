@@ -1,3 +1,5 @@
+@use "src/stylesheets/variables/breakpoints";
+
 $thickness: 3px;
 $gap: 6px;
 $height: 3 * $thickness + 2 * $gap;
@@ -17,7 +19,7 @@ $height: 3 * $thickness + 2 * $gap;
     border-radius: 3px;
   }
 
-  @media only screen and (max-width: 780px) {
+  @media only screen and (max-width: breakpoints.$navbar) {
     display: flex;
   }
 

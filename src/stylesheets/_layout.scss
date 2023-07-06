@@ -36,7 +36,7 @@ footer {
   padding-right: spacings.$s-8;
 }
 
-@media (min-width: breakpoints.$md) {
+@media (min-width: breakpoints.$small) {
   nav,
   main > section,
   main > article {
