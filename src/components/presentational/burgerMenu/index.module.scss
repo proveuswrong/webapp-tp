@@ -19,7 +19,7 @@ $height: 3 * $thickness + 2 * $gap;
     border-radius: 3px;
   }
 
-  @media only screen and (max-width: breakpoints.$navbar) {
+  @media only screen and (max-width: breakpoints.$large) {
     display: flex;
   }
 
