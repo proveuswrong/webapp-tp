@@ -92,7 +92,11 @@ const EventList = ({ events }) => {
   return (
     <>
       {events?.map((event, index) => (
-        <div key={index} className={styles.eventCard} onClick={() => setActiveKey(index)}>
+        <div
+          key={index}
+          className={styles.eventCard}
+          onClick={() => setActiveKey((prevState) => (prevState === index ? undefined : index))}
+        >
           <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
           <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
           {activeKey === index ? <DisabledEyeIcon /> : <EyeIcon />}
@@ -142,7 +146,10 @@ const EventTable = ({ events }) => {
                 <td>{getPrettyNamesForEvents(event.name)}</td>
                 <td>
                   {isEvidence_ ? (
-                    <div className={styles.expandButton} onClick={() => setActiveKey(index)}>
+                    <div
+                      className={styles.expandButton}
+                      onClick={() => setActiveKey((prevState) => (prevState === index ? undefined : index))}
+                    >
                       {isExpanded_ ? "Hide Details" : "Show Details"}
                     </div>
                   ) : event.name === "ArticleWithdrawal" ? (
