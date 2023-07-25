@@ -10,113 +10,69 @@ import AttachmentIcon from "jsx:/src/assets/attachment.svg";
 import getTrustScore from "../../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 
+import EyeIcon from "jsx:/src/assets/eye.svg";
+import DisabledEyeIcon from "jsx:/src/assets/eyeDisabled.svg";
+import Tabs from "../../presentational/tabs";
+
 const EVENTS_TO_IGNGORE = ["Withdrawal"];
 const IPFS_GATEWAY_URL = "https://ipfs.kleros.io";
 
 export default function EventLog({ visible, onCancel, events }) {
-  const ethereumContext = useContext(EthereumContext);
-  const [evidenceDetails, setEvidenceDetails] = useState({});
-  const [expandedRows, setExpandedRows] = useState([]);
-
-  const toggleEvidenceRow = (index) => {
-    const updatedRows = [...expandedRows];
-    if (updatedRows.includes(index)) {
-      updatedRows.splice(updatedRows.indexOf(index), 1);
-    } else {
-      updatedRows.push(index);
-    }
-    setExpandedRows(updatedRows);
-  };
+  const [eventsWithEvidenceDetails, setEventsWithEvidenceDetails] = useState([...events]);
+  const isMobileView = window?.innerWidth <= 600;
 
   useEffect(() => {
-    async function fetchEvidences(ipfsPaths) {
-      try {
-        const responses = await Promise.all(ipfsPaths.map((path) => fetch(IPFS_GATEWAY_URL + path)));
-        const data = await Promise.all(responses.map((response) => response.json()));
-        const evidences = ipfsPaths.reduce((acc, path, index) => ({ ...acc, [path]: data[index] }), {});
+    const fetchEvidencesAndMerge = async (events) => {
+      const updatedEvents = await Promise.all(
+        events.map(async (event) => {
+          if (event.name === "Evidence") {
+            try {
+              const response = await fetch(IPFS_GATEWAY_URL + event.details);
+              const evidenceData = await response.json();
+              return { ...event, details: evidenceData };
+            } catch (error) {
+              console.error("Failed to fetch event evidence from IPFS", error);
+              return event;
+            }
+          }
+          return event;
+        })
+      );
+      setEventsWithEvidenceDetails(updatedEvents);
+    };
 
-        setEvidenceDetails(evidences);
-      } catch (error) {
-        console.error("Failed to fetch event evidences from IPFS", error);
-      }
-    }
-    console.log({ events });
-
-    const ipfsPaths = events.filter((event) => event.name === "Evidence").map((event) => event.details);
-    if (ipfsPaths.length) fetchEvidences(ipfsPaths);
+    fetchEvidencesAndMerge(events);
   }, [events]);
 
-  const calculateTrustScore = (article) => {
-    return getTrustScore(
-      article,
-      getTimePastSinceLastBountyUpdate(
-        article.lastBalanceUpdate,
-        ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-      )
-    );
-  };
+  const filteredEvents = eventsWithEvidenceDetails.filter((e) => !EVENTS_TO_IGNGORE.includes(e.name));
 
   return (
     <Modal visible={visible} className={styles.eventLog} onCancel={onCancel} footer={null}>
       <div className={styles.title}>Event Log</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Details</th>
-            <th>Actor</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {events
-            .filter((e) => !EVENTS_TO_IGNGORE.includes(e.name))
-            .map((event, i) => {
-              const isEvidence = event.name === "Evidence";
-              const isExpanded = expandedRows.includes(i);
-              return (
-                <React.Fragment key={`row${i}`}>
-                  <tr className={isExpanded ? styles.expanded : undefined}>
-                    <td>{getPrettyNamesForEvents(event.name)}</td>
-                    <td>
-                      {isEvidence ? (
-                        <div className={styles.expandButton} onClick={() => toggleEvidenceRow(i)}>
-                          {isExpanded ? "Hide Details" : "Show Details"}
-                        </div>
-                      ) : event.name === "ArticleWithdrawal" ? (
-                        formatExtraData(event.name, calculateTrustScore(event.article), ethereumContext)
-                      ) : (
-                        formatExtraData(event.name, event.details, ethereumContext)
-                      )}
-                    </td>
-                    <td>
-                      <a
-                        href={networkMap[ethereumContext?.chainId]?.explorerURL(event.from)}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {getLabel(event.from, ethereumContext?.accounts[0])}
-                      </a>
-                    </td>
-                    <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
-                  </tr>
-                  {isEvidence && isExpanded && (
-                    <tr>
-                      <td colSpan="4" className={styles.expanded}>
-                        <EvidenceDisplay evidence={evidenceDetails[event.details]} />
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              );
-            })}
-        </tbody>
-      </table>
+      {isMobileView ? (
+        filteredEvents.map((event) => <EventCard key={event.id} event={event} />)
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Details</th>
+              <th>Actor</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredEvents.map((event) => (
+              <EventTableRow key={event.id} event={event} />
+            ))}
+          </tbody>
+        </table>
+      )}
     </Modal>
   );
 }
 
-function EvidenceDisplay({ evidence }) {
+const EvidenceDisplay = ({ evidence }) => {
   return (
     <div className={styles.evidenceDisplay}>
       <div className={styles.header}>
@@ -129,6 +85,89 @@ function EvidenceDisplay({ evidence }) {
       <div className={styles.description}>{evidence.description}</div>
     </div>
   );
+};
+
+const EventCard = ({ event }) => {
+  const [isExpanded, setEpanded] = useState(false);
+  const { blockNumber, chainId, accounts, graphMetadata, metaEvidenceContents } = useContext(EthereumContext);
+  const currenBlockNumber = graphMetadata?.block?.number || blockNumber;
+
+  const getContent = () => {
+    switch (event.name) {
+      case "Evidence":
+        return <EvidenceDisplay evidence={event.details} />;
+      case "ArticleWithdrawal":
+        return formatExtraData(event.name, calculateTrustScore(event.article, currenBlockNumber), metaEvidenceContents);
+      default:
+        return formatExtraData(event.name, event.details, metaEvidenceContents);
+    }
+  };
+
+  return (
+    <div className={styles.eventCard} onClick={() => setEpanded((prevState) => !prevState)}>
+      <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
+      <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
+      {isExpanded ? <DisabledEyeIcon /> : <EyeIcon />}
+      {isExpanded && (
+        <Tabs
+          items={[
+            {
+              label: "Actor",
+              content: (
+                <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
+                  {getLabel(event.from, accounts[0])}
+                </a>
+              ),
+            },
+            { label: "Details", content: getContent() },
+          ]}
+        />
+      )}
+    </div>
+  );
+};
+
+const EventTableRow = ({ event }) => {
+  const [isExpanded, setEpanded] = useState(false);
+  const { blockNumber, accounts, chainId, graphMetadata, metaEvidenceContents } = useContext(EthereumContext);
+  const currenBlockNumber = graphMetadata?.block?.number || blockNumber;
+
+  const isEvidence = event.name === "Evidence";
+  return (
+    <>
+      <tr className={isExpanded ? styles.expanded : undefined}>
+        <td>{getPrettyNamesForEvents(event.name)}</td>
+        <td>
+          {isEvidence ? (
+            <div className={styles.expandButton} onClick={() => setEpanded((prevState) => !prevState)}>
+              {isExpanded ? "Hide Details" : "Show Details"}
+            </div>
+          ) : event.name === "ArticleWithdrawal" ? (
+            formatExtraData(event.name, calculateTrustScore(event.article, currenBlockNumber), metaEvidenceContents)
+          ) : (
+            formatExtraData(event.name, event.details, metaEvidenceContents)
+          )}
+        </td>
+        <td>
+          <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
+            {getLabel(event.from, accounts[0])}
+          </a>
+        </td>
+        <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
+      </tr>
+      {isEvidence && isExpanded && (
+        <tr>
+          <td colSpan="4" className={styles.expanded}>
+            <EvidenceDisplay evidence={event.details} />
+          </td>
+        </tr>
+      )}
+    </>
+  );
+};
+
+function calculateTrustScore(article, latestBlockNumber) {
+  return getTrustScore(article, getTimePastSinceLastBountyUpdate(article.lastBalanceUpdate, latestBlockNumber));
 }
 
 function getPrettyNamesForEvents(sourceCodeName) {
@@ -148,8 +187,7 @@ function getPrettyNamesForEvents(sourceCodeName) {
   }
 }
 
-function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
-  const { metaEvidenceContents } = ethereumContext;
+function formatExtraData(eventNameAsInSourceCode, extraData, metaEvidenceContents) {
   switch (eventNameAsInSourceCode) {
     case "NewArticle":
       return `Curation Pool 0: ${metaEvidenceContents[extraData]?.category}`;
