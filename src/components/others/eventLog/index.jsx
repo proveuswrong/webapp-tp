@@ -49,25 +49,7 @@ export default function EventLog({ visible, onCancel, events }) {
   return (
     <Modal visible={visible} className={styles.eventLog} onCancel={onCancel} footer={null}>
       <div className={styles.title}>Event Log</div>
-      {isMobileView ? (
-        filteredEvents.map((event) => <EventCard key={event.id} event={event} />)
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Details</th>
-              <th>Actor</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredEvents.map((event) => (
-              <EventTableRow key={event.id} event={event} />
-            ))}
-          </tbody>
-        </table>
-      )}
+      {isMobileView ? <EventList events={filteredEvents} /> : <EventTable events={filteredEvents} />}
     </Modal>
   );
 }
@@ -87,82 +69,111 @@ const EvidenceDisplay = ({ evidence }) => {
   );
 };
 
-const EventCard = ({ event }) => {
-  const [isExpanded, setEpanded] = useState(false);
+const EventList = ({ events }) => {
+  const [activeKey, setActiveKey] = useState();
   const { blockNumber, chainId, accounts, graphMetadata, metaEvidenceContents } = useContext(EthereumContext);
-  const currenBlockNumber = graphMetadata?.block?.number || blockNumber;
+  const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
 
-  const getContent = () => {
+  const getContent = (event) => {
     switch (event.name) {
       case "Evidence":
         return <EvidenceDisplay evidence={event.details} />;
       case "ArticleWithdrawal":
-        return formatExtraData(event.name, calculateTrustScore(event.article, currenBlockNumber), metaEvidenceContents);
+        return formatExtraData(
+          event.name,
+          calculateTrustScore(event.article, currentBlockNumber),
+          metaEvidenceContents
+        );
       default:
         return formatExtraData(event.name, event.details, metaEvidenceContents);
     }
   };
 
   return (
-    <div className={styles.eventCard} onClick={() => setEpanded((prevState) => !prevState)}>
-      <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
-      <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
-      {isExpanded ? <DisabledEyeIcon /> : <EyeIcon />}
-      {isExpanded && (
-        <Tabs
-          items={[
-            {
-              label: "Actor",
-              content: (
-                <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
-                  {getLabel(event.from, accounts[0])}
-                </a>
-              ),
-            },
-            { label: "Details", content: getContent() },
-          ]}
-        />
-      )}
-    </div>
+    <>
+      {events?.map((event, index) => (
+        <div key={index} className={styles.eventCard} onClick={() => setActiveKey(index)}>
+          <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
+          <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
+          {activeKey === index ? <DisabledEyeIcon /> : <EyeIcon />}
+          {activeKey === index && (
+            <Tabs
+              items={[
+                {
+                  label: "Actor",
+                  content: (
+                    <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
+                      {getLabel(event.from, accounts[0])}
+                    </a>
+                  ),
+                },
+                { label: "Details", content: getContent(event) },
+              ]}
+            />
+          )}
+        </div>
+      ))}
+    </>
   );
 };
 
-const EventTableRow = ({ event }) => {
-  const [isExpanded, setEpanded] = useState(false);
+const EventTable = ({ events }) => {
+  const [activeKey, setActiveKey] = useState();
   const { blockNumber, accounts, chainId, graphMetadata, metaEvidenceContents } = useContext(EthereumContext);
-  const currenBlockNumber = graphMetadata?.block?.number || blockNumber;
+  const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
 
-  const isEvidence = event.name === "Evidence";
   return (
-    <>
-      <tr className={isExpanded ? styles.expanded : undefined}>
-        <td>{getPrettyNamesForEvents(event.name)}</td>
-        <td>
-          {isEvidence ? (
-            <div className={styles.expandButton} onClick={() => setEpanded((prevState) => !prevState)}>
-              {isExpanded ? "Hide Details" : "Show Details"}
-            </div>
-          ) : event.name === "ArticleWithdrawal" ? (
-            formatExtraData(event.name, calculateTrustScore(event.article, currenBlockNumber), metaEvidenceContents)
-          ) : (
-            formatExtraData(event.name, event.details, metaEvidenceContents)
-          )}
-        </td>
-        <td>
-          <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
-            {getLabel(event.from, accounts[0])}
-          </a>
-        </td>
-        <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
-      </tr>
-      {isEvidence && isExpanded && (
+    <table>
+      <thead>
         <tr>
-          <td colSpan="4" className={styles.expanded}>
-            <EvidenceDisplay evidence={event.details} />
-          </td>
+          <th>Name</th>
+          <th>Details</th>
+          <th>Actor</th>
+          <th>Time</th>
         </tr>
-      )}
-    </>
+      </thead>
+      <tbody>
+        {events?.map((event, index) => {
+          const isEvidence_ = event.name === "Evidence";
+          const isExpanded_ = activeKey === index;
+          return (
+            <>
+              <tr className={isExpanded_ ? styles.expanded : undefined}>
+                <td>{getPrettyNamesForEvents(event.name)}</td>
+                <td>
+                  {isEvidence_ ? (
+                    <div className={styles.expandButton} onClick={() => setActiveKey(index)}>
+                      {isExpanded_ ? "Hide Details" : "Show Details"}
+                    </div>
+                  ) : event.name === "ArticleWithdrawal" ? (
+                    formatExtraData(
+                      event.name,
+                      calculateTrustScore(event.article, currentBlockNumber),
+                      metaEvidenceContents
+                    )
+                  ) : (
+                    formatExtraData(event.name, event.details, metaEvidenceContents)
+                  )}
+                </td>
+                <td>
+                  <a href={networkMap[chainId]?.explorerURL(event.from)} target="_blank" rel="noreferrer noopener">
+                    {getLabel(event.from, accounts[0])}
+                  </a>
+                </td>
+                <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
+              </tr>
+              {isEvidence_ && isExpanded_ && (
+                <tr>
+                  <td colSpan="4" className={styles.expanded}>
+                    <EvidenceDisplay evidence={event.details} />
+                  </td>
+                </tr>
+              )}
+            </>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
 

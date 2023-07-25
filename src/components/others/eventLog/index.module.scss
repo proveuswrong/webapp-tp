@@ -135,11 +135,20 @@
     padding-bottom: spacings.$s-3;
     display: flex;
     justify-content: space-between;
+    text-align: left;
+
+    ::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   .description {
     font-size: typo.$xs;
     padding-top: spacings.$s-3;
+    text-align: left;
+    ::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   .header,
