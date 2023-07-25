@@ -1,12 +1,40 @@
 @use "src/stylesheets/variables/typo";
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
 .eventLog {
-  max-width: 80vw;
+  max-width: 95%;
+
+  @media (min-width: breakpoints.$small) {
+    max-width: 80vw;
+  }
 
   .title {
     font-size: typo.$xl;
     margin-top: spacings.$s-7;
+  }
+
+  .eventCard {
+    margin: spacings.$s-7 auto;
+    padding: spacings.$s-7 spacings.$s-4 spacings.$s-5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid hsl(var(--smooth-coffee-500));
+    border-radius: 0.5rem;
+
+    .cardTitle {
+      font-size: typo.$m;
+      margin-bottom: spacings.$s-3;
+    }
+
+    .date {
+      margin-bottom: spacings.$s-7;
+    }
+
+    a {
+      text-decoration: underline;
+    }
   }
 
   table {

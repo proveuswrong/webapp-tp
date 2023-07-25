@@ -1,0 +1,27 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+
+.tabs {
+  width: 100%;
+
+  :global(div.ant-tabs-nav-wrap) {
+    width: 100%;
+    margin-top: spacings.$s-3;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid black;
+  }
+
+  :global(.ant-tabs-content.ant-tabs-content-top) {
+    text-align: center;
+  }
+
+  :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+    color: hsl(var(--dark-orchestra-600));
+    font-weight: medium;
+  }
+
+  :global(.ant-tabs-ink-bar) {
+    background: hsl(var(--dark-orchestra-600));
+  }
+}

@@ -16,6 +16,7 @@ export default function EvidencePeriod({ evidenceEvents, setEvidenceModalOpen })
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log({ evidenceEvents });
       if (!evidenceEvents > 0) return;
       const data = await Promise.all(
         evidenceEvents.map(async (evidence) => {
