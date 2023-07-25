@@ -1,14 +1,25 @@
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/breakpoints";
 
 .containerMetadata {
   margin-bottom: 1.25rem;
+  margin-top: spacings.$s-4;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+  row-gap: spacings.$s-3;
+
+  @media (min-width: breakpoints.$small) {
+    flex-direction: row;
+  }
 
   & > div:first-child {
     display: flex;
     flex-direction: column;
+  }
+
+  span > a {
+    text-decoration: underline;
   }
 }

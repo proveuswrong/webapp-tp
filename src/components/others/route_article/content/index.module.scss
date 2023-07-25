@@ -1,10 +1,16 @@
 @use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/breakpoints";
 
 .title {
   margin-bottom: spacings.$s-5;
 
   & + span {
     vertical-align: super;
+  }
+
+  @media (max-width: breakpoints.$small) {
+    font-size: typo.$xl;
   }
 }
 

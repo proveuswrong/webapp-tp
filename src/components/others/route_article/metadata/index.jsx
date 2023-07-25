@@ -10,8 +10,6 @@ export default function Metadata(props) {
   const { article, setEventLogOpen } = props;
   const ethereumContext = useContext(EthereumContext);
 
-  console.log(ethereumContext.metaEvidenceContents);
-
   return (
     <div className={styles.containerMetadata}>
       <div>
