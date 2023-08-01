@@ -10,8 +10,8 @@ import AttachmentIcon from "jsx:/src/assets/attachment.svg";
 import getTrustScore from "../../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 
-import EyeIcon from "jsx:/src/assets/eye.svg";
-import DisabledEyeIcon from "jsx:/src/assets/eyeDisabled.svg";
+import OpenEyeIcon from "jsx:/src/assets/open.svg";
+import CloseEyeIcon from "jsx:/src/assets/close.svg";
 import Tabs from "../../presentational/tabs";
 
 const EVENTS_TO_IGNGORE = ["Withdrawal"];
@@ -99,7 +99,7 @@ const EventList = ({ events }) => {
         >
           <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
           <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
-          {activeKey === index ? <DisabledEyeIcon /> : <EyeIcon />}
+          <div className={styles.expandButton}>{activeKey === index ? <OpenEyeIcon /> : <CloseEyeIcon />}</div>
           {activeKey === index && (
             <Tabs
               items={[
