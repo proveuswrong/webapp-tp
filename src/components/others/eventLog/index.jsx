@@ -99,7 +99,7 @@ const EventList = ({ events }) => {
         >
           <div className={styles.cardTitle}>{getPrettyNamesForEvents(event.name)}</div>
           <div className={styles.date}>{new Date(event.timestamp * 1000).toUTCString()}</div>
-          <div className={styles.expandButton}>{activeKey === index ? <OpenEyeIcon /> : <CloseEyeIcon />}</div>
+          <div className={styles.expandButton}>{activeKey === index ? <CloseEyeIcon /> : <OpenEyeIcon />}</div>
           {activeKey === index && (
             <Tabs
               items={[
