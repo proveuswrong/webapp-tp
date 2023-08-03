@@ -1,8 +1,16 @@
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "jsx:*.svg": ["@parcel/transformer-svg-react"],
-    "jsx:*": ["..."]
+    "jsx:*.svg": [
+      "@parcel/transformer-svg-react"
+    ],
+    "jsx:*": [
+      "..."
+    ],
+    "*.module.css": [
+      "parcel-transformer-ts-css-modules",
+      "..."
+    ]
   },
   "compressors": {
     "*.{html,css,js,svg,map}": [
