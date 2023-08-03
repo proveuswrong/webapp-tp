@@ -1,0 +1,142 @@
+@use "src/stylesheets/variables/spacings";
+@use "src/stylesheets/variables/typo";
+
+.steps {
+  position: relative;
+  display: flex;
+  width: 100%;
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.stepItem {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  padding-bottom: spacings.$s-10;
+
+  .circleWrapper {
+    display: flex;
+    position: relative;
+
+    .circle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: spacings.$s-10;
+      height: spacings.$s-10;
+      background-color: hsl(var(--english-breakfast-800));
+
+      .dot {
+        width: spacings.$s-2;
+        height: spacings.$s-2;
+        background-color: hsl(var(--english-breakfast-800));
+        border-radius: 50%;
+      }
+      svg {
+        width: spacings.$s-6;
+        height: spacings.$s-6;
+      }
+      /*   svg {
+        path {
+          fill: hsl(var(--starbright-600));
+          stroke: hsl(var(--starbright-600));
+        }
+      } */
+    }
+  }
+
+  .title {
+    margin-top: spacings.$s-2;
+    font-size: typo.$m;
+    color: hsl(var(--english-breakfast-500));
+  }
+
+  .title,
+  .description {
+    text-align: center;
+  }
+}
+
+/* .stepItem:not(:first-child) .title {
+  margin-top: 0;
+} */
+
+.stepItem:not(:last-child) .circleWrapper::after {
+  content: "";
+  position: absolute;
+  background-color: hsl(var(--english-breakfast-500));
+  z-index: -1;
+}
+
+.stepItem {
+  &.vertical {
+    .circleWrapper {
+      width: auto;
+      padding-left: 0;
+      border-color: transparent;
+    }
+
+    &:not(:last-child) .circleWrapper::after {
+      right: 50%;
+      width: 1px;
+      height: 250%;
+    }
+
+    &:not(:first-child) .title {
+      margin-top: 0;
+    }
+
+    &.active .circleWrapper .circle .dot {
+      width: spacings.$s-4;
+      height: spacings.$s-4;
+    }
+
+    &.completed .circleWrapper .circle {
+      background-color: hsl(var(--background));
+    }
+  }
+
+  &.horizontal {
+    flex-direction: column;
+    .circleWrapper {
+      width: 100%;
+      padding-left: 40%;
+      .circle {
+        border: 1px solid hsl(var(--english-breakfast-500));
+        border-radius: 50%;
+      }
+    }
+    &:not(:last-child) .circleWrapper::after {
+      top: 50%;
+      width: 100%;
+      height: 1px;
+    }
+    &.active .circleWrapper .circle {
+      background-color: hsl(var(--english-breakfast-800));
+    }
+    &.awaiting .circleWrapper .circle {
+      &.withBorder {
+        border-color: hsl(var(--english-breakfast-500));
+      }
+    }
+  }
+}
+
+.stepItem {
+  &.completed .circleWrapper::after,
+  &.completed .circleWrapper .circle {
+    background-color: hsl(var(--english-breakfast-800));
+  }
+
+  &:not(.completed) .circleWrapper::after {
+    background-color: hsl(var(--english-breakfast-500));
+  }
+
+  &.active .circleWrapper .circle,
+  &.awaiting .circleWrapper .circle {
+    background-color: hsl(var(--background));
+  }
+}
