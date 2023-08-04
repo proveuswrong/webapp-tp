@@ -60,10 +60,6 @@
   }
 }
 
-/* .stepItem:not(:first-child) .title {
-  margin-top: 0;
-} */
-
 .stepItem:not(:last-child) .circleWrapper::after {
   content: "";
   position: absolute;
