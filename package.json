@@ -17,13 +17,15 @@
     "react-tageditor": "^0.2.3",
     "react-toastify": "^9.1.2",
     "rehype-katex": "^6.0.3",
-    "remark-math": "^5.1.1"
+    "remark-math": "^5.1.1",
+    "typed-css-modules": "^0.7.2"
   },
   "devDependencies": {
     "@babel/core": "7",
     "@babel/plugin-transform-flow-strip-types": "7",
     "@parcel/compressor-brotli": "^2.6.2",
     "@parcel/compressor-gzip": "^2.6.2",
+    "@parcel/plugin": "^2.9.3",
     "@parcel/transformer-sass": "2",
     "@parcel/transformer-svg-react": "^2.6.2",
     "buffer": "^6.0.3",
@@ -32,7 +34,7 @@
     "flow-bin": "0",
     "husky": "^8.0.3",
     "parcel": "2",
-    "parcel-transformer-ts-css-modules": "^1.0.14",
+    "parcel-transformer-typed-css-modules": "^1.0.0",
     "path-browserify": "^1.0.1",
     "postcss": "8",
     "postcss-modules": "4",

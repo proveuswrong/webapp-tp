@@ -8,7 +8,7 @@
       "..."
     ],
     "*.module.css": [
-      "parcel-transformer-ts-css-modules",
+      "parcel-transformer-typed-css-modules",
       "..."
     ]
   },
