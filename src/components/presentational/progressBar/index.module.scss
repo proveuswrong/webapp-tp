@@ -3,43 +3,68 @@
 
 $brownDarken40: hsl(var(--english-breakfast-800), 0.6);
 $brownDarken20: hsl(var(--english-breakfast-700), 0.6);
-$green: hsl(180, 46%, 15%);
-$pink: hsl(313, 74%, 35%);
+$blue: hsl(180, 100%, 38%);
+$blueDarken: hsl(180, 45%, 15%);
+$pink: hsl(314, 65%, 82%);
+$pinkDarken: hsl(313, 74%, 35%);
 
 .progressBar {
-  //TODO: Doesn't work. Remove styles from arbitrationDetails when this fixed.
-  :global {
-    .ant-progress {
-      .ant-progress-text {
-        font-size: typo.$xl;
-        width: 98%;
-        text-align: right;
-        margin-top: spacings.$s-2;
-        margin-bottom: spacings.$s-2;
-      }
-      .ant-progress-outer {
-        padding-right: 0;
-        .ant-progress-inner {
-          border: 1px solid $brownDarken20;
-          border-radius: 4px;
-          height: spacings.$s-4;
+  width: 100%;
 
-          .ant-progress-bg {
-            background: hsl(313, 74%, 35%);
-            border: 1px solid hsl(314, 65%, 82%);
-          }
-          .ant-progress-success-bg {
-            background: hsl(180, 46%, 15%);
-            border: 1px solid hsl(180, 100%, 38%);
-          }
+  :global(.ant-progress-outer) {
+    width: 100%;
+    padding-right: 0;
+  }
 
-          .ant-progress-bg,
-          .ant-progress-success-bg {
-            border-radius: inherit;
-            height: inherit !important;
-          }
-        }
-      }
+  :global(.ant-progress-inner) {
+    border: 1px solid $brownDarken20;
+    height: spacings.$s-4;
+    border-radius: 4px;
+
+    > * {
+      height: inherit !important;
+      border-radius: inherit;
     }
+  }
+
+  :global(.ant-progress-bg) {
+    background: $pinkDarken;
+    border: 1px solid $pink;
+  }
+
+  :global(.ant-progress-success-bg) {
+    background: $blueDarken;
+    border: 1px solid $blue;
+  }
+
+  :global(.ant-progress-text) {
+    font-size: typo.$xl;
+    width: 98%;
+    text-align: right;
+    margin-top: spacings.$s-2;
+    margin-bottom: spacings.$s-2;
+  }
+}
+
+.progressBarCircular {
+  div > svg > circle {
+    stroke-width: spacings.$s-1;
+
+    &:nth-child(1) {
+      r: 40;
+      stroke-width: 2px;
+      stroke: hsl(var(--english-breakfast-500)) !important;
+    }
+    &:nth-child(2) {
+      stroke: $blueDarken !important;
+    }
+    &:nth-child(3) {
+      stroke: $pinkDarken !important;
+    }
+  }
+
+  :global(.ant-progress-inner) {
+    width: 8rem !important;
+    height: 8rem !important;
   }
 }
