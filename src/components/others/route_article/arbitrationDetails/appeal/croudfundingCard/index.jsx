@@ -17,24 +17,28 @@ export default function CrowdfundingCard({
   const timeLeft = useCountdown(parseInt(appealDeadline));
   return (
     <div key={rulingOption} className={styles.crowdfundingCard}>
-      <div className={styles.topRow}>
-        <Radio value={rulingOption}>{title}</Radio>
-        <EtherValue value={totalToBeRaised} modifiers={styles.ethValue} />
-      </div>
+      <Radio value={rulingOption} className={styles.radioButton}>
+        {title}
+      </Radio>
+      <EtherValue value={totalToBeRaised} modifiers={styles.ethValue} />
       <Tooltip
         placement="top"
         title={`Raised so far: ${formatToEther(raisedSoFar)} ${
           constants.EtherSymbol
         } / Your contribution: ${formatToEther(amount)} ${constants.EtherSymbol}`}
       >
-        <ProgressBar
-          percent={getPercentage(raisedSoFar, totalToBeRaised)}
-          success={{
-            percent: getPercentage(amount, totalToBeRaised),
-          }}
-        />
-        <div>{`Appeal ends in: ${formatTime(timeLeft)}`}</div>
+        <div className={styles.indicator}>
+          <ProgressBar
+            percent={getPercentage(raisedSoFar, totalToBeRaised)}
+            success={{
+              percent: getPercentage(amount, totalToBeRaised),
+            }}
+          />
+        </div>
       </Tooltip>
+      <div className={styles.appealDeadline}>
+        Appeal ends in: <span>{formatTime(timeLeft)}</span>
+      </div>
     </div>
   );
 }
