@@ -96,7 +96,7 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
           <div className={styles.label}>
             <div className={styles.colorBox} /> Your contribution
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+          <div className={styles.fundInput}>
             <div>
               <label htmlFor="contribution">{`Fund amount ( ${constants.EtherSymbol} ) `}</label>
               <input
@@ -108,7 +108,7 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
                 step="0.001"
                 onChange={handleInputChange}
                 value={amount}
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "6px" }}
               />
             </div>
             <CustomButton modifiers="small" onClick={handleFundAppeal}>
