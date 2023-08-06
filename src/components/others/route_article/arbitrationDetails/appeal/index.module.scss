@@ -1,5 +1,6 @@
 @use "src/stylesheets/variables/spacings";
 @use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/breakpoints";
 
 .appealPeriod {
   display: flex;
@@ -7,11 +8,16 @@
   align-items: center;
 
   .crowdFundingPanel {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: spacings.$s-4 spacings.$s-7;
     margin-bottom: spacings.$s-18;
-    border: 1px solid hsl(var(--english-breakfast-800));
-    border-radius: 4px;
+
+    @media (min-width: breakpoints.$small) {
+      padding: spacings.$s-4 spacings.$s-7;
+      border: 1px solid hsl(var(--english-breakfast-800));
+      border-radius: 4px;
+    }
 
     .title {
       margin-bottom: spacings.$s-4;
@@ -20,27 +26,47 @@
 
     .appealOptions {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       gap: spacings.$s-4;
+      flex: 1 0 0;
     }
 
     .footer {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
 
       .label {
         display: flex;
         align-items: center;
         gap: spacings.$s-1;
-        margin-bottom: spacings.$s-2;
+        margin-bottom: spacings.$s-4;
         font-size: typo.$xs;
+
+        @media (min-width: breakpoints.$large) {
+          margin-bottom: spacings.$s-2;
+          align-self: end;
+        }
         .colorBox {
           width: spacings.$s-3;
           height: spacings.$s-3;
           background-color: hsl(313, 74%, 35%);
+        }
+      }
+
+      .fundInput {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        @media (min-width: breakpoints.$large) {
+          width: max-content;
+          gap: spacings.$s-2;
+        }
+
+        input {
+          margin-top: 0;
         }
       }
     }
@@ -61,58 +87,6 @@
     span {
       margin-left: spacings.$s-2;
       color: hsl(var(--red-reign-600));
-    }
-  }
-
-  .crowdFundingPanel :global {
-    .ant-progress {
-      .ant-progress-text {
-        font-size: typo.$xl;
-        width: 98%;
-        text-align: right;
-        margin-top: spacings.$s-2;
-        margin-bottom: spacings.$s-2;
-      }
-      .ant-progress-outer {
-        padding-right: 0;
-        .ant-progress-inner {
-          border: 1px solid hsl(var(--english-breakfast-800));
-          border-radius: 4px;
-          height: spacings.$s-4;
-
-          .ant-progress-bg {
-            background: hsl(180, 46%, 15%);
-            border: 1px solid hsl(180, 100%, 38%);
-          }
-          .ant-progress-success-bg {
-            background: hsl(313, 74%, 35%);
-            border: 1px solid hsl(314, 65%, 82%);
-          }
-
-          .ant-progress-bg,
-          .ant-progress-success-bg {
-            border-radius: inherit;
-            height: inherit !important;
-          }
-        }
-      }
-    }
-
-    .ant-radio-group {
-      width: 100%;
-      span {
-        font-size: typo.$s;
-        font-weight: bold;
-      }
-
-      .ant-radio-inner {
-        border-color: hsl(var(--english-breakfast-800));
-        background-color: transparent;
-      }
-      .ant-radio-inner:after,
-      .ant-radio-checked:after {
-        background-color: hsl(var(--english-breakfast-800));
-      }
     }
   }
 }
