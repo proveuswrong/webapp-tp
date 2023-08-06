@@ -17,6 +17,7 @@ $pinkDarken: hsl(313, 74%, 35%);
   }
 
   :global(.ant-progress-inner) {
+    background: transparent;
     border: 1px solid $brownDarken20;
     height: spacings.$s-4;
     border-radius: 4px;
