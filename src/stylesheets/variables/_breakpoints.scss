@@ -1,2 +1,7 @@
 $small: 600px;
 $large: 1200px;
+
+:root {
+  --small: #{$small};
+  --large: #{$large};
+}
