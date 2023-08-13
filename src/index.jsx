@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom";
+import { isHex } from "viem";
 
 import Layout from "./layout";
 import Home from "./routes/home";
@@ -10,15 +11,19 @@ import Browse, { loader as BrowseLoader } from "./routes/browse";
 import Article, { loader as ArticleLoader } from "./routes/article";
 import Account, { loader as AccountLoader } from "./routes/account";
 import Court, { loader as CourtLoader } from "./routes/court";
-import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
-import EthereumProvider, { EthereumContext } from "./data/ethereumProvider.jsx";
 import RouteRedirect from "./components/RouteRedirect";
 import AuthRequired from "./components/AuthRequired";
+import { EthereumProvider, useEthereum } from "./data/ethereumContext";
+import { getDefaultNetwork } from "./connectors/networks";
+import { Connection } from "./connectors/connection";
+import { CoinbaseConnector } from "./connectors/coinbase";
+import { MetaMaskConnector } from "./connectors/metamask";
+import WalletConnectConnector from "./connectors/walletConnect";
 
 function IndexRedirect() {
-  const { chainId } = useContext(EthereumContext);
-  return <Navigate to={chainId} />;
+  const { state } = useEthereum();
+  return <Navigate to={state.appChainId} />;
 }
 
 const router = createBrowserRouter(
@@ -27,8 +32,6 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route element={<Layout />}>
         <Route element={<RouteRedirect />}>
-          <Route element={<IndexRedirect />} />
-
           <Route path=":chain" element={<Browse />} loader={BrowseLoader} />
           <Route path=":chain/:contract/:id" element={<Article />} loader={ArticleLoader} />
           <Route path=":chain/:contract/court/:id" element={<Court />} loader={CourtLoader} />
@@ -52,12 +55,28 @@ const router = createBrowserRouter(
   )
 );
 
+const configConnection = (config) => {
+  const connection = Connection.getInstance(config);
+  return { connection, ...config };
+};
+
 function App() {
-  const { pathname } = window.location;
-  const pathSegment = pathname.split("/")[1];
-  const chainId = pathSegment.startsWith("0x") ? pathSegment : undefined;
+  const chainIdFromUrl = window.location.pathname.split("/")[1];
+  const config = configConnection({
+    connectors: [
+      new MetaMaskConnector(),
+      new CoinbaseConnector(),
+      new WalletConnectConnector({
+        projectId: process.env.WALLET_CONNECT_PROJECT_ID,
+        showQrModal: true,
+        chains: [1, 5],
+      }),
+    ],
+    appChainId: isHex(chainIdFromUrl) ? chainIdFromUrl : getDefaultNetwork(),
+  });
+  console.log({ config });
   return (
-    <EthereumProvider chainId={chainId}>
+    <EthereumProvider config={config}>
       <RouterProvider router={router} />
     </EthereumProvider>
   );

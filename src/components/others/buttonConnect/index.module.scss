@@ -1,0 +1,82 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+
+.connectionModal {
+  width: 50%;
+}
+
+.connectOptions {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: typo.$l;
+  }
+  .subtitle {
+    font-size: typo.$xs;
+    color: #777;
+  }
+
+  .connectors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: spacings.$s-4;
+    padding: spacings.$s-8 0;
+
+    .connectorCard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 150px;
+      border: 1px solid #cecece;
+      border-radius: 0.25rem;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+    .connectorCard img {
+      max-width: 50px;
+      max-height: 50px;
+      margin-bottom: 10px;
+      border: 1px solid #b6b6b6;
+      border-radius: 0.3rem;
+    }
+  }
+
+  .footer {
+    a {
+      margin-left: spacings.$s-1;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+
+  .actions {
+    display: flex;
+    margin: spacings.$s-4 0;
+
+    .copyAddress,
+    .viewOnExplorer {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      span {
+        width: spacings.$s-4;
+        height: spacings.$s-4;
+        margin-left: spacings.$s-1;
+        margin-right: spacings.$s-3;
+        border-radius: 50%;
+        background-color: #b6b6b6;
+      }
+    }
+  }
+  button {
+    margin-top: spacings.$s-5;
+  }
+}

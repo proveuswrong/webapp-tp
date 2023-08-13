@@ -12,23 +12,23 @@ import VotingPeriod from "./vote";
 import AppealPeriod from "./appeal";
 import ExecutionPeriod from "./execution";
 
-import ArbitratorABI from "/src/data/klerosLiquidABI.json";
-import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
+import { KLiquidAbi as ArbitratorABI } from "../../../../data/KlerosLiquidABI";
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
+import { EthereumContext } from "../../../../data/ethereumContext";
+import { networkMap } from "../../../../connectors/networks";
+import { useSession } from "../../../../data/sessionContext";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
   const currentPeriodIndex = Periods[currentDispute?.period] ?? 0;
-
-  const ethereumContext = useContext(EthereumContext);
+  const session = useSession();
+  const { state, metaEvidenceContents } = useContext(EthereumContext);
   const [isEvidenceModalOpen, setEvidenceModalOpen] = useState(false);
   const [current, setCurrent] = useState(currentPeriodIndex);
   const [buttonAdvanceStateDisabled, setButtonAdvanceStateDisabled] = useState(false);
   const [mined, setMined] = useState(true);
-  const [arbitratorInstance, setArbitratorInstance] = useState(null);
   const revalidator = useRevalidator();
-  console.log(ethereumContext.metaEvidenceContents);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
@@ -38,14 +38,14 @@ export default function ArbitrationDetails({ article }) {
     executeRuling();
   };
 
+  //TODO: extract Arbitration state logic to a separate hook
   const executeRuling = async () => {
-    // prerequisite: last period
-    const unsignedTx = await arbitratorInstance.populateTransaction.executeRuling(currentDispute?.id);
-    let txResponse;
     try {
-      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
       setMined(false);
-      await txResponse.wait();
+      await session.invokeTransaction("executeRuling", [currentDispute?.id], {
+        contractAddress: article.arbitrator.id,
+        abi: ArbitratorABI,
+      });
       setMined(true);
       setButtonAdvanceStateDisabled(false);
     } catch (error) {
@@ -55,12 +55,13 @@ export default function ArbitrationDetails({ article }) {
 
   const passPeriod = async () => {
     // prerequisite: jury drawn
-    const unsignedTx = await arbitratorInstance.populateTransaction.passPeriod(currentDispute?.id);
-    let txResponse;
     try {
-      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
       setMined(false);
-      await txResponse.wait();
+      await session.invokeTransaction("passPeriod", [currentDispute?.id], {
+        contractAddress: article.arbitrator.id,
+        abi: ArbitratorABI,
+      });
+
       setMined(true);
       setButtonAdvanceStateDisabled(false);
       revalidator.revalidate();
@@ -71,13 +72,13 @@ export default function ArbitrationDetails({ article }) {
 
   const drawJury = async (completedCallback, minedCallback) => {
     // prerequisite: phase = drawing && nextDelayedSetStake > lastDelayedSetStake
-
-    const unsignedTx = await arbitratorInstance.populateTransaction.drawJurors(currentDispute?.id, 1000);
-    let txResponse;
     try {
-      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
       setMined(false);
-      await txResponse.wait();
+      await session.invokeTransaction("drawJurors", [currentDispute?.id, 1000], {
+        contractAddress: article.arbitrator.id,
+        abi: ArbitratorABI,
+      });
+
       setMined(true);
       setButtonAdvanceStateDisabled(false);
     } catch (error) {
@@ -87,13 +88,13 @@ export default function ArbitrationDetails({ article }) {
 
   const executeDelayedSetStake = async (completedCallback, minedCallback) => {
     // prerequisite: phase = staking
-
-    const unsignedTx = await arbitratorInstance.populateTransaction.drawJurors(currentDispute?.id, 1000);
-    let txResponse;
     try {
-      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
       setMined(false);
-      await txResponse.wait();
+      await session.invokeTransaction("drawJurors", [currentDispute?.id, 1000], {
+        contractAddress: article.arbitrator.id,
+        abi: ArbitratorABI,
+      });
+
       setMined(true);
       setButtonAdvanceStateDisabled(false);
     } catch (error) {
@@ -103,13 +104,13 @@ export default function ArbitrationDetails({ article }) {
 
   const passPhase = async (completedCallback, minedCallback) => {
     // prerequisite: (phase = staking && disputesWithoutJurors > 0), now - lastPhaseChange >= minStakingTime
-
-    const unsignedTx = await arbitratorInstance.populateTransaction.passPhase();
-    let txResponse;
     try {
-      txResponse = await ethereumContext.ethersProvider.getSigner().sendTransaction(unsignedTx);
       setMined(false);
-      await txResponse.wait();
+      await session.invokeTransaction("passPhase", [], {
+        contractAddress: article.arbitrator.id,
+        abi: ArbitratorABI,
+      });
+
       setMined(true);
       setButtonAdvanceStateDisabled(false);
     } catch (error) {
@@ -117,13 +118,6 @@ export default function ArbitrationDetails({ article }) {
       setButtonAdvanceStateDisabled(false);
     }
   };
-
-  useEffect(() => {
-    if (article?.arbitrator)
-      setArbitratorInstance(
-        new ethers.Contract(article.arbitrator.id, ArbitratorABI, ethereumContext?.ethersProvider?.getSigner())
-      );
-  }, [ethereumContext?.ethersProvider, article]);
 
   useEffect(() => {
     setCurrent(currentPeriodIndex);
@@ -144,14 +138,14 @@ export default function ArbitrationDetails({ article }) {
       currentRound={currentDispute?.rounds.at(-1)}
       isHiddenVotes={currentDispute?.court.hiddenVotes}
       setEvidenceModalOpen={setEvidenceModalOpen}
-      question={ethereumContext?.metaEvidenceContents[article?.category]?.question}
-      voteOptions={ethereumContext.metaEvidenceContents[article.category].rulingOptions.titles}
+      question={metaEvidenceContents[article?.category]?.question}
+      voteOptions={metaEvidenceContents[article.category]?.rulingOptions.titles}
     />,
     <AppealPeriod currentRound={currentDispute?.rounds.at(-1)} setEvidenceModalOpen={setEvidenceModalOpen} />,
     <ExecutionPeriod
       currentRound={currentDispute?.rounds.at(-1)}
       executed={!!currentDispute?.ruled}
-      arbitratorInstance={arbitratorInstance}
+      arbitratorAddress={article.arbitrator.id}
       setEvidenceModalOpen={setEvidenceModalOpen}
     />,
   ];
@@ -159,7 +153,7 @@ export default function ArbitrationDetails({ article }) {
     <section className={styles.arbitrationDetails}>
       <div className={styles.titleWrapper}>
         <div className={styles.title}>Arbitration Details</div>
-        {networkMap[ethereumContext.chainId].shortname !== "Mainnet" && (
+        {networkMap[state.appChainId].shortname !== "Mainnet" && (
           <CustomButton modifiers="small" disabled={buttonAdvanceStateDisabled} onClick={() => handleAdvanceState()}>
             {mined ? `Advance state` : `Mining...`}
           </CustomButton>
@@ -188,6 +182,7 @@ function Overview(props) {
     <div className={styles.detailsContainer}>
       <span>
         <b>Arbitrator:</b>
+        {/* TODO: convert to dynamic link */}
         <Link to={`/0x5/${contract}/court/0`}>{props.courtName}</Link>
       </span>
       <span>

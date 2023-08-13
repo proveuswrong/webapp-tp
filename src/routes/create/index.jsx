@@ -6,13 +6,16 @@ import FormCreate from "/src/components/others/formCreate";
 import ConfirmCreate from "/src/components/others/confirmCreate";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
-import { EthereumContext, getLastArticleByAuthor } from "../../data/ethereumProvider";
 import notifyWithToast, { MESSAGE_TYPE } from "../../utils/notifyWithTost";
 import addToIPFS from "../../utils/addToIPFS";
 import { useMergeState } from "../../hooks/useMergeState";
+import { EthereumContext, useEthereum } from "../../data/ethereumContext";
+import { useSession } from "../../data/sessionContext";
+import { getLastArticleByAuthor } from "../../data/api";
 
 export default function Create() {
-  const ethereumContext = useContext(EthereumContext);
+  const { state, graphMetadata } = useEthereum();
+  const session = useSession();
   const navigate = useNavigate();
 
   const [createFlowProgress, setCreateFlowProgress] = useState(0);
@@ -47,21 +50,22 @@ export default function Create() {
       );
 
       ipfsPathOfNewArticle = ipfsEndpointResponse[0].hash;
-      console.log(ipfsPathOfNewArticle);
 
       const formattedBounty = utils.parseEther(controlsState.bounty);
-      const vacantStorageSlot = await ethereumContext.invokeCall("findVacantStorageSlot", [0]);
+      const vacantStorageSlot = await session.invokeCall("findVacantStorageSlot", [0]);
 
-      await ethereumContext.invokeTransaction(
+      await session.invokeTransaction(
         "initializeArticle",
         [`/ipfs/${ipfsPathOfNewArticle}`, controlsState.categoryNo, vacantStorageSlot],
-        formattedBounty
+        {
+          value: formattedBounty,
+        }
       );
 
-      const article = await getLastArticleByAuthor(ethereumContext.chainId, ethereumContext.accounts[0]); // TODO: You can use article
+      const article = await getLastArticleByAuthor(state.appChainId, state.account); // TODO: You can use article
       // storage
       // address from tx, and block number from tx to compute this.
-      navigate(`/${ethereumContext.chainId}/${article?.contractAddress}/${article?.id}`);
+      navigate(`/${state.appChainId}/${article?.contractAddress}/${article?.id}`);
     } catch (err) {
       console.error(err);
     }
@@ -89,10 +93,10 @@ export default function Create() {
         />
       )}
       <SyncStatus
-        syncedBlock={ethereumContext?.graphMetadata?.block?.number}
-        latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
-        subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
-        providerURL={ethereumContext?.ethersProvider?.connection?.url}
+        syncedBlock={graphMetadata?.block?.number}
+        latestBlock={parseInt(state.blockNumber, 16)}
+        subgraphDeployment={graphMetadata?.deployment}
+        providerURL="Metamask" //TODO: use connector type instead
       />
     </section>
   );

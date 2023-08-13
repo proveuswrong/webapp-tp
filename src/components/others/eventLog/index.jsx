@@ -4,17 +4,18 @@ import * as styles from "./index.module.scss";
 
 import Modal from "../../presentational/modal";
 import { getLabel } from "../../../utils/account";
-import { networkMap, EthereumContext } from "../../../data/ethereumProvider";
 
 import AttachmentIcon from "jsx:/src/assets/attachment.svg";
 import getTrustScore from "../../../businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
+import { EthereumContext } from "../../../data/ethereumContext";
+import { networkMap } from "../../../connectors/networks";
 
 const EVENTS_TO_IGNGORE = ["Withdrawal"];
 const IPFS_GATEWAY_URL = "https://ipfs.kleros.io";
 
 export default function EventLog({ visible, onCancel, events }) {
-  const ethereumContext = useContext(EthereumContext);
+  const { state, graphMetadata, metaEvidenceContents } = useContext(EthereumContext);
   const [evidenceDetails, setEvidenceDetails] = useState({});
   const [expandedRows, setExpandedRows] = useState([]);
 
@@ -47,13 +48,8 @@ export default function EventLog({ visible, onCancel, events }) {
   }, [events]);
 
   const calculateTrustScore = (article) => {
-    return getTrustScore(
-      article,
-      getTimePastSinceLastBountyUpdate(
-        article.lastBalanceUpdate,
-        ethereumContext?.graphMetadata?.block?.number || ethereumContext?.blockNumber
-      )
-    );
+    const currentBlockNumber = graphMetadata.block.number || state.blockNumber;
+    return getTrustScore(article, getTimePastSinceLastBountyUpdate(article.lastBalanceUpdate, currentBlockNumber));
   };
 
   return (
@@ -84,18 +80,18 @@ export default function EventLog({ visible, onCancel, events }) {
                           {isExpanded ? "Hide Details" : "Show Details"}
                         </div>
                       ) : event.name === "ArticleWithdrawal" ? (
-                        formatExtraData(event.name, calculateTrustScore(event.article), ethereumContext)
+                        formatExtraData(event.name, calculateTrustScore(event.article), metaEvidenceContents)
                       ) : (
-                        formatExtraData(event.name, event.details, ethereumContext)
+                        formatExtraData(event.name, event.details, metaEvidenceContents)
                       )}
                     </td>
                     <td>
                       <a
-                        href={networkMap[ethereumContext?.chainId]?.explorerURL(event.from)}
+                        href={networkMap[state.appChainId]?.explorerURL(event.from)}
                         target="_blank"
                         rel="noreferrer noopener"
                       >
-                        {getLabel(event.from, ethereumContext?.accounts[0])}
+                        {getLabel(event.from, state.account)}
                       </a>
                     </td>
                     <td>{new Date(event.timestamp * 1000).toUTCString()}</td>
@@ -148,8 +144,7 @@ function getPrettyNamesForEvents(sourceCodeName) {
   }
 }
 
-function formatExtraData(eventNameAsInSourceCode, extraData, ethereumContext) {
-  const { metaEvidenceContents } = ethereumContext;
+function formatExtraData(eventNameAsInSourceCode, extraData, metaEvidenceContents) {
   switch (eventNameAsInSourceCode) {
     case "NewArticle":
       return `Curation Pool 0: ${metaEvidenceContents[extraData]?.category}`;

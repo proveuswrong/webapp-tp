@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { EthereumContext } from "../../../data/ethereumProvider";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
@@ -8,11 +7,12 @@ import RadioButtons from "../../presentational/radioButtons";
 
 import { useMergeState } from "../../../hooks/useMergeState";
 import ErrorIcon from "jsx:/src/assets/error.svg";
+import { useEthereum } from "../../../data/ethereumContext";
 
 const ERROR_MSG = "Please fill up this field";
 
 export default function FormCreate({ handleSave, controlsState, updateControlsState }) {
-  const ethereumContext = useContext(EthereumContext);
+  const ethereumContext = useEthereum();
   const [focusedFields, setFocusedFields] = useMergeState({});
   const [errors, setErrors] = useMergeState({
     title: "",

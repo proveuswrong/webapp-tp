@@ -1,22 +1,22 @@
 import { useState, useEffect, useContext } from "react";
-import { EthereumContext } from "/src/data/ethereumProvider";
+import { useRevalidator } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import CustomButton from "/src/components/presentational/button";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 import Modal from "/src/components/presentational/modal";
 
+import { useSession } from "../../../data/sessionContext";
 import addToIPFS from "/src/utils/addToIPFS";
 import notifyWithToast, { MESSAGE_TYPE } from "../../../utils/notifyWithTost";
 
 import UploadIcon from "jsx:/src/assets/upload.svg";
-import { useRevalidator } from "react-router-dom";
 
 const INITIAL_STATE = { title: "", description: "", file: null };
 const IPFS_ENDPOINT = "https://ipfs.kleros.io/add";
 
 export default function EvidenceModal({ disputeID, visible, onCancel }) {
-  const ethereumContext = useContext(EthereumContext);
+  const session = useSession();
   const [controlsState, setControlsState] = useState(INITIAL_STATE);
   const [isDragOver, setIsDragOver] = useState(false);
   const [sumbitSuccess, setSumbitSuccess] = useState(false);
@@ -94,7 +94,7 @@ export default function EvidenceModal({ disputeID, visible, onCancel }) {
         MESSAGE_TYPE.ipfs
       );
 
-      await ethereumContext.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`]);
+      await session.invokeTransaction("submitEvidence", [disputeID, `/ipfs/${ipfsResponse[0].hash}`]);
 
       setIsSubmitting(false);
       setSumbitSuccess(true);

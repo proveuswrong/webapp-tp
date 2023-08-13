@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useRevalidator } from "react-router-dom";
 import { constants, utils } from "ethers";
 import * as styles from "./index.module.scss";
@@ -7,10 +7,10 @@ import CustomButton from "/src/components/presentational/button";
 import Modal from "../../presentational/modal";
 import LoadingSpinner from "/src/components/presentational/loadingSpinner";
 
-import { EthereumContext } from "/src/data/ethereumProvider";
+import { useSession } from "../../../data/sessionContext";
 
 export default function BountyModal({ articleStorageAddress, currentBounty, visible, onCancel }) {
-  const ethereumContext = useContext(EthereumContext);
+  const session = useSession();
   const [amount, setAmount] = useState(0.001);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const revalidator = useRevalidator();
@@ -22,11 +22,9 @@ export default function BountyModal({ articleStorageAddress, currentBounty, visi
   async function handleIncreaseBounty() {
     setIsSubmitting(true);
     try {
-      await ethereumContext.invokeTransaction(
-        "increaseBounty",
-        [articleStorageAddress],
-        utils.parseEther(amount.toString())
-      );
+      await session.invokeTransaction("increaseBounty", [articleStorageAddress], {
+        value: utils.parseEther(amount.toString()),
+      });
       onCancel();
       revalidator.revalidate();
     } catch (error) {

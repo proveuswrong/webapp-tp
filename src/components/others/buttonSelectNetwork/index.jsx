@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Select from "/src/components/presentational/select";
-import { EthereumContext, networkMap } from "../../../data/ethereumProvider";
+import { useConnection, useEthereum } from "../../../data/ethereumContext";
+import { networkMap } from "../../../connectors/networks";
 
 export default function ButtonSelectNetwork() {
-  const { chainId, switchAppChain } = useContext(EthereumContext);
+  const { state } = useEthereum();
+  const connection = useConnection();
 
   const selectOptions = Object.entries(networkMap).map(([chainId, props]) => ({
     value: chainId,
@@ -12,8 +14,12 @@ export default function ButtonSelectNetwork() {
   }));
 
   return (
-    <div style={{ marginLeft: "10px" }}>
-      <Select options={selectOptions} placeholder={networkMap[chainId].shortname} onChange={switchAppChain} />
+    <div style={{ marginRight: "10px" }}>
+      <Select
+        options={selectOptions}
+        placeholder={networkMap[state.appChainId].shortname}
+        onChange={(chain) => connection.switchAppChain(chain)}
+      />
     </div>
   );
 }

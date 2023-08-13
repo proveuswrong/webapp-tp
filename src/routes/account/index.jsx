@@ -2,8 +2,8 @@ import { useLoaderData, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import ListArticles from "/src/components/others/listArticles";
-import { getArticlesByAuthor } from "/src/data/ethereumProvider";
 import populateArticleContents from "../../utils/populateArticleContents";
+import { getArticlesByAuthor } from "../../data/api";
 
 export async function loader({ params }) {
   const articles = await getArticlesByAuthor(params.chain, params.id);
@@ -12,8 +12,10 @@ export async function loader({ params }) {
 
 export default function Account() {
   const { id } = useParams();
-  const data = useLoaderData();
+  console.log({ id });
 
+  const data = useLoaderData();
+  console.log({ data });
   return (
     <div className={styles.account}>
       <div className={styles.author}>

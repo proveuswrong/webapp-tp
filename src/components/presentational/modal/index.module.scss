@@ -2,11 +2,9 @@
 @use "src/stylesheets/variables/spacings";
 
 .modal {
-
-  :global(.ant-modal-content) {
+  :global(div.ant-modal-content) {
     color: hsl(var(--dark-orchestra-600));
-    border-radius: 20px;
-
+    border-radius: 0.5rem;
     background: hsl(var(--background));
   }
 
@@ -24,4 +22,3 @@
     margin-top: spacings.$s-4;
   }
 }
-

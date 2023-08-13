@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { EthereumContext } from "../data/ethereumProvider";
 import { Navigate, Outlet } from "react-router-dom";
+import { EthereumContext } from "../data/ethereumContext";
+import { isAddress } from "viem";
 
 export default function AuthRequired() {
-  const { accounts, chainId } = useContext(EthereumContext);
-  if (accounts[0] === undefined) {
-    return <Navigate to={chainId} replace />;
+  const { state } = useContext(EthereumContext);
+  if (isAddress(state.account)) {
+    return <Navigate to={state.appChainId} replace />;
   }
   return <Outlet />;
 }

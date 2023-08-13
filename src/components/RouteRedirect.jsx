@@ -1,36 +1,40 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
-import { EthereumContext, networkMap } from "../data/ethereumProvider";
+import { useEthereum } from "../data/ethereumContext";
+import { networkMap } from "../connectors/networks";
 
 export default function RouteRedirect() {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-  const { chainId, accounts } = useContext(EthereumContext);
+  const {
+    state: { appChainId, account },
+  } = useEthereum();
 
   useEffect(() => {
     const pathSegments = location.pathname.split("/");
-    pathSegments[1] = chainId;
+    pathSegments[1] = appChainId;
 
     let newPath = pathSegments.join("/");
 
     if (location.pathname.includes("account")) {
-      if (!accounts[0]) {
-        newPath = chainId;
+      if (account === "0x0") {
+        newPath = appChainId;
       } else {
-        pathSegments[3] = accounts[0];
+        pathSegments[3] = account;
         newPath = pathSegments.join("/");
+        console.log({ newPath });
       }
     }
 
-    if (params.contract && !Object.keys(networkMap[chainId].deployments).includes(params.contract)) {
-      newPath = chainId;
+    if (params.contract && !Object.keys(networkMap[appChainId].deployments).includes(params.contract)) {
+      newPath = appChainId;
     }
 
     if (newPath !== location.pathname) {
       navigate(newPath, { replace: true });
     }
-  }, [chainId, accounts[0], location.pathname, params.contract, navigate]);
+  }, [appChainId, account, location.pathname, params.contract, navigate]);
 
   return <Outlet />;
 }

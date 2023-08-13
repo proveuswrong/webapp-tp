@@ -4,7 +4,6 @@ import Interval from "react-interval-rerender";
 import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
-import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
 
 import CustomButton from "/src/components/presentational/button";
@@ -16,6 +15,9 @@ import Content from "/src/components/others/route_article/content";
 import Breadcrumb from "/src/components/presentational/breadcrumb";
 import ArbitrationDetails from "/src/components/others/route_article/arbitrationDetails";
 import BountyModal from "/src/components/others/bountyModal";
+import { EthereumContext, useConnection } from "../../data/ethereumContext";
+import { useSession } from "../../data/sessionContext";
+import { getArticleByID } from "../../data/api";
 
 export async function loader({ params }) {
   const article = await getArticleByID(params.chain, params.contract, params.id);
@@ -32,24 +34,28 @@ export async function loader({ params }) {
 
 export default function Index() {
   const { article, articleContent } = useLoaderData();
-  const ethereumContext = useContext(EthereumContext);
+  const { state, graphMetadata } = useContext(EthereumContext);
+  const connection = useConnection();
+  const session = useSession();
   const [isEventLogOpen, setEventLogOpen] = useState(false);
   const [isBountyModalOpen, setBountyModalOpen] = useState(false);
   const revalidator = useRevalidator();
 
+  console.log({ connection, state });
   async function handleInitiateWithdrawal() {
-    await ethereumContext.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
+    await session.invokeTransaction("initiateWithdrawal", [article?.storageAddress]);
     revalidator.revalidate();
   }
 
   async function handleChallenge() {
-    const fee = await ethereumContext.invokeCall("challengeFee", [article?.storageAddress]);
-    await ethereumContext.invokeTransaction("challenge", [article?.storageAddress], fee);
+    const fee = await session.invokeCall("challengeFee", [article.storageAddress]);
+    console.log(article.storageAddress);
+    await session.invokeTransaction("challenge", [article.storageAddress], { value: fee });
     revalidator.revalidate();
   }
 
   async function handleExecuteWithdrawal() {
-    await ethereumContext.invokeTransaction("withdraw", [article?.storageAddress]);
+    await session.invokeTransaction("withdraw", [article.storageAddress]);
     revalidator.revalidate();
   }
 
@@ -59,16 +65,16 @@ export default function Index() {
       <KeyMetrics article={article} />
       {/*<img className={styles.image}/>*/}
       <Metadata article={article} setEventLogOpen={setEventLogOpen} />
-      <Breadcrumb items={[{ label: "Browse", linkTo: ethereumContext?.chainId }, { label: articleContent.title }]} />
+      <Breadcrumb items={[{ label: "Browse", linkTo: state.appChainId }, { label: articleContent.title }]} />
       <Content articleContent={articleContent} articleStatus={article.status} />
 
       <div className={styles.containerButtons}>
-        {ethereumContext?.accounts[0] != article.owner && article.status == "Live" && (
+        {state.account != article.owner && article.status == "Live" && (
           <CustomButton key={`ProveItWrong${article.status}`} modifiers="blink" onClick={handleChallenge}>
             Prove it Wrong
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article.owner && article.status == "Live" && (
+        {state.account == article.owner && article.status == "Live" && (
           <CustomButton
             key={`DoubleBounty${article.status}`}
             modifiers="blink"
@@ -81,7 +87,7 @@ export default function Index() {
           <CustomButton key={`ExecuteWithdrawal${article.status}`} modifiers="blink" onClick={handleExecuteWithdrawal}>
             {getWithdrawalCountdown(article) > 0 ? (
               <span>
-                {ethereumContext?.accounts[0] == article.owner
+                {state.account == article.owner
                   ? "You can unpublish the article in "
                   : "Article can be unpublished in "}
                 <Interval delay={reRenderInMs}>
@@ -97,7 +103,7 @@ export default function Index() {
             )}
           </CustomButton>
         )}
-        {ethereumContext?.accounts[0] == article.owner && article.status == "Live" && (
+        {state.account == article.owner && article.status == "Live" && (
           <CustomButton
             key={`InitiateWithdrawal${article.status}`}
             modifiers="blink"
@@ -110,10 +116,10 @@ export default function Index() {
       {article.disputes.length > 0 && <ArbitrationDetails article={article} />}
 
       <SyncStatus
-        syncedBlock={ethereumContext?.graphMetadata?.block?.number}
-        latestBlock={parseInt(ethereumContext?.blockNumber, 16)}
-        subgraphDeployment={ethereumContext?.graphMetadata?.deployment}
-        providerURL={ethereumContext?.ethersProvider?.connection?.url}
+        syncedBlock={graphMetadata?.block?.number}
+        latestBlock={parseInt(state.blockNumber, 16)}
+        subgraphDeployment={graphMetadata?.deployment}
+        providerURL={connection.currentConnector.name} //TODO: use conntector type instead
       />
       {article.events && (
         <EventLog

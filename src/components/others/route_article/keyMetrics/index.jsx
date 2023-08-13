@@ -7,13 +7,13 @@ import { constants, utils } from "ethers";
 
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
 import getTrustScore from "/src/businessLogic/getTrustScore";
-import { EthereumContext } from "/src/data/ethereumProvider";
+import { EthereumContext } from "../../../../data/ethereumContext";
 
 export default function KeyMetrics({ article }) {
-  const { graphMetadata, blockNumber } = useContext(EthereumContext);
+  const { state, graphMetadata } = useContext(EthereumContext);
   let reRenderInMs = 1000;
 
-  const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
+  const currentBlockNumber = graphMetadata?.block?.number || state.blockNumber;
   return (
     <div className={styles.containerKeyMetrics}>
       {article && (

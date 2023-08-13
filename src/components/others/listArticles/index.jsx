@@ -6,9 +6,9 @@ import ListArticlesItem from "/src/components/presentational/listArticlesItem";
 import Pagination from "/src/components/presentational/pagination";
 import Pill from "/src/components/presentational/pill";
 
-import { EthereumContext } from "/src/data/ethereumProvider";
 import getTrustScore from "/src/businessLogic/getTrustScore";
 import getTimePastSinceLastBountyUpdate from "/src/businessLogic/getTimePastSinceLastBountyUpdate";
+import { EthereumContext } from "../../../data/ethereumContext";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -16,7 +16,10 @@ export default function ListArticles({ articles }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get("page") || 1;
 
-  const { blockNumber, chainId, graphMetadata } = useContext(EthereumContext);
+  const {
+    state: { blockNumber, appChainId },
+    graphMetadata,
+  } = useContext(EthereumContext);
   const currentBlockNumber = graphMetadata?.block?.number || blockNumber;
 
   if (articles.length === 0) return <div>No news articles</div>;
@@ -28,7 +31,7 @@ export default function ListArticles({ articles }) {
           .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
           .map((article, index) => {
             const { id, title, format, description, contractAddress, status, lastBalanceUpdate } = article;
-            const linkTo = `/${chainId}/${contractAddress}/${id}`;
+            const linkTo = `/${appChainId}/${contractAddress}/${id}`;
             const score = getTrustScore(
               article,
               getTimePastSinceLastBountyUpdate(lastBalanceUpdate, currentBlockNumber)

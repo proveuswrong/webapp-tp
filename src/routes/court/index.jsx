@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import { getCourtById } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
+import { getCourtById } from "../../data/api";
 
 const PERIODS = ["Evidence", "Vote", "Appeal", "Execution"];
 

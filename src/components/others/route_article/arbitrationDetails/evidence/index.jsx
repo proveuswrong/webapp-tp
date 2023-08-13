@@ -4,14 +4,14 @@ import * as styles from "./index.module.scss";
 import CustomButton from "/src/components/presentational/button";
 
 import { getLabel } from "/src/utils/account";
-import { EthereumContext } from "../../../../../data/ethereumProvider";
 
 import AttachmentIcon from "jsx:/src/assets/attachment.svg";
+import { EthereumContext } from "../../../../../data/ethereumContext";
 
 const IPFS_GATEWAY = "https://ipfs.kleros.io";
 
 export default function EvidencePeriod({ evidenceEvents, setEvidenceModalOpen }) {
-  const { accounts } = useContext(EthereumContext);
+  const { state } = useContext(EthereumContext);
   const [fetchedData, setFetchedData] = useState([]);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function EvidencePeriod({ evidenceEvents, setEvidenceModalOpen })
               </div>
               <div className={styles.timestamp}>
                 Submitted on <span>{new Date(evidence.timestamp * 1000).toUTCString()}</span> by{" "}
-                <span>{getLabel(evidence.from, accounts[0])}</span>
+                <span>{getLabel(evidence.from, state.account)}</span>
               </div>
             </div>
           );

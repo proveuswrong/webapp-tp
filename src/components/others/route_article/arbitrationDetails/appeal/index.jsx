@@ -1,4 +1,5 @@
 import { useCallback, useContext, useState } from "react";
+import { useRevalidator } from "react-router-dom";
 import { constants, utils } from "ethers";
 import { Radio } from "antd";
 import * as styles from "./index.module.scss";
@@ -6,16 +7,17 @@ import * as styles from "./index.module.scss";
 import CustomButton from "/src/components/presentational/button";
 import CrowdfundingCard from "./croudfundingCard";
 
-import { EthereumContext, getAllContributors } from "/src/data/ethereumProvider";
 import useGraphFetcher from "/src/hooks/useGraphFetcher";
 import { formatToEther } from "/src/components/presentational/EtherValue";
-import { useRevalidator } from "react-router-dom";
+import { EthereumContext } from "../../../../../data/ethereumContext";
+import { useSession } from "../../../../../data/sessionContext";
+import { getAllContributors } from "../../../../../data/api";
 
 const ETH_DECIMALS = 18;
 
 export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
-  const { chainId, accounts, invokeTransaction, metaEvidenceContents } = useContext(EthereumContext);
-
+  const { state, metaEvidenceContents } = useContext(EthereumContext);
+  const session = useSession();
   const rulingOptionTitles = {
     0: "Tie",
     1: metaEvidenceContents[0]?.rulingOptions?.titles[0],
@@ -34,11 +36,11 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
   const revalidator = useRevalidator();
 
   const fetchData = useCallback(() => {
-    return getAllContributors(chainId);
-  }, [chainId]);
+    return getAllContributors(state.appChainId);
+  }, [state.appChainId]);
 
   const { data: contributors } = useGraphFetcher(fetchData);
-  const connectedAccount = contributors && contributors.find((c) => c.id === accounts[0]);
+  const connectedAccount = contributors && contributors.find((c) => c.id === state.account);
 
   const handleRulingOptionChange = (e) => {
     const ruling = e.target.value;
@@ -56,13 +58,10 @@ export default function AppealPeriod({ currentRound, setEvidenceModalOpen }) {
   };
 
   const handleFundAppeal = async () => {
-    console.log("handleFundAppeal/actualAmount", actualAmount);
     try {
-      await invokeTransaction(
-        "fundAppeal",
-        [currentRound?.dispute?.id, supportedRuling],
-        utils.parseEther(actualAmount?.toString())
-      );
+      await session.invokeTransaction("fundAppeal", [currentRound?.dispute?.id, supportedRuling], {
+        value: utils.parseEther(actualAmount?.toString()),
+      });
       revalidator.revalidate();
     } catch (error) {
       console.error(error);

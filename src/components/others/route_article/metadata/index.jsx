@@ -2,23 +2,20 @@ import { useContext } from "react";
 import * as styles from "./index.module.scss";
 
 import { Tooltip } from "antd";
-import { EthereumContext } from "/src/data/ethereumProvider";
 import CustomButton from "/src/components/presentational/button";
 import { getLabel } from "/src/utils/account";
+import { EthereumContext } from "../../../../data/ethereumContext";
 
 export default function Metadata(props) {
   const { article, setEventLogOpen } = props;
-  const ethereumContext = useContext(EthereumContext);
+  const { state, metaEvidenceContents } = useContext(EthereumContext);
 
-  console.log(ethereumContext.metaEvidenceContents);
+  console.log(metaEvidenceContents);
 
   return (
     <div className={styles.containerMetadata}>
       <div>
-        <Tooltip
-          placement="left"
-          title={`Pool name: ${ethereumContext?.metaEvidenceContents[article.category]?.category}`}
-        >
+        <Tooltip placement="left" title={`Pool name: ${metaEvidenceContents[article.category]?.category}`}>
           <span>
             <b>Curation Pool ID: {article?.category}</b>
           </span>
@@ -33,12 +30,12 @@ export default function Metadata(props) {
             </Tooltip>{" "}
             by{" "}
             <Tooltip
-              key={`postedBy${article.owner}${ethereumContext?.accounts[0]}`}
+              key={`postedBy${article.owner}${state.account}`}
               className="blink"
               placement="bottomRight"
               title={article?.owner}
             >
-              {getLabel(article.owner, ethereumContext?.accounts[0])}
+              {getLabel(article.owner, state.account)}
             </Tooltip>
           </span>
         )}
