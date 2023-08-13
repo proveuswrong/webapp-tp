@@ -1,0 +1,17 @@
+@use "src/stylesheets/variables/typo";
+@use "src/stylesheets/variables/spacings";
+
+.networkStatus {
+  display: flex;
+  align-items: center;
+  margin: 0 spacings.$s-3;
+  height: fit-content;
+  padding: spacings.$s-1 spacings.$s-3;
+  font-size: typo.$xs;
+  cursor: pointer;
+
+  .indicator {
+    display: flex;
+    align-items: center;
+  }
+}
