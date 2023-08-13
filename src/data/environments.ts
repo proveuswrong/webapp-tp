@@ -1,6 +1,12 @@
+import { NetworkMap } from "../connectors/networks";
 import { commonQueries } from "./graphql/queries";
 
-const environments = {
+interface Environments {
+  [key: string]: {
+    networkMap: NetworkMap;
+  };
+}
+const environments: Environments = {
   prod: {
     networkMap: {
       "0x1": {
@@ -55,17 +61,17 @@ const environments = {
   },
 };
 
-const isProd = (branchName, isPullRequest) => {
-  if (!branchName || typeof isPullRequest == "undefined") return false;
+const isProd = (branchName: string = "", isPullRequest: boolean): boolean => {
+  if (!branchName || !isPullRequest) return false;
   return (
     branchName === "main" ||
     branchName.startsWith("hotfix/") ||
     branchName.startsWith("release/") ||
-    (branchName === "develop" && process.env.PULL_REQUEST === "true")
+    (branchName === "develop" && isPullRequest)
   );
 };
 
-export const selectedEnvironment = isProd(process.env.HEAD, process.env.PULL_REQUEST) ? "prod" : "dev";
+export const selectedEnvironment = isProd(process.env.HEAD, Boolean(process.env.PULL_REQUEST)) ? "prod" : "dev";
 export let environment = environments[selectedEnvironment];
 
 console.debug(`Environment: ${selectedEnvironment}`);
