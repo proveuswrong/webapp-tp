@@ -6,8 +6,6 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
-
-
 export default function ConfirmCreate({
   title,
   description,
@@ -18,6 +16,7 @@ export default function ConfirmCreate({
   handleCreate,
   handleGoBack,
 }) {
+  console.log({ tags });
   return (
     <>
       <div className={styles.bountyAmount}>
@@ -35,7 +34,7 @@ export default function ConfirmCreate({
       <div className={styles.containerTag}>
         {tags
           .split(" ")
-          .filter((tag) => tag != "")
+          .filter((tag) => tag !== "")
           .map((tag, index) => (
             <Tag key={"tag" + index}>{tag}</Tag>
           ))}
