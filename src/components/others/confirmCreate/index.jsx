@@ -16,7 +16,6 @@ export default function ConfirmCreate({
   handleCreate,
   handleGoBack,
 }) {
-  console.log({ tags });
   return (
     <>
       <div className={styles.bountyAmount}>
