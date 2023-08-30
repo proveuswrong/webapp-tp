@@ -4,7 +4,7 @@ import Pill from "/src/components/presentational/pill";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
+import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
 
 export default function Content(props) {
   const { articleContent, articleStatus } = props;
@@ -23,9 +23,12 @@ export default function Content(props) {
         <p className={styles.description}>{articleContent?.description}</p>
       )}
       <div className={styles.containerTag}>
-        {articleContent?.tags?.split(" ").map((tag, index) => (
-          <Tag key={index}>{tag}</Tag>
-        ))}
+        {articleContent?.tags
+          ?.split(" ")
+          .filter((tag) => tag !== "")
+          .map((tag, index) => (
+            <Tag key={index}>{tag}</Tag>
+          ))}
       </div>
     </>
   );
