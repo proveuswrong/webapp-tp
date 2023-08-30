@@ -51,7 +51,7 @@
     max-height: 200px;
     overflow-y: auto;
     list-style: none;
-    background-color: transparent;
+    background-color: hsl(var(--background));
     border: 1px solid hsl(var(--english-breakfast-800));
     border-radius: 4px;
     box-shadow: shadowTemplate(var(--english-breakfast-500));
