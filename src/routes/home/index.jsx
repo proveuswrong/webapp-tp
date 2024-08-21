@@ -238,7 +238,7 @@ export default function Home() {
                 </figure>
                 <h2>Decentralized</h2>
                 <p>
-                  <i>There's no privileged user group.</i>
+                  <i>Everyone is equal here; there are no privileged parties.</i>
                 </p>
               </div>
               <div>
@@ -247,7 +247,7 @@ export default function Home() {
                 </figure>
                 <h2>Pseudonymous</h2>
                 <p>
-                  <i>Allows for reputation building while preventing retaliation.</i>
+                  <i>Build your reputation while staying safe from retaliation.</i>
                 </p>
               </div>
               <div>
@@ -265,7 +265,7 @@ export default function Home() {
                 </figure>
                 <h2>Transparent</h2>
                 <p>
-                  <i>Every aspect of the system can be verified by any user.</i>
+                  <i>Every aspect of the system is open to verification by any user.</i>
                 </p>
               </div>
               <div>
@@ -274,7 +274,7 @@ export default function Home() {
                 </figure>
                 <h2>Fair</h2>
                 <p>
-                  <i>Users are rewarded in line with the quality and impact of their contributions.</i>
+                  <i>Users are rewarded according to the quality and impact of their contributions.</i>
                 </p>
               </div>
               <div>
