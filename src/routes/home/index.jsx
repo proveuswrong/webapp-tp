@@ -228,7 +228,7 @@ export default function Home() {
           </section>
           <section className={styles.principles}>
             <h1>
-              <strong>Embodying the Virtues</strong>
+              <strong>Embodying the Virtues:</strong>
               <br /> Key Principles of The Truth Post
             </h1>
             <div>
