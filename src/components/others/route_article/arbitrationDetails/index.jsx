@@ -16,6 +16,9 @@ import ArbitratorABI from "/src/data/klerosLiquidABI.json";
 import { EthereumContext, networkMap } from "/src/data/ethereumProvider";
 import usePolicy from "/src/hooks/usePolicy";
 import { Periods } from "/src/constants/enums";
+import Steps from "../../../presentational/steps";
+import useWindowSize from "../../../../hooks/useWindowSize";
+import EvidenceIcon from "jsx:/src/assets/commit.svg";
 
 export default function ArbitrationDetails({ article }) {
   const currentDispute = article?.disputes?.at(-1);
@@ -28,7 +31,6 @@ export default function ArbitrationDetails({ article }) {
   const [mined, setMined] = useState(true);
   const [arbitratorInstance, setArbitratorInstance] = useState(null);
   const revalidator = useRevalidator();
-  console.log(ethereumContext.metaEvidenceContents);
 
   const policy = usePolicy(currentDispute?.court?.policyURI);
   const handleAdvanceState = () => {
@@ -172,6 +174,7 @@ export default function ArbitrationDetails({ article }) {
         jurySize={currentDispute?.rounds?.at(-1).jurySize}
       />
       <DisputeTimeline dispute={currentDispute} current={current} />
+
       {components[current]}
       <EvidenceModal
         disputeID={article?.disputes?.at(-1)?.id}

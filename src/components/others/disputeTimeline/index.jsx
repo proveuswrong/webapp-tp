@@ -1,4 +1,3 @@
-import Timeline from "../../presentational/timeline";
 import useCountdown, { formatTime } from "/src/hooks/useCountdown";
 import getDisputePeriodDeadline from "/src/businessLogic/getDisputePeriodDeadline";
 import { Periods } from "/src/constants/enums";
@@ -9,6 +8,8 @@ import VotingIcon from "jsx:/src/assets/voting.svg";
 import AppealIcon from "jsx:/src/assets/appeal.svg";
 import ExecutionIcon from "jsx:/src/assets/execution.svg";
 import CheckIcon from "jsx:/src/assets/checkMark.svg";
+import Steps from "../../presentational/steps";
+import useWindowSize from "../../../hooks/useWindowSize";
 
 const DISPUTE_PERIODS = [
   { name: "Evidence", icon: <EvidenceIcon /> },
@@ -21,6 +22,9 @@ const DISPUTE_PERIODS = [
 export default function DisputeTimeline({ dispute, current }) {
   const deadline = getDisputePeriodDeadline(current, dispute?.lastPeriodChange, dispute?.court?.timesPerPeriod);
 
+  const windowSize = useWindowSize();
+  const isMobileView = windowSize.width <= 600;
+
   const timeLeft = useCountdown(deadline);
   const isExecuted = (periodName) => (periodName === "Execution") & dispute?.ruled;
 
@@ -30,5 +34,12 @@ export default function DisputeTimeline({ dispute, current }) {
     description: _index === current && current < Periods.execution ? formatTime(timeLeft) : "",
   }));
 
-  return <Timeline items={items} current={current} completed={dispute?.ruled} />;
+  return (
+    <Steps
+      items={items}
+      current={current}
+      completed={dispute?.ruled}
+      direction={isMobileView ? "vertical" : "horizontal"}
+    />
+  );
 }
