@@ -35,7 +35,7 @@ export default function Home() {
               <i>Ushering in a new era of transparency and empowerment with decentralized news curation</i>
             </p>
           </header>
-          <section>
+          <section style={{ display: "none" }}>
             <div className={styles.twoColumn}>
               <p className="has-dropped-letter">
                 Once upon a time, news was a trusted friend. It told us stories about our world, shared the triumphs and
@@ -114,118 +114,6 @@ export default function Home() {
               Explore The Truth Post
             </a>
           </section>
-          <section className={styles.rightFloating}>
-            <h1>
-              <strong>Charting New Horizons:</strong> Why The Truth Post is the Beacon We’ve Been Searching For
-            </h1>
-            <div>
-              <p className="has-dropped-letter">
-                Our ability to make informed decisions, whether as consumers or as citizens, is fundamental to our
-                society. However, the very fabric of this information ecosystem is fraying at an alarming rate.
-              </p>
-              <p>
-                The first culprit is misinformation. Fake news has become a global epidemic, manipulating public opinion
-                and, in some cases, even influencing elections. The speed at which these falsehoods spread is
-                astounding, and the age-old adage, "a lie can travel halfway around the world while the truth is putting
-                on its shoes," has never been more relevant.
-              </p>
-              <figure>
-                <img src={VisualVertical1} alt="truthpost-what-section" />
-              </figure>
-              <p>
-                Now, let’s talk about centralized control. The majority of media is in the hands of a select few
-                conglomerates. This means the diversity of voices and perspectives that are so essential to a balanced
-                information landscape are compromised. The agenda is being set not by what’s important, but by what’s
-                profitable for these media giants.
-              </p>
-              <p>
-                Moreover, the financial incentives are skewed. Journalists and content creators are often incentivized
-                to create sensationalized content to drive clicks and views. The clickbait culture has turned news into
-                a volume game rather than a value game.
-              </p>
-              <p>
-                On the other hand, the revenue model is deeply flawed. With intermediaries taking a substantial cut, the
-                very individuals dedicated to unearthing and reporting stories are not being adequately compensated for
-                their work. This discourages investigative journalism and hampers the growth of emerging talent.
-              </p>
-              <p>
-                Additionally, there’s a lack of accountability. Corrections are buried, and retractions are rare. The
-                reputational cost for spreading misinformation is minimal, and the cycle continues.
-              </p>
-              <p>
-                Furthermore, the readers and consumers, who should be at the heart of this ecosystem, are feeling
-                increasingly alienated. They’re yearning for a trusted source, for a platform that respects their
-                intelligence, and offers them the quality and diversity of content they deserve.
-              </p>
-              <p>
-                The reality is this: the news and information industry is in dire need of innovation. The problems are
-                deep-rooted and multifaceted, and a patchwork solution simply won’t cut it. This is a call to action –
-                for a comprehensive, groundbreaking approach that addresses these challenges head-on.
-              </p>
-            </div>
-          </section>
-          <section className={styles.leftFloating}>
-            <h1>
-              <strong>Under the Hood:</strong> Deciphering the Ingenuity of The Truth Post’s Mechanisms
-            </h1>
-            <div>
-              <p className="has-dropped-letter">
-                In this riveting journey through the information landscape, it's time to delve into the inner workings
-                of The Truth Post. Fasten your seatbelts, as we unpack the gears and levers that make this novel
-                solution tick.
-              </p>
-
-              <p>
-                First and foremost, let’s address the backbone of The Truth Post: blockchain technology. By harnessing
-                the power of Ethereum, The Truth Post creates an immutable ledger for news articles. Think of this as a
-                fortress, one where the articles are stored with their integrity intact, safe from the meddling hands of
-                third parties.
-              </p>
-
-              <p>
-                Next up, let's talk about the valiant knights of this kingdom - the authors and curators. The Truth Post
-                introduces an innovative incentive mechanism that rewards accuracy and relevance. Authors are motivated
-                not just by passion, but also by tangible rewards to produce quality content. They’re like the bards of
-                yore, whose tales are etched into the annals of history (or in this case, the blockchain).
-              </p>
-              <figure>
-                <img src={VisualVertical2} alt="truthpost-what-section" />
-              </figure>
-              <p>
-                But what about the gatekeepers? Enter the curators. These are the guardians who ensure that the content
-                aligns with the noble virtues of truth and relevance. Through a transparent, crowd-sourced process,
-                these curators analyze and score articles. Imagine a roundtable, where the knights deliberate and decide
-                what news is worthy of being heralded throughout the kingdom.
-              </p>
-
-              <p>
-                Now, let’s touch upon the cloaks of anonymity. Authors can remain pseudonymous, wielding their quills
-                without fear of retribution. This is integral for those who are telling stories that might not sit well
-                with the powers that be. With The Truth Post, they can be the voice of the voiceless, the champions of
-                truth, without fear.
-              </p>
-
-              <p>
-                Another golden thread in this tapestry is the direct bridge between authors and readers. Gone are the
-                days when the whispers of news pass through a dozen ears before reaching the populace. The Truth Post is
-                like a grand stage where the authors speak directly to the audience.
-              </p>
-
-              <p>
-                And, let’s not forget about the trust scores and the statistical analysis. By employing smart contracts,
-                articles are essentially staking their reputation on the line. If an article is debunked, the collateral
-                is forfeited. This not only adds an extra layer of accountability but also, through data analysis, gives
-                readers insights into the reliability of the information.
-              </p>
-
-              <p>
-                The Truth Post is akin to a finely tuned orchestra, where each instrument plays a critical role in
-                producing the symphony of credible news. From the immutable blockchain records to the incentivized
-                community of authors and curators, and the data-driven trust metrics, The Truth Post represents a
-                harmony of technology and journalism that aspires to raise the bar in the news industry.
-              </p>
-            </div>
-          </section>
           <section className={styles.principles}>
             <h1>
               <strong>Embodying the Virtues:</strong>
@@ -295,6 +183,118 @@ export default function Home() {
                   <i>The system functions as programmed, indefinitely.</i>
                 </p>
               </div>
+            </div>
+          </section>
+          <section className={styles.rightFloating}>
+            <h1>
+              <strong>Charting New Horizons:</strong> Why The Truth Post is the Beacon We’ve Been Searching For
+            </h1>
+            <div>
+              <p className="has-dropped-letter">
+                Our ability to make informed decisions, whether as consumers or as citizens, is fundamental to our
+                society. However, the very fabric of this information ecosystem is fraying at an alarming rate.
+              </p>
+              <p>
+                The first culprit is misinformation. Fake news has become a global epidemic, manipulating public opinion
+                and, in some cases, even influencing elections. The speed at which these falsehoods spread is
+                astounding, and the age-old adage, "a lie can travel halfway around the world while the truth is putting
+                on its shoes," has never been more relevant.
+              </p>
+              <figure>
+                <img src={VisualVertical1} alt="truthpost-what-section" />
+              </figure>
+              <p>
+                Now, let’s talk about centralized control. The majority of media is in the hands of a select few
+                conglomerates. This means the diversity of voices and perspectives that are so essential to a balanced
+                information landscape are compromised. The agenda is being set not by what’s important, but by what’s
+                profitable for these media giants.
+              </p>
+              <p>
+                Moreover, the financial incentives are skewed. Journalists and content creators are often incentivized
+                to create sensationalized content to drive clicks and views. The clickbait culture has turned news into
+                a volume game rather than a value game.
+              </p>
+              <p>
+                On the other hand, the revenue model is deeply flawed. With intermediaries taking a substantial cut, the
+                very individuals dedicated to unearthing and reporting stories are not being adequately compensated for
+                their work. This discourages investigative journalism and hampers the growth of emerging talent.
+              </p>
+              <p>
+                Additionally, there’s a lack of accountability. Corrections are buried, and retractions are rare. The
+                reputational cost for spreading misinformation is minimal, and the cycle continues.
+              </p>
+              <p>
+                Furthermore, the readers and consumers, who should be at the heart of this ecosystem, are feeling
+                increasingly alienated. They’re yearning for a trusted source, for a platform that respects their
+                intelligence, and offers them the quality and diversity of content they deserve.
+              </p>
+              <p>
+                The reality is this: the news and information industry is in dire need of innovation. The problems are
+                deep-rooted and multifaceted, and a patchwork solution simply won’t cut it. This is a call to action –
+                for a comprehensive, groundbreaking approach that addresses these challenges head-on.
+              </p>
+            </div>
+          </section>
+          <section className={styles.leftFloating} style={{ display: "none" }}>
+            <h1>
+              <strong>Under the Hood:</strong> Deciphering the Ingenuity of The Truth Post’s Mechanisms
+            </h1>
+            <div>
+              <p className="has-dropped-letter">
+                In this riveting journey through the information landscape, it's time to delve into the inner workings
+                of The Truth Post. Fasten your seatbelts, as we unpack the gears and levers that make this novel
+                solution tick.
+              </p>
+
+              <p>
+                First and foremost, let’s address the backbone of The Truth Post: blockchain technology. By harnessing
+                the power of Ethereum, The Truth Post creates an immutable ledger for news articles. Think of this as a
+                fortress, one where the articles are stored with their integrity intact, safe from the meddling hands of
+                third parties.
+              </p>
+
+              <p>
+                Next up, let's talk about the valiant knights of this kingdom - the authors and curators. The Truth Post
+                introduces an innovative incentive mechanism that rewards accuracy and relevance. Authors are motivated
+                not just by passion, but also by tangible rewards to produce quality content. They’re like the bards of
+                yore, whose tales are etched into the annals of history (or in this case, the blockchain).
+              </p>
+              <figure>
+                <img src={VisualVertical2} alt="truthpost-what-section" />
+              </figure>
+              <p>
+                But what about the gatekeepers? Enter the curators. These are the guardians who ensure that the content
+                aligns with the noble virtues of truth and relevance. Through a transparent, crowd-sourced process,
+                these curators analyze and score articles. Imagine a roundtable, where the knights deliberate and decide
+                what news is worthy of being heralded throughout the kingdom.
+              </p>
+
+              <p>
+                Now, let’s touch upon the cloaks of anonymity. Authors can remain pseudonymous, wielding their quills
+                without fear of retribution. This is integral for those who are telling stories that might not sit well
+                with the powers that be. With The Truth Post, they can be the voice of the voiceless, the champions of
+                truth, without fear.
+              </p>
+
+              <p>
+                Another golden thread in this tapestry is the direct bridge between authors and readers. Gone are the
+                days when the whispers of news pass through a dozen ears before reaching the populace. The Truth Post is
+                like a grand stage where the authors speak directly to the audience.
+              </p>
+
+              <p>
+                And, let’s not forget about the trust scores and the statistical analysis. By employing smart contracts,
+                articles are essentially staking their reputation on the line. If an article is debunked, the collateral
+                is forfeited. This not only adds an extra layer of accountability but also, through data analysis, gives
+                readers insights into the reliability of the information.
+              </p>
+
+              <p>
+                The Truth Post is akin to a finely tuned orchestra, where each instrument plays a critical role in
+                producing the symphony of credible news. From the immutable blockchain records to the incentivized
+                community of authors and curators, and the data-driven trust metrics, The Truth Post represents a
+                harmony of technology and journalism that aspires to raise the bar in the news industry.
+              </p>
             </div>
           </section>
           <section className={styles.twoColumnsMerging}>
