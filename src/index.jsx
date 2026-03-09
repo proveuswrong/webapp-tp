@@ -12,7 +12,7 @@ import Account, { loader as AccountLoader } from "./routes/account";
 import Court, { loader as CourtLoader } from "./routes/court";
 import EthereumProviderErrors from "./components/others/ethereumProviderErrors";
 
-import EthereumProvider, { EthereumContext, networkMap } from "./data/ethereumProvider.jsx";
+import EthereumProvider, { EthereumContext, getDefaultNetwork, networkMap } from "./data/ethereumProvider.jsx";
 import RouteRedirect from "./components/RouteRedirect";
 import AuthRequired from "./components/AuthRequired";
 
@@ -55,7 +55,7 @@ const router = createBrowserRouter(
 function App() {
   const { pathname } = window.location;
   const pathSegment = pathname.split("/")[1];
-  const chainId = pathSegment.startsWith("0x") && networkMap[pathSegment] ? pathSegment : undefined;
+  const chainId = pathSegment.startsWith("0x") ? (networkMap[pathSegment] ? pathSegment : getDefaultNetwork()) : undefined;
   return (
     <EthereumProvider chainId={chainId}>
       <RouterProvider router={router} />

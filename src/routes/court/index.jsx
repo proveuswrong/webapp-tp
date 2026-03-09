@@ -1,13 +1,15 @@
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
-import { getCourtById } from "/src/data/ethereumProvider";
+import { getCourtById, getDefaultNetwork, networkMap } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
 
 const PERIODS = ["Evidence", "Vote", "Appeal", "Execution"];
 
 export async function loader({ params }) {
   const { chain, contract, id } = params;
+  if (!networkMap[chain]?.deployments?.[contract]) return redirect(`/${getDefaultNetwork()}`);
+
   const court = await getCourtById(chain, contract, id);
   court.policy = await (await fetch(ipfsGateway + court.policyURI)).json();
   return court;
