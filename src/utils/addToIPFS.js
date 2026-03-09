@@ -20,4 +20,4 @@ export default async function addToIPFS(endpoint, fileName, data) {
   })
 }
 
-export const ipfsGateway = 'https://ipfs.kleros.io'
+export const ipfsGateway = 'https://cdn.kleros.link'
