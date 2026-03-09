@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { ipfsGateway } from "/src/utils/addToIPFS";
+import fetchIPFSJson from "/src/utils/fetchIPFSJson";
 
 export default function usePolicy(policyURI) {
-    const [policy, setPolicy] = useState('');
+  const [policy, setPolicy] = useState({});
 
-    useEffect(() => {
-        async function fetchPolicy() {
-            if (!policyURI) return;
-            const response = await fetch(ipfsGateway + policyURI);
-            setPolicy(await response.json());
-        }
-        fetchPolicy()
-    }, [policyURI])
-    return policy;
+  useEffect(() => {
+    async function fetchPolicy() {
+      setPolicy(await fetchIPFSJson(policyURI));
+    }
+
+    fetchPolicy();
+  }, [policyURI]);
+
+  return policy;
 }

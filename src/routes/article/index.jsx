@@ -5,7 +5,7 @@ import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
 import { EthereumContext, getArticleByID, getDefaultNetwork, networkMap } from "/src/data/ethereumProvider";
-import { ipfsGateway } from "/src/utils/addToIPFS";
+import fetchIPFSJson from "/src/utils/fetchIPFSJson";
 
 import CustomButton from "/src/components/presentational/button";
 import EventLog from "/src/components/others/eventLog";
@@ -22,14 +22,7 @@ export async function loader({ params }) {
   if (!networkMap[params.chain]?.deployments?.[params.contract]) return redirect(`/${defaultChain}`);
 
   const article = await getArticleByID(params.chain, params.contract, params.id);
-  let articleContent = {};
-  try {
-    const response = await fetch(ipfsGateway + article.articleID);
-    if (!response.ok) throw new Error("Network response was not OK");
-    articleContent = await response.json();
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  const articleContent = await fetchIPFSJson(article.articleID);
   return { article, articleContent };
 }
 
