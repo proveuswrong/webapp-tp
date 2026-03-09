@@ -1,11 +1,12 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { redirect, useLoaderData, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import ListArticles from "/src/components/others/listArticles";
-import { getArticlesByAuthor } from "/src/data/ethereumProvider";
+import { getArticlesByAuthor, getDefaultNetwork, networkMap } from "/src/data/ethereumProvider";
 import populateArticleContents from "../../utils/populateArticleContents";
 
 export async function loader({ params }) {
+  if (!networkMap[params.chain]) return redirect(`/${getDefaultNetwork()}/account/${params.id}`);
   const articles = await getArticlesByAuthor(params.chain, params.id);
   return await populateArticleContents(articles);
 }

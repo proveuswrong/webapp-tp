@@ -9,13 +9,6 @@ import notifyWithToast, { MESSAGE_TYPE, notifyProviderConnectionStatus } from ".
 import { ipfsGateway } from "../utils/addToIPFS";
 
 export const networkMap = {
-  "0x5": {
-    name: "Ethereum Testnet Görli",
-    shortname: "Görli",
-    default: environment.networkMap["0x5"].default,
-    explorerURL: (address) => `https://goerli.etherscan.io/address/${address}`,
-    deployments: environment.networkMap["0x5"].deployments,
-  },
   "0x1": {
     name: "Ethereum Mainnet",
     shortname: "Mainnet",
@@ -28,7 +21,7 @@ export const networkMap = {
 const LONGPOLLING_PERIOD_MS = 20000;
 
 const initializeContract = (chainId) => new ethers.Contract(Object.keys(networkMap[chainId].deployments)[0], ABI);
-const getDefaultNetwork = () => {
+export const getDefaultNetwork = () => {
   const defaultNetworkKeys = Object.keys(networkMap).filter((key) => networkMap[key].default);
 
   if (defaultNetworkKeys.length !== 1)

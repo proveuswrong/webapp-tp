@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { redirect, useLoaderData, useRevalidator } from "react-router-dom";
 import Interval from "react-interval-rerender";
 import * as styles from "./index.module.scss";
 import { formatTime, getTimeLeft } from "/src/hooks/useCountdown";
 
-import { EthereumContext, getArticleByID } from "/src/data/ethereumProvider";
+import { EthereumContext, getArticleByID, getDefaultNetwork, networkMap } from "/src/data/ethereumProvider";
 import { ipfsGateway } from "/src/utils/addToIPFS";
 
 import CustomButton from "/src/components/presentational/button";
@@ -18,6 +18,9 @@ import ArbitrationDetails from "/src/components/others/route_article/arbitration
 import BountyModal from "/src/components/others/bountyModal";
 
 export async function loader({ params }) {
+  const defaultChain = getDefaultNetwork();
+  if (!networkMap[params.chain]?.deployments?.[params.contract]) return redirect(`/${defaultChain}`);
+
   const article = await getArticleByID(params.chain, params.contract, params.id);
   let articleContent = {};
   try {

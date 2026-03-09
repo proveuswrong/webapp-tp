@@ -183,12 +183,12 @@ export default function ArbitrationDetails({ article }) {
 }
 
 function Overview(props) {
-  const { contract } = useParams();
+  const { chain, contract } = useParams();
   return (
     <div className={styles.detailsContainer}>
       <span>
         <b>Arbitrator:</b>
-        <Link to={`/0x5/${contract}/court/0`}>{props.courtName}</Link>
+        <Link to={`/${chain}/${contract}/court/0`}>{props.courtName}</Link>
       </span>
       <span>
         <b>DisputeID:</b>

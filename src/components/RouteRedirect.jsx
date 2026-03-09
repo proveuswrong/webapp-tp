@@ -9,6 +9,8 @@ export default function RouteRedirect() {
   const { chainId, accounts } = useContext(EthereumContext);
 
   useEffect(() => {
+    if (!chainId || !networkMap[chainId]) return;
+
     const pathSegments = location.pathname.split("/");
     pathSegments[1] = chainId;
 
