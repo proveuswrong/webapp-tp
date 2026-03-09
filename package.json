@@ -1,6 +1,7 @@
 {
   "name": "TheTruthPost",
   "source": "src/index.html",
+  "packageManager": "yarn@4.9.1",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
