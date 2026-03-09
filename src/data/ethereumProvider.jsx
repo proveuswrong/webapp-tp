@@ -6,7 +6,7 @@ import ABI from "./ABI.json";
 import { environment } from "./environments";
 
 import notifyWithToast, { MESSAGE_TYPE, notifyProviderConnectionStatus } from "../utils/notifyWithTost";
-import { ipfsGateway } from "../utils/addToIPFS";
+import fetchIPFSJson from "../utils/fetchIPFSJson";
 
 export const networkMap = {
   "0x1": {
@@ -129,10 +129,8 @@ const EthereumProvider = ({ children, chainId: chainIdFromUrl }) => {
   const fetchMetaEvidenceContents = async (chainId) => {
     const rawMetaEvidenceList = (await getAllMetaEvidences(chainId))?.map((item) => item.uri);
     if (!rawMetaEvidenceList) return;
-    const result = await Promise.allSettled(
-      rawMetaEvidenceList?.map((metaEvidenceURI) => fetch(ipfsGateway + metaEvidenceURI).then((r) => r.json()))
-    );
-    setMetaEvidenceContents(result.map((item) => item.value));
+    const result = await Promise.allSettled(rawMetaEvidenceList.map((metaEvidenceURI) => fetchIPFSJson(metaEvidenceURI)));
+    setMetaEvidenceContents(result.map((item) => (item.status === "fulfilled" ? item.value : {})));
   };
 
   const sendTransaction = async (unsignedTx) => {
