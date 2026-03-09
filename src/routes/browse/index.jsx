@@ -1,15 +1,16 @@
 import { useContext } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { redirect, useLoaderData, useParams } from "react-router-dom";
 import * as styles from "./index.module.scss";
 
 import EthereumProviderErrors from "/src/components/others/ethereumProviderErrors";
 import ListArticles from "/src/components/others/listArticles";
 import SyncStatus from "/src/components/presentational/syncStatus";
 
-import { EthereumContext, networkMap, getAllArticles } from "/src/data/ethereumProvider";
+import { EthereumContext, getAllArticles, getDefaultNetwork, networkMap } from "/src/data/ethereumProvider";
 import populateArticleContents from "../../utils/populateArticleContents";
 
 export async function loader({ params }) {
+  if (!networkMap[params.chain]) return redirect(`/${getDefaultNetwork()}`);
   const articles = await getAllArticles(params.chain);
   return await populateArticleContents(articles);
 }
