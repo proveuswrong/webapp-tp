@@ -14,10 +14,10 @@ export default async function populateArticleContents(articles) {
             article.format = format;
         } catch (error) {
             console.error(error);
-            throw new Error(error.message);
         }
+        return article;
     });
 
-    await Promise.all(fetchPromises);
-    return articles;
+    const results = await Promise.all(fetchPromises);
+    return results.filter(Boolean);
 }
