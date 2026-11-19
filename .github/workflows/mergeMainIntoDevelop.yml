@@ -9,6 +9,9 @@ permissions:
   contents: read
   pull-requests: write
 
+concurrency:
+  group: merge-main-into-develop
+
 jobs:
   open_back_merge:
     runs-on: ubuntu-latest
@@ -22,7 +25,7 @@ jobs:
           if [ "$commits_develop_lacks" -eq 0 ]; then
             exit 0
           fi
-          open_back_merges=$(gh pr list --base develop --head main --json number --jq length)
+          open_back_merges=$(gh api "repos/$GH_REPO/pulls?state=open&base=develop&head=$GITHUB_REPOSITORY_OWNER:main" --jq length)
           if [ "$open_back_merges" -gt 0 ]; then
             exit 0
           fi
