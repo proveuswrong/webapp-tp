@@ -25,7 +25,8 @@ jobs:
           if [ "$commits_develop_lacks" -eq 0 ]; then
             exit 0
           fi
-          open_back_merges=$(gh api "repos/$GH_REPO/pulls?state=open&base=develop&head=$GITHUB_REPOSITORY_OWNER:main" --jq length)
+          open_back_merges=$(gh api "repos/$GH_REPO/pulls?state=open&base=develop&head=$GITHUB_REPOSITORY_OWNER:main" \
+            --jq '[.[] | select(.head.repo.full_name == env.GH_REPO)] | length')
           if [ "$open_back_merges" -gt 0 ]; then
             exit 0
           fi
