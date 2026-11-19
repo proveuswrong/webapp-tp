@@ -1,0 +1,31 @@
+name: Merge Main into Develop
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open_back_merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open a pull request from main into develop
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          commits_develop_lacks=$(gh api "repos/$GH_REPO/compare/develop...main" --jq .ahead_by)
+          if [ "$commits_develop_lacks" -eq 0 ]; then
+            exit 0
+          fi
+          open_back_merges=$(gh pr list --base develop --head main --json number --jq length)
+          if [ "$open_back_merges" -gt 0 ]; then
+            exit 0
+          fi
+          gh pr create --base develop --head main \
+            --title "Merge main into develop" \
+            --body "Brings what was released on main back into develop, as Git Flow requires. Opened by the Merge Main into Develop workflow."
